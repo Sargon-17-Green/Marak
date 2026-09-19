@@ -2,7 +2,7 @@
 
 **Marak** is an esoteric programming language whose source language is controlled Biblical Hebrew.
 
-Current status: **M2 complete — Core v0.1 integration candidate**. The repository currently contains the normative Core surface and semantics, a working compiler pipeline, conformance evidence, and the original Megillah that motivated the project.
+Current status: **M2 complete — Core v0.1 integration candidate**. Compiler baseline: **0.4.2-alpha.1**. The repository contains the normative Core surface and semantics, a working compiler pipeline, conformance evidence, and the original Megillah that motivated the project.
 
 The compiler pipeline is:
 
@@ -11,7 +11,7 @@ source → normalization → parse → resolve → validate → canonical HAST
        → validated IR → artifact verification → execution
 ```
 
-Key rules of the Core include: punctuation/layout are nonsemantic outside strings; propositions are not Boolean values; `הוצא` is not `return`; role association is not positional; `ועתה` is not `main`; and no hidden execution order is inferred from source layout.
+Key Core rules include: punctuation/layout are nonsemantic outside strings; propositions are not Boolean values; `הוצא` is not `return`; role association is not positional; `ועתה` is not `main`; and no hidden execution order is inferred from source layout.
 
 ## Quick start
 
