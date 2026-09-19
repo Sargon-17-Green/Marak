@@ -1,0 +1,67 @@
+{
+  "schema": "marak-b14-a15-semantic-integration-results-v1",
+  "status": "B14 INTEGRATION BLOCKED — A16 SURFACE REMEDIATION REQUIRED",
+  "baseline_main": "621a656c25b7667640cc61a1d1a6ddef95db474d",
+  "b13_input_sha": "3c47a57debd381c2b4e41d00d12c792ae43debe8",
+  "a15_input_sha": "2ae820803250b0753834eff7275c9409426bd0ad",
+  "construction_verdicts": {
+    "EXACT_SEMANTIC_MATCH": 18,
+    "ACCEPTABLE_SURFACE_NARROWING": 3,
+    "SEMANTIC_CLARIFICATION": 3,
+    "SURFACE_GAP_existing_construction": 0,
+    "SEMANTIC_MISMATCH": 0,
+    "NEEDS_MASTER_CLARIFICATION": 0
+  },
+  "cross_domain_surface_gaps": 5,
+  "master_candidate_gaps": {
+    "typed_carriers": "REAL",
+    "dynamic_bidirectional_index_progression": "REAL"
+  },
+  "megillah_requests": {
+    "001": "NOT_YET_EXECUTABLE",
+    "002": "NOT_YET_EXECUTABLE",
+    "003": "NOT_YET_EXECUTABLE",
+    "004": "EXECUTABLE",
+    "005": "EXECUTABLE_FOR_CURRENT_EVIDENCE",
+    "006": "EXECUTABLE",
+    "007": "EXECUTABLE"
+  },
+  "tests": {
+    "full_repository_pytest": {
+      "status": "PASS",
+      "tests_passed": 265,
+      "subtests_passed": 126,
+      "seconds": 22.97
+    },
+    "a13_selftest": {
+      "status": "PASS",
+      "checks": 289
+    },
+    "b12_run_all": {
+      "status": "PASS",
+      "b11_original_tests": 14,
+      "b11_rm_grid_cases": 324,
+      "b11_intent_tests": 14,
+      "b12_semantic_tests": 33,
+      "rm_countdown_cases": 128,
+      "rm_underflow_guard_cases": 65
+    },
+    "a15_surface_suite": {
+      "status": "PASS",
+      "case_checks": 335280,
+      "a13_numerals_checked": 9999,
+      "large_numeral_prefix_checked": 240001,
+      "large_numeral_random_samples": 75000
+    },
+    "b13_reference_suite": {
+      "status": "PASS",
+      "tests": 28
+    },
+    "b14_integration_suite": {
+      "status": "PASS",
+      "tests": 22
+    }
+  },
+  "semantic_mismatches": [],
+  "compiler_handoff_allowed": false
+}
