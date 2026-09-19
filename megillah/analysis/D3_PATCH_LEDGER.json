@@ -104,6 +104,30 @@
       ],
       "caveat": "each surrounding unit still needs independent Core legality",
       "applied_to_candidate": true
+    },
+    {
+      "id": "D3-STRUCT-0001",
+      "original_spans": [
+        {
+          "start_line": 23,
+          "end_line": 25
+        }
+      ],
+      "candidate_spans": [
+        {
+          "start_line": 1,
+          "end_line": 6
+        }
+      ],
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "approval_state": "MASTER_APPROVED_WITH_CONDITIONS_APPLIED_TO_CANDIDATE",
+      "algorithm_change": "SEMANTIC_EQUIVALENT",
+      "reason": "Express historical reusable addition as admitted A13 act identity, two named roles, explicit body and one numeric result.",
+      "evidence": [
+        "C M4.2 proof program compiles and returns 11 for 5+6"
+      ],
+      "provenance_preserved": true
     }
-  ]
+  ],
+  "candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643"
 }

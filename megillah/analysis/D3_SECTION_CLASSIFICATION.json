@@ -1,0 +1,148 @@
+{
+  "schema": "marak-workstream-d3-section-classification-v1",
+  "scope": "incremental sections reached or independently audited in D3",
+  "sections": [
+    {
+      "id": "D3-SECTION-001",
+      "original_lines": [
+        1,
+        19
+      ],
+      "title": "front matter / program contract",
+      "classification": "DOCUMENTATION",
+      "subspans": [
+        "D3-DOC-001",
+        "D3-BLOCK-001"
+      ],
+      "blockers": [
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "reason": "Narrative provenance/warnings plus an explicit two-day interface contract."
+    },
+    {
+      "id": "D3-SECTION-002",
+      "original_lines": [
+        21,
+        29
+      ],
+      "title": "דבר החיבור",
+      "classification": "REUSABLE_COMPUTATION",
+      "repair": "D3-STRUCT-0001",
+      "blockers": [],
+      "reason": "General two-number computation, now expressed as an A13 act with two roles and one result."
+    },
+    {
+      "id": "D3-SECTION-003",
+      "original_lines": [
+        31,
+        75
+      ],
+      "title": "לוח אחד: מספר הימים",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-005",
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "reason": "Introduces day-valued inputs/constants and large written numeric constants; D will not choose an opaque numeric day encoding before A/B disposition."
+    },
+    {
+      "id": "D3-SECTION-004",
+      "original_lines": [
+        121,
+        143
+      ],
+      "title": "לוח שלישי: לקחת מספר פעמים",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "reason": "Defines general exact counted recurrence beyond the narrow frozen Core forms."
+    },
+    {
+      "id": "D3-SECTION-005",
+      "original_lines": [
+        145,
+        165
+      ],
+      "title": "לוח ארבע: דבר הרבוע",
+      "classification": "REUSABLE_COMPUTATION",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "reason": "Reusable square computation; identity patch applied, but body depends on general N פעמים."
+    },
+    {
+      "id": "D3-SECTION-006",
+      "original_lines": [
+        167,
+        195
+      ],
+      "title": "לוח חמש: המספר הגדול",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "reason": "Uses exact 127-step recurrence; no manual expansion in production candidate."
+    },
+    {
+      "id": "D3-SECTION-007",
+      "original_lines": [
+        229,
+        267
+      ],
+      "title": "לקחת מספר מאחיו",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-004"
+      ],
+      "reason": "Relies on numeric ordering relations רב/מעט; local recurrence wording repair is applied only at the approved span."
+    },
+    {
+      "id": "D3-SECTION-008",
+      "original_lines": [
+        1251,
+        1301
+      ],
+      "title": "candidate-year bounds",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004",
+        "D-LANGUAGE-REQUEST-005"
+      ],
+      "reason": "Selection/order of candidate years plus large numerals; 5778 correction is applied."
+    },
+    {
+      "id": "D3-SECTION-009",
+      "original_lines": [
+        1607,
+        1804
+      ],
+      "title": "weaving and month names",
+      "classification": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-001",
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004"
+      ],
+      "reason": "Runtime symbolic names, ordered books and lexicographic ordering."
+    },
+    {
+      "id": "D3-SECTION-010",
+      "original_lines": [
+        1806,
+        1926
+      ],
+      "title": "final day query",
+      "classification": "PRINCIPAL_COMPUTATION",
+      "blockers": [
+        "D-LANGUAGE-REQUEST-001",
+        "D-LANGUAGE-REQUEST-002",
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004",
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "reason": "Identified from source semantics as the final query workflow; not yet legal as principal execution while required capabilities remain pending."
+    }
+  ]
+}

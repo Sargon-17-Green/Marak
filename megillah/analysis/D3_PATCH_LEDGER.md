@@ -1,6 +1,5 @@
 # D3 Patch Ledger
 
-Candidate: megillah/candidates/Megilat_HaItim_Marak_Candidate.md
 Historical original remains immutable.
 
 | Patch | Original span | State | Preservation |
@@ -9,3 +8,4 @@ Historical original remains immutable.
 | D-PATCH-0002 | line 23, line 147 | SEMANTICALLY_CONFIRMED_APPLIED_TO_CANDIDATE | DISAMBIGUATION_ONLY |
 | D-PATCH-0003 | line 237 | SEMANTICALLY_CONFIRMED_APPLIED_TO_CANDIDATE | DISAMBIGUATION_ONLY |
 | D-PATCH-0004 | line 173, line 341 | SEMANTICALLY_CONFIRMED_APPLIED_TO_CANDIDATE | SEMANTIC_EQUIVALENT |
+| D3-STRUCT-0001 | lines 23-25 | MASTER_APPROVED_WITH_CONDITIONS_APPLIED_TO_CANDIDATE | SEMANTIC_EQUIVALENT |

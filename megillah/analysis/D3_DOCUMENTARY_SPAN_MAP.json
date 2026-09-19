@@ -1,0 +1,90 @@
+{
+  "schema": "marak-workstream-d3-span-map-v1",
+  "original_sha256": "7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b",
+  "spans": [
+    {
+      "id": "D3-DOC-001",
+      "start_line": 1,
+      "end_line": 15,
+      "classification": "DOCUMENTATION",
+      "reason": "Title, audience instructions, warnings and explanatory rationale; none is needed as an executable runtime step in the addition/algorithm execution.",
+      "destination": "megillah/analysis/D3_EXTERNALIZED_DOCUMENTATION.md",
+      "retained_requirement": null,
+      "original_text": "# מגילת העיתים — נוסח יהודאי\n\n# לוח סוד הרוטב ושמות הימים\n\n## דברי בעל הלוח אל הסופר הכותב ואל חכם הימים\n\nהסופר הכותב קח לוח חדש וכתוב עליו את הדברים האלה כאשר הם לפניך. דבר אשר איננו בדברים האלה לא תשים בלוחך וכל דבר אשר בהם כתוב גם אותו בלוחך. דבר אשר לפני אחיו לא תשים אחריו ודבר אשר אחריו לא תשים לפניו. ומספר תחת מספר לא תשים לאמר קרובים הם.\n\nאם תשגה בטיפה אחת כאשר תכתוב אותה לא את מקומה לבדו תשחית כי גם את כל הטיפות אשר אחריה ואת כל הקערות השותות מהן תשחית.\n\nוגם אתה חכם הימים המבקש לדעת שם יום שמע. אם תארך המלאכה לא תעזבנה ולא תקח דבר הקרוב אל אשר תבקש תחת הדבר אשר תבקש. כי הקרוב והדבר אשר תבקש לא אחד הם. ואם תחסר דבר אחד בראש המלאכה תוכל למצוא באחריתה שנה אחרת וחודש אחר וקציצה אשר את שמה לא שמעת.\n\nסוד הלוח גלוי הוא וכל דבריו כתובים לפני כל איש אשר ידע לקרוא וסוד גדול הוא. כי לא הדבר הנסתר לבדו סוד הוא. גם הדבר הגלוי אשר מעטים יודעים ללכת בכל דרכיו עד אחריתם סוד הוא.\n\nואם ינתן הלוח ביד איש אשר ידע לקרוא וישאלהו אדם לאמר מה שם היום ומה שם מחר ומה היה שם אתמול הלוח יהיה בידו ואת הדבר אשר נשאל לא ידע עד אשר ילך בכל דרכי הלוח מראשם ועד אחריתם.",
+      "original_sha256": "59bdbb6503700fdab52121c6c164e31586799d61740dbefeb42f44f47cd29f1c",
+      "normalized_words": 220
+    },
+    {
+      "id": "D3-BLOCK-001",
+      "start_line": 17,
+      "end_line": 17,
+      "classification": "INTERFACE_REQUIREMENT_BLOCKED",
+      "reason": "Defines the two-day input contract and five-field output promise; current Core has no external input binding.",
+      "destination": "megillah/analysis/D3_LANGUAGE_BLOCKERS.md",
+      "retained_requirement": "D-LANGUAGE-REQUEST-007",
+      "original_text": "למלאכת הלוח קח שני ימים. לראשון קרא יום המעשה ולשני קרא היום אשר עליו תשאל. את הראשון תחת השני לא תשים ואת השני תחת הראשון לא תשים. ומן שני הימים האלה יצא דבר יום אחד ובו חמשה דברים.",
+      "original_sha256": "b26891a403d2b8ebe0835decd233593912e78e9d55e136fbefab81d4482aab4e",
+      "normalized_words": 38
+    },
+    {
+      "id": "D3-DOC-002",
+      "start_line": 21,
+      "end_line": 21,
+      "classification": "DOCUMENTATION",
+      "reason": "Nominative section label; executable identity is now explicit in the A13 act introduction.",
+      "destination": "megillah/analysis/D3_EXTERNALIZED_DOCUMENTATION.md",
+      "retained_requirement": null,
+      "original_text": "## דבר החיבור",
+      "original_sha256": "3ed3d7a0bd85f24f242bed7f9214464bcd2d9a2119922812790872781fa6fb50",
+      "normalized_words": 2
+    },
+    {
+      "id": "D3-STRUCT-SOURCE-001",
+      "start_line": 23,
+      "end_line": 25,
+      "classification": "STRUCTURALLY_TRANSFORMED",
+      "reason": "Historical reusable addition description transformed to explicit A13 act/roles/body/result.",
+      "destination": "megillah/candidates/Megilat_HaItim_Marak_Candidate.md",
+      "retained_requirement": "D3-STRUCT-0001",
+      "original_text": "יהי שם מעשה **חיבור**.\n\nוזה דבר החיבור אשר יחבר החכם מספר אל מספר והיו יחדו למספר אחר.",
+      "original_sha256": "0c4bb6af8a6e13d258b28ec5a1ec356200f291c5ab7d4d5dce54900b420707ab",
+      "normalized_words": 17
+    },
+    {
+      "id": "D3-DOC-003",
+      "start_line": 27,
+      "end_line": 27,
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked example 5+6=11 demonstrates the addition definition but is not a production runtime step.",
+      "destination": "tests/test_d3_megillah_repairs.py",
+      "retained_requirement": "positive test: addition act yields 11",
+      "original_text": "ואם יאמר איש **חבר חמש ושש** חברם והיו עשתי עשר.",
+      "original_sha256": "d143650515e3aafd3393f3eb6292b9cb47083e3ade090dfdb30caab8e957659b",
+      "normalized_words": 10
+    },
+    {
+      "id": "D3-DOC-004",
+      "start_line": 31,
+      "end_line": 31,
+      "classification": "DOCUMENTATION",
+      "reason": "Section title naming the first table; no executable relation is carried by the title itself.",
+      "destination": "megillah/analysis/D3_EXTERNALIZED_DOCUMENTATION.md",
+      "retained_requirement": null,
+      "original_text": "# לוח אחד: מספר הימים",
+      "original_sha256": "433667951f4c79cfc7a236b2cd382e3456b37a01d1da5d7919db13cb28156c87",
+      "normalized_words": 4
+    },
+    {
+      "id": "D3-DOC-005",
+      "start_line": 33,
+      "end_line": 33,
+      "classification": "DOCUMENTATION",
+      "reason": "Subsection label; the following paragraph carries the substantive definition.",
+      "destination": "megillah/analysis/D3_EXTERNALIZED_DOCUMENTATION.md",
+      "retained_requirement": null,
+      "original_text": "## יום היסוד",
+      "original_sha256": "3dfb2cf44b83195c791131359dd89a1074defcd8f0ca4d803851ed794b7a287a",
+      "normalized_words": 2
+    }
+  ]
+}
