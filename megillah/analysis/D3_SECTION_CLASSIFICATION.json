@@ -9,7 +9,7 @@
         19
       ],
       "title": "front matter / program contract",
-      "classification": "DOCUMENTATION",
+      "classification": "MIXED_DOCUMENTATION_AND_INTERFACE_REQUIREMENT",
       "subspans": [
         "D3-DOC-001",
         "D3-BLOCK-001"
@@ -17,7 +17,7 @@
       "blockers": [
         "D-LANGUAGE-REQUEST-007"
       ],
-      "reason": "Narrative provenance/warnings plus an explicit two-day interface contract."
+      "reason": "Mixed section: narrative/documentary front matter plus an explicit two-day interface contract. Subspan classifications are authoritative."
     },
     {
       "id": "D3-SECTION-002",

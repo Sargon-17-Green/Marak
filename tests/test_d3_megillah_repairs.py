@@ -60,6 +60,15 @@ def test_d3_candidate_contains_master_approved_5778_repair():
     assert "ולא תקח שנה אם ירבו ימיה על חמשת אלפים ושבע מאות ושבעים ושמנה" in text
 
 
+def test_d3_front_matter_section_is_explicitly_mixed():
+    path = ROOT / "megillah" / "analysis" / "D3_SECTION_CLASSIFICATION.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    section = next(x for x in data["sections"] if x["id"] == "D3-SECTION-001")
+    assert section["classification"] == "MIXED_DOCUMENTATION_AND_INTERFACE_REQUIREMENT"
+    assert section["subspans"] == ["D3-DOC-001", "D3-BLOCK-001"]
+    assert section["blockers"] == ["D-LANGUAGE-REQUEST-007"]
+
+
 def test_d3_externalized_input_contract_is_retained_as_requirement():
     data = json.loads(SPAN_MAP.read_text(encoding="utf-8"))
     entry = next(x for x in data["spans"] if x["id"] == "D3-BLOCK-001")
