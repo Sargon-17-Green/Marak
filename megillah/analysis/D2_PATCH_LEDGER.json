@@ -1,0 +1,100 @@
+{
+  "schema": "marak-workstream-d2-patches-v1",
+  "baseline_commit": "8a3a25e2fb5e438b01fef9694570f20d16a34ff3",
+  "applied_to_original": false,
+  "patches": [
+    {
+      "id": "D-PATCH-0001",
+      "spans": [
+        {
+          "line": 1267
+        }
+      ],
+      "original": "אחד ושמונים ושבע מאות וחמשת אלפים",
+      "replacement": "חמשת אלפים ושבע מאות ושבעים ושמנה",
+      "classification": "SOURCE_PROGRAMMING_BUG",
+      "reason": "isolated 5781 contradicts derived/repeated 5778 bound",
+      "semantic_before": "upper candidate-year bound 5781",
+      "semantic_after": "upper candidate-year bound 5778",
+      "algorithm_change": "ALGORITHM_CHANGE",
+      "confidence": "HIGH",
+      "approval_state": "MASTER_APPROVAL_REQUIRED",
+      "evidence": [
+        "6*963=5778",
+        "same source repeats 5778 four times in the year regime",
+        "A12/A13 direct numeral lexicon entry 5778 matches replacement"
+      ]
+    },
+    {
+      "id": "D-PATCH-0002",
+      "spans": [
+        {
+          "line": 23
+        },
+        {
+          "line": 147
+        }
+      ],
+      "original": "יהי שם מעשה NAME",
+      "replacement": "יהי מעשה ושמו NAME",
+      "classification": "SOURCE_AMBIGUITY",
+      "reason": "A13 freezes an unambiguous named-act introduction",
+      "semantic_before": "ambiguous/unadmitted naming phrase",
+      "semantic_after": "introduce named reusable act identity",
+      "algorithm_change": "DISAMBIGUATION_ONLY",
+      "confidence": "HIGH",
+      "approval_state": "MECHANICALLY_CONFIRMED",
+      "evidence": [
+        "A-ACT-001 exact frozen form",
+        "current A13 fixtures use same introduction"
+      ],
+      "caveat": "does not by itself repair the following act body/roles"
+    },
+    {
+      "id": "D-PATCH-0003",
+      "spans": [
+        {
+          "line": 237
+        }
+      ],
+      "original": "וכן עשה עד אשר",
+      "replacement": "וכן תעשה עד אשר",
+      "classification": "SOURCE_AMBIGUITY",
+      "reason": "A13 negative grammar rejects וכן עשה and freezes וכן תעשה",
+      "semantic_before": "unadmitted recurrence wording",
+      "semantic_after": "canonical post-action recurrence marker",
+      "algorithm_change": "DISAMBIGUATION_ONLY",
+      "confidence": "HIGH",
+      "approval_state": "PROPOSED",
+      "evidence": [
+        "A-REP-001/002",
+        "tests/test_a10_registry.py rejects וכן עשה"
+      ],
+      "caveat": "surrounding repeated action is not yet a complete current-Core action"
+    },
+    {
+      "id": "D-PATCH-0004",
+      "spans": [
+        {
+          "line": 173
+        },
+        {
+          "line": 341
+        }
+      ],
+      "original": "ואחר כן",
+      "replacement": "ואחרי כן",
+      "classification": "SOURCE_NOT_LANGUAGE",
+      "reason": "A13 freezes only the explicit sequence relation ואחרי כן",
+      "semantic_before": "natural but unadmitted sequence wording",
+      "semantic_after": "admitted explicit temporal sequence",
+      "algorithm_change": "SEMANTIC_EQUIVALENT",
+      "confidence": "MEDIUM",
+      "approval_state": "PROPOSED",
+      "evidence": [
+        "A-SEQ-001 exact frozen form"
+      ],
+      "caveat": "each surrounding unit still needs independent Core legality"
+    }
+  ]
+}
