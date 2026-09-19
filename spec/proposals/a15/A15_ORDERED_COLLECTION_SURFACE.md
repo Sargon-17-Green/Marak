@@ -25,12 +25,18 @@ The head determines the one element domain. A book is not heterogeneous merely b
 
 ## 3. Empty construction
 
-Empty books are expressed with a domain-specific absence clause:
+Every admitted typed book kind has an empty form:
+
+    BOOK_KIND אשר אין בו ELEMENT_HEAD
+
+where `ELEMENT_HEAD` is fixed by that book kind. Representative exact forms are:
 
     ספר מספרים אשר אין בו מספר
     ספר מספרי שנים אשר אין בו מספר שנה
     ספר שמות ממשפחת השמות אשר שמה DOMAIN אשר אין בו שם
     ספר ספרי מספרים אשר אין בו ספר
+    ספר ספרי מספרי שנים אשר אין בו ספר
+    ספר ספרי שמות ממשפחת השמות אשר שמה DOMAIN אשר אין בו ספר
 
 This wording was ambiguity-audited. In isolation `ספר שאין בו דבר` could leave the permitted member kind unclear. Here the book-kind head first fixes the only legal member domain, and the following clause denies a member of exactly that domain. Therefore the Value is empty, not a heterogeneous book whose other contents are unknown.
 

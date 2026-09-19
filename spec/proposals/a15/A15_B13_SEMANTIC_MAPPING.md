@@ -25,7 +25,7 @@ Every admitted A15 construction below has an explicit B13 target. There is no sy
 | A15.ORD.GT | `NUMBER_VALUE_A רב מן NUMBER_VALUE_B` | `GT(A,B)` | non-Natural operands invalid | strict proposition |
 | A15.NUM.DIRECT | admitted productive numeral phrase | `LiteralNat(source) -> Natural(n)` | malformed/noncanonical phrase | exact Natural n |
 | A15.REP.LITERAL | `פעם אחת A`; `שתי פעמים A`; `REPEAT_COUNT פעמים A` | `RepeatExactly(N,A)` | count morphology/body invalid | A performed exact N times subject to B13 outcomes |
-| A15.REP.DYNAMIC | `פעמים כמספר NATURAL_VALUE ATOMIC_ACTION` | `RepeatExactly(eval-once N,A)` | count domain/error follows B13 | eval count once, then exact recurrence |
+| A15.REP.DYNAMIC | `פעמים COUNT_AS_NUMBER ATOMIC_ACTION`, where initial `המספר` is inflected as `כמספר` | `RepeatExactly(eval-once N,A)` | malformed/double numeric head or count domain/error follows B13 | eval count once, then exact recurrence |
 | A15.INPUT.DECL | `יהי למלאכה הזאת דבר ושמו ROLE ... יעמד DOMAIN_HEAD תחת ...` | Program Input Role declaration | duplicate role/domain declaration invalid | invocation contract metadata |
 | A15.INPUT.REF | typed `... אשר עומד תחת הדבר אשר למלאכה הזאת שמו ROLE` | immutable Program Input association lookup | missing/extra/duplicate/domain mismatch invalid invocation | exact bound Value by semantic role identity |
 

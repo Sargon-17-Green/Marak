@@ -18,16 +18,26 @@ The modifier consumes exactly one following atomic action. A composite computati
 
 Canonical dynamic wording is:
 
-    פעמים כמספר NATURAL_VALUE ATOMIC_ACTION
+    פעמים COUNT_AS_NUMBER ATOMIC_ACTION
 
-Example:
+`COUNT_AS_NUMBER` is not a second numeric value category. It is the corresponding admitted Natural Value description with its initial typed head `המספר` inflected by prefixed kaf as `כמספר`. Thus:
 
-    פעמים כמספר המספר אשר במקום אשר שמו מנין
+    המספר אשר במקום אשר שמו מנין
+    -> כמספר אשר במקום אשר שמו מנין
+
+and:
+
+    המספר הנחשב בהוסיף את A על B
+    -> כמספר הנחשב בהוסיף את A על B
+
+A complete example is:
+
+    פעמים כמספר אשר במקום אשר שמו מנין
     עשה את המעשה אשר שמו טחון
 
-Again, line breaks are documentary only. The complete `NATURAL_VALUE` is parsed by its own admitted grammar; the next complete atomic action is the sole repeated body.
+Line breaks are documentary only. The count-description boundary is exactly the boundary of the corresponding admitted Natural Value description after this head inflection; the next complete atomic action is the sole repeated body.
 
-This keeps the historically attested Megillah relation `פעמים כמספר ...` while moving the whole count modifier before the action, preserving the already-audited A3 attachment direction.
+This keeps the historically attested Megillah relation `פעמים כמספר ...` while moving the whole count modifier before the action, preserving the already-audited A3 attachment direction without producing the linguistically defective double head `כמספר המספר`.
 
 The historical postposed form `ACTION פעמים כמספר VALUE` is not an A15 alias.
 
@@ -47,7 +57,7 @@ The zero case exists for dynamic/computed N even though A15 still has no direct 
 
 ## 4. Attachment
 
-`פעמים כמספר VALUE` cannot attach backward. It modifies only the immediately following complete atomic action by grammar. An explicit later `ואחרי כן B` lies outside the recurrence unless the first action is itself a named act that performs a composite sequence.
+`פעמים COUNT_AS_NUMBER` cannot attach backward. It modifies only the immediately following complete atomic action by grammar. An explicit later `ואחרי כן B` lies outside the recurrence unless the first action is itself a named act that performs a composite sequence.
 
 No layout, punctuation, or nearest-clause heuristic affects this boundary.
 
@@ -57,4 +67,4 @@ The Megillah repeatedly says `פעמים כמספר ...`, including `קח אבן
 
 ## 6. Rejection
 
-Reject bare `פעמים`, wrong gender count forms such as `שבעה פעמים`, postposed dynamic count, reevaluation of the dynamic count per iteration, implicit loop index, implicit block scope, or zero being treated like A13's execute-once post-action recurrence.
+Reject bare `פעמים`, wrong gender count forms such as `שבעה פעמים`, postposed dynamic count, the redundant/noncanonical `פעמים כמספר המספר ...`, reevaluation of the dynamic count per iteration, implicit loop index, implicit block scope, or zero being treated like A13's execute-once post-action recurrence.

@@ -2,6 +2,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable
+from types import MappingProxyType
 import re
 
 HEBREW=set('אבגדהוזחטיכךלמםנןסעפףצץקרשת')
@@ -77,11 +78,28 @@ class BidirectionalIndex:
         if not isinstance(other,BidirectionalIndex): return NotImplemented
         return self.key()<other.key()
 
+def _collection_member_matches(domain: str, item: Any) -> bool:
+    if domain == 'Natural':
+        return isinstance(item, int) and not isinstance(item, bool) and item >= 0
+    if domain == 'BidirectionalIndex':
+        return isinstance(item, BidirectionalIndex)
+    if domain.startswith('Symbol:'):
+        return isinstance(item, Symbol) and item.domain == domain.split(':',1)[1]
+    if domain.startswith('Collection<') and domain.endswith('>'):
+        return isinstance(item, Collection) and item.domain == domain[len('Collection<'):-1]
+    return False
+
 @dataclass(frozen=True)
 class Collection:
     domain: str
     items: tuple[Any,...]=()
-    def append(self,item: Any): return Collection(self.domain,self.items+(item,))
+    def __post_init__(self):
+        if any(not _collection_member_matches(self.domain,item) for item in self.items):
+            raise SurfaceError('COLLECTION_ELEMENT_DOMAIN_MISMATCH')
+    def append(self,item: Any):
+        if not _collection_member_matches(self.domain,item):
+            raise SurfaceError('COLLECTION_ELEMENT_DOMAIN_MISMATCH')
+        return Collection(self.domain,self.items+(item,))
     def count(self): return len(self.items)
     def contains(self,item: Any): return item in self.items
     def first(self): return self.select(1)
@@ -109,4 +127,4 @@ class ProgramInputContract:
             bound[identity]=value
         missing=set(self.roles)-set(bound)
         if missing: raise InputBindingError('MISSING_INPUT_BINDING')
-        return bound
+        return MappingProxyType(dict(bound))

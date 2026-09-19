@@ -35,7 +35,7 @@ The most semantically sensitive choices are:
 2. the A15 index source family is year-specific even though B13's semantic domain is general;
 3. collection ordinal selection is source-visible because duplicates make bare successor ambiguous;
 4. collections remain pure immutable Values; state replacement, if integrated, remains a separate explicit operation;
-5. dynamic `פעמים כמספר VALUE ACTION` keeps the count phrase before the one repeated action;
+5. dynamic `פעמים COUNT_AS_NUMBER ACTION` keeps the count phrase before the one repeated action and inflects the Natural head as `כמספר`, avoiding `כמספר המספר`;
 6. Program Input Role wording reuses A13's structural `דבר ... יעמד ... תחת` idiom and binds before the work begins.
 
 ## Verification

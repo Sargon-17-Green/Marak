@@ -67,6 +67,8 @@ for bad in fx['index']['negative']: check('index_negative',normalize(bad) not in
 # Collections: immutable, ordered, duplicates preserved, positive ordinal positions.
 c0=Collection('Natural'); c1=c0.append(3); c2=c1.append(3).append(1).append(7)
 check('collection_empty',c0.count()==0)
+check('collection_empty_symbol_surface','אין בו שם' in normalize(fx['collection']['empty_symbol']))
+check('collection_empty_nested_surface','אין בו ספר' in normalize(fx['collection']['empty_nested_natural']))
 check('collection_immutable',c0.items==() and c1.items==(3,))
 check('collection_duplicates',c2.items==(3,3,1,7))
 check('collection_first_last',c2.first()==3 and c2.last()==7)
@@ -79,6 +81,8 @@ except CollectionPositionError: check('collection_successor_last',True)
 ordered=c2.ordered(lambda x:x); check('collection_order',ordered.items==(1,3,3,7) and c2.items==(3,3,1,7))
 nested=Collection('Collection<Natural>').append(Collection('Natural',(2,1))).append(Collection('Natural',(1,9)))
 lex=nested.ordered(lambda c:c.items); check('collection_nested',tuple(c.items for c in lex.items)==((1,9),(2,1)))
+try: c0.append(Symbol('חדשים','טין')); check('collection_homogeneous_reject',False,'heterogeneous append accepted')
+except SurfaceError as e: check('collection_homogeneous_reject',str(e)=='COLLECTION_ELEMENT_DOMAIN_MISMATCH',str(e))
 
 # Strict Natural ordering only: no direct LE/GE surface is admitted.
 check('numeric_order',7>3 and not 3>7)
@@ -110,15 +114,23 @@ def action(): state['performed']+=1; state['count']=99
 repeat_exactly(obs,action); check('repeat_dynamic_zero',state['performed']==0 and state['observations']==1)
 state.update(count=1,performed=0,observations=0); repeat_exactly(obs,action); check('repeat_dynamic_one',state['performed']==1 and state['observations']==1)
 state.update(count=127,performed=0,observations=0); repeat_exactly(obs,action); check('repeat_dynamic_once',state['performed']==127 and state['observations']==1 and state['count']==99)
-check('repeat_attachment',normalize(fx['recurrence']['dynamic']).startswith('פעמים כמספר '))
-for bad in fx['recurrence']['negative'][:2]: check('repeat_negative',not normalize(bad).startswith('פעמים כמספר '),bad)
-check('repeat_ambiguous_composite_rejected','כמקשה אחת' in normalize(fx['recurrence']['negative'][2]))
+def dynamic_count_surface_ok(src: str) -> bool:
+    n=normalize(src)
+    return n.startswith('פעמים כמספר ') and not n.startswith('פעמים כמספר המספר ') and ' עשה את המעשה אשר שמו ' in n
+check('repeat_attachment',dynamic_count_surface_ok(fx['recurrence']['dynamic']))
+for bad in fx['recurrence']['negative'][:3]: check('repeat_negative',not dynamic_count_surface_ok(bad),bad)
+check('repeat_ambiguous_composite_rejected','כמקשה אחת' in normalize(fx['recurrence']['negative'][3]))
 
 # Program inputs: association order is irrelevant; identity and domain are mandatory; immutable binding is represented by returned mapping.
 contract=ProgramInputContract({'יוםהמעשה':'Natural','יוםהשאלה':'Natural'})
 a=contract.bind([('יוםהמעשה','Natural',11),('יוםהשאלה','Natural',22)])
 b=contract.bind([('יוםהשאלה','Natural',22),('יוםהמעשה','Natural',11)])
 check('input_identity',a==b=={'יוםהמעשה':11,'יוםהשאלה':22})
+try:
+    a['יוםהמעשה']=99
+    check('input_immutable',False,'bound input mapping was mutable')
+except TypeError:
+    check('input_immutable',a['יוםהמעשה']==11)
 for associations,code in [([('יוםהמעשה','Natural',11)],'MISSING_INPUT_BINDING'),([('יוםהמעשה','Natural',11),('יוםהמעשה','Natural',12),('יוםהשאלה','Natural',22)],'DUPLICATE_INPUT_BINDING'),([('יוםהמעשה','Symbol',11),('יוםהשאלה','Natural',22)],'INPUT_DOMAIN_MISMATCH'),([('יוםהמעשה','Natural',11),('יוםהשאלה','Natural',22),('שלישי','Natural',33)],'EXTRA_INPUT_BINDING')]:
     try: contract.bind(associations); check('input_negative',False,code)
     except InputBindingError as e: check('input_negative',str(e)==code,(str(e),code))

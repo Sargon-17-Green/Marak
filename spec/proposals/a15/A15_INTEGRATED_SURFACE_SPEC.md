@@ -161,9 +161,11 @@ Literal:
 
 Dynamic:
 
-    פעמים כמספר NATURAL_VALUE ATOMIC_ACTION
+    פעמים COUNT_AS_NUMBER ATOMIC_ACTION
 
-Both map to `RepeatExactly(N,A)`. Dynamic N is observed once before iteration. Zero means zero performances. Scope is exactly one atomic action.
+`COUNT_AS_NUMBER` is an admitted Natural Value description whose initial typed head `המספר` is inflected as `כמספר`; for example `המספר אשר במקום ...` becomes `כמספר אשר במקום ...`. It is not `כמספר המספר ...`.
+
+Both profiles map to `RepeatExactly(N,A)`. Dynamic N is observed once before iteration. Zero means zero performances. Scope is exactly one atomic action.
 
 ### 4.7 Program Input Roles
 
