@@ -13,5 +13,13 @@
     "D-PATCH-0003",
     "D-PATCH-0004"
   ],
-  "note": "Metadata is sidecar-only and is not Marak source."
+  "note": "Metadata is sidecar-only and is not Marak source.",
+  "candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+  "structural_repair_ids": [
+    "D3-STRUCT-0001"
+  ],
+  "current_compiler_frontier_normalized_token": 105,
+  "current_compiler_frontier_candidate_line": 11,
+  "current_compiler_frontier_original_line": 35,
+  "candidate_scope": "partial D3 Core-compatible repair candidate; not canonical and not whole-program-valid"
 }
