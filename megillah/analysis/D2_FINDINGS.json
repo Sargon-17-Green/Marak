@@ -1,0 +1,272 @@
+{
+  "schema": "marak-workstream-d2-findings-v1",
+  "baseline_commit": "8a3a25e2fb5e438b01fef9694570f20d16a34ff3",
+  "language_edition": "core-0.1-integration-candidate-a13-b12",
+  "compiler_version": "0.4.2-alpha.1",
+  "findings": [
+    {
+      "id": "D-ISSUE-0001",
+      "d1_class": "SOURCE_NOT_LANGUAGE",
+      "d2_class": "DOCUMENTATION_OR_PROSE_INSIDE_SOURCE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "Charter + A-CORE-003 + A13 freeze: Markdown is transparent; Core has no documentation/comment syntax.",
+      "source_repair": "Move framing prose out of executable candidate; preserve it as documentation.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0002",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "DOCUMENTATION_OR_PROSE_INSIDE_SOURCE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 closes the former hole: headings do not delimit or comment source.",
+      "source_repair": "Classify each heading as documentation or replace semantic section identity explicitly.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0003",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 has typed place/act/role references, but no numbered-table/section reference construction.",
+      "source_repair": "Replace algorithmic section references with admitted explicit act/reference structure where feasible.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0004",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 admits explicit named-act performance; bare domain verbs such as טחון are not implicit calls.",
+      "source_repair": "Define/use a general named מעשה rather than compiler magic.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0005",
+      "d1_class": "SOURCE_PROGRAMMING_BUG",
+      "d2_class": "SOURCE_PROGRAMMING_BUG",
+      "status": "STILL_VALID",
+      "normative_basis": "Source itself derives six maximum gate intervals: 6×963=5778 and repeats 5778 in the same regime.",
+      "source_repair": "D-PATCH-0001: repair isolated 5781 bound to canonical 5778 spelling.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0006",
+      "d1_class": "SOURCE_AMBIGUITY",
+      "d2_class": "SOURCE_AMBIGUITY",
+      "status": "STILL_VALID",
+      "normative_basis": "A-REP-001/002 and negative grammar explicitly deny recurrence semantics to bare A עד אשר P.",
+      "source_repair": "Repair per occurrence only after intended checkpoint/action is proven.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0007",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 frozen recurrence is post-action וכן תעשה; כל עוד is not an admitted Core construction.",
+      "source_repair": "Use an admitted Core equivalent if a local repair remains natural; otherwise language-request evidence.",
+      "language_request": "D-LANGUAGE-REQUEST-004",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0008",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 admits only individually audited counted forms plus narrow unbounded recurrence; no generic runtime-count repetition.",
+      "source_repair": "Factor repeated composite work into named acts/recurrence where practical.",
+      "language_request": "D-LANGUAGE-REQUEST-006",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0009",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A-NUM-001 freezes direct literals to canonical 1..9999 forms; semantic naturals remain unbounded.",
+      "source_repair": "Canonicalize in-range literals; compute larger values or await post-M2 magnitude grammar.",
+      "language_request": "D-LANGUAGE-REQUEST-005",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0010",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A-NAME-001 freezes one normalized Hebrew orthographic word as a Core name.",
+      "source_repair": "Use explicit one-word internal names without changing runtime calendar labels.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0011",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A-SEQ-001/A-CORE-008: adjacency, newline and bare waw do not create executable order.",
+      "source_repair": "Add ואחרי כן only where the algorithm demonstrably requires order.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0012",
+      "d1_class": "SOURCE_AMBIGUITY",
+      "d2_class": "SOURCE_AMBIGUITY",
+      "status": "STILL_VALID",
+      "normative_basis": "A_NEGATIVE_GRAMMAR explicitly rejects A וכן עשה עד אשר P; canonical instructional form is וכן תעשה.",
+      "source_repair": "D-PATCH-0003 is a local candidate where the antecedent is one atomic action.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0013",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "CLOSED",
+      "status": "CLOSED_BY_A13",
+      "normative_basis": "A-REP-001 now normatively defines ATOMIC_ACTION וכן תעשה עד אשר PREDICATE.",
+      "source_repair": "",
+      "language_request": "",
+      "c_bug": "",
+      "note": "The recurrence-family hole is closed; individual surrounding actions may still fail for other reasons."
+    },
+    {
+      "id": "D-ISSUE-0014",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "Frozen sequence form is ואחרי כן; A13 does not admit ואחר כן as an alias.",
+      "source_repair": "D-PATCH-0004 proposes the admitted equivalent at the two historical spans.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0015",
+      "d1_class": "SPEC_HOLE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "RECLASSIFIED",
+      "normative_basis": "A13 provides explicit named-act performance and forbids nearest/implicit action antecedent heuristics.",
+      "source_repair": "Replace עשה כך with an explicit admitted act/action description when the antecedent is provable.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0016",
+      "d1_class": "SOURCE_NOT_LANGUAGE",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "STILL_VALID",
+      "normative_basis": "A-REP-002 requires exactly one atomic antecedent; composite recurrence must repeat one named מעשה performance.",
+      "source_repair": "Structural repair required; not safe as an automatic local patch.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D-ISSUE-0017",
+      "d1_class": "SOURCE_AMBIGUITY",
+      "d2_class": "SOURCE_AMBIGUITY",
+      "status": "STILL_VALID",
+      "normative_basis": "A-ACT-001 freezes introduction as יהי מעשה ושמו NAME; D1's יהי שם מעשה family remains ambiguous/unadmitted.",
+      "source_repair": "D-PATCH-0002 repairs the two simple named-act introductions; שזירה needs larger analysis.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0018",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "A-CORE-005..008 require preparation followed by exactly one top-level ועתה and no later definitions.",
+      "source_repair": "Whole-program restructuring required; current sole lexical ועתה occurs at original line 169, before most definitions.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0019",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "Core has numeric data/results only; strings and runtime text are OPEN_AFTER_M2.",
+      "source_repair": "Calendar month/cutlet names require a post-M2 symbolic/text value capability.",
+      "language_request": "D-LANGUAGE-REQUEST-001",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0020",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "A13/B12 Core numeric values are naturals; original lines 1349ff define year zero and years before zero with a minus sign.",
+      "source_repair": "A Core encoding by sign+magnitude would be a material rewrite; request signed year-number capability.",
+      "language_request": "D-LANGUAGE-REQUEST-002",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0021",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "Frozen Core has no first-class collections; the Megillah algorithm uses runtime ordered books/lists/permutations as data.",
+      "source_repair": "A whole-algorithm numeral encoding would be disproportionate; request a post-M2 ordered finite collection capability.",
+      "language_request": "D-LANGUAGE-REQUEST-003",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0022",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "Frozen Core lacks general numeric ordering propositions used by רב/ימעט clauses; post-action recurrence is separate and already frozen.",
+      "source_repair": "Use admitted equality/recursion where local; numeric ordering itself remains a post-M2 request.",
+      "language_request": "D-LANGUAGE-REQUEST-004",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0023",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "A-OUT-002 permits at most one numeric result per act; the final source says הוצא ... חמשה דברים and two are nonnumeric names.",
+      "source_repair": "Potential Core repair is explicit final state-bearing result referents; no multi-result language request is asserted yet.",
+      "language_request": "",
+      "c_bug": "",
+      "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0024",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "A13 complete programs are closed preparation+principal executions; Core v0.1 has no source-level external program-input binding for the two days the Megillah says to take.",
+      "source_repair": "A fixed-query candidate can initialize input places explicitly, but a reusable Megillah needs a defined host/program input boundary.",
+      "language_request": "D-LANGUAGE-REQUEST-007",
+      "c_bug": "",
+      "note": "This is not stdin by assumption; the need is external association of two input values with explicit source roles."
+    }
+  ]
+}

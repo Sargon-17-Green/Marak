@@ -1,0 +1,89 @@
+{
+  "schema": "marak-workstream-d2-language-requests-v1",
+  "requests": [
+    {
+      "id": "D-LANGUAGE-REQUEST-001",
+      "need": "Runtime symbolic/text labels for calendar names",
+      "why": "The canonical result contains cutlet/month names; compile-time Marak names are not runtime data and Core strings are absent.",
+      "source_examples": [
+        "שם הקציצה",
+        "שם החודש",
+        "17 cutlet names",
+        "47 month names"
+      ],
+      "core_repair": "Numeric codes alone would change the externally stated result unless a separate normative name mapping remains outside the program.",
+      "anti_imitation": "The need is symbolic named output explicitly demanded by the source, not a generic wish for strings."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-002",
+      "need": "Signed year-number representation",
+      "why": "The year sequence crosses year zero and continues to years before it; Core Values are naturals.",
+      "source_examples": [
+        "אחר שנה אחת תבוא שנת אין",
+        "אחת לפני אין",
+        "אות החסר"
+      ],
+      "core_repair": "Sign+magnitude can be encoded in several naturals but is a material source/result rewrite.",
+      "anti_imitation": "The need comes from the calendar's explicit negative-year numbering, not from assuming an Integer type."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-003",
+      "need": "Finite ordered runtime collections or equivalent general data relation",
+      "why": "The algorithm constructs, orders, selects, and traverses runtime collections of candidates, books, permutations, and weavings.",
+      "source_examples": [
+        "ספר ימי חודשים",
+        "ספר שמות חודשים",
+        "ערוך את כל הספרים",
+        "בחר אחת מן השנים"
+      ],
+      "core_repair": "Gödel-style numeric encodings are computable but would cease to be ordinary/local Megillah repair.",
+      "anti_imitation": "No array/list implementation is prescribed; only source-visible ordered finite collection behavior is requested."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-004",
+      "need": "General numeric ordering propositions",
+      "why": "The Megillah repeatedly branches/orders by רב/ימעט; Core freezes equality/zero but no general numeric order proposition.",
+      "source_examples": [
+        "אם רב המספר",
+        "הספר אשר ... ימעט",
+        "השנה אשר ימיה מעטים"
+      ],
+      "core_repair": "Possible encodings are non-local and awkward under natural-subtraction domain failure; they obscure rather than locally repair the source.",
+      "anti_imitation": "The request is the explicit Biblical relation רב/מעט, not a symbolic > or < operator."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-005",
+      "need": "Productive direct Biblical numeral grammar beyond 9999",
+      "why": "A-NUM-001 explicitly leaves >9999 as future full-language/Megillah compatibility work.",
+      "source_examples": [
+        "large fixed constants in the sauce/calendar rules"
+      ],
+      "core_repair": "Values can be computed from smaller literals, but systematically replacing written numerals would be large and historically distortive.",
+      "anti_imitation": "This extends Biblical numeral language, not machine-literal syntax."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-006",
+      "need": "General exact counted recurrence N פעמים for arbitrary admitted natural N",
+      "why": "The source uses natural counted-repetition wording with counts far beyond the small individually audited Core forms, including 125 and 127.",
+      "source_examples": [
+        "חמש ועשרים ומאה פעמים",
+        "שבע ועשרים ומאה",
+        "פעם אחר פעם"
+      ],
+      "core_repair": "Named recursion can encode the computation, but replacing every ordinary N פעמים occurrence by explicit counters/recursion is non-local.",
+      "anti_imitation": "The source already says N פעמים in Biblical Hebrew; this is not a request for a conventional for-loop."
+    },
+    {
+      "id": "D-LANGUAGE-REQUEST-007",
+      "need": "Explicit external input binding for the two day values",
+      "why": "The Megillah is parameterized by יום המעשה and היום אשר עליו תשאל, but a Core executable has no source-level external input association.",
+      "source_examples": [
+        "למלאכת הלוח קח שני ימים",
+        "לראשון קרא יום המעשה",
+        "לשני קרא היום אשר עליו תשאל"
+      ],
+      "core_repair": "A fixed-query program can hard-code/initialize two places, but that is not the reusable two-input algorithm described by the source.",
+      "anti_imitation": "No stdin/argv convention is assumed; the request is only an explicit language/host boundary for two source-described input values."
+    }
+  ]
+}
