@@ -1,0 +1,246 @@
+{
+  "schema": "marak-a14-surface-fixtures-v1",
+  "requests": {
+    "001": {
+      "status": "AWAITING_B",
+      "positive": [
+        {
+          "id": "SYM-P1",
+          "case": "explicit typed runtime שם datum declaration",
+          "schematic": true
+        }
+      ],
+      "negative": [
+        {
+          "id": "SYM-N1",
+          "case": "bare source name used as runtime datum"
+        },
+        {
+          "id": "SYM-N2",
+          "case": "transparent quote punctuation used as literal boundary"
+        },
+        {
+          "id": "SYM-N3",
+          "case": "newline ends multiword symbolic payload"
+        }
+      ]
+    },
+    "002": {
+      "status": "AWAITING_B",
+      "positive": [
+        {
+          "id": "YEAR-P1",
+          "surface": "שנת אין",
+          "schematic": true
+        },
+        {
+          "id": "YEAR-P2",
+          "surface": "שנה אחת לפני שנת אין",
+          "schematic": true
+        },
+        {
+          "id": "YEAR-P3",
+          "surface": "שתים עשרה שנים לפני שנת אין",
+          "schematic": true
+        }
+      ],
+      "negative": [
+        {
+          "id": "YEAR-N1",
+          "surface": "מינוס אחד"
+        },
+        {
+          "id": "YEAR-N2",
+          "surface": "אפס"
+        },
+        {
+          "id": "YEAR-N3",
+          "case": "שנת אין treated as null"
+        }
+      ]
+    },
+    "003": {
+      "status": "AWAITING_B",
+      "positive": [
+        {
+          "id": "COLL-P1",
+          "surface": "הדבר אשר כתוב בספר אשר שמו X",
+          "schematic": true
+        },
+        {
+          "id": "COLL-P2",
+          "surface": "הדבר אשר בראש הספר אשר שמו X",
+          "schematic": true
+        },
+        {
+          "id": "COLL-P3",
+          "surface": "הדבר אשר אחריו בספר אשר שמו X",
+          "schematic": true
+        },
+        {
+          "id": "COLL-P4",
+          "surface": "הדבר האחרון אשר בספר אשר שמו X",
+          "schematic": true
+        }
+      ],
+      "negative": [
+        {
+          "id": "COLL-N1",
+          "case": "plural noun alone becomes collection"
+        },
+        {
+          "id": "COLL-N2",
+          "case": "zero/one indexing inferred"
+        },
+        {
+          "id": "COLL-N3",
+          "case": "source order becomes collection order"
+        }
+      ]
+    },
+    "004": {
+      "status": "SURFACE_READY",
+      "positive": [
+        {
+          "id": "CMP-P1",
+          "surface": "המספר אשר הוא שבעה רב מן המספר אשר הוא שלשה",
+          "relation": "7>3"
+        },
+        {
+          "id": "CMP-P2",
+          "surface": "המספר אשר הוא שלשה רב מן המספר אשר הוא אחד",
+          "relation": "3>1"
+        }
+      ],
+      "negative": [
+        {
+          "id": "CMP-N1",
+          "surface": "רב המספר אשר הוא שבעה מן המספר אשר הוא שלשה"
+        },
+        {
+          "id": "CMP-N2",
+          "surface": "המספר אשר הוא שבעה רב המספר אשר הוא שלשה"
+        },
+        {
+          "id": "CMP-N3",
+          "surface": "המספר אשר הוא שבעה מעט מן המספר אשר הוא שלשה"
+        },
+        {
+          "id": "CMP-N4",
+          "case": "comparison stored as Boolean Value"
+        }
+      ]
+    },
+    "005": {
+      "status": "SURFACE_READY",
+      "positive_values": {
+        "10000": "עשרת אלפים",
+        "14000": "ארבעה עשר אלף",
+        "14700": "ארבעה עשר אלף ושבע מאות",
+        "307500": "שלש מאות אלף ושבעת אלפים וחמש מאות",
+        "1000000": "אלף אלפים",
+        "14000000": "ארבעה עשר אלף אלפים",
+        "14777149": "ארבעה עשר אלף אלפים ושבע מאות אלף ושבעים אלף ושבעת אלפים ומאה וארבעים ותשעה",
+        "99999999": "תשעים ותשעה אלף אלפים ותשע מאות אלף ותשעים אלף ותשעת אלפים ותשע מאות ותשעים ותשעה"
+      },
+      "negative": [
+        {
+          "id": "NUM-N1",
+          "surface": "10000"
+        },
+        {
+          "id": "NUM-N2",
+          "surface": "רבבה"
+        },
+        {
+          "id": "NUM-N3",
+          "surface": "אפס"
+        },
+        {
+          "id": "NUM-N4",
+          "case": "smaller scale precedes larger canonical scale"
+        }
+      ]
+    },
+    "006": {
+      "status": "AWAITING_B",
+      "literal_positive": [
+        {
+          "id": "REP-P1",
+          "surface": "שבע פעמים עשה את המעשה אשר שמו טחון",
+          "count": 7
+        },
+        {
+          "id": "REP-P2",
+          "surface": "מאה ועשרים וחמש פעמים עשה את המעשה אשר שמו בלול",
+          "count": 125
+        },
+        {
+          "id": "REP-P3",
+          "surface": "פעם אחת עשה את המעשה אשר שמו טחון",
+          "count": 1
+        },
+        {
+          "id": "REP-P4",
+          "surface": "שתי פעמים עשה את המעשה אשר שמו טחון",
+          "count": 2
+        }
+      ],
+      "dynamic_candidate": [
+        {
+          "id": "REP-D1",
+          "surface": "פעמים כמספר VALUE עשה את המעשה אשר שמו טחון",
+          "schematic": true,
+          "note": "word order not frozen"
+        }
+      ],
+      "negative": [
+        {
+          "id": "REP-N1",
+          "surface": "פעמים עשה את המעשה אשר שמו טחון"
+        },
+        {
+          "id": "REP-N2",
+          "surface": "שבעה פעמים עשה את המעשה אשר שמו טחון"
+        },
+        {
+          "id": "REP-N3",
+          "case": "שבע פעמים A ואחרי כן B repeats whole sequence"
+        },
+        {
+          "id": "REP-N4",
+          "case": "runtime count reevaluated each iteration"
+        }
+      ]
+    },
+    "007": {
+      "status": "AWAITING_B",
+      "positive": [
+        {
+          "id": "INPUT-P1",
+          "case": "named preparatory external binding for יום המעשה",
+          "schematic": true
+        },
+        {
+          "id": "INPUT-P2",
+          "case": "named preparatory external binding for היום אשר עליו תשאל",
+          "schematic": true
+        }
+      ],
+      "negative": [
+        {
+          "id": "INPUT-N1",
+          "case": "argument 1 means calculation day by position"
+        },
+        {
+          "id": "INPUT-N2",
+          "case": "stdin implied"
+        },
+        {
+          "id": "INPUT-N3",
+          "case": "principal starts while required binding missing"
+        }
+      ]
+    }
+  }
+}

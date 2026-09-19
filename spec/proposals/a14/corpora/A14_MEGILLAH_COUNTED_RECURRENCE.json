@@ -1,0 +1,78 @@
+{
+  "source": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+  "representative_verified": [
+    {
+      "line": 125,
+      "raw": "קח שלשה ... שבע פעמים",
+      "kind": "literal_exact",
+      "count": 7
+    },
+    {
+      "line": 137,
+      "raw": "לקחת מספר שלש עשרה פעמים",
+      "kind": "literal_exact",
+      "count": 13
+    },
+    {
+      "line": 177,
+      "raw": "עשה כן עוד חמש ועשרים ומאה פעמים",
+      "kind": "literal_exact_historical_order",
+      "count": 125
+    },
+    {
+      "line": 179,
+      "raw": "והיו כל הפעמים שבע ועשרים ומאה",
+      "kind": "count_statement",
+      "count": 127
+    },
+    {
+      "line": 345,
+      "raw": "חבר שלש פעמים מספר השאלה",
+      "kind": "literal_exact_noncanonical_attachment",
+      "count": 3
+    },
+    {
+      "line": 425,
+      "raw": "טחון כל טיפה נסתרת שבע פעמים",
+      "kind": "literal_exact",
+      "count": 7
+    },
+    {
+      "line": 495,
+      "raw": "קח אבן החיטה פעמים כמספר המעשה",
+      "kind": "runtime_count",
+      "count": null
+    },
+    {
+      "line": 605,
+      "raw": "קח מספר השאלה פעמים כמספר הקערה וחבר",
+      "kind": "runtime_count",
+      "count": null
+    },
+    {
+      "line": 843,
+      "raw": "קח תשע וארבעים ומאה פעמים מספר הפעם",
+      "kind": "literal_exact_historical_order",
+      "count": 149
+    },
+    {
+      "line": 947,
+      "raw": "קח תשע ושבעים ומאה פעמים מלא הקערה אשר אחריה",
+      "kind": "literal_exact_historical_order",
+      "count": 179
+    },
+    {
+      "line": 969,
+      "raw": "קח שלש ותשעים ומאה פעמים מספר המענה האחד וחבר",
+      "kind": "literal_exact_historical_order",
+      "count": 193
+    },
+    {
+      "line": 971,
+      "raw": "קח שבע ותשעים ומאה פעמים מלא קערת ששה וחבר",
+      "kind": "literal_exact_historical_order",
+      "count": 197
+    }
+  ],
+  "note": "The committed census tool generates the complete line-level corpus for every token פעמים in the source."
+}

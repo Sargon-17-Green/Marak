@@ -1,0 +1,42 @@
+{
+  "source": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+  "baseline_sha": "4471b8e50d850bd3548af091134c16895c781ac9",
+  "scope": "Megillah fixed direct large-number target around 14,777,149; complete numeral-word line census is in A14_MEGILLAH_NUMERAL_CENSUS.json",
+  "entries": [
+    {
+      "line": 41,
+      "raw": "תשעה וארבעים ומאה",
+      "normalized": "תשעה וארבעים ומאה",
+      "intended_value": 149,
+      "structure": "historical ascending additive under 1000"
+    },
+    {
+      "line": 41,
+      "raw": "שבעה ושבעים ושבע מאות אלף",
+      "normalized": "שבעה ושבעים ושבע מאות אלף",
+      "intended_value": 777000,
+      "structure": "historical coefficient 777 × אלף"
+    },
+    {
+      "line": 41,
+      "raw": "ארבעה עשר אלף אלפים",
+      "normalized": "ארבעה עשר אלף אלפים",
+      "intended_value": 14000000,
+      "structure": "14 × (אלף אלפים)"
+    },
+    {
+      "line": 41,
+      "raw": "sum of the three preceding addends",
+      "intended_value": 14777149,
+      "structure": "14,000,000 + 777,000 + 149"
+    },
+    {
+      "line": 43,
+      "raw": "תשעה וארבעים ומאה ושבעת אלפים ושבע רבבות ושבעים רבבה וארבע מאות רבבה ואלף רבבה",
+      "normalized": "תשעה וארבעים ומאה ושבעת אלפים ושבע רבבות ושבעים רבבה וארבע מאות רבבה ואלף רבבה",
+      "intended_value": 14777149,
+      "structure": "149 + 7,000 + 70,000 + 700,000 + 4,000,000 + 10,000,000; historical רבבה family"
+    }
+  ],
+  "a14_canonical_14777149": "ארבעה עשר אלף אלפים ושבע מאות אלף ושבעים אלף ושבעת אלפים ומאה וארבעים ותשעה"
+}

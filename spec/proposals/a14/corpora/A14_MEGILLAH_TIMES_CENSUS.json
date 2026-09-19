@@ -1,0 +1,1257 @@
+{
+  "source": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+  "token_times_count": 96,
+  "line_count": 92,
+  "rows": [
+    {
+      "line": 121,
+      "raw": "# לוח שלישי: לקחת מספר פעמים",
+      "normalized": "לוח שלישי לקחת מספר פעמים",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "other_times_usage",
+          "following": "פעמים"
+        }
+      ]
+    },
+    {
+      "line": 123,
+      "raw": "אם יצוה הלוח לקחת מספר פעמים מעטות עשה כאשר יצוה.",
+      "normalized": "אם יצוה הלוח לקחת מספר פעמים מעטות עשה כאשר יצוה",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "other_times_usage",
+          "following": "פעמים מעטות עשה כאשר"
+        }
+      ]
+    },
+    {
+      "line": 125,
+      "raw": "אם יצוה לקחת שלשה שבע פעמים קח שלשה ושלשה ושלשה ושלשה ושלשה ושלשה ושלשה וחבר את כולם.",
+      "normalized": "אם יצוה לקחת שלשה שבע פעמים קח שלשה ושלשה ושלשה ושלשה ושלשה ושלשה ושלשה וחבר את כולם",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים קח שלשה ושלשה",
+          "count_phrase": "שלשה שבע",
+          "research_count": 10
+        }
+      ]
+    },
+    {
+      "line": 137,
+      "raw": "ואם תחפץ לקחת מספר שלש עשרה פעמים קח את אשר כתבת לשמונה פעמים ואת אשר כתבת לארבע פעמים ואת המספר הראשון וחבר את שלשתם.",
+      "normalized": "ואם תחפץ לקחת מספר שלש עשרה פעמים קח את אשר כתבת לשמונה פעמים ואת אשר כתבת לארבע פעמים ואת המספר הראשון וחבר את שלשתם",
+      "occurrences": [
+        {
+          "token_index": 6,
+          "kind": "literal_count",
+          "following": "פעמים קח את אשר",
+          "count_phrase": "שלש עשרה",
+          "research_count": 13
+        },
+        {
+          "token_index": 12,
+          "kind": "other_times_usage",
+          "following": "פעמים ואת אשר כתבת"
+        },
+        {
+          "token_index": 17,
+          "kind": "other_times_usage",
+          "following": "פעמים ואת המספר הראשון"
+        }
+      ]
+    },
+    {
+      "line": 139,
+      "raw": "והיה אשר יצא שלש עשרה פעמים המספר.",
+      "normalized": "והיה אשר יצא שלש עשרה פעמים המספר",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים המספר",
+          "count_phrase": "שלש עשרה",
+          "research_count": 13
+        }
+      ]
+    },
+    {
+      "line": 151,
+      "raw": "קח את המספר פעמים כמספרו וחבר את כל אשר לקחת.",
+      "normalized": "קח את המספר פעמים כמספרו וחבר את כל אשר לקחת",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספרו וחבר את"
+        }
+      ]
+    },
+    {
+      "line": 155,
+      "raw": "אם שבעה הוא המספר קח שבעה שבע פעמים והיו תשעה וארבעים.",
+      "normalized": "אם שבעה הוא המספר קח שבעה שבע פעמים והיו תשעה וארבעים",
+      "occurrences": [
+        {
+          "token_index": 7,
+          "kind": "literal_count",
+          "following": "פעמים והיו תשעה וארבעים",
+          "count_phrase": "שבעה שבע",
+          "research_count": 14
+        }
+      ]
+    },
+    {
+      "line": 159,
+      "raw": "ואם יאמר הלוח לעשות רבוע פעם אחרת קח את המספר אשר יצא מן הרבוע הראשון פעמים כמספרו.",
+      "normalized": "ואם יאמר הלוח לעשות רבוע פעם אחרת קח את המספר אשר יצא מן הרבוע הראשון פעמים כמספרו",
+      "occurrences": [
+        {
+          "token_index": 15,
+          "kind": "runtime_count",
+          "following": "פעמים כמספרו"
+        }
+      ]
+    },
+    {
+      "line": 163,
+      "raw": "כי פעמים רבות יטחון הלוח מספר אשר נטחן ולא ישוב אל המספר אשר היה בראשונה.",
+      "normalized": "כי פעמים רבות יטחון הלוח מספר אשר נטחן ולא ישוב אל המספר אשר היה בראשונה",
+      "occurrences": [
+        {
+          "token_index": 1,
+          "kind": "other_times_usage",
+          "following": "פעמים רבות יטחון הלוח"
+        }
+      ]
+    },
+    {
+      "line": 177,
+      "raw": "ואחר שתי הפעמים האלה עשה כן עוד חמש ועשרים ומאה פעמים.",
+      "normalized": "ואחר שתי הפעמים האלה עשה כן עוד חמש ועשרים ומאה פעמים",
+      "occurrences": [
+        {
+          "token_index": 10,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "חמש ועשרים ומאה",
+          "research_count": 125
+        }
+      ]
+    },
+    {
+      "line": 191,
+      "raw": "לא יעשה שש ועשרים ומאה פעמים ולא שמונה ועשרים ומאה פעמים.",
+      "normalized": "לא יעשה שש ועשרים ומאה פעמים ולא שמונה ועשרים ומאה פעמים",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים ולא שמונה ועשרים",
+          "count_phrase": "שש ועשרים ומאה",
+          "research_count": 126
+        },
+        {
+          "token_index": 10,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "שמונה ועשרים ומאה",
+          "research_count": 128
+        }
+      ]
+    },
+    {
+      "line": 291,
+      "raw": "עשה רבוע אבן החיטה הישנה. חבר אליו שלש פעמים אבן השעורה הישנה. חבר אליו את מספר הטיפה החדשה ואחרי כן שמור.",
+      "normalized": "עשה רבוע אבן החיטה הישנה חבר אליו שלש פעמים אבן השעורה הישנה חבר אליו את מספר הטיפה החדשה ואחרי כן שמור",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "literal_count",
+          "following": "פעמים אבן השעורה הישנה",
+          "count_phrase": "שלש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 295,
+      "raw": "עשה רבוע אבן השעורה הישנה. חבר אליו חמש פעמים אבן המלח הישנה. חבר אליו את אבן החיטה הישנה ואחרי כן שמור.",
+      "normalized": "עשה רבוע אבן השעורה הישנה חבר אליו חמש פעמים אבן המלח הישנה חבר אליו את אבן החיטה הישנה ואחרי כן שמור",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "literal_count",
+          "following": "פעמים אבן המלח הישנה",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 299,
+      "raw": "עשה רבוע אבן המלח הישנה. חבר אליו שבע פעמים האבן המרה הישנה. חבר אליו את אבן השעורה הישנה ואחרי כן שמור.",
+      "normalized": "עשה רבוע אבן המלח הישנה חבר אליו שבע פעמים האבן המרה הישנה חבר אליו את אבן השעורה הישנה ואחרי כן שמור",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "literal_count",
+          "following": "פעמים האבן המרה הישנה",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 303,
+      "raw": "עשה רבוע האבן המרה הישנה. חבר אליו אחת עשרה פעמים האבן האדומה הישנה. חבר אליו את אבן המלח הישנה ואחרי כן שמור.",
+      "normalized": "עשה רבוע האבן המרה הישנה חבר אליו אחת עשרה פעמים האבן האדומה הישנה חבר אליו את אבן המלח הישנה ואחרי כן שמור",
+      "occurrences": [
+        {
+          "token_index": 9,
+          "kind": "literal_count",
+          "following": "פעמים האבן האדומה הישנה",
+          "count_phrase": "אחת עשרה",
+          "research_count": 11
+        }
+      ]
+    },
+    {
+      "line": 307,
+      "raw": "עשה רבוע האבן האדומה הישנה. חבר אליו שלש עשרה פעמים אבן החיטה הישנה. חבר אליו את האבן המרה הישנה ואחרי כן שמור.",
+      "normalized": "עשה רבוע האבן האדומה הישנה חבר אליו שלש עשרה פעמים אבן החיטה הישנה חבר אליו את האבן המרה הישנה ואחרי כן שמור",
+      "occurrences": [
+        {
+          "token_index": 9,
+          "kind": "literal_count",
+          "following": "פעמים אבן החיטה הישנה",
+          "count_phrase": "שלש עשרה",
+          "research_count": 13
+        }
+      ]
+    },
+    {
+      "line": 345,
+      "raw": "חבר שלש פעמים מספר השאלה.",
+      "normalized": "חבר שלש פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "שלש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 347,
+      "raw": "חבר ארבע פעמים מספר המרחק.",
+      "normalized": "חבר ארבע פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "ארבע",
+          "research_count": 4
+        }
+      ]
+    },
+    {
+      "line": 349,
+      "raw": "חבר שש פעמים מספר החיבור.",
+      "normalized": "חבר שש פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "שש",
+          "research_count": 6
+        }
+      ]
+    },
+    {
+      "line": 351,
+      "raw": "חבר שמונה פעמים מספר הדרך.",
+      "normalized": "חבר שמונה פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "שמונה",
+          "research_count": 8
+        }
+      ]
+    },
+    {
+      "line": 355,
+      "raw": "חבר חמש פעמים מספר השאלה.",
+      "normalized": "חבר חמש פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 357,
+      "raw": "חבר שבע פעמים מספר המרחק.",
+      "normalized": "חבר שבע פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 359,
+      "raw": "חבר עשר פעמים מספר החיבור.",
+      "normalized": "חבר עשר פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "עשר",
+          "research_count": 10
+        }
+      ]
+    },
+    {
+      "line": 361,
+      "raw": "חבר שתים עשרה פעמים מספר הדרך.",
+      "normalized": "חבר שתים עשרה פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "שתים עשרה",
+          "research_count": 12
+        }
+      ]
+    },
+    {
+      "line": 365,
+      "raw": "חבר שבע פעמים מספר השאלה.",
+      "normalized": "חבר שבע פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 367,
+      "raw": "חבר עשר פעמים מספר המרחק.",
+      "normalized": "חבר עשר פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "עשר",
+          "research_count": 10
+        }
+      ]
+    },
+    {
+      "line": 369,
+      "raw": "חבר ארבע עשרה פעמים מספר החיבור.",
+      "normalized": "חבר ארבע עשרה פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "ארבע עשרה",
+          "research_count": 14
+        }
+      ]
+    },
+    {
+      "line": 371,
+      "raw": "חבר שש עשרה פעמים מספר הדרך.",
+      "normalized": "חבר שש עשרה פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "שש עשרה",
+          "research_count": 16
+        }
+      ]
+    },
+    {
+      "line": 375,
+      "raw": "חבר תשע פעמים מספר השאלה.",
+      "normalized": "חבר תשע פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "תשע",
+          "research_count": 9
+        }
+      ]
+    },
+    {
+      "line": 377,
+      "raw": "חבר שלש עשרה פעמים מספר המרחק.",
+      "normalized": "חבר שלש עשרה פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "שלש עשרה",
+          "research_count": 13
+        }
+      ]
+    },
+    {
+      "line": 379,
+      "raw": "חבר שמונה עשרה פעמים מספר החיבור.",
+      "normalized": "חבר שמונה עשרה פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "שמונה עשרה",
+          "research_count": 18
+        }
+      ]
+    },
+    {
+      "line": 381,
+      "raw": "חבר עשרים פעמים מספר הדרך.",
+      "normalized": "חבר עשרים פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "עשרים",
+          "research_count": 20
+        }
+      ]
+    },
+    {
+      "line": 385,
+      "raw": "חבר אחת עשרה פעמים מספר השאלה.",
+      "normalized": "חבר אחת עשרה פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "אחת עשרה",
+          "research_count": 11
+        }
+      ]
+    },
+    {
+      "line": 387,
+      "raw": "חבר שש עשרה פעמים מספר המרחק.",
+      "normalized": "חבר שש עשרה פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "שש עשרה",
+          "research_count": 16
+        }
+      ]
+    },
+    {
+      "line": 389,
+      "raw": "חבר שתים ועשרים פעמים מספר החיבור.",
+      "normalized": "חבר שתים ועשרים פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "שתים ועשרים",
+          "research_count": 22
+        }
+      ]
+    },
+    {
+      "line": 391,
+      "raw": "חבר ארבע ועשרים פעמים מספר הדרך.",
+      "normalized": "חבר ארבע ועשרים פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "ארבע ועשרים",
+          "research_count": 24
+        }
+      ]
+    },
+    {
+      "line": 395,
+      "raw": "חבר שלש עשרה פעמים מספר השאלה.",
+      "normalized": "חבר שלש עשרה פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "שלש עשרה",
+          "research_count": 13
+        }
+      ]
+    },
+    {
+      "line": 397,
+      "raw": "חבר תשע עשרה פעמים מספר המרחק.",
+      "normalized": "חבר תשע עשרה פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "תשע עשרה",
+          "research_count": 19
+        }
+      ]
+    },
+    {
+      "line": 399,
+      "raw": "חבר שש ועשרים פעמים מספר החיבור.",
+      "normalized": "חבר שש ועשרים פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "שש ועשרים",
+          "research_count": 26
+        }
+      ]
+    },
+    {
+      "line": 401,
+      "raw": "חבר שמונה ועשרים פעמים מספר הדרך.",
+      "normalized": "חבר שמונה ועשרים פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "שמונה ועשרים",
+          "research_count": 28
+        }
+      ]
+    },
+    {
+      "line": 405,
+      "raw": "חבר חמש עשרה פעמים מספר השאלה.",
+      "normalized": "חבר חמש עשרה פעמים מספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר השאלה",
+          "count_phrase": "חמש עשרה",
+          "research_count": 15
+        }
+      ]
+    },
+    {
+      "line": 407,
+      "raw": "חבר שתים ועשרים פעמים מספר המרחק.",
+      "normalized": "חבר שתים ועשרים פעמים מספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר המרחק",
+          "count_phrase": "שתים ועשרים",
+          "research_count": 22
+        }
+      ]
+    },
+    {
+      "line": 409,
+      "raw": "חבר שלשים פעמים מספר החיבור.",
+      "normalized": "חבר שלשים פעמים מספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים מספר החיבור",
+          "count_phrase": "שלשים",
+          "research_count": 30
+        }
+      ]
+    },
+    {
+      "line": 411,
+      "raw": "חבר שתים ושלשים פעמים מספר הדרך.",
+      "normalized": "חבר שתים ושלשים פעמים מספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים מספר הדרך",
+          "count_phrase": "שתים ושלשים",
+          "research_count": 32
+        }
+      ]
+    },
+    {
+      "line": 425,
+      "raw": "טחון כל טיפה נסתרת שבע פעמים.",
+      "normalized": "טחון כל טיפה נסתרת שבע פעמים",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 431,
+      "raw": "חבר שלש פעמים את המספר אשר היה בידך טרם הרבוע.",
+      "normalized": "חבר שלש פעמים את המספר אשר היה בידך טרם הרבוע",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים את המספר אשר",
+          "count_phrase": "שלש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 495,
+      "raw": "קח אבן החיטה פעמים כמספר המעשה.",
+      "normalized": "קח אבן החיטה פעמים כמספר המעשה",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר המעשה"
+        }
+      ]
+    },
+    {
+      "line": 497,
+      "raw": "קח אבן השעורה פעמים כמספר השאלה.",
+      "normalized": "קח אבן השעורה פעמים כמספר השאלה",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר השאלה"
+        }
+      ]
+    },
+    {
+      "line": 499,
+      "raw": "קח אבן המלח פעמים כמספר המרחק.",
+      "normalized": "קח אבן המלח פעמים כמספר המרחק",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר המרחק"
+        }
+      ]
+    },
+    {
+      "line": 501,
+      "raw": "קח האבן המרה פעמים כמספר החיבור.",
+      "normalized": "קח האבן המרה פעמים כמספר החיבור",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר החיבור"
+        }
+      ]
+    },
+    {
+      "line": 503,
+      "raw": "קח האבן האדומה פעמים כמספר הדרך.",
+      "normalized": "קח האבן האדומה פעמים כמספר הדרך",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הדרך"
+        }
+      ]
+    },
+    {
+      "line": 509,
+      "raw": "חבר שלוש פעמים הטיפה השלישית אשר לפניה.",
+      "normalized": "חבר שלוש פעמים הטיפה השלישית אשר לפניה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים הטיפה השלישית אשר",
+          "count_phrase": "שלוש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 511,
+      "raw": "חבר חמש פעמים הטיפה השביעית אשר לפניה.",
+      "normalized": "חבר חמש פעמים הטיפה השביעית אשר לפניה",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים הטיפה השביעית אשר",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 517,
+      "raw": "## לטחון עשתי עשרה פעמים",
+      "normalized": "לטחון עשתי עשרה פעמים",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "עשרה",
+          "research_count": 10
+        }
+      ]
+    },
+    {
+      "line": 519,
+      "raw": "את ראשית הטיפה טחון עשתי עשרה פעמים.",
+      "normalized": "את ראשית הטיפה טחון עשתי עשרה פעמים",
+      "occurrences": [
+        {
+          "token_index": 6,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "עשרה",
+          "research_count": 10
+        }
+      ]
+    },
+    {
+      "line": 525,
+      "raw": "קח גם המספר אשר היה בידך טרם הרבוע פעמים כמספר האחד אשר לפעם.",
+      "normalized": "קח גם המספר אשר היה בידך טרם הרבוע פעמים כמספר האחד אשר לפעם",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר האחד אשר"
+        }
+      ]
+    },
+    {
+      "line": 527,
+      "raw": "קח הטיפה אשר לפניה פעמים כמספר השני אשר לפעם.",
+      "normalized": "קח הטיפה אשר לפניה פעמים כמספר השני אשר לפעם",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר השני אשר"
+        }
+      ]
+    },
+    {
+      "line": 529,
+      "raw": "קח הטיפה השלישית אשר לפניה פעמים כמספר השלישי אשר לפעם.",
+      "normalized": "קח הטיפה השלישית אשר לפניה פעמים כמספר השלישי אשר לפעם",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר השלישי אשר"
+        }
+      ]
+    },
+    {
+      "line": 531,
+      "raw": "קח הטיפה השביעית אשר לפניה פעמים כמספר הרביעי אשר לפעם.",
+      "normalized": "קח הטיפה השביעית אשר לפניה פעמים כמספר הרביעי אשר לפעם",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הרביעי אשר"
+        }
+      ]
+    },
+    {
+      "line": 605,
+      "raw": "קח מספר השאלה פעמים כמספר הקערה וחבר.",
+      "normalized": "קח מספר השאלה פעמים כמספר הקערה וחבר",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הקערה וחבר"
+        }
+      ]
+    },
+    {
+      "line": 737,
+      "raw": "קח אבן החיטה פעמים כמלא הקערה אשר במקום אחד וחבר.",
+      "normalized": "קח אבן החיטה פעמים כמלא הקערה אשר במקום אחד וחבר",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמלא הקערה אשר"
+        }
+      ]
+    },
+    {
+      "line": 739,
+      "raw": "קח מספר הטיפה שלש פעמים וחבר.",
+      "normalized": "קח מספר הטיפה שלש פעמים וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים וחבר",
+          "count_phrase": "שלש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 747,
+      "raw": "קח אבן השעורה פעמים כמלא הקערה אשר במקום שניים וחבר.",
+      "normalized": "קח אבן השעורה פעמים כמלא הקערה אשר במקום שניים וחבר",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמלא הקערה אשר"
+        }
+      ]
+    },
+    {
+      "line": 749,
+      "raw": "קח מספר הטיפה חמש פעמים וחבר.",
+      "normalized": "קח מספר הטיפה חמש פעמים וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים וחבר",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 757,
+      "raw": "קח אבן המלח פעמים כמלא הקערה אשר במקום שלושה וחבר.",
+      "normalized": "קח אבן המלח פעמים כמלא הקערה אשר במקום שלושה וחבר",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמלא הקערה אשר"
+        }
+      ]
+    },
+    {
+      "line": 759,
+      "raw": "קח מספר הטיפה שבע פעמים וחבר.",
+      "normalized": "קח מספר הטיפה שבע פעמים וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים וחבר",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 787,
+      "raw": "קח שלש פעמים את המספר אשר היה בקערה אשר אחריה וחבר.",
+      "normalized": "קח שלש פעמים את המספר אשר היה בקערה אשר אחריה וחבר",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים את המספר אשר",
+          "count_phrase": "שלש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 811,
+      "raw": "קח את המספר אשר היה בקערה אשר לפניה פעמים כמספר אשר היה בקערה אשר אחריה.",
+      "normalized": "קח את המספר אשר היה בקערה אשר לפניה פעמים כמספר אשר היה בקערה אשר אחריה",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר אשר היה"
+        }
+      ]
+    },
+    {
+      "line": 813,
+      "raw": "את אשר יצא קח חמש פעמים וחבר.",
+      "normalized": "את אשר יצא קח חמש פעמים וחבר",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים וחבר",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 815,
+      "raw": "קח מספר הטיפה פעמים כמספר מקום הקערה וחבר.",
+      "normalized": "קח מספר הטיפה פעמים כמספר מקום הקערה וחבר",
+      "occurrences": [
+        {
+          "token_index": 3,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר מקום הקערה"
+        }
+      ]
+    },
+    {
+      "line": 831,
+      "raw": "# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
+      "normalized": "לוח ארבעה עשר לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
+      "occurrences": [
+        {
+          "token_index": 6,
+          "kind": "literal_count",
+          "following": "פעמים אחר הטיפה האחרונה",
+          "count_phrase": "שתים עשרה",
+          "research_count": 12
+        }
+      ]
+    },
+    {
+      "line": 833,
+      "raw": "אחרי אשר תעשה את הטיפה השש וארבעים בלול עוד שתים עשרה פעמים.",
+      "normalized": "אחרי אשר תעשה את הטיפה השש וארבעים בלול עוד שתים עשרה פעמים",
+      "occurrences": [
+        {
+          "token_index": 11,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "שתים עשרה",
+          "research_count": 12
+        }
+      ]
+    },
+    {
+      "line": 843,
+      "raw": "קח תשע וארבעים ומאה פעמים מספר הפעם וחבר אל מספר שש הקערות.",
+      "normalized": "קח תשע וארבעים ומאה פעמים מספר הפעם וחבר אל מספר שש הקערות",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים מספר הפעם וחבר",
+          "count_phrase": "תשע וארבעים ומאה",
+          "research_count": 149
+        }
+      ]
+    },
+    {
+      "line": 865,
+      "raw": "קח שלוש פעמים את המספר אשר היה בראש הפעם בקערה אשר לפניה וחבר.",
+      "normalized": "קח שלוש פעמים את המספר אשר היה בראש הפעם בקערה אשר לפניה וחבר",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים את המספר אשר",
+          "count_phrase": "שלוש",
+          "research_count": 3
+        }
+      ]
+    },
+    {
+      "line": 867,
+      "raw": "קח חמש פעמים את המספר אשר היה בראש הפעם בקערה אשר אחריה וחבר.",
+      "normalized": "קח חמש פעמים את המספר אשר היה בראש הפעם בקערה אשר אחריה וחבר",
+      "occurrences": [
+        {
+          "token_index": 2,
+          "kind": "literal_count",
+          "following": "פעמים את המספר אשר",
+          "count_phrase": "חמש",
+          "research_count": 5
+        }
+      ]
+    },
+    {
+      "line": 877,
+      "raw": "קח את המספר אשר היה בראש הפעם בקערה אשר לפניה פעמים כמספר אשר היה בראש הפעם בקערה אשר אחריה.",
+      "normalized": "קח את המספר אשר היה בראש הפעם בקערה אשר לפניה פעמים כמספר אשר היה בראש הפעם בקערה אשר אחריה",
+      "occurrences": [
+        {
+          "token_index": 10,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר אשר היה"
+        }
+      ]
+    },
+    {
+      "line": 879,
+      "raw": "את אשר יצא קח שבע פעמים וחבר.",
+      "normalized": "את אשר יצא קח שבע פעמים וחבר",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "literal_count",
+          "following": "פעמים וחבר",
+          "count_phrase": "שבע",
+          "research_count": 7
+        }
+      ]
+    },
+    {
+      "line": 887,
+      "raw": "וכן בלול שתים עשרה פעמים.",
+      "normalized": "וכן בלול שתים עשרה פעמים",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים",
+          "count_phrase": "שתים עשרה",
+          "research_count": 12
+        }
+      ]
+    },
+    {
+      "line": 947,
+      "raw": "קח תשע ושבעים ומאה פעמים מלא הקערה אשר אחריה וחבר.",
+      "normalized": "קח תשע ושבעים ומאה פעמים מלא הקערה אשר אחריה וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים מלא הקערה אשר",
+          "count_phrase": "תשע ושבעים ומאה",
+          "research_count": 179
+        }
+      ]
+    },
+    {
+      "line": 969,
+      "raw": "קח שלש ותשעים ומאה פעמים מספר המענה האחד וחבר.",
+      "normalized": "קח שלש ותשעים ומאה פעמים מספר המענה האחד וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים מספר המענה האחד",
+          "count_phrase": "שלש ותשעים ומאה",
+          "research_count": 193
+        }
+      ]
+    },
+    {
+      "line": 971,
+      "raw": "קח שבע ותשעים ומאה פעמים מלא קערת ששה וחבר.",
+      "normalized": "קח שבע ותשעים ומאה פעמים מלא קערת ששה וחבר",
+      "occurrences": [
+        {
+          "token_index": 4,
+          "kind": "literal_count",
+          "following": "פעמים מלא קערת ששה",
+          "count_phrase": "שבע ותשעים ומאה",
+          "research_count": 197
+        }
+      ]
+    },
+    {
+      "line": 1013,
+      "raw": "מצא תחילה את המספר הגדול מכל המספרים אשר יוכל החכם לקחת ואשר יהיה עשוי ממספר הדרכים פעמים שלמות.",
+      "normalized": "מצא תחילה את המספר הגדול מכל המספרים אשר יוכל החכם לקחת ואשר יהיה עשוי ממספר הדרכים פעמים שלמות",
+      "occurrences": [
+        {
+          "token_index": 16,
+          "kind": "other_times_usage",
+          "following": "פעמים שלמות"
+        }
+      ]
+    },
+    {
+      "line": 1063,
+      "raw": "למקום השלישי תן כוח אשר יהיה המספר הגדול פעמים כמספר הגדול.",
+      "normalized": "למקום השלישי תן כוח אשר יהיה המספר הגדול פעמים כמספר הגדול",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הגדול"
+        }
+      ]
+    },
+    {
+      "line": 1065,
+      "raw": "ולכל מקום אשר אחריו תן כוח אשר יהיה כוח המקום אשר לפניו פעמים כמספר הגדול.",
+      "normalized": "ולכל מקום אשר אחריו תן כוח אשר יהיה כוח המקום אשר לפניו פעמים כמספר הגדול",
+      "occurrences": [
+        {
+          "token_index": 12,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הגדול"
+        }
+      ]
+    },
+    {
+      "line": 1071,
+      "raw": "בשני מקומות יוכלו להיות מספרים כמספר הגדול פעמים כמספר הגדול.",
+      "normalized": "בשני מקומות יוכלו להיות מספרים כמספר הגדול פעמים כמספר הגדול",
+      "occurrences": [
+        {
+          "token_index": 7,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הגדול"
+        }
+      ]
+    },
+    {
+      "line": 1073,
+      "raw": "ובשלושה מקומות יהיו כמספר הגדול פעמים כמספר הגדול פעמים כמספר הגדול.",
+      "normalized": "ובשלושה מקומות יהיו כמספר הגדול פעמים כמספר הגדול פעמים כמספר הגדול",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הגדול פעמים"
+        },
+        {
+          "token_index": 8,
+          "kind": "runtime_count",
+          "following": "פעמים כמספר הגדול"
+        }
+      ]
+    },
+    {
+      "line": 1095,
+      "raw": "קח את הכתוב במקום האחד פעמים ככוח המקום האחד.",
+      "normalized": "קח את הכתוב במקום האחד פעמים ככוח המקום האחד",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "other_times_usage",
+          "following": "פעמים ככוח המקום האחד"
+        }
+      ]
+    },
+    {
+      "line": 1097,
+      "raw": "קח את הכתוב במקום השני פעמים ככוח המקום השני.",
+      "normalized": "קח את הכתוב במקום השני פעמים ככוח המקום השני",
+      "occurrences": [
+        {
+          "token_index": 5,
+          "kind": "other_times_usage",
+          "following": "פעמים ככוח המקום השני"
+        }
+      ]
+    },
+    {
+      "line": 1121,
+      "raw": "מצא את המספר הגדול מכל המספרים אשר לא ירבו ממספר כל היוצאים ואשר יהיה עשוי ממספר הדרכים פעמים שלמות.",
+      "normalized": "מצא את המספר הגדול מכל המספרים אשר לא ירבו ממספר כל היוצאים ואשר יהיה עשוי ממספר הדרכים פעמים שלמות",
+      "occurrences": [
+        {
+          "token_index": 17,
+          "kind": "other_times_usage",
+          "following": "פעמים שלמות"
+        }
+      ]
+    },
+    {
+      "line": 1123,
+      "raw": "אם מספר כל היוצאים יהיה עשוי ממספר הדרכים פעמים שלמות מספר כל היוצאים הוא המספר אשר ביקשת.",
+      "normalized": "אם מספר כל היוצאים יהיה עשוי ממספר הדרכים פעמים שלמות מספר כל היוצאים הוא המספר אשר ביקשת",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "other_times_usage",
+          "following": "פעמים שלמות מספר כל"
+        }
+      ]
+    },
+    {
+      "line": 1263,
+      "raw": "ולא תקח שנה אם משער ראשיתה עד שער אחריתה לא תלך שער אחר שער שש פעמים או יתר.",
+      "normalized": "ולא תקח שנה אם משער ראשיתה עד שער אחריתה לא תלך שער אחר שער שש פעמים או יתר",
+      "occurrences": [
+        {
+          "token_index": 15,
+          "kind": "literal_count",
+          "following": "פעמים או יתר",
+          "count_phrase": "שש",
+          "research_count": 6
+        }
+      ]
+    },
+    {
+      "line": 1293,
+      "raw": "מן השער הזה לך שער אחר שער שש פעמים וקח את השער אשר תגיע אליו לשער אחריתה.",
+      "normalized": "מן השער הזה לך שער אחר שער שש פעמים וקח את השער אשר תגיע אליו לשער אחריתה",
+      "occurrences": [
+        {
+          "token_index": 8,
+          "kind": "literal_count",
+          "following": "פעמים וקח את השער",
+          "count_phrase": "שש",
+          "research_count": 6
+        }
+      ]
+    }
+  ]
+}

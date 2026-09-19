@@ -1,0 +1,38 @@
+{
+  "schema": "marak-a14-test-results-v1",
+  "baseline_main": "45ac2aebe391f7aa83792e1e501dcd69da884710",
+  "b13_head_reviewed": "3c47a57debd381c2b4e41d00d12c792ae43debe8",
+  "a14_surface": {
+    "status": "PASS",
+    "case_checks": 302,
+    "negative_fixtures": 24,
+    "ambiguity_focus_fixtures": 4,
+    "transparency_checks": 272
+  },
+  "numeral_generation": {
+    "status": "PASS",
+    "direct_collision_checks": 300000,
+    "repeat_count_collision_checks": 300000,
+    "domain": "1..99,999,999",
+    "megillah_target": 14777149
+  },
+  "corpus": {
+    "numeral_lines": 453,
+    "times_tokens": 96,
+    "times_lines": 92,
+    "times_classification": {
+      "literal_count": 63,
+      "runtime_count": 23,
+      "other_times_usage": 10
+    }
+  },
+  "repo_regression": {
+    "status": "PASS_EXCEPT_KNOWN_BASELINE_WINDOWS_TEST",
+    "passed": 263,
+    "deselected": 1,
+    "subtests_passed": 126,
+    "deselected_test": "tests/test_current_registry_tool.py::CurrentRegistryToolTests::test_dump_current_registry_targets_current_file_and_preserves_a3_snapshot",
+    "reason": "existing Windows path-separator assertion; tool emits backslashes while assertion requires forward-slash suffix"
+  },
+  "a13_frozen_docs_modified": false
+}
