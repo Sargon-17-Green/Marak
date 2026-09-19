@@ -18,12 +18,13 @@
       "semantic_after": "upper candidate-year bound 5778",
       "algorithm_change": "ALGORITHM_CHANGE",
       "confidence": "HIGH",
-      "approval_state": "MASTER_APPROVAL_REQUIRED",
+      "approval_state": "MASTER_APPROVED",
       "evidence": [
         "6*963=5778",
         "same source repeats 5778 four times in the year regime",
         "A12/A13 direct numeral lexicon entry 5778 matches replacement"
-      ]
+      ],
+      "master_decision": "APPROVED 2026-09-19"
     },
     {
       "id": "D-PATCH-0002",

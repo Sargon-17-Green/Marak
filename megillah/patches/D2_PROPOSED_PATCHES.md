@@ -1,6 +1,6 @@
 # D2 Proposed Source Patches
 
-This file records proposals only. The historical original is immutable.
+This file records D2 patch decisions. The historical original is immutable.
 
 ## D-PATCH-0001
 - Span(s): line 1267
@@ -8,7 +8,7 @@ This file records proposals only. The historical original is immutable.
 - Replacement: `חמשת אלפים ושבע מאות ושבעים ושמנה`
 - Class: SOURCE_PROGRAMMING_BUG
 - Preservation: ALGORITHM_CHANGE
-- Approval: MASTER_APPROVAL_REQUIRED
+- Approval: MASTER_APPROVED
 - Reason: isolated 5781 contradicts derived/repeated 5778 bound
 
 ## D-PATCH-0002
@@ -17,7 +17,7 @@ This file records proposals only. The historical original is immutable.
 - Replacement: `יהי מעשה ושמו NAME`
 - Class: SOURCE_AMBIGUITY
 - Preservation: DISAMBIGUATION_ONLY
-- Approval: MECHANICALLY_CONFIRMED
+- Approval: SEMANTICALLY_CONFIRMED
 - Reason: A13 freezes an unambiguous named-act introduction
 
 ## D-PATCH-0003
@@ -26,7 +26,7 @@ This file records proposals only. The historical original is immutable.
 - Replacement: `וכן תעשה עד אשר`
 - Class: SOURCE_AMBIGUITY
 - Preservation: DISAMBIGUATION_ONLY
-- Approval: PROPOSED
+- Approval: SEMANTICALLY_CONFIRMED
 - Reason: A13 negative grammar rejects וכן עשה and freezes וכן תעשה
 
 ## D-PATCH-0004
@@ -35,5 +35,5 @@ This file records proposals only. The historical original is immutable.
 - Replacement: `ואחרי כן`
 - Class: SOURCE_NOT_LANGUAGE
 - Preservation: SEMANTIC_EQUIVALENT
-- Approval: PROPOSED
+- Approval: SEMANTICALLY_CONFIRMED
 - Reason: A13 freezes only the explicit sequence relation ואחרי כן
