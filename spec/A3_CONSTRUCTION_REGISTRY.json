@@ -1,0 +1,256 @@
+{
+  "declarations": [
+    {
+      "construction_id": "A2.BINARY_CONDITIONAL_SHELL",
+      "kind": "positive",
+      "spec_ids": [
+        "A-COND-001"
+      ],
+      "status": "proposed",
+      "summary": "Binary conditional shell remains proposed because the predicate layer is not yet fixed."
+    },
+    {
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-SEQ-003",
+        "A-SEQ-004"
+      ],
+      "status": "normative",
+      "summary": "Flat temporal sequencing uses the overt Biblical-Hebrew marker ואחרי כן."
+    },
+    {
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "kind": "positive",
+      "spec_ids": [
+        "A-REP-001",
+        "A-REP-002",
+        "A-REP-003"
+      ],
+      "status": "normative",
+      "summary": "Exact counted repetition 3..9 consumes exactly one admitted atomic action."
+    },
+    {
+      "construction_id": "A3.NO_GENERIC_END",
+      "kind": "negative",
+      "spec_ids": [
+        "A-SCOPE-001",
+        "A-SCOPE-002",
+        "A-SCOPE-003"
+      ],
+      "status": "normative",
+      "summary": "No compiler-only generic END or nearest-open-block closer is admitted."
+    },
+    {
+      "construction_id": "A3.UNTIL_NOT_WHILE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-REP-006",
+        "A-REP-007"
+      ],
+      "status": "normative",
+      "summary": "עד אשר is not silently assigned while/do-while/repeat-until test-point semantics."
+    }
+  ],
+  "language_edition": "core-0.1-draft-a3-b4-review",
+  "productions": [
+    {
+      "admitted": true,
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "lhs": "Sequence",
+      "production_id": "A2.SEQUENCE.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "Sequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A2.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "lhs": "Sequence",
+      "production_id": "A2.SEQUENCE.TWO",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A2.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "CountedAtomicAction",
+      "production_id": "A3.REPEAT.ATOMIC",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RepeatCount"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A3.COUNTED_ATOMIC_REPEAT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.3",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שלש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.4",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ארבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.5",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "חמש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.6",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.7",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.8",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שמנה"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.9",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "תשע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    }
+  ],
+  "registry_version": "a3.1",
+  "source_snapshot": "A3_Surface_Language_Handoff"
+}

@@ -1,0 +1,1578 @@
+{
+  "declarations": [
+    {
+      "construction_id": "A10.AFTER_GATED_RECURRENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-REP-009",
+        "A-REP-010",
+        "A-REP-011",
+        "A-REP-012",
+        "A-REP-013"
+      ],
+      "status": "normative",
+      "summary": "ATOMIC_ACTION וכן תעשה עד אשר P performs the action once, then checks P after each occurrence and repeats the same atomic act until P holds."
+    },
+    {
+      "construction_id": "A10.NAMED_ACT_IDENTITY",
+      "kind": "positive",
+      "spec_ids": [
+        "A-ACT-021",
+        "A-ACT-023",
+        "A-ACT-024"
+      ],
+      "status": "normative",
+      "summary": "Reusable described computation is named as מעשה; introduction uses יהי מעשה ושמו NAME and reference uses המעשה אשר שמו NAME."
+    },
+    {
+      "construction_id": "A10.NAMED_ACT_PERFORMANCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-ACT-026"
+      ],
+      "status": "normative",
+      "summary": "Explicit performance is עשה את המעשה אשר שמו NAME; a bare name is never invocation."
+    },
+    {
+      "construction_id": "A10.NAMED_PLACE_STATE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-STATE-001",
+        "A-STATE-002",
+        "A-STATE-006"
+      ],
+      "status": "normative",
+      "summary": "מקום is a source-semantic changeable-state holder, distinct from its current numeric occupant and from implementation memory."
+    },
+    {
+      "construction_id": "A10.NO_BARE_UNTIL_RECURRENCE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-REP-009",
+        "A-REP-013"
+      ],
+      "status": "normative",
+      "summary": "ACTION עד אשר P and ACTION וכן עשה עד אשר P are not the canonical Core recurrence; the admitted form contains וכן תעשה."
+    },
+    {
+      "construction_id": "A10.NO_MITZVAH_CORE_CALL",
+      "kind": "negative",
+      "spec_ids": [
+        "A-ACT-022"
+      ],
+      "status": "normative",
+      "summary": "מצוה is superseded as the primary Core reusable-computation abstraction; C must not preserve A8 syntax for compatibility."
+    },
+    {
+      "construction_id": "A10.PLACE_INTRODUCTION",
+      "kind": "positive",
+      "spec_ids": [
+        "A-STATE-003"
+      ],
+      "status": "normative",
+      "summary": "Initialized place introduction explicitly names the place and states its sole current numeric occupant."
+    },
+    {
+      "construction_id": "A10.PLACE_REPLACEMENT",
+      "kind": "positive",
+      "spec_ids": [
+        "A-STATE-004",
+        "A-STATE-005"
+      ],
+      "status": "normative",
+      "summary": "Replacement explicitly names destination, new occupant, and displaced current numeric occupant."
+    },
+    {
+      "construction_id": "A11.CURRENT_PERFORMANCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CURRENT-001",
+        "A-CURRENT-002",
+        "A-CURRENT-003"
+      ],
+      "status": "normative",
+      "summary": "המעשה הזה is the current performance occurrence only inside an act body; it is a source deictic, not a stack-frame lookup rule."
+    },
+    {
+      "construction_id": "A11.INPUT_ROLE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-ROLE-001",
+        "A-ROLE-002",
+        "A-ROLE-005",
+        "A-ROLE-006"
+      ],
+      "status": "normative",
+      "summary": "A numeric input role is a named דבר owned by a named מעשה; role identity is explicit and never positional."
+    },
+    {
+      "construction_id": "A11.NO_FREE_RESULT_HISTORY",
+      "kind": "negative",
+      "spec_ids": [
+        "A11-NG-OUT-003",
+        "A11-NG-OUT-004"
+      ],
+      "status": "normative",
+      "summary": "A result reference is immediate and uniquely determined; there is no hidden global last-result register or historical nearest-result lookup."
+    },
+    {
+      "construction_id": "A11.NO_IMPLICIT_RETURN",
+      "kind": "negative",
+      "spec_ids": [
+        "A11-NG-OUT-001",
+        "A11-NG-OUT-002",
+        "A11-NG-LEAK-003"
+      ],
+      "status": "normative",
+      "summary": "A final value is not an implicit result and result production is not abrupt Return/tuple-return semantics."
+    },
+    {
+      "construction_id": "A11.NO_POSITIONAL_ROLE_MATCHING",
+      "kind": "negative",
+      "spec_ids": [
+        "A11-NG-ROLE-001",
+        "A11-NG-ROLE-002",
+        "A11-NG-ROLE-003"
+      ],
+      "status": "normative",
+      "summary": "Actual inputs are not matched to roles by order; every required named role must be associated exactly once."
+    },
+    {
+      "construction_id": "A11.ROLE_ASSOCIATION",
+      "kind": "positive",
+      "spec_ids": [
+        "A-ROLE-003",
+        "A-ROLE-004"
+      ],
+      "status": "normative",
+      "summary": "Performance associates a pure numeric Value with an explicitly named role via בהיות VALUE תחת ROLE; source order does not establish matching."
+    },
+    {
+      "construction_id": "A12.BODY_SCOPE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-BODY-001",
+        "A-BODY-002"
+      ],
+      "status": "normative",
+      "summary": "A named act body is delimited by singular זה דבר המעשה אשר שמו NAME ... עד הנה דבר המעשה אשר שמו NAME; the explicit names must co-refer and layout has no boundary force."
+    },
+    {
+      "construction_id": "A12.DIRECT_NUMERIC_LITERAL",
+      "kind": "positive",
+      "spec_ids": [
+        "A-NUM-001",
+        "A-NUM-002",
+        "A-NUM-003"
+      ],
+      "status": "normative",
+      "summary": "Core v0.1 admits exactly the frozen canonical direct numeral spellings 1..9999 inside המספר אשר הוא NUMERAL; this is a direct-literal admission frontier, not a semantic numeric bound."
+    },
+    {
+      "construction_id": "A12.IMMEDIATE_RESULT_REFERENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-OUT-003"
+      ],
+      "status": "normative",
+      "summary": "The single Core result may be referred to only by the explicit immediate form המספר אשר יצא עתה מן המעשה אשר שמו ACT; no ordinal or hidden last-result convention is admitted."
+    },
+    {
+      "construction_id": "A12.NO_A11_PLURAL_BODY_ALIAS",
+      "kind": "negative",
+      "spec_ids": [
+        "A-BODY-001"
+      ],
+      "status": "normative",
+      "summary": "A11 אלה דברי המעשה / עד הנה דברי המעשה is superseded and is not a compatibility alias in A12."
+    },
+    {
+      "construction_id": "A12.NO_MULTIPLE_POSITIONAL_RESULTS",
+      "kind": "negative",
+      "spec_ids": [
+        "A-OUT-002",
+        "A-OUT-003"
+      ],
+      "status": "normative",
+      "summary": "A12 Core permits zero or one numeric output and rejects A11 ordinal/positional multi-result access."
+    },
+    {
+      "construction_id": "A12.NO_PERFORMANCE_LOCAL_MUTABLE_PLACE",
+      "kind": "negative",
+      "spec_ids": [
+        "A12-FREEZE-LOCAL-STATE"
+      ],
+      "status": "normative",
+      "summary": "A11 performance-owned mutable local places are not part of frozen A-Core v0.1; future local-state design remains open."
+    },
+    {
+      "construction_id": "A12.NO_STACK_DEICTIC",
+      "kind": "negative",
+      "spec_ids": [
+        "A-ROLE-003"
+      ],
+      "status": "normative",
+      "summary": "המעשה הזה is a source deictic for the current performance occurrence, not a stack-frame or caller-chain lookup convention."
+    },
+    {
+      "construction_id": "A12.RESULT_PRODUCTION",
+      "kind": "positive",
+      "spec_ids": [
+        "A-OUT-001",
+        "A-OUT-002"
+      ],
+      "status": "normative",
+      "summary": "הוצא מן המעשה הזה את VALUE produces the at-most-one Core numeric output of the current performance and does not itself terminate the act."
+    },
+    {
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-009"
+      ],
+      "status": "normative",
+      "summary": "Exact N פעמים recurrence is admitted only for counts whose morphology and repeated material are structurally closed."
+    },
+    {
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-005"
+      ],
+      "status": "normative",
+      "summary": "Where order matters, the retained overt temporal relation is ואחרי כן; source order and bare waw do not create sequence."
+    },
+    {
+      "construction_id": "A9.NO_HIDDEN_DEREFERENCE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-CORE-002",
+        "A9-STABLE-NEGATIVE"
+      ],
+      "status": "normative",
+      "summary": "A referent is not silently replaced by its current content merely because an implementation stores content in a cell."
+    },
+    {
+      "construction_id": "A9.NO_POSITIONAL_INPUT_CONVENTION",
+      "kind": "negative",
+      "spec_ids": [
+        "A9-STABLE-NEGATIVE"
+      ],
+      "status": "normative",
+      "summary": "Positional argument matching is unavailable unless linguistic role marking later licenses it."
+    },
+    {
+      "construction_id": "A9.NUMERIC_IDENTITY",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "VALUE_A הוא VALUE_B is the retained exact numeric identity proposition in the controlled numeric frame."
+    },
+    {
+      "construction_id": "A9.PAIRED_CONDITIONAL",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-008"
+      ],
+      "status": "normative",
+      "summary": "Conditional consequence uses the paired Hebrew shell אם P A ואם לא B; no dangling-else convention is available."
+    },
+    {
+      "construction_id": "A9.PURE_ADDITION_FRAME",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "Pure addition uses the explicit Biblical-Hebrew valency frame המספר הנחשב בהוסיף את A על B."
+    },
+    {
+      "construction_id": "A9.PURE_SUBTRACTION_FRAME",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "Pure subtraction uses the explicit Biblical-Hebrew valency frame המספר הנחשב בגרע את A מן B."
+    },
+    {
+      "construction_id": "A9.UNTIL_NOT_GENERIC_LOOP",
+      "kind": "negative",
+      "spec_ids": [
+        "A-CORE-010"
+      ],
+      "status": "normative",
+      "summary": "Bare עד אשר does not select a conventional pre-test or post-test recurrence model."
+    }
+  ],
+  "language_edition": "core-0.1-frozen-candidate-a12-b11-review",
+  "productions": [
+    {
+      "admitted": true,
+      "construction_id": "A10.NAMED_ACT_IDENTITY",
+      "lhs": "NamedActIdentity",
+      "production_id": "A10.ACT.IDENTITY",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "מעשה"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A10.NAMED_ACT_IDENTITY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.NAMED_ACT_PERFORMANCE",
+      "lhs": "AtomicAction",
+      "production_id": "A10.ACT.PERFORM",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "עשה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ActionName"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A10.NAMED_ACT_PERFORMANCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.PAIRED_CONDITIONAL",
+      "lhs": "ConditionalConsequence",
+      "production_id": "A10.CONDITIONAL.PAIRED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "אם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "Proposition"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        },
+        {
+          "kind": "word",
+          "text": "ואם"
+        },
+        {
+          "kind": "word",
+          "text": "לא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.PAIRED_CONDITIONAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.NAMED_PLACE_STATE",
+      "lhs": "NumberValue",
+      "production_id": "A10.PLACE.CURRENT_NUMBER",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A10.CURRENT_PLACE_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.PLACE_INTRODUCTION",
+      "lhs": "AtomicAction",
+      "production_id": "A10.PLACE.INTRODUCE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "מקום"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "ובמקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "לבדו"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A10.PLACE_INTRODUCTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.PLACE_REPLACEMENT",
+      "lhs": "AtomicAction",
+      "production_id": "A10.PLACE.REPLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שים"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A10.PLACE_REPLACEMENT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.AFTER_GATED_RECURRENCE",
+      "lhs": "AfterGatedRecurrence",
+      "production_id": "A10.RECURRENCE.AFTER_UNTIL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        },
+        {
+          "kind": "word",
+          "text": "וכן"
+        },
+        {
+          "kind": "word",
+          "text": "תעשה"
+        },
+        {
+          "kind": "word",
+          "text": "עד"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "Proposition"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A10.AFTER_GATED_RECURRENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "A10.REPEAT.COUNTED",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RepeatCount"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.COUNTED_RECURRENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "lhs": "OrderedSequence",
+      "production_id": "A10.SEQUENCE.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "OrderedSequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "lhs": "OrderedSequence",
+      "production_id": "A10.SEQUENCE.TWO",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A11.ROLE_ASSOCIATION",
+      "lhs": "AtomicAction",
+      "production_id": "A11.ACT.PERFORM.WITH.ROLES",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "עשה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PerformedActionName"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "RoleAssociations"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A11.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A11.CURRENT_PERFORMANCE",
+      "lhs": "NumberValue",
+      "production_id": "A11.NUMBER.CURRENT.ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A11.CURRENT_ROLE_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A11.ROLE_ASSOCIATION",
+      "lhs": "RoleAssociations",
+      "production_id": "A11.ROLE.ASSOCIATIONS.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RoleAssociations"
+        },
+        {
+          "kind": "word",
+          "text": "ובהיות"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A11.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A11.ROLE_ASSOCIATION",
+      "lhs": "RoleAssociations",
+      "production_id": "A11.ROLE.ASSOCIATIONS.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "בהיות"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A11.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A11.INPUT_ROLE",
+      "lhs": "RoleDeclaration",
+      "production_id": "A11.ROLE.DECLARATION",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A11.INPUT_ROLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A10.NAMED_ACT_IDENTITY",
+      "lhs": "TopLevelUnit",
+      "production_id": "A11.TOP.ACT.IDENTITY",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NamedActIdentity"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A10.NAMED_ACT_IDENTITY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "ActBodyDefinition",
+      "production_id": "A12.BODY.DEFINITION",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "זה"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "BodyActionName"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "BodySequence"
+        },
+        {
+          "kind": "word",
+          "text": "עד"
+        },
+        {
+          "kind": "word",
+          "text": "הנה"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "BodyActionName"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A12.BODY_SCOPE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodySequence",
+      "production_id": "A12.BODY.SEQUENCE.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "BodySequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "BodyUnit"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodySequence",
+      "production_id": "A12.BODY.SEQUENCE.ONE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "BodyUnit"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodyUnit",
+      "production_id": "A12.BODY.UNIT.ATOMIC",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_UNIT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodyUnit",
+      "production_id": "A12.BODY.UNIT.CONDITIONAL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "ConditionalConsequence"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_UNIT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodyUnit",
+      "production_id": "A12.BODY.UNIT.COUNTED",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "CountedConsequence"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_UNIT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodyUnit",
+      "production_id": "A12.BODY.UNIT.RECURRENCE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AfterGatedRecurrence"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_UNIT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.BODY_SCOPE",
+      "lhs": "BodyUnit",
+      "production_id": "A12.BODY.UNIT.RESULT",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "BodyAtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.BODY_UNIT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.DIRECT_NUMERIC_LITERAL",
+      "lhs": "NumberValue",
+      "production_id": "A12.NUMBER.LITERAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "numeral",
+          "lexicon_id": "a12-direct-1-9999"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.DIRECT_NUMERIC_LITERAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.IMMEDIATE_RESULT_REFERENCE",
+      "lhs": "NumberValue",
+      "production_id": "A12.RESULT.IMMEDIATE.SINGLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצא"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.IMMEDIATE_RESULT_SINGLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A12.RESULT_PRODUCTION",
+      "lhs": "BodyAtomicAction",
+      "production_id": "A12.RESULT.PRODUCE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הוצא"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A12.RESULT_PRODUCTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.PURE_ADDITION_FRAME",
+      "lhs": "NumberValue",
+      "production_id": "A9.NUMBER.ADD",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בהוסיף"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "על"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.PURE_ADDITION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.PURE_SUBTRACTION_FRAME",
+      "lhs": "NumberValue",
+      "production_id": "A9.NUMBER.SUBTRACT",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בגרע"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.PURE_SUBTRACTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.NUMERIC_IDENTITY",
+      "lhs": "Proposition",
+      "production_id": "A9.PROPOSITION.NUMERIC_IDENTITY",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.NUMERIC_IDENTITY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.3",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שלש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.4",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ארבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.5",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "חמש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.6",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.7",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.8",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שמנה"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.9",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "תשע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    }
+  ],
+  "registry_version": "a12.2-c-b11-mapped",
+  "semantic_gates": [
+    {
+      "construction_id": "A10.NAMED_ACT_PERFORMANCE",
+      "dependencies": [
+        "B-ACT-R01/R02/R07",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 maps A12 described-act performance exactly to semantic performance occurrences without requiring call frames.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A11.CURRENT_PERFORMANCE",
+      "dependencies": [
+        "B-ACT-R02/R03",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 maps המעשה הזה to the current semantic performance occurrence, not to an observable stack frame or caller chain.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A11.INPUT_ROLE",
+      "dependencies": [
+        "B-ROLE-R01..R05",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 maps A12 named numeric roles to non-positional semantic role identities and explicit associations.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A11.ROLE_ASSOCIATION",
+      "dependencies": [
+        "B-ROLE-R01..R05",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 freezes explicit non-positional Value-to-role association for each performance occurrence.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A12.BODY_SCOPE",
+      "dependencies": [
+        "B-ACT-R04/R05",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 maps the frozen A12 body delimiters to described-act body execution with ordinary completion at exhaustion.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A12.IMMEDIATE_RESULT_REFERENCE",
+      "dependencies": [
+        "B-OUT-R06/R07/R08",
+        "B11 exact A12 mapping"
+      ],
+      "reason": "B11 maps the A12 immediate single-result description to the explicitly resolved just-completed performance; no hidden last-result register exists.",
+      "status": "ready"
+    },
+    {
+      "construction_id": "A12.RESULT_PRODUCTION",
+      "dependencies": [
+        "B-OUT-R01/R04",
+        "B11 A12 Core profile |Products|<=1"
+      ],
+      "reason": "B11 freezes zero-or-one numeric output production as part of the current performance and explicitly separates output from completion.",
+      "status": "ready"
+    }
+  ],
+  "source_snapshot": "A12_A_Core_v0.1_Frozen_Candidate+B11_CORE_CLOSURE"
+}

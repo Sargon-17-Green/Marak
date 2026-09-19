@@ -1,0 +1,455 @@
+{
+  "declarations": [
+    {
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-009"
+      ],
+      "status": "normative",
+      "summary": "Exact N פעמים recurrence is admitted only for counts whose morphology and repeated material are structurally closed."
+    },
+    {
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-005"
+      ],
+      "status": "normative",
+      "summary": "Where order matters, the retained overt temporal relation is ואחרי כן; source order and bare waw do not create sequence."
+    },
+    {
+      "construction_id": "A9.NO_HIDDEN_DEREFERENCE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-CORE-002",
+        "A9-STABLE-NEGATIVE"
+      ],
+      "status": "normative",
+      "summary": "A referent is not silently replaced by its current content merely because an implementation stores content in a cell."
+    },
+    {
+      "construction_id": "A9.NO_POSITIONAL_INPUT_CONVENTION",
+      "kind": "negative",
+      "spec_ids": [
+        "A9-STABLE-NEGATIVE"
+      ],
+      "status": "normative",
+      "summary": "Positional argument matching is unavailable unless linguistic role marking later licenses it."
+    },
+    {
+      "construction_id": "A9.NUMERIC_IDENTITY",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "VALUE_A הוא VALUE_B is the retained exact numeric identity proposition in the controlled numeric frame."
+    },
+    {
+      "construction_id": "A9.NUMERIC_LITERAL_FRAME",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006",
+        "A-CORE-007"
+      ],
+      "status": "normative",
+      "summary": "Numeric values may be denoted by המספר אשר הוא NUMERAL. C currently encodes only the proved אחד atom while the productive magnitude grammar beyond the former finite fixture ceiling remains open."
+    },
+    {
+      "construction_id": "A9.PAIRED_CONDITIONAL",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-008"
+      ],
+      "status": "normative",
+      "summary": "Conditional consequence uses the paired Hebrew shell אם P A ואם לא B; no dangling-else convention is available."
+    },
+    {
+      "construction_id": "A9.PURE_ADDITION_FRAME",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "Pure addition uses the explicit Biblical-Hebrew valency frame המספר הנחשב בהוסיף את A על B."
+    },
+    {
+      "construction_id": "A9.PURE_SUBTRACTION_FRAME",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CORE-006"
+      ],
+      "status": "normative",
+      "summary": "Pure subtraction uses the explicit Biblical-Hebrew valency frame המספר הנחשב בגרע את A מן B."
+    },
+    {
+      "construction_id": "A9.UNTIL_NOT_GENERIC_LOOP",
+      "kind": "negative",
+      "spec_ids": [
+        "A-CORE-010"
+      ],
+      "status": "normative",
+      "summary": "Bare עד אשר does not select a conventional pre-test or post-test recurrence model."
+    }
+  ],
+  "language_edition": "core-0.1-draft-a9-b8-review",
+  "productions": [
+    {
+      "admitted": true,
+      "construction_id": "A9.PAIRED_CONDITIONAL",
+      "lhs": "ConditionalConsequence",
+      "production_id": "A9.CONDITIONAL.PAIRED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "אם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "Proposition"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואם"
+        },
+        {
+          "kind": "word",
+          "text": "לא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.PAIRED_CONDITIONAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.PURE_ADDITION_FRAME",
+      "lhs": "NumberValue",
+      "production_id": "A9.NUMBER.ADD",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בהוסיף"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "על"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.PURE_ADDITION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.NUMERIC_LITERAL_FRAME",
+      "lhs": "NumberValue",
+      "production_id": "A9.NUMBER.LITERAL.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "word",
+          "text": "אחד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.NUMERIC_LITERAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.PURE_SUBTRACTION_FRAME",
+      "lhs": "NumberValue",
+      "production_id": "A9.NUMBER.SUBTRACT",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בגרע"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.PURE_SUBTRACTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.NUMERIC_IDENTITY",
+      "lhs": "Proposition",
+      "production_id": "A9.PROPOSITION.NUMERIC_IDENTITY",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.NUMERIC_IDENTITY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "A9.REPEAT.ADMITTED_CONSEQUENCE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RepeatCount"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.COUNTED_RECURRENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.3",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שלש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.4",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ארבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.5",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "חמש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.6",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.7",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.8",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שמנה"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.COUNTED_RECURRENCE",
+      "lhs": "RepeatCount",
+      "production_id": "A9.REPEAT.COUNT.9",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "תשע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "lhs": "OrderedSequence",
+      "production_id": "A9.SEQUENCE.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "OrderedSequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A9.EXPLICIT_SEQUENCE",
+      "lhs": "OrderedSequence",
+      "production_id": "A9.SEQUENCE.TWO",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AdmittedConsequence"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A9.EXPLICIT_SEQUENCE"
+    }
+  ],
+  "registry_version": "a9.1-c-stable-subset",
+  "source_snapshot": "A9_Surface_Consolidation_Handoff"
+}

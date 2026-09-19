@@ -1,0 +1,7 @@
+{
+  "halted": true,
+  "steps": 5,
+  "registers": {
+    "R": 0
+  }
+}

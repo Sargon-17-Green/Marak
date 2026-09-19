@@ -1,0 +1,142 @@
+[
+  {
+    "artifact": "artifacts/basic_update.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          2
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/basic_update.he.txt"
+  },
+  {
+    "artifact": "artifacts/immediate_result.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          3
+        ]
+      ],
+      "products": [
+        [
+          "ראובן",
+          3
+        ]
+      ]
+    },
+    "source": "examples/m4/immediate_result.he.txt"
+  },
+  {
+    "artifact": "artifacts/natural_subtraction.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          1
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/natural_subtraction.he.txt"
+  },
+  {
+    "artifact": "artifacts/normal_completion.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "עזר",
+          0
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/normal_completion.he.txt"
+  },
+  {
+    "artifact": "artifacts/output_not_return.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          4
+        ]
+      ],
+      "products": [
+        [
+          "ראובן",
+          3
+        ]
+      ]
+    },
+    "source": "examples/m4/output_not_return.he.txt"
+  },
+  {
+    "artifact": "artifacts/post_action_countdown.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          0
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/post_action_countdown.he.txt"
+  },
+  {
+    "artifact": "artifacts/recursive_countdown.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          0
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/recursive_countdown.he.txt"
+  },
+  {
+    "artifact": "artifacts/role_association.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [],
+      "products": [
+        [
+          "ראובן",
+          7
+        ]
+      ]
+    },
+    "source": "examples/m4/role_association.he.txt"
+  },
+  {
+    "artifact": "artifacts/tiny_rm.he.cbh-artifact.json",
+    "observable": {
+      "outcome": "Normal",
+      "facts": [
+        [
+          "גד",
+          0
+        ],
+        [
+          "עזר",
+          0
+        ]
+      ],
+      "products": []
+    },
+    "source": "examples/m4/tiny_rm.he.txt"
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "ready": 13,
+  "blocked": 0,
+  "needs_master_clarification": 0,
+  "gates": [
+    {
+      "gate": "A13 surface conformance",
+      "status": "READY"
+    },
+    {
+      "gate": "B12 semantic completeness",
+      "status": "READY"
+    },
+    {
+      "gate": "C implementation conformity",
+      "status": "READY"
+    },
+    {
+      "gate": "punctuation/whitespace invariance",
+      "status": "READY"
+    },
+    {
+      "gate": "no silent ambiguity",
+      "status": "READY"
+    },
+    {
+      "gate": "anti-imitation",
+      "status": "READY"
+    },
+    {
+      "gate": "RM universality witness",
+      "status": "READY"
+    },
+    {
+      "gate": "arithmetic exactness",
+      "status": "READY"
+    },
+    {
+      "gate": "runtime errors/resource boundary",
+      "status": "READY"
+    },
+    {
+      "gate": "backend agreement",
+      "status": "READY"
+    },
+    {
+      "gate": "artifact trust boundary",
+      "status": "READY"
+    },
+    {
+      "gate": "packaging independence",
+      "status": "READY"
+    },
+    {
+      "gate": "independent differential agreement",
+      "status": "READY"
+    }
+  ]
+}

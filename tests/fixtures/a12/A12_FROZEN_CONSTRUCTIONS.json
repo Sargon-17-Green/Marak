@@ -1,0 +1,96 @@
+{
+  "version": "A-Core-v0.1-frozen-candidate-A12",
+  "status": "FROZEN_CANDIDATE",
+  "constructs": [
+    {
+      "id": "A12-STATE-INTRO",
+      "kind": "action",
+      "template": "יהי מקום ושמו NAME ובמקום אשר שמו NAME יהי VALUE לבדו"
+    },
+    {
+      "id": "A12-STATE-READ",
+      "kind": "value",
+      "template": "המספר אשר במקום אשר שמו NAME"
+    },
+    {
+      "id": "A12-STATE-REPLACE",
+      "kind": "action",
+      "template": "שים במקום אשר שמו NAME את VALUE תחת המספר אשר במקום אשר שמו NAME"
+    },
+    {
+      "id": "A12-ADD",
+      "kind": "value",
+      "template": "המספר הנחשב בהוסיף את ATOM על ATOM"
+    },
+    {
+      "id": "A12-SUB",
+      "kind": "value",
+      "template": "המספר הנחשב בגרע את ATOM מן ATOM"
+    },
+    {
+      "id": "A12-EQ",
+      "kind": "proposition",
+      "template": "VALUE הוא VALUE"
+    },
+    {
+      "id": "A12-SEQ",
+      "kind": "relation",
+      "template": "ACTION ואחרי כן ACTION"
+    },
+    {
+      "id": "A12-COND",
+      "kind": "action",
+      "template": "אם PREDICATE ACTION ואם לא ACTION"
+    },
+    {
+      "id": "A12-RECUR",
+      "kind": "action",
+      "template": "ATOMIC_ACTION וכן תעשה עד אשר PREDICATE"
+    },
+    {
+      "id": "A12-ACT-INTRO",
+      "kind": "declaration",
+      "template": "יהי מעשה ושמו NAME"
+    },
+    {
+      "id": "A12-ACT-BODY-OPEN",
+      "kind": "delimiter",
+      "template": "זה דבר המעשה אשר שמו NAME"
+    },
+    {
+      "id": "A12-ACT-BODY-CLOSE",
+      "kind": "delimiter",
+      "template": "עד הנה דבר המעשה אשר שמו NAME"
+    },
+    {
+      "id": "A12-ACT-DO",
+      "kind": "action",
+      "template": "עשה את המעשה אשר שמו NAME"
+    },
+    {
+      "id": "A12-ROLE-ASSOC",
+      "kind": "role_association",
+      "template": "בהיות VALUE תחת הדבר אשר במעשה אשר שמו ACT שמו ROLE"
+    },
+    {
+      "id": "A12-CURRENT-ROLE-VALUE",
+      "kind": "value",
+      "template": "המספר אשר במעשה הזה עומד תחת הדבר אשר במעשה אשר שמו ACT שמו ROLE"
+    },
+    {
+      "id": "A12-OUTPUT",
+      "kind": "action",
+      "template": "הוצא מן המעשה הזה את VALUE"
+    },
+    {
+      "id": "A12-RESULT-REF",
+      "kind": "value",
+      "template": "המספר אשר יצא עתה מן המעשה אשר שמו ACT"
+    }
+  ],
+  "removed_from_A11_core": [
+    "אלה דברי המעשה ... / עד הנה דברי המעשה ...",
+    "multiple positional/ordinal numeric results",
+    "performance-owned mutable local places"
+  ]
+}

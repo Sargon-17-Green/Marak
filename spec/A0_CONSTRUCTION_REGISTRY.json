@@ -1,0 +1,54 @@
+{
+  "declarations": [
+    {
+      "construction_id": "A0.ATOMIC_IMPERATIVE_CANDIDATE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CLAUSE-001"
+      ],
+      "status": "proposed",
+      "summary": "Controlled imperative atomic-action shape; exact admitted morphology/valency remains open."
+    },
+    {
+      "construction_id": "A0.BARE_WAW_NOT_SEQUENCE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-SEQ-001",
+        "NG-A0-002"
+      ],
+      "status": "normative",
+      "summary": "Bare prefixed waw is insufficient as a general sequencing/action-boundary operator."
+    },
+    {
+      "construction_id": "A0.EXPLICIT_SEQUENCE_CANDIDATE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-SEQ-002"
+      ],
+      "status": "proposed",
+      "summary": "The surface form ואחרי כן is a sequencing candidate, not yet admitted syntax."
+    },
+    {
+      "construction_id": "A0.MARKDOWN_NOT_COMMENT",
+      "kind": "negative",
+      "spec_ids": [
+        "NG-A0-004"
+      ],
+      "status": "normative",
+      "summary": "Transparent Markdown punctuation cannot create comment semantics."
+    },
+    {
+      "construction_id": "A0.NO_CONSONANTAL_VERB_GUESS",
+      "kind": "constraint",
+      "spec_ids": [
+        "A-CLAUSE-002"
+      ],
+      "status": "normative",
+      "summary": "Consonantal resemblance alone never licenses a verbal parse."
+    }
+  ],
+  "language_edition": "core-0.1-draft-a0",
+  "productions": [],
+  "registry_version": "a0.1",
+  "source_snapshot": "A0_Surface_Language_Handoff"
+}

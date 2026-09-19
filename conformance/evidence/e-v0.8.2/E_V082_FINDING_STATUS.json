@@ -1,0 +1,46 @@
+{
+  "findings": [
+    {
+      "id": "E-FIND-021",
+      "severity": "MAJOR",
+      "status": "CLOSED",
+      "evidence": "v0.8.1 observation quotient regression smoke remains PASS on C M4.2."
+    },
+    {
+      "id": "E-FIND-022",
+      "severity": "MINOR",
+      "status": "CLOSED",
+      "evidence": "Name-slot ועתה vs two true top-level markers remain correctly distinguished."
+    },
+    {
+      "id": "E-FIND-023",
+      "severity": "BLOCKER",
+      "status": "CLOSED",
+      "evidence": "No finite default quota; depths through 25,000 normal in HAST/IR/backend; infinite no-fuel survives to external timeout; recursionlimit=80 irrelevant; explicit caller budget remains opt-in."
+    },
+    {
+      "id": "E-FIND-024",
+      "severity": "MAJOR",
+      "status": "CLOSED",
+      "evidence": "All eight malformed artifacts remain rejected pre-execution by semantic verifier."
+    },
+    {
+      "id": "E-FIND-025",
+      "severity": "MAJOR",
+      "status": "CLOSED",
+      "evidence": "Caller-role→callee-role, nested and recursive role context smokes remain PASS."
+    },
+    {
+      "id": "E-FIND-026",
+      "severity": "INFORMATIONAL",
+      "status": "WATCH",
+      "evidence": "128-action parser shape remains unique, 7607 state keys, ~11.2 MB; observed 17.5–17.8 s, no ambiguity/state explosion."
+    },
+    {
+      "id": "E-FIND-027",
+      "severity": "MINOR",
+      "status": "CLOSED",
+      "evidence": "Canonical source root has coherent Marak 0.4.2 metadata and no stale inner handoff/checksum ledgers; outer 257-entry checksum ledger verifies."
+    }
+  ]
+}

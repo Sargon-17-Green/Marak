@@ -1,0 +1,607 @@
+{
+  "surface": "המספר הנחשב בגרע את A מן B",
+  "core_domain": "Natural",
+  "b12_dependency": "failure semantics when A>B",
+  "cases": [
+    {
+      "A": 0,
+      "B": 0,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 0,
+      "B": 1,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 0,
+      "B": 2,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 0,
+      "B": 3,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 0,
+      "B": 4,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 0,
+      "B": 5,
+      "status": "VALUE",
+      "value": 5
+    },
+    {
+      "A": 0,
+      "B": 6,
+      "status": "VALUE",
+      "value": 6
+    },
+    {
+      "A": 0,
+      "B": 7,
+      "status": "VALUE",
+      "value": 7
+    },
+    {
+      "A": 0,
+      "B": 8,
+      "status": "VALUE",
+      "value": 8
+    },
+    {
+      "A": 0,
+      "B": 9,
+      "status": "VALUE",
+      "value": 9
+    },
+    {
+      "A": 1,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 1,
+      "B": 1,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 1,
+      "B": 2,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 1,
+      "B": 3,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 1,
+      "B": 4,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 1,
+      "B": 5,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 1,
+      "B": 6,
+      "status": "VALUE",
+      "value": 5
+    },
+    {
+      "A": 1,
+      "B": 7,
+      "status": "VALUE",
+      "value": 6
+    },
+    {
+      "A": 1,
+      "B": 8,
+      "status": "VALUE",
+      "value": 7
+    },
+    {
+      "A": 1,
+      "B": 9,
+      "status": "VALUE",
+      "value": 8
+    },
+    {
+      "A": 2,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 2,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 2,
+      "B": 2,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 2,
+      "B": 3,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 2,
+      "B": 4,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 2,
+      "B": 5,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 2,
+      "B": 6,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 2,
+      "B": 7,
+      "status": "VALUE",
+      "value": 5
+    },
+    {
+      "A": 2,
+      "B": 8,
+      "status": "VALUE",
+      "value": 6
+    },
+    {
+      "A": 2,
+      "B": 9,
+      "status": "VALUE",
+      "value": 7
+    },
+    {
+      "A": 3,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 3,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 3,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 3,
+      "B": 3,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 3,
+      "B": 4,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 3,
+      "B": 5,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 3,
+      "B": 6,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 3,
+      "B": 7,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 3,
+      "B": 8,
+      "status": "VALUE",
+      "value": 5
+    },
+    {
+      "A": 3,
+      "B": 9,
+      "status": "VALUE",
+      "value": 6
+    },
+    {
+      "A": 4,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 4,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 4,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 4,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 4,
+      "B": 4,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 4,
+      "B": 5,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 4,
+      "B": 6,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 4,
+      "B": 7,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 4,
+      "B": 8,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 4,
+      "B": 9,
+      "status": "VALUE",
+      "value": 5
+    },
+    {
+      "A": 5,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 5,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 5,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 5,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 5,
+      "B": 4,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 5,
+      "B": 5,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 5,
+      "B": 6,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 5,
+      "B": 7,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 5,
+      "B": 8,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 5,
+      "B": 9,
+      "status": "VALUE",
+      "value": 4
+    },
+    {
+      "A": 6,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 4,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 5,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 6,
+      "B": 6,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 6,
+      "B": 7,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 6,
+      "B": 8,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 6,
+      "B": 9,
+      "status": "VALUE",
+      "value": 3
+    },
+    {
+      "A": 7,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 4,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 5,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 6,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 7,
+      "B": 7,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 7,
+      "B": 8,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 7,
+      "B": 9,
+      "status": "VALUE",
+      "value": 2
+    },
+    {
+      "A": 8,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 4,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 5,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 6,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 7,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 8,
+      "B": 8,
+      "status": "VALUE",
+      "value": 0
+    },
+    {
+      "A": 8,
+      "B": 9,
+      "status": "VALUE",
+      "value": 1
+    },
+    {
+      "A": 9,
+      "B": 0,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 1,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 2,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 3,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 4,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 5,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 6,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 7,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 8,
+      "status": "DOMAIN_FAILURE",
+      "value": null
+    },
+    {
+      "A": 9,
+      "B": 9,
+      "status": "VALUE",
+      "value": 0
+    }
+  ]
+}

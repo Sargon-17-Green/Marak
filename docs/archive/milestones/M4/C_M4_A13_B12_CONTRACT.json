@@ -1,0 +1,283 @@
+{
+  "artifact_version": "core-artifact-0.1-candidate-1",
+  "backend_version": "portable-ir-vm-0.1-candidate-1",
+  "compiler_version": "0.4.0-alpha.2",
+  "hast_version": "core-hast-0.1-candidate-1",
+  "ir_reference_version": "core-ir-reference-0.1-candidate-1",
+  "ir_version": "core-ir-0.1-candidate-1",
+  "language_edition": "core-0.1-integration-candidate-a13-b12",
+  "mappings": [
+    {
+      "construction": "normative whitespace",
+      "diagnostics": [],
+      "hast_node": null,
+      "ir_op": null,
+      "runtime_behavior": "none",
+      "semantic_mapping": "closed A13 25-code-point separator set; all other non-27-letter characters transparent",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_whitespace_program.py"
+      ],
+      "validator": "normalizer table"
+    },
+    {
+      "construction": "CoreProgram",
+      "diagnostics": [
+        "PROG0001",
+        "PROG0002",
+        "PROG0003",
+        "PROG0004"
+      ],
+      "hast_node": "HastCoreProgram",
+      "ir_op": "IRProgram",
+      "runtime_behavior": "prepare then execute principal",
+      "semantic_mapping": "Preparation followed by exactly one principal transition and explicit executable sequence",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_whitespace_program.py",
+        "test_m4_cli_end_to_end.py"
+      ],
+      "validator": "whole-program parser + resolver"
+    },
+    {
+      "construction": "initialized place introduction",
+      "diagnostics": [
+        "REF0101",
+        "REF0102",
+        "REF0106",
+        "SEM0201"
+      ],
+      "hast_node": "HastPlaceIntroduction",
+      "ir_op": "IRInitialFact",
+      "runtime_behavior": "preparation establishment",
+      "semantic_mapping": "introduce PlaceId and establish initial current fact; not executable replacement",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py",
+        "test_m4_resolution_traps.py"
+      ],
+      "validator": "introduced-before-use; duplicate; self-initializer"
+    },
+    {
+      "construction": "current place query",
+      "diagnostics": [
+        "REF0101"
+      ],
+      "hast_node": "HastCurrentFact",
+      "ir_op": "IRReadCurrentFact",
+      "runtime_behavior": "Natural read",
+      "semantic_mapping": "read current fact of resolved PlaceId",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py"
+      ],
+      "validator": "typed PlaceId resolution"
+    },
+    {
+      "construction": "place replacement",
+      "diagnostics": [
+        "REF0001",
+        "REF0101"
+      ],
+      "hast_node": "HastReplaceCurrentFact",
+      "ir_op": "IRReplaceCurrentFact",
+      "runtime_behavior": "effect boundary; prior effects retained on failure",
+      "semantic_mapping": "evaluate RHS before commit; replace current fact only on success",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py"
+      ],
+      "validator": "destination co-reference + typed PlaceId"
+    },
+    {
+      "construction": "exact Natural/addition/subtraction",
+      "diagnostics": [
+        "SEM0201"
+      ],
+      "hast_node": "HastExactNatural/HastAddNatural/HastSubtractNatural",
+      "ir_op": "IRNatural/IRAddNatural/IRCheckedSubtractNatural",
+      "runtime_behavior": "dynamic underflow => ARITHMETIC_DOMAIN_ERROR",
+      "semantic_mapping": "exact unbounded Natural; subtraction B-A only when A<=B",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py",
+        "test_m4_ir_artifact_backend.py"
+      ],
+      "validator": "constant underflow proof where possible"
+    },
+    {
+      "construction": "numeric equality proposition",
+      "diagnostics": [],
+      "hast_node": "HastEqualProposition",
+      "ir_op": "IREqualProposition",
+      "runtime_behavior": "internal branch judgment only",
+      "semantic_mapping": "proposition satisfaction judgment; not a language value",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py",
+        "test_semantic_core_truth.py"
+      ],
+      "validator": "semantic-kind validation"
+    },
+    {
+      "construction": "paired conditional",
+      "diagnostics": [],
+      "hast_node": "HastConditional",
+      "ir_op": "IRConditional",
+      "runtime_behavior": "unselected branch has no effects/errors",
+      "semantic_mapping": "execute exactly one consequence selected by proposition judgment",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py"
+      ],
+      "validator": "branch/action semantic kinds"
+    },
+    {
+      "construction": "explicit sequence",
+      "diagnostics": [
+        "PROG0004"
+      ],
+      "hast_node": "HastThen",
+      "ir_op": "IRThen",
+      "runtime_behavior": "left-to-right; stop on error/divergence",
+      "semantic_mapping": "source-defined relation ואחרי כן; source adjacency is not execution order",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_whitespace_program.py",
+        "test_m4_ir_artifact_backend.py"
+      ],
+      "validator": "non-empty explicit sequence"
+    },
+    {
+      "construction": "fixed recurrence",
+      "diagnostics": [],
+      "hast_node": "HastFixedRecurrence",
+      "ir_op": "IRFixedRecurrence",
+      "runtime_behavior": "repeat admitted action exactly count times",
+      "semantic_mapping": "exact admitted finite repetition count",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_ir_artifact_backend.py"
+      ],
+      "validator": "positive admitted count"
+    },
+    {
+      "construction": "post-action recurrence",
+      "diagnostics": [],
+      "hast_node": "HastPostActionRecurrence",
+      "ir_op": "IRPostActionRecurrence",
+      "runtime_behavior": "first action always occurs; fuel harness only",
+      "semantic_mapping": "perform action first, then checkpoint proposition; repeat only if not satisfied",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_semantics.py",
+        "test_semantic_core_recurrence.py"
+      ],
+      "validator": "action/proposition semantic kinds"
+    },
+    {
+      "construction": "act introduction/body",
+      "diagnostics": [
+        "REF0103",
+        "REF0105",
+        "REF0109",
+        "REF0021"
+      ],
+      "hast_node": "HastActIntroduction/HastActBody",
+      "ir_op": "IRActDefinition + IRSymbol(kind=act)",
+      "runtime_behavior": "occurrence completes when body exhausts; no HALT/return",
+      "semantic_mapping": "typed ActId; body ownership by exact opener/closer co-reference; completion by exhaustion",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_resolution_traps.py",
+        "test_m4_occurrence_results.py"
+      ],
+      "validator": "introduced-before-use; duplicate body; body owner"
+    },
+    {
+      "construction": "role declaration/current role number",
+      "diagnostics": [
+        "REF0104",
+        "REF0107",
+        "REF0108",
+        "REF0110"
+      ],
+      "hast_node": "HastRoleDeclaration/HastCurrentRoleNumber",
+      "ir_op": "IRSymbol(kind=role,owner=act)/IRReadRoleNumber",
+      "runtime_behavior": "occurrence-specific immutable association",
+      "semantic_mapping": "RoleId owned by ActId; value exists only in current occurrence",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_occurrence_results.py",
+        "test_m4_resolution_traps.py"
+      ],
+      "validator": "owner introduced; no duplicate role; role-before-body; occurrence context"
+    },
+    {
+      "construction": "perform act with named role associations",
+      "diagnostics": [
+        "REF0111"
+      ],
+      "hast_node": "HastPerformAct/HastRoleAssociation",
+      "ir_op": "IRPerformAct/IRRoleAssociation",
+      "runtime_behavior": "fresh occurrence per performance; recursive/nested values isolated",
+      "semantic_mapping": "perform resolved ActId with complete RoleId->Natural correspondence; not positional",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_occurrence_results.py",
+        "test_m4_ir_artifact_backend.py"
+      ],
+      "validator": "exact role profile; duplicate/missing/wrong owner rejection"
+    },
+    {
+      "construction": "produce act result",
+      "diagnostics": [
+        "REF0114",
+        "SEM0012"
+      ],
+      "hast_node": "HastProduceResult",
+      "ir_op": "IRProduceResult",
+      "runtime_behavior": "records product and continues later body actions",
+      "semantic_mapping": "zero-or-one numeric product attached to current occurrence; does not terminate body",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_occurrence_results.py"
+      ],
+      "validator": "inside performance + at-most-one path"
+    },
+    {
+      "construction": "immediate recent result",
+      "diagnostics": [
+        "REF0112",
+        "REF0113"
+      ],
+      "hast_node": "HastRecentResult",
+      "ir_op": "IRRecentResult",
+      "runtime_behavior": "no-output on structurally valid occurrence => RESULT_PROVENANCE_ERROR",
+      "semantic_mapping": "result provenance tied to structurally immediate just-completed performance",
+      "surface_status": "NORMATIVE",
+      "tests": [
+        "test_m4_occurrence_results.py"
+      ],
+      "validator": "stale/wrong-act rejected structurally"
+    },
+    {
+      "construction": "normal completion",
+      "diagnostics": [
+        "PARSE0002"
+      ],
+      "hast_node": "no HALT node",
+      "ir_op": "no HALT opcode; structured exhaustion",
+      "runtime_behavior": "Normal outcome after principal exhaustion",
+      "semantic_mapping": "act/program completion by exhaustion; no language HALT/main-return/exit value",
+      "surface_status": "NORMATIVE negative/closure rule",
+      "tests": [
+        "test_m4_resolution_traps.py",
+        "test_m4_cli_end_to_end.py"
+      ],
+      "validator": "HALT surface rejected by grammar"
+    }
+  ],
+  "registry_version": "a13-b12.1",
+  "schema": "C_M4_A13_B12_CONTRACT/v1"
+}

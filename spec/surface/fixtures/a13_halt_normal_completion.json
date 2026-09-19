@@ -1,0 +1,19 @@
+{
+  "decision": "A-CORE-009",
+  "statement": "Proof-model HALT maps to ordinary completion and needs no HALT surface primitive.",
+  "surface_file": "examples/a13_tiny_machine.he.txt",
+  "assertions": [
+    "source contains no חדל",
+    "source contains exactly one top-level ועתה",
+    "HALT label body uses only frozen same-value sink replacement",
+    "body then exhausts normally",
+    "sink excluded from RM-state projection"
+  ],
+  "reference_result": {
+    "halted": true,
+    "steps": 5,
+    "registers": {
+      "R": 0
+    }
+  }
+}

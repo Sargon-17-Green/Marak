@@ -1,0 +1,359 @@
+{
+  "declarations": [
+    {
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-SEQ-003",
+        "A-SEQ-004"
+      ],
+      "status": "normative",
+      "summary": "Overt temporal sequencing uses ואחרי כן; source order alone is not sequencing."
+    },
+    {
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "kind": "positive",
+      "spec_ids": [
+        "A-REP-001",
+        "A-REP-002",
+        "A-REP-003"
+      ],
+      "status": "normative",
+      "summary": "Exact counted repetition 3..9 consumes one admitted atomic action."
+    },
+    {
+      "construction_id": "A8.NO_BARE_NAME_REFERENCE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-NAME-008"
+      ],
+      "status": "normative",
+      "summary": "A bare coined word does not become a program reference; namehood is licensed by an explicit name slot."
+    },
+    {
+      "construction_id": "A8.NO_IMPLICIT_SOURCE_ORDER",
+      "kind": "negative",
+      "spec_ids": [
+        "A-SEQ-001",
+        "A-AUDIT-001"
+      ],
+      "status": "normative",
+      "summary": "Two adjacent clauses do not acquire execution order from layout/source order alone."
+    },
+    {
+      "construction_id": "A8.NO_RESERVED_WORD_FILTER_BY_CONVENTION",
+      "kind": "constraint",
+      "spec_ids": [
+        "A-NAME-009",
+        "A-AUDIT-005"
+      ],
+      "status": "normative",
+      "summary": "A8 reopens keyword-style reserved-name exclusion; C does not reject a name merely because its consonants equal a grammar word."
+    },
+    {
+      "construction_id": "A8.REUSABLE_ACTION_PERFORMANCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A-CALL-004",
+        "A-AUDIT-001",
+        "A-AUDIT-005"
+      ],
+      "status": "normative",
+      "summary": "A8 retains עשה/לעשות את המצוה אשר שמה NAME as a Hebrew-derived reusable-action surface family; B6 reopens its call/input/result ontology."
+    },
+    {
+      "construction_id": "A8.UNTIL_NOT_WHILE",
+      "kind": "negative",
+      "spec_ids": [
+        "A-REP-006",
+        "A-REP-007",
+        "A-AUDIT-003"
+      ],
+      "status": "normative",
+      "summary": "עד אשר is not silently assigned a conventional pre/post-test loop semantics."
+    }
+  ],
+  "language_edition": "core-0.1-draft-a8-b6-review",
+  "productions": [
+    {
+      "admitted": true,
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "lhs": "Sequence",
+      "production_id": "A2.SEQUENCE.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "Sequence"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A2.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A2.EXPLICIT_SEQUENCE",
+      "lhs": "Sequence",
+      "production_id": "A2.SEQUENCE.TWO",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        },
+        {
+          "kind": "word",
+          "text": "ואחרי"
+        },
+        {
+          "kind": "word",
+          "text": "כן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A2.EXPLICIT_SEQUENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "CountedAtomicAction",
+      "production_id": "A3.REPEAT.ATOMIC",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RepeatCount"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A3.COUNTED_ATOMIC_REPEAT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.3",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שלש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.4",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ארבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.5",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "חמש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.6",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שש"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.7",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שבע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.8",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שמנה"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A3.COUNTED_ATOMIC_REPEAT",
+      "lhs": "RepeatCount",
+      "production_id": "A3.REPEAT.COUNT.9",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "תשע"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A3.REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A8.REUSABLE_ACTION_PERFORMANCE",
+      "lhs": "AtomicAction",
+      "production_id": "A8.ACTION.CALL.IMPERATIVE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "עשה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המצוה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "ActionName"
+        }
+      ],
+      "root": true,
+      "semantic_id": "A8.ACTION_PERFORMANCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "A8.REUSABLE_ACTION_PERFORMANCE",
+      "lhs": "InfinitiveAction",
+      "production_id": "A8.ACTION.CALL.INFINITIVE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "לעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המצוה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "ActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "A8.ACTION_PERFORMANCE"
+    }
+  ],
+  "registry_version": "a8.1-c-safe-subset",
+  "semantic_gates": [
+    {
+      "construction_id": "A8.REUSABLE_ACTION_PERFORMANCE",
+      "dependencies": [
+        "B-AI-Q04",
+        "B-AI-Q05",
+        "B-AI-Q06",
+        "B-AI-Q07",
+        "B-AI-Q08"
+      ],
+      "reason": "B6 reopened reusable-computation, input association/evaluation, state visibility, and result/completion semantics. Surface recognition must not reinstate B4 call semantics.",
+      "status": "blocked_on_spec"
+    }
+  ],
+  "source_snapshot": "A8_Anti_Imitation_Audit_Handoff"
+}

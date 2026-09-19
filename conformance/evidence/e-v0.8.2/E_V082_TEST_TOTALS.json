@@ -1,0 +1,16 @@
+{
+  "c_m42_pytest": 256,
+  "c_m42_subtests": 126,
+  "a13_checks": 289,
+  "e_v081_unchanged_methods": 31,
+  "e_v081_ordinary_pass": 29,
+  "e_v081_expectedfail_unexpected_success": 2,
+  "reused_regression_smoke_tests": 23,
+  "new_e_v082_test_methods": 12,
+  "rm_generated_cases": 23,
+  "b12_rm_countdown_cases": 128,
+  "b12_rm_underflow_guard_cases": 65,
+  "parser_performance_cases": 2,
+  "max_finite_recursion_depth_independently_tested": 25000,
+  "sequential_performances_tested": 20001
+}

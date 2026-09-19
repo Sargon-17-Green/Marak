@@ -1,0 +1,56 @@
+{
+  "milestone": "B12_A13_SEMANTIC_INTEGRATION",
+  "status": "READY_FOR_MASTER_REVIEW",
+  "declares_M2": false,
+  "core_numeric_domain": "Natural",
+  "negative_core_values": false,
+  "subtraction": {
+    "surface_meaning": "B-A",
+    "precondition": "A<=B",
+    "static_failure": "InvalidProgram(ARITHMETIC_DOMAIN_ERROR)",
+    "runtime_failure": "RuntimeError(ARITHMETIC_DOMAIN_ERROR)",
+    "wrap": false,
+    "clip_zero": false,
+    "signed_promotion": false
+  },
+  "program": {
+    "shape": "Program(Preparation, Principal)",
+    "main_function": false,
+    "preparation_is_executable_sequence": false,
+    "principal_count": 1,
+    "normal_completion": "ordinary exhaustion"
+  },
+  "visibility": {
+    "introduced_before_use": true,
+    "hoisting": false,
+    "runtime_name_search": false,
+    "identity_key": "kind + source-resolved identity (+ owner for role)"
+  },
+  "roles": {
+    "identity_persists": true,
+    "associated_number_lifetime": "performance occurrence",
+    "mutable_parameter_cell": false,
+    "positional": false
+  },
+  "trace": {
+    "classification": "RUNTIME_INTERNAL",
+    "observable": false
+  },
+  "rm": {
+    "halt_language_primitive": false,
+    "halt_mapping": "proof-only sink action then normal completion",
+    "sink_in_projection": false,
+    "decjz_underflow_possible_for_correct_translation": false
+  },
+  "open_after_m2": [
+    "strings",
+    "integers",
+    "exceptions/recovery",
+    "multiple outputs",
+    "local mutable state",
+    "collections",
+    "modules",
+    "concurrency",
+    "floating point"
+  ]
+}

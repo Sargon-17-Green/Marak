@@ -1,0 +1,45 @@
+{
+  "snapshot": "A-Core v0.1 A13 Integration-Frozen Candidate",
+  "program": {
+    "preparatory": [
+      "PlaceIntroduction",
+      "ActIntroduction",
+      "RoleDeclaration",
+      "ActBodyDefinition"
+    ],
+    "entry": "ועתה",
+    "sequence": "ואחרי כן"
+  },
+  "new_decisions": [
+    "A-CORE-004",
+    "A-CORE-005",
+    "A-CORE-006",
+    "A-CORE-007",
+    "A-CORE-008",
+    "A-CORE-009",
+    "A-NAME-004",
+    "A-NAME-005",
+    "A-ACT-002",
+    "A-ACT-003",
+    "A-ACT-004",
+    "A-ACT-005",
+    "A-ROLE-004",
+    "A-BODY-003",
+    "A-CALC-003"
+  ],
+  "domain": {
+    "numbers": "Natural",
+    "subtraction": "B-A iff A<=B",
+    "underflow": "B12-defined domain failure"
+  },
+  "not_core": [
+    "HALT primitive",
+    "Boolean values",
+    "return",
+    "positional arguments",
+    "implicit dereference",
+    "negative integer syntax",
+    "strings",
+    "comments"
+  ]
+}
