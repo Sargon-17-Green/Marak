@@ -88,7 +88,7 @@
       "status": "RECLASSIFIED",
       "normative_basis": "A13 admits only individually audited counted forms plus narrow unbounded recurrence; no generic runtime-count repetition.",
       "source_repair": "Factor repeated composite work into named acts/recurrence where practical.",
-      "language_request": "",
+      "language_request": "D-LANGUAGE-REQUEST-006",
       "c_bug": "",
       "note": ""
     },
@@ -240,8 +240,8 @@
       "d1_class": "—",
       "d2_class": "SOURCE_NOT_LANGUAGE",
       "status": "NEW_D2",
-      "normative_basis": "Frozen Core proposition surface includes equality/zero but not the Megillah's general רב/ימעט ordering clauses.",
-      "source_repair": "A Core simulation is possible in principle but would be non-local and obscure the source; request numeric ordering propositions.",
+      "normative_basis": "Frozen Core lacks general numeric ordering propositions used by רב/ימעט clauses; post-action recurrence is separate and already frozen.",
+      "source_repair": "Use admitted equality/recursion where local; numeric ordering itself remains a post-M2 request.",
       "language_request": "D-LANGUAGE-REQUEST-004",
       "c_bug": "",
       "note": ""
@@ -256,6 +256,17 @@
       "language_request": "",
       "c_bug": "",
       "note": ""
+    },
+    {
+      "id": "D2-ISSUE-0024",
+      "d1_class": "—",
+      "d2_class": "SOURCE_NOT_LANGUAGE",
+      "status": "NEW_D2",
+      "normative_basis": "A13 complete programs are closed preparation+principal executions; Core v0.1 has no source-level external program-input binding for the two days the Megillah says to take.",
+      "source_repair": "A fixed-query candidate can initialize input places explicitly, but a reusable Megillah needs a defined host/program input boundary.",
+      "language_request": "D-LANGUAGE-REQUEST-007",
+      "c_bug": "",
+      "note": "This is not stdin by assumption; the need is external association of two input values with explicit source roles."
     }
   ]
 }

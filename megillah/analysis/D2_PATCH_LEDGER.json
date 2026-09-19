@@ -43,10 +43,11 @@
       "semantic_after": "introduce named reusable act identity",
       "algorithm_change": "DISAMBIGUATION_ONLY",
       "confidence": "HIGH",
-      "approval_state": "MECHANICALLY_CONFIRMED",
+      "approval_state": "SEMANTICALLY_CONFIRMED",
       "evidence": [
         "A-ACT-001 exact frozen form",
-        "current A13 fixtures use same introduction"
+        "current A13 fixtures use same introduction",
+        "C M4.2 probe: old NamedActIdentity parse alternatives=0; replacement alternatives=1"
       ],
       "caveat": "does not by itself repair the following act body/roles"
     },
@@ -65,10 +66,11 @@
       "semantic_after": "canonical post-action recurrence marker",
       "algorithm_change": "DISAMBIGUATION_ONLY",
       "confidence": "HIGH",
-      "approval_state": "PROPOSED",
+      "approval_state": "SEMANTICALLY_CONFIRMED",
       "evidence": [
         "A-REP-001/002",
-        "tests/test_a10_registry.py rejects וכן עשה"
+        "tests/test_a10_registry.py rejects וכן עשה",
+        "C M4.2 full-program probe: canonical recurrence valid and terminates with place value 0; old וכן עשה form gives PARSE0002"
       ],
       "caveat": "surrounding repeated action is not yet a complete current-Core action"
     },
@@ -89,10 +91,11 @@
       "semantic_before": "natural but unadmitted sequence wording",
       "semantic_after": "admitted explicit temporal sequence",
       "algorithm_change": "SEMANTIC_EQUIVALENT",
-      "confidence": "MEDIUM",
-      "approval_state": "PROPOSED",
+      "confidence": "HIGH",
+      "approval_state": "SEMANTICALLY_CONFIRMED",
       "evidence": [
-        "A-SEQ-001 exact frozen form"
+        "A-SEQ-001 exact frozen form",
+        "C M4.2 full-program probe: ואחרי כן valid and executes 1→3; ואחר כן gives PROG0004/PARSE0002"
       ],
       "caveat": "each surrounding unit still needs independent Core legality"
     }

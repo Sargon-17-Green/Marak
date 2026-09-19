@@ -4,41 +4,45 @@ Status: **D2 REBASE COMPLETE — READY FOR MASTER REVIEW**
 
 - Canonical repository baseline: Sargon-17-Green/Marak main at 8a3a25e2fb5e438b01fef9694570f20d16a34ff3
 - Work branch: workstream-d/m2-rebase
-- Original: megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md
-- Original SHA-256: 7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b (verified)
 - Compiler: 0.4.2-alpha.1
 - Language edition: core-0.1-integration-candidate-a13-b12
+- Original SHA-256: 7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b (verified)
 
 ## Baseline verification
-- editable install: PASS
 - A13 selftest: PASS, 289 checks
-- B12 semantic run_all: PASS (33 B12 tests plus B11 regressions and RM witness)
-- Windows pytest: 254 PASS / 2 FAIL / 126 subtests PASS
-- the two pytest failures are D-C-FIND-001 tooling portability; E v0.8.2 records 256/256 + 126 PASS in its verified environment
-- E v0.8.2: 13 READY / 0 BLOCKED / 0 NEEDS_MASTER_CLARIFICATION
+- B12 semantic run_all: PASS
+- GitHub PR CI: PASS
+- Windows local pytest portability note remains D-C-FIND-001; no semantic C bug was found.
 
 ## Reclassification result
-- Active D2 classes: {'DOCUMENTATION_OR_PROSE_INSIDE_SOURCE': 2, 'SOURCE_NOT_LANGUAGE': 16, 'SOURCE_PROGRAMMING_BUG': 1, 'SOURCE_AMBIGUITY': 3}
-- Finding status counts: {'RECLASSIFIED': 11, 'STILL_VALID': 5, 'CLOSED_BY_A13': 1, 'NEW_D2': 6}
-- Genuine SPEC_HOLE count: 0.
-- A13/B12 materially shrink D1's former SPEC_HOLE set; most become concrete SOURCE_NOT_LANGUAGE or source ambiguity findings.
+- Total finding families: 24
+- Active findings: 23
+- Active classes: {'DOCUMENTATION_OR_PROSE_INSIDE_SOURCE': 2, 'SOURCE_NOT_LANGUAGE': 17, 'SOURCE_PROGRAMMING_BUG': 1, 'SOURCE_AMBIGUITY': 3}
+- Status counts: {'RECLASSIFIED': 11, 'STILL_VALID': 5, 'CLOSED_BY_A13': 1, 'NEW_D2': 7}
+- Genuine current SPEC_HOLE count: 0.
 
-## Current source frontier
-- Normalization succeeds.
-- Original parse fails at normalized token 0 / source line 1 with PROG0001 + PARSE0002.
-- A scratch probe removing the documentary prefix and fixing only the first act introduction reaches token 4, then fails at the historical body prose beginning וזה דבר החיבור.
-- Resolve, validate and execution are not reached for the Megillah.
+## Local patch evidence
+- Four local patches remain unapplied to the historical original.
+- D-PATCH-0002, 0003, and 0004 are now SEMANTICALLY_CONFIRMED against C M4.2 minimal/full-program probes.
+- D-PATCH-0001 remains MASTER_APPROVAL_REQUIRED because it changes the numeric algorithmic bound from 5781 to 5778.
 
-## Source inventory
-- Current A13 normalizer: 9,227 normalized tokens; 984 unique words; 83 Markdown heading lines.
-- Normalized SHA-256: e4f51e69498f166e92ac8b738ac9e9166dda891ce2a2e22859ffc53b07287765.
-- The original has one lexical ועתה at physical line 169; it is not a recognized top-level transition in the current parse.
+## Structural conclusion
+- A truthful whole-file candidate is not yet warranted.
+- The first reusable algorithmic description, דבר החיבור, can be expressed as a legal A13 named act with two named roles and one result; a proof program returns 11 for 5+6.
+- Whole-program repair is nevertheless blocked by current post-M2 capability questions recorded in D2_LANGUAGE_REQUESTS.md/json.
+- The single lexical ועתה at historical line 169 is not the A13 program entry.
 
-## Patch posture
-- Proposed local patch IDs: 4; applied/accepted patches: 0.
-- D-PATCH-0001 remains Master-gated because it changes the erroneous algorithmic bound despite strong 5778 evidence.
-- No corrected candidate source is created in D2.
+## Current compiler frontier
+- Original normalization succeeds.
+- Parse/program composition fails at normalized token 0/source line 1 with PROG0001 + PARSE0002.
+- A controlled scratch probe after documentary-prefix removal and first act-introduction repair reaches normalized token 4 and then fails at the historical body prose.
+- Resolve/validate/execute are not reached for the whole Megillah.
 
-## Post-M2 language requests
-- Language requests recorded: 5; D implements none.
-- Requests cover runtime symbolic labels, signed years, ordered finite collections, numeric ordering/pre-gated recurrence, and productive >9999 numeral spelling.
+## Inventory
+- 9,227 normalized tokens; 984 unique normalized words; 83 Markdown heading lines.
+- D2_SECTION_INVENTORY.json now records all 83 heading-delimited spans objectively; headings are not treated as semantic boundaries.
+
+## Master-routing requests
+- Language/interface requests: 7.
+- No language feature is implemented by D.
+- Separate while/pre-check syntax, multiplication primitives, and positional multi-result tuples are deliberately not requested at this stage.

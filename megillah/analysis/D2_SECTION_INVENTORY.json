@@ -1,0 +1,754 @@
+{
+  "schema": "marak-workstream-d2-section-inventory-v1",
+  "source_sha256": "7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b",
+  "section_count": 83,
+  "sections": [
+    {
+      "id": "D2-SECTION-001",
+      "level": 1,
+      "title": "מגילת העיתים — נוסח יהודאי",
+      "start_line": 1,
+      "end_line": 2,
+      "normalized_tokens": 4,
+      "normalized_chars": 26
+    },
+    {
+      "id": "D2-SECTION-002",
+      "level": 1,
+      "title": "לוח סוד הרוטב ושמות הימים",
+      "start_line": 3,
+      "end_line": 4,
+      "normalized_tokens": 5,
+      "normalized_chars": 27
+    },
+    {
+      "id": "D2-SECTION-003",
+      "level": 2,
+      "title": "דברי בעל הלוח אל הסופר הכותב ואל חכם הימים",
+      "start_line": 5,
+      "end_line": 20,
+      "normalized_tokens": 249,
+      "normalized_chars": 1160
+    },
+    {
+      "id": "D2-SECTION-004",
+      "level": 2,
+      "title": "דבר החיבור",
+      "start_line": 21,
+      "end_line": 30,
+      "normalized_tokens": 29,
+      "normalized_chars": 136
+    },
+    {
+      "id": "D2-SECTION-005",
+      "level": 1,
+      "title": "לוח אחד: מספר הימים",
+      "start_line": 31,
+      "end_line": 32,
+      "normalized_tokens": 4,
+      "normalized_chars": 20
+    },
+    {
+      "id": "D2-SECTION-006",
+      "level": 2,
+      "title": "יום היסוד",
+      "start_line": 33,
+      "end_line": 44,
+      "normalized_tokens": 81,
+      "normalized_chars": 412
+    },
+    {
+      "id": "D2-SECTION-007",
+      "level": 2,
+      "title": "יום היסוד והימים לפניו ואחריו",
+      "start_line": 45,
+      "end_line": 76,
+      "normalized_tokens": 134,
+      "normalized_chars": 649
+    },
+    {
+      "id": "D2-SECTION-008",
+      "level": 1,
+      "title": "לוח שני: שמות המספרים אשר למלאכה",
+      "start_line": 77,
+      "end_line": 90,
+      "normalized_tokens": 45,
+      "normalized_chars": 224
+    },
+    {
+      "id": "D2-SECTION-009",
+      "level": 2,
+      "title": "מספר המרחק",
+      "start_line": 91,
+      "end_line": 106,
+      "normalized_tokens": 72,
+      "normalized_chars": 331
+    },
+    {
+      "id": "D2-SECTION-010",
+      "level": 2,
+      "title": "מספר הדרך",
+      "start_line": 107,
+      "end_line": 120,
+      "normalized_tokens": 84,
+      "normalized_chars": 392
+    },
+    {
+      "id": "D2-SECTION-011",
+      "level": 1,
+      "title": "לוח שלישי: לקחת מספר פעמים",
+      "start_line": 121,
+      "end_line": 144,
+      "normalized_tokens": 123,
+      "normalized_chars": 599
+    },
+    {
+      "id": "D2-SECTION-012",
+      "level": 1,
+      "title": "לוח ארבע: דבר הרבוע",
+      "start_line": 145,
+      "end_line": 166,
+      "normalized_tokens": 86,
+      "normalized_chars": 416
+    },
+    {
+      "id": "D2-SECTION-013",
+      "level": 1,
+      "title": "לוח חמש: המספר הגדול",
+      "start_line": 167,
+      "end_line": 196,
+      "normalized_tokens": 148,
+      "normalized_chars": 700
+    },
+    {
+      "id": "D2-SECTION-014",
+      "level": 1,
+      "title": "לוח שש: הנותר ודבר שמור",
+      "start_line": 197,
+      "end_line": 208,
+      "normalized_tokens": 54,
+      "normalized_chars": 236
+    },
+    {
+      "id": "D2-SECTION-015",
+      "level": 2,
+      "title": "הנותר אשר איננו שמור",
+      "start_line": 209,
+      "end_line": 228,
+      "normalized_tokens": 121,
+      "normalized_chars": 554
+    },
+    {
+      "id": "D2-SECTION-016",
+      "level": 2,
+      "title": "לקחת מספר מאחיו",
+      "start_line": 229,
+      "end_line": 242,
+      "normalized_tokens": 97,
+      "normalized_chars": 438
+    },
+    {
+      "id": "D2-SECTION-017",
+      "level": 2,
+      "title": "אם רב המספר מאד",
+      "start_line": 243,
+      "end_line": 268,
+      "normalized_tokens": 115,
+      "normalized_chars": 518
+    },
+    {
+      "id": "D2-SECTION-018",
+      "level": 1,
+      "title": "לוח שבע: חמש האבנים",
+      "start_line": 269,
+      "end_line": 322,
+      "normalized_tokens": 290,
+      "normalized_chars": 1436
+    },
+    {
+      "id": "D2-SECTION-019",
+      "level": 1,
+      "title": "לוח שמונה: שבע הטיפות הנסתרות",
+      "start_line": 323,
+      "end_line": 342,
+      "normalized_tokens": 136,
+      "normalized_chars": 728
+    },
+    {
+      "id": "D2-SECTION-020",
+      "level": 2,
+      "title": "הטיפה הנסתרת האחת",
+      "start_line": 343,
+      "end_line": 352,
+      "normalized_tokens": 23,
+      "normalized_chars": 121
+    },
+    {
+      "id": "D2-SECTION-021",
+      "level": 2,
+      "title": "הטיפה הנסתרת השנית",
+      "start_line": 353,
+      "end_line": 362,
+      "normalized_tokens": 24,
+      "normalized_chars": 126
+    },
+    {
+      "id": "D2-SECTION-022",
+      "level": 2,
+      "title": "הטיפה הנסתרת השלישית",
+      "start_line": 363,
+      "end_line": 372,
+      "normalized_tokens": 25,
+      "normalized_chars": 132
+    },
+    {
+      "id": "D2-SECTION-023",
+      "level": 2,
+      "title": "הטיפה הנסתרת הרביעית",
+      "start_line": 373,
+      "end_line": 382,
+      "normalized_tokens": 25,
+      "normalized_chars": 136
+    },
+    {
+      "id": "D2-SECTION-024",
+      "level": 2,
+      "title": "הטיפה הנסתרת החמישית",
+      "start_line": 383,
+      "end_line": 392,
+      "normalized_tokens": 27,
+      "normalized_chars": 147
+    },
+    {
+      "id": "D2-SECTION-025",
+      "level": 2,
+      "title": "הטיפה הנסתרת הששית",
+      "start_line": 393,
+      "end_line": 402,
+      "normalized_tokens": 27,
+      "normalized_chars": 145
+    },
+    {
+      "id": "D2-SECTION-026",
+      "level": 2,
+      "title": "הטיפה הנסתרת השביעית",
+      "start_line": 403,
+      "end_line": 420,
+      "normalized_tokens": 70,
+      "normalized_chars": 361
+    },
+    {
+      "id": "D2-SECTION-027",
+      "level": 2,
+      "title": "לטחון את המספר",
+      "start_line": 421,
+      "end_line": 460,
+      "normalized_tokens": 144,
+      "normalized_chars": 696
+    },
+    {
+      "id": "D2-SECTION-028",
+      "level": 1,
+      "title": "לוח תשעה: עשיית שש וארבעים הטיפות",
+      "start_line": 461,
+      "end_line": 488,
+      "normalized_tokens": 190,
+      "normalized_chars": 1059
+    },
+    {
+      "id": "D2-SECTION-029",
+      "level": 2,
+      "title": "ראשית הטיפה",
+      "start_line": 489,
+      "end_line": 516,
+      "normalized_tokens": 71,
+      "normalized_chars": 367
+    },
+    {
+      "id": "D2-SECTION-030",
+      "level": 2,
+      "title": "לטחון עשתי עשרה פעמים",
+      "start_line": 517,
+      "end_line": 572,
+      "normalized_tokens": 276,
+      "normalized_chars": 1469
+    },
+    {
+      "id": "D2-SECTION-031",
+      "level": 1,
+      "title": "לוח עשרה: שש הקערות",
+      "start_line": 573,
+      "end_line": 594,
+      "normalized_tokens": 77,
+      "normalized_chars": 378
+    },
+    {
+      "id": "D2-SECTION-032",
+      "level": 2,
+      "title": "מְלֹא הקערה",
+      "start_line": 595,
+      "end_line": 634,
+      "normalized_tokens": 106,
+      "normalized_chars": 530
+    },
+    {
+      "id": "D2-SECTION-033",
+      "level": 1,
+      "title": "לוח עשתי עשר: מערכות שש הקערות",
+      "start_line": 635,
+      "end_line": 666,
+      "normalized_tokens": 186,
+      "normalized_chars": 960
+    },
+    {
+      "id": "D2-SECTION-034",
+      "level": 2,
+      "title": "מספר המערכה",
+      "start_line": 667,
+      "end_line": 686,
+      "normalized_tokens": 84,
+      "normalized_chars": 399
+    },
+    {
+      "id": "D2-SECTION-035",
+      "level": 2,
+      "title": "הדרך הקצרה למצוא את המערכה",
+      "start_line": 687,
+      "end_line": 714,
+      "normalized_tokens": 165,
+      "normalized_chars": 833
+    },
+    {
+      "id": "D2-SECTION-036",
+      "level": 2,
+      "title": "מקום הקערה במערכה",
+      "start_line": 715,
+      "end_line": 728,
+      "normalized_tokens": 53,
+      "normalized_chars": 271
+    },
+    {
+      "id": "D2-SECTION-037",
+      "level": 1,
+      "title": "לוח שנים עשר: צוק הטיפה אל הקערות",
+      "start_line": 729,
+      "end_line": 768,
+      "normalized_tokens": 147,
+      "normalized_chars": 732
+    },
+    {
+      "id": "D2-SECTION-038",
+      "level": 1,
+      "title": "לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה",
+      "start_line": 769,
+      "end_line": 830,
+      "normalized_tokens": 287,
+      "normalized_chars": 1369
+    },
+    {
+      "id": "D2-SECTION-039",
+      "level": 1,
+      "title": "לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
+      "start_line": 831,
+      "end_line": 894,
+      "normalized_tokens": 289,
+      "normalized_chars": 1388
+    },
+    {
+      "id": "D2-SECTION-040",
+      "level": 1,
+      "title": "לוח חמשה עשר: לשאול את הקערות",
+      "start_line": 895,
+      "end_line": 926,
+      "normalized_tokens": 92,
+      "normalized_chars": 493
+    },
+    {
+      "id": "D2-SECTION-041",
+      "level": 2,
+      "title": "הקערה אשר אחריה",
+      "start_line": 927,
+      "end_line": 936,
+      "normalized_tokens": 58,
+      "normalized_chars": 295
+    },
+    {
+      "id": "D2-SECTION-042",
+      "level": 2,
+      "title": "מספר המענה האחד",
+      "start_line": 937,
+      "end_line": 954,
+      "normalized_tokens": 39,
+      "normalized_chars": 193
+    },
+    {
+      "id": "D2-SECTION-043",
+      "level": 2,
+      "title": "ללכת אחר המספר או לפניו",
+      "start_line": 955,
+      "end_line": 980,
+      "normalized_tokens": 92,
+      "normalized_chars": 434
+    },
+    {
+      "id": "D2-SECTION-044",
+      "level": 2,
+      "title": "יתר מספרי המענה",
+      "start_line": 981,
+      "end_line": 998,
+      "normalized_tokens": 114,
+      "normalized_chars": 559
+    },
+    {
+      "id": "D2-SECTION-045",
+      "level": 1,
+      "title": "לוח ששה עשר: לבחור אחת מדרכים רבות",
+      "start_line": 999,
+      "end_line": 1010,
+      "normalized_tokens": 68,
+      "normalized_chars": 322
+    },
+    {
+      "id": "D2-SECTION-046",
+      "level": 2,
+      "title": "אם מספר הדרכים לא רב מן המספר הגדול",
+      "start_line": 1011,
+      "end_line": 1050,
+      "normalized_tokens": 192,
+      "normalized_chars": 880
+    },
+    {
+      "id": "D2-SECTION-047",
+      "level": 2,
+      "title": "אם מספר הדרכים רב מן המספר הגדול",
+      "start_line": 1051,
+      "end_line": 1080,
+      "normalized_tokens": 150,
+      "normalized_chars": 775
+    },
+    {
+      "id": "D2-SECTION-048",
+      "level": 2,
+      "title": "למלא את המקומות",
+      "start_line": 1081,
+      "end_line": 1106,
+      "normalized_tokens": 102,
+      "normalized_chars": 500
+    },
+    {
+      "id": "D2-SECTION-049",
+      "level": 2,
+      "title": "יתר המספרים הרחבים",
+      "start_line": 1107,
+      "end_line": 1118,
+      "normalized_tokens": 59,
+      "normalized_chars": 314
+    },
+    {
+      "id": "D2-SECTION-050",
+      "level": 2,
+      "title": "לבחור מן המספרים הרחבים",
+      "start_line": 1119,
+      "end_line": 1150,
+      "normalized_tokens": 184,
+      "normalized_chars": 878
+    },
+    {
+      "id": "D2-SECTION-051",
+      "level": 2,
+      "title": "הדבר אשר תעשה משני אלה",
+      "start_line": 1151,
+      "end_line": 1164,
+      "normalized_tokens": 79,
+      "normalized_chars": 380
+    },
+    {
+      "id": "D2-SECTION-052",
+      "level": 1,
+      "title": "לוח שבעה עשר: שערי הקציצה",
+      "start_line": 1165,
+      "end_line": 1170,
+      "normalized_tokens": 15,
+      "normalized_chars": 76
+    },
+    {
+      "id": "D2-SECTION-053",
+      "level": 2,
+      "title": "השערים אשר אחר יום היסוד",
+      "start_line": 1171,
+      "end_line": 1200,
+      "normalized_tokens": 152,
+      "normalized_chars": 729
+    },
+    {
+      "id": "D2-SECTION-054",
+      "level": 2,
+      "title": "השערים אשר טרם יום היסוד",
+      "start_line": 1201,
+      "end_line": 1236,
+      "normalized_tokens": 200,
+      "normalized_chars": 950
+    },
+    {
+      "id": "D2-SECTION-055",
+      "level": 2,
+      "title": "השערים לא יחדלו",
+      "start_line": 1237,
+      "end_line": 1250,
+      "normalized_tokens": 84,
+      "normalized_chars": 388
+    },
+    {
+      "id": "D2-SECTION-056",
+      "level": 1,
+      "title": "לוח שמונה עשר: שנת חמשת אלפים",
+      "start_line": 1251,
+      "end_line": 1282,
+      "normalized_tokens": 198,
+      "normalized_chars": 950
+    },
+    {
+      "id": "D2-SECTION-057",
+      "level": 2,
+      "title": "לא תחדל שנה אשר תוכל לקחת",
+      "start_line": 1283,
+      "end_line": 1302,
+      "normalized_tokens": 147,
+      "normalized_chars": 702
+    },
+    {
+      "id": "D2-SECTION-058",
+      "level": 1,
+      "title": "לוח תשעה עשר: יתר השנים",
+      "start_line": 1303,
+      "end_line": 1304,
+      "normalized_tokens": 5,
+      "normalized_chars": 24
+    },
+    {
+      "id": "D2-SECTION-059",
+      "level": 2,
+      "title": "השנה אשר אחר שנה ידועה",
+      "start_line": 1305,
+      "end_line": 1322,
+      "normalized_tokens": 124,
+      "normalized_chars": 584
+    },
+    {
+      "id": "D2-SECTION-060",
+      "level": 2,
+      "title": "השנה אשר לפני שנה ידועה",
+      "start_line": 1323,
+      "end_line": 1340,
+      "normalized_tokens": 125,
+      "normalized_chars": 590
+    },
+    {
+      "id": "D2-SECTION-061",
+      "level": 2,
+      "title": "מספרי השנים",
+      "start_line": 1341,
+      "end_line": 1362,
+      "normalized_tokens": 96,
+      "normalized_chars": 447
+    },
+    {
+      "id": "D2-SECTION-062",
+      "level": 2,
+      "title": "כל יום יהיה בשנתו",
+      "start_line": 1363,
+      "end_line": 1376,
+      "normalized_tokens": 59,
+      "normalized_chars": 260
+    },
+    {
+      "id": "D2-SECTION-063",
+      "level": 1,
+      "title": "לוח עשרים: הקציצות",
+      "start_line": 1377,
+      "end_line": 1390,
+      "normalized_tokens": 78,
+      "normalized_chars": 376
+    },
+    {
+      "id": "D2-SECTION-064",
+      "level": 2,
+      "title": "מספר הקציצות",
+      "start_line": 1391,
+      "end_line": 1400,
+      "normalized_tokens": 44,
+      "normalized_chars": 219
+    },
+    {
+      "id": "D2-SECTION-065",
+      "level": 2,
+      "title": "לחלק את צעדי השער בין הקציצות",
+      "start_line": 1401,
+      "end_line": 1440,
+      "normalized_tokens": 230,
+      "normalized_chars": 1102
+    },
+    {
+      "id": "D2-SECTION-066",
+      "level": 2,
+      "title": "שמות הקציצות",
+      "start_line": 1441,
+      "end_line": 1508,
+      "normalized_tokens": 184,
+      "normalized_chars": 870
+    },
+    {
+      "id": "D2-SECTION-067",
+      "level": 1,
+      "title": "לוח אחד ועשרים: החודשים",
+      "start_line": 1509,
+      "end_line": 1520,
+      "normalized_tokens": 75,
+      "normalized_chars": 369
+    },
+    {
+      "id": "D2-SECTION-068",
+      "level": 2,
+      "title": "מספר החודשים",
+      "start_line": 1521,
+      "end_line": 1550,
+      "normalized_tokens": 169,
+      "normalized_chars": 827
+    },
+    {
+      "id": "D2-SECTION-069",
+      "level": 2,
+      "title": "ימי החודשים",
+      "start_line": 1551,
+      "end_line": 1584,
+      "normalized_tokens": 166,
+      "normalized_chars": 792
+    },
+    {
+      "id": "D2-SECTION-070",
+      "level": 2,
+      "title": "דרך קצרה למצוא את ספר ימי החודשים",
+      "start_line": 1585,
+      "end_line": 1606,
+      "normalized_tokens": 113,
+      "normalized_chars": 532
+    },
+    {
+      "id": "D2-SECTION-071",
+      "level": 2,
+      "title": "שזירת החודשים",
+      "start_line": 1607,
+      "end_line": 1660,
+      "normalized_tokens": 279,
+      "normalized_chars": 1341
+    },
+    {
+      "id": "D2-SECTION-072",
+      "level": 1,
+      "title": "לוח שנים ועשרים: שמות החודשים",
+      "start_line": 1661,
+      "end_line": 1774,
+      "normalized_tokens": 351,
+      "normalized_chars": 1663
+    },
+    {
+      "id": "D2-SECTION-073",
+      "level": 2,
+      "title": "לתת את השמות לחודשים",
+      "start_line": 1775,
+      "end_line": 1805,
+      "normalized_tokens": 158,
+      "normalized_chars": 736
+    },
+    {
+      "id": "D2-SECTION-074",
+      "level": 1,
+      "title": "לוח אחרון: לדעת שם היום",
+      "start_line": 1806,
+      "end_line": 1823,
+      "normalized_tokens": 110,
+      "normalized_chars": 518
+    },
+    {
+      "id": "D2-SECTION-075",
+      "level": 2,
+      "title": "מספר השנה",
+      "start_line": 1824,
+      "end_line": 1827,
+      "normalized_tokens": 18,
+      "normalized_chars": 87
+    },
+    {
+      "id": "D2-SECTION-076",
+      "level": 2,
+      "title": "שם הקציצה",
+      "start_line": 1828,
+      "end_line": 1831,
+      "normalized_tokens": 14,
+      "normalized_chars": 66
+    },
+    {
+      "id": "D2-SECTION-077",
+      "level": 2,
+      "title": "היום בקציצה",
+      "start_line": 1832,
+      "end_line": 1837,
+      "normalized_tokens": 28,
+      "normalized_chars": 127
+    },
+    {
+      "id": "D2-SECTION-078",
+      "level": 2,
+      "title": "שם החודש",
+      "start_line": 1838,
+      "end_line": 1843,
+      "normalized_tokens": 28,
+      "normalized_chars": 133
+    },
+    {
+      "id": "D2-SECTION-079",
+      "level": 2,
+      "title": "היום בחודש",
+      "start_line": 1844,
+      "end_line": 1855,
+      "normalized_tokens": 65,
+      "normalized_chars": 299
+    },
+    {
+      "id": "D2-SECTION-080",
+      "level": 2,
+      "title": "לא תשאל את הקערות על הדברים האלה",
+      "start_line": 1856,
+      "end_line": 1867,
+      "normalized_tokens": 51,
+      "normalized_chars": 244
+    },
+    {
+      "id": "D2-SECTION-081",
+      "level": 2,
+      "title": "חמשת הדברים",
+      "start_line": 1868,
+      "end_line": 1885,
+      "normalized_tokens": 49,
+      "normalized_chars": 244
+    },
+    {
+      "id": "D2-SECTION-082",
+      "level": 2,
+      "title": "כי לכל שני ימים יצא דבר אחד",
+      "start_line": 1886,
+      "end_line": 1927,
+      "normalized_tokens": 246,
+      "normalized_chars": 1158
+    },
+    {
+      "id": "D2-SECTION-083",
+      "level": 1,
+      "title": "דבר בעל הלוח באחריתו",
+      "start_line": 1928,
+      "end_line": 1964,
+      "normalized_tokens": 164,
+      "normalized_chars": 807
+    }
+  ]
+}

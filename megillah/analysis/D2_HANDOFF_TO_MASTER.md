@@ -5,20 +5,19 @@ Status: **D2 REBASE COMPLETE — READY FOR MASTER REVIEW**
 Baseline main SHA: 8a3a25e2fb5e438b01fef9694570f20d16a34ff3
 Branch: workstream-d/m2-rebase
 
-## What D2 establishes
-- D1 is historical evidence only; all 17 historical findings were re-evaluated against A13+B12+C M4.2.
-- There are no genuine current SPEC_HOLE findings in the reclassified D1 set.
-- The dominant gap is source conformance, not missing M2 specification.
-- The original remains byte-identical and no corrected candidate was created.
+## Confirmed
+- 24 total finding families; 23 active; 0 genuine SPEC_HOLE.
+- D-PATCH-0002..0004 are SEMANTICALLY_CONFIRMED but not applied.
+- D-PATCH-0001 is the sole local algorithm-changing patch and remains Master-gated.
+- Original remains immutable.
+- C M4.2 can express the historical addition act cleanly with explicit roles/result; this is the first structural repair pattern.
 
-## Master attention
-1. Review D-PATCH-0001 before any algorithm-changing source correction is accepted.
-2. Decide routing/priority for D-LANGUAGE-REQUEST-001..005.
-3. Authorize the later structural candidate pass for whole-program preparation/principal organization; this is not a local word patch.
-4. Route D-C-FIND-001 to C as Windows tooling portability; it does not invalidate M2 semantics.
+## Decisions requested from Master
+1. Approve/reject D-PATCH-0001 (5781→5778).
+2. Route/disposition D-LANGUAGE-REQUEST-001..007.
+3. Approve the structural principle: documentary spans may be externalized explicitly, reusable algorithmic descriptions may be rewritten into admitted A13 act/role/body forms, and the unique principal ועתה will be placed only after preparation is legal.
 
-## Next D step after review
-- Create a separate candidate source only after the structural plan and language-request disposition are known.
-- Continue iterative compiler-frontier repair on that candidate.
-- Keep the historical original immutable.
-- Do not merge or release as part of D2.
+## After those decisions
+- D will create the first corrected candidate under megillah/candidates/.
+- D will continue the iterative compiler frontier and record every source repair.
+- No merge/release/full algorithm acceptance occurs automatically.
