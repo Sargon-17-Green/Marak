@@ -13,10 +13,13 @@ from compiler.parse.current_registry import CURRENT_REGISTRY
 
 def main() -> None:
     target = ROOT / "spec" / "CURRENT_CONSTRUCTION_REGISTRY.json"
-    target.write_text(
-        json.dumps(CURRENT_REGISTRY.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    payload = json.dumps(
+        CURRENT_REGISTRY.to_dict(),
+        ensure_ascii=False,
+        indent=2,
+        sort_keys=True,
+    ) + "\n"
+    target.write_bytes(payload.encode("utf-8"))
     print(target)
 
 
