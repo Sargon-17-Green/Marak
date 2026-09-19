@@ -1,0 +1,16 @@
+{
+  "schema": "marak-workstream-d3-repair-metrics-v1",
+  "original_normalized_tokens": 9227,
+  "candidate_normalized_tokens": 9039,
+  "normalized_token_delta": -188,
+  "matched_original_tokens_sequence_metric": 8940,
+  "overall_original_token_match_percent": 96.8896,
+  "documentary_or_example_words_externalized": 238,
+  "blocked_interface_words_externalized": 38,
+  "structural_source_words_replaced": 17,
+  "structural_candidate_words_inserted": 105,
+  "local_patch_source_spans": 6,
+  "structural_repairs": 1,
+  "structural_moves": 0,
+  "note": "Token-match percent is lexical evidence only, not semantic equivalence."
+}
