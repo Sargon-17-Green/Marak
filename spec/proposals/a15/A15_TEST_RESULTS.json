@@ -1,0 +1,37 @@
+{
+  "schema": "marak-a15-test-results-v1",
+  "status": "PASS",
+  "baseline_main": "621a656c25b7667640cc61a1d1a6ddef95db474d",
+  "reference_suite": {
+    "command": "python spec/proposals/a15/tools/run_a15_surface_tests.py",
+    "status": "PASS",
+    "case_checks": 335275,
+    "a13_frozen_lexicon_exact": true,
+    "a13_numerals_checked": 9999,
+    "large_numeral_prefix_checked": 240001,
+    "large_numeral_random_samples": 75000
+  },
+  "repository_regression": {
+    "command": "python -m pytest -q",
+    "status": "PASS",
+    "tests_passed": 265,
+    "subtests_passed": 126,
+    "summary": "265 passed, 126 subtests passed in 35.03s"
+  },
+  "scope_guard": {
+    "production_compiler_modified": false,
+    "megillah_candidate_modified": false,
+    "a13_b12_frozen_documents_modified": false,
+    "allowed_change_prefix": "spec/proposals/a15/"
+  },
+  "requests": {
+    "001": "INTEGRATED_SURFACE_READY",
+    "002": "INTEGRATED_SURFACE_READY",
+    "003": "INTEGRATED_SURFACE_READY",
+    "004": "INTEGRATED_SURFACE_READY",
+    "005": "INTEGRATED_SURFACE_READY",
+    "006": "INTEGRATED_SURFACE_READY",
+    "007": "INTEGRATED_SURFACE_READY"
+  },
+  "final_status": "A15 READY FOR B14 SEMANTIC INTEGRATION REVIEW"
+}
