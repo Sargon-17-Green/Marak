@@ -4,6 +4,8 @@
 
 Current status: **M2 complete — Core v0.1 integration candidate**. Compiler baseline: **0.4.2-alpha.1**. The repository contains the normative Core surface and semantics, a working compiler pipeline, conformance evidence, and the original Megillah that motivated the project.
 
+Public CLI: `marak`. Planned distribution: `marak`, with `marak-lang` reserved only as a fallback if the primary distribution name is unavailable.
+
 The compiler pipeline is:
 
 ```text
