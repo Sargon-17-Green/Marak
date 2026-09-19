@@ -1,6 +1,6 @@
 # A14 — Exact Counted Recurrence
 
-Status: **literal profile SURFACE_READY; runtime-count profile AWAITING_B**
+Status: **literal profile SURFACE_READY; runtime-count profile PREFERRED_SURFACE_CANDIDATE / AWAITING_B** — B13 semantics reviewed; final dynamic wording awaits A/B integration acceptance.
 
 ## Need
 

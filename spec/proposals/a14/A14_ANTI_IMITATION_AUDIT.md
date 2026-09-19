@@ -50,5 +50,5 @@ For the surface-ready profiles — numeric order, productive numerals and writte
 Biblical-Hebrew reader can recover the computational relation from the words without knowing a modern
 programming convention.
 
-For 001/002/003/dynamic-006/007, that test cannot yet be completed because B has not fixed the semantic
-object. A therefore does not freeze their final wording.
+For 001/002/003/dynamic-006/007, B13 now proposes a precise semantic object. A14 therefore evaluates those
+models as matching its independent directions, but does not freeze final wording until A/B integration acceptance.

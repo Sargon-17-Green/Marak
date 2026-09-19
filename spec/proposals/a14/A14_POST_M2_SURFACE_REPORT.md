@@ -62,7 +62,7 @@ means exact counted performance of that one atomic action.
 
 A composite repeated procedure must still be a named `מעשה` whose performance is the atomic action.
 
-Runtime-computed counts remain AWAITING_B; A14 does not freeze their final word order until the semantic observation/zero/failure model is fixed.
+B13 now supplies the observation/zero/failure model for runtime-computed counts. A14 still does not freeze the final dynamic word order until that proposed semantic model is accepted in A/B integration review.
 
 ## Findings that constrain B-facing work
 
@@ -73,8 +73,8 @@ Runtime-computed counts remain AWAITING_B; A14 does not freeze their final word 
    this is smaller than an array API.
 4. External inputs are a program-boundary association problem, not stdin/argv or positional function
    arguments.
-5. Runtime counted recurrence needs a semantic decision about when the count is observed and what
-   count zero means before A can freeze the dynamic form.
+5. B13 proposes the needed runtime counted-recurrence semantics (observe one Natural once; zero means
+   zero performances). A14 therefore leaves only final dynamic Hebrew wording/integration acceptance open.
 
 ## Anti-imitation outcome
 

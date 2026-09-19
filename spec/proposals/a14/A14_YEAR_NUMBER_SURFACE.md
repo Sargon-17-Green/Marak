@@ -1,6 +1,6 @@
 # A14 — Year Number Surface
 
-Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B_SEMANTICS**
+Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B** — B13 BidirectionalIndex semantics reviewed; A/B integration acceptance and final typed wording remain.
 
 ## Need
 

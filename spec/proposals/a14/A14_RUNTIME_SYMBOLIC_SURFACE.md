@@ -1,6 +1,6 @@
 # A14 — Runtime Symbolic Surface
 
-Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B_SEMANTICS**
+Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B** — B13 semantics reviewed; A/B integration acceptance and final surface wording remain.
 
 ## Need
 

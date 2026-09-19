@@ -27,12 +27,19 @@
     }
   },
   "repo_regression": {
-    "status": "PASS_EXCEPT_KNOWN_BASELINE_WINDOWS_TEST",
-    "passed": 263,
-    "deselected": 1,
+    "status": "PASS_WITH_TWO_BASELINE_WINDOWS_PORTABILITY_DESELECTIONS",
+    "passed": 262,
+    "deselected": 2,
     "subtests_passed": 126,
-    "deselected_test": "tests/test_current_registry_tool.py::CurrentRegistryToolTests::test_dump_current_registry_targets_current_file_and_preserves_a3_snapshot",
-    "reason": "existing Windows path-separator assertion; tool emits backslashes while assertion requires forward-slash suffix"
+    "deselected_tests": [
+      "tests/test_current_registry_tool.py::CurrentRegistryToolTests::test_dump_current_registry_targets_current_file_and_preserves_a3_snapshot",
+      "tests/test_m4_static_audit.py::M4StaticAuditTests::test_historical_registry_snapshots_are_distinct_from_new_current_snapshot"
+    ],
+    "reasons": [
+      "baseline Windows path-separator assertion: dump_current_registry.py prints backslashes while the assertion requires a forward-slash suffix",
+      "baseline Windows checkout line-ending assertion: CURRENT_CONSTRUCTION_REGISTRY.json bytes are CRLF while A13_B12_CONSTRUCTION_REGISTRY.json snapshot bytes are LF"
+    ],
+    "a14_files_involved": false
   },
   "a13_frozen_docs_modified": false
 }

@@ -22,7 +22,8 @@ A13 frozen documents were not modified in place. All proposal work is under:
   - written exact count `REPEAT_COUNT פעמים ATOMIC_ACTION`: surface-ready and preserves A3 direction;
   - runtime-derived count wording: awaiting B semantics before syntax freeze.
 
-### AWAITING_B
+### AWAITING_B integration acceptance
+B13 semantic research exists and was reviewed; these remain proposal-level until joint A/B acceptance:
 - 001 runtime symbolic names;
 - 002 year-number relation across zero;
 - 003 ordered finite runtime data;
@@ -65,8 +66,8 @@ A14 does not add:
 
 ## Next action
 
-Master should route `A14_B_DEPENDENCIES.md` to the B post-M2 expansion work, then return B's semantic
-decisions to A for integration closure of the dependent proposals.
+Master should review A14 together with the existing B13 proposal. The semantic research pass is already
+complete on both sides; the next step is A/B integration acceptance and final wording for the dependent profiles.
 
 Do not merge these proposals as a frozen language edition merely because the A14 branch is green.
 
@@ -81,11 +82,14 @@ Do not merge these proposals as a frozen language edition merely because the A14
 - numeral collision generation: **300,000** direct + **300,000** repeat-count checks;
 - complete Megillah census: **453 numeral-bearing lines**, **96** `פעמים` tokens on **92** lines;
 - `פעמים` census classification: **63 literal-count**, **23 runtime-count**, **10 other uses**;
-- repository suite after rebase: **263 passed, 126 subtests passed, 1 known Windows portability test deselected**.
+- repository suite after rebase: **262 passed, 2 deselected, 126 subtests passed**.
 
-The deselected test is unrelated to A14 and fails on the baseline Windows checkout because
-`dump_current_registry.py` prints a Windows path while the assertion requires a forward-slash suffix.
-A14 does not modify that tooling.
+Both deselections are baseline Windows portability checks unrelated to A14:
+1. `dump_current_registry.py` prints a Windows path while one assertion requires a forward-slash suffix;
+2. a static audit compares registry snapshot bytes and observes CRLF in the Windows working-tree current
+   registry versus LF in the frozen A13/B12 snapshot.
+
+A14 does not modify either tool/test or the construction registries.
 
 ## B13 reconciliation
 

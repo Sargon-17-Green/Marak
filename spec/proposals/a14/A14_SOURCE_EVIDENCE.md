@@ -26,16 +26,25 @@ These support the comparative valency `X רב מן Y`.
 
 ### Large numerals
 - Numbers 17:14 — `ארבעה עשר אלף ושבע מאות`.
+- Numbers 1:46 — `שש מאות אלף ושלשת אלפים וחמש מאות וחמשים`.
+- Numbers 31:32 — `שש מאות אלף ושבעים אלף וחמשת אלפים`.
+- 2 Chronicles 17:15 — `מאתים ושמונים אלף`.
 - 1 Chronicles 21:5 — `אלף אלפים ומאה אלף`.
 
-These support thousand composition and the `אלף אלפים` million scale.
+These show that Biblical large numbers genuinely use both grouped and distributed `אלף` components.
+A14 deliberately chooses one distributed descending canonical subset; the repeated scale word is
+therefore Biblical composition, not hidden decimal place notation. The `אלף אלפים` phrase supplies
+the million-scale basis.
 
 ### Counted action
 - Genesis 33:3 — `וישתחו ארצה שבע פעמים`.
 - 2 Kings 13:19 — `שלש פעמים תכה ...` and `חמש או שש פעמים`.
 
-These establish `פעמים` as ordinary action-count language. A14 nevertheless uses a narrower canonical
-attachment for Marak.
+These establish `פעמים` as ordinary action-count language. Free Biblical discourse can also use
+round-number count expressions rhetorically (for example `זה עשר פעמים`), so A14 does not inherit
+exactness from every free occurrence. Exact cardinality is a property of the narrower controlled Marak
+construction. A14 also keeps a dedicated feminine REPEAT_COUNT morphology instead of reusing the
+A13 numeral phrase mechanically.
 
 ### Ordered book membership
 - Daniel 12:1 — `כל הנמצא כתוב בספר`.

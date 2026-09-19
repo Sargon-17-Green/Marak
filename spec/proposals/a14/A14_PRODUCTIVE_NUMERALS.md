@@ -115,6 +115,12 @@ The accompanying reference formatter and tests check:
 
 A14 is based on attested patterns including:
 - `ארבעה עשר אלף ושבע מאות` (14,700);
+- `שש מאות אלף ושלשת אלפים וחמש מאות וחמשים` (603,550);
+- `שש מאות אלף ושבעים אלף וחמשת אלפים` (675,000);
+- `מאתים ושמונים אלף` (280,000);
 - `אלף אלפים ומאה אלף` (1,100,000).
 
-It is a controlled extension, not a claim that every generated phrase is independently attested as a verse.
+The corpus demonstrates more than one authentic grouping strategy. Marak intentionally selects one
+descending distributed canonical subset so that every admitted phrase has one decomposition; this is
+controlled Biblical composition, not a claim that every generated phrase is independently attested as
+a verse.

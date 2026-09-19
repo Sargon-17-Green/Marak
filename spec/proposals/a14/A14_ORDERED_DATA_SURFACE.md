@@ -1,6 +1,6 @@
 # A14 — Ordered Finite Data Surface
 
-Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B_SEMANTICS**
+Status: **PREFERRED_SURFACE_CANDIDATE / AWAITING_B** — B13 immutable Collection semantics reviewed; A/B integration acceptance and final Biblical construction wording remain.
 
 ## Need
 
