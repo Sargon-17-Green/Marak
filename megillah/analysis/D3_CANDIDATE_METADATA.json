@@ -1,0 +1,17 @@
+{
+  "schema": "marak-megillah-candidate-metadata-v1",
+  "candidate_status": "candidate-not-canonical",
+  "candidate_path": "megillah/candidates/Megilat_HaItim_Marak_Candidate.md",
+  "original_path": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+  "original_sha256": "7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b",
+  "d3_baseline_main_sha": "4471b8e50d850bd3548af091134c16895c781ac9",
+  "d3_branch": "workstream-d/d3-core-repair",
+  "source_patch_baseline": "D2_PATCH_LEDGER.json + D2_MASTER_DECISIONS.md",
+  "applied_patch_ids": [
+    "D-PATCH-0001",
+    "D-PATCH-0002",
+    "D-PATCH-0003",
+    "D-PATCH-0004"
+  ],
+  "note": "Metadata is sidecar-only and is not Marak source."
+}
