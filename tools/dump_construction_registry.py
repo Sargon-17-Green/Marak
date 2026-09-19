@@ -13,10 +13,13 @@ from compiler.parse.a0_registry import A0_REGISTRY
 
 def main() -> None:
     target = ROOT / "spec" / "A0_CONSTRUCTION_REGISTRY.json"
-    target.write_text(
-        json.dumps(A0_REGISTRY.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    payload = json.dumps(
+        A0_REGISTRY.to_dict(),
+        ensure_ascii=False,
+        indent=2,
+        sort_keys=True,
+    ) + "\n"
+    target.write_bytes(payload.encode("utf-8"))
     print(target)
 
 
