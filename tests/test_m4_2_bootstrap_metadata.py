@@ -16,9 +16,9 @@ def test_bootstrap_metadata_uses_marak_name_cli_and_current_version():
     pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert 'name = "marak"' in pyproject
-    assert 'version = "0.5.4a1"' in pyproject
+    assert 'version = "0.5.5a1"' in pyproject
     assert 'marak = "compiler.cli.main:main"' in pyproject
-    assert "0.5.4-alpha.1" in readme
+    assert "0.5.5-alpha.1" in readme
     assert "Public CLI: `marak`" in readme
     assert "0.4.0-alpha.2" not in readme
     assert "0.4.1-alpha.1" not in readme

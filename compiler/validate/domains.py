@@ -314,17 +314,13 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         _fail("DOMAIN_ROLE_CONTRACT", "every role requires exactly one static domain contract")
     if set(outputs) != set(program.acts):
         _fail("DOMAIN_OUTPUT_CONTRACT", "every act requires an explicit none-or-domain output contract")
-    def ensure_declared_domain(domain: Domain) -> None:
-        require_domain(domain)
-        if isinstance(domain, SymbolDomain) and domain.identity not in declared_domains:
-            _fail("DOMAIN_PROGRAM_INPUT_CONTRACT", "Program Input Symbol domain is not declared before use")
-        if isinstance(domain, CollectionDomain):
-            ensure_declared_domain(domain.element_domain)
-
     for x in program.program_input_domains:
         if not x.input_id.program_contract:
             _fail("DOMAIN_PROGRAM_INPUT_OWNERSHIP", "Program Input identity lacks owning program contract")
-        ensure_declared_domain(x.domain)
+        # C5.1's HAST contract layer is intentionally preparation-independent.
+        # Source resolution enforces declaration visibility; decoded canonical IR
+        # independently enforces that referenced Symbol domains are declared.
+        require_domain(x.domain)
 
     def value(node: h.HastValue) -> Domain:
         d = hast_value_domain(node)

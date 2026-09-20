@@ -136,4 +136,4 @@ def test_previous_artifact_schema_is_cleanly_rejected():
 
 
 def test_artifact_version_is_explicitly_current_candidate():
-    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.5-candidate-1"
+    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.6-candidate-1"
