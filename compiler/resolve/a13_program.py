@@ -584,6 +584,24 @@ def _lower_proposition(node: ParseNode, env: _Env, *, current_act: ActId | None,
         if ld != rd or not isinstance(ld,SymbolDomain):
             raise _issue("SEM0301","Symbol equality operands must independently resolve to the same declared Symbol domain.","אופרנדי השוויון של Symbol חייבים להיפתר בנפרד לאותו תחום Symbol מוצהר.",node,left_domain=repr(ld),right_domain=repr(rd))
         return HastSymbolEqualProposition(node.original,left,right,ld.identity)
+    if node.production_id.startswith("C53.MEMBER."):
+        books=_child_nodes(node,"CollectionValue")
+        if node.production_id=="C53.MEMBER.NESTED":
+            if len(books)!=2:
+                raise RuntimeError("nested Collection membership arity")
+            item=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act)
+            book=_lower_collection(books[1],env,current_act=current_act,recent_act=recent_act)
+        else:
+            if len(books)!=1:
+                raise RuntimeError("Collection membership book arity")
+            book=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act)
+            item_symbol="NumberValue" if node.production_id=="C53.MEMBER.NATURAL" else "IndexValue" if node.production_id=="C53.MEMBER.INDEX" else "SymbolValue"
+            item=_lower_value(_one_child(node,item_symbol),env,current_act=current_act,recent_act=recent_act)
+        domain=_require_collection_domain(book,node)
+        item_domain=hast_value_domain(item)
+        if item_domain!=domain.element_domain:
+            raise _issue("SEM0409","Collection membership item has a different domain from the book elements.","האיבר הנבדק כחבר בספר שייך לתחום שונה מתחום איברי הספר.",node,book_domain=repr(domain),item_domain=repr(item_domain))
+        return HastCollectionMembershipProposition(node.original,item,book,domain.element_domain)
     raise RuntimeError(f"unsupported proposition {node.production_id}")
 
 
@@ -638,6 +656,20 @@ def _lower_action(
         value = _lower_number(_one_child(node, "NumberValue"), env, current_act=current_act, recent_act=recent_act)
         return HastReplaceCurrentFact(span, place, value)
 
+    if pid=="C53.PLACE.REPLACE":
+        names=_direct_leaves(node,"PlaceName")
+        if len(names)!=2 or names[0].text!=names[1].text:
+            raise _issue("REF0001","Typed replacement destination and displaced current-value description must name the same place.","יעד ההחלפה בעל הטיפוס ותיאור הערך הנוכחי המוחלף חייבים לנקוב באותו מקום.",names[-1] if names else node)
+        place=_resolve_place(names[0].text,env,names[0])
+        expected=env.place_domains.get(place)
+        if not isinstance(expected,CollectionDomain):
+            raise _issue("REF0401","Collection replacement requires a Collection-bearing place.","החלפת ספר דורשת מקום הנושא Collection.",names[0],place=place.spelling)
+        value=_lower_collection(_one_child(node,"CollectionValue"),env,current_act=current_act,recent_act=recent_act)
+        actual=hast_value_domain(value)
+        if actual!=expected:
+            raise _issue("SEM0302","Typed replacement value domain does not equal the place's fixed domain.","תחום ערך ההחלפה בעל הטיפוס אינו שווה לתחום הקבוע של המקום.",node,place=place.spelling,expected=repr(expected),actual=repr(actual))
+        return HastReplaceCurrentFact(span,place,value)
+
     if pid in {"C52.PLACE.REPLACE.SYMBOL","C52.PLACE.REPLACE.INDEX"}:
         names=_direct_leaves(node,"PlaceName")
         if len(names)!=2 or names[0].text!=names[1].text:
@@ -691,10 +723,10 @@ def _lower_action(
             raise _issue("REF0111","Performance role associations must match the described act's required roles exactly.","שיוכי התפקידים בביצוע חייבים להתאים בדיוק לתפקידים הנדרשים של המעשה המתואר.",act_leaf,act=act.spelling,missing=missing,extra=extra)
         return HastPerformAct(span, act, tuple(sorted(associations, key=lambda a: a.role.serial)))
 
-    if pid in {"A12.RESULT.PRODUCE","C52.RESULT.PRODUCE.SYMBOL","C52.RESULT.PRODUCE.INDEX"}:
+    if pid in {"A12.RESULT.PRODUCE","C52.RESULT.PRODUCE.SYMBOL","C52.RESULT.PRODUCE.INDEX","C53.RESULT.PRODUCE"}:
         if current_act is None:
             raise _issue("REF0114","Result production is licensed only within the current act performance.","הפקת תוצאה מותרת רק בתוך הביצוע הנוכחי של מעשה.",node)
-        symbol={"A12.RESULT.PRODUCE":"NumberValue","C52.RESULT.PRODUCE.SYMBOL":"SymbolValue","C52.RESULT.PRODUCE.INDEX":"IndexValue"}[pid]
+        symbol={"A12.RESULT.PRODUCE":"NumberValue","C52.RESULT.PRODUCE.SYMBOL":"SymbolValue","C52.RESULT.PRODUCE.INDEX":"IndexValue","C53.RESULT.PRODUCE":"CollectionValue"}[pid]
         value=_lower_value(_one_child(node,symbol),env,current_act=current_act,recent_act=recent_act)
         return HastProduceResult(span,value)
 
