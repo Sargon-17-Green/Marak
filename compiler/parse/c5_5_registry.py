@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """C5.5 production registry: Program Input declaration and typed reads only."""
 
-from compiler.parse.c5_4_registry import C5_4_REGISTRY, COUNT_AS_NUMBER_ORIGINS
+from compiler.parse.c5_4_registry import C5_4_REGISTRY, COUNT_AS_NUMBER_ORIGINS as C5_4_COUNT_AS_NUMBER_ORIGINS
 from compiler.parse.grammar import (
     ConstructionDeclaration, ConstructionKind, ConstructionRegistry,
     NameTerminal, Nonterminal, Production, SpecStatus, WordTerminal,
@@ -39,6 +39,9 @@ _DECLS = C5_4_REGISTRY.declarations + (
     ),
 )
 
+COUNT_AS_NUMBER_ORIGINS = dict(C5_4_COUNT_AS_NUMBER_ORIGINS)
+COUNT_AS_NUMBER_ORIGINS["C55.INPUT.COUNT_AS.NATURAL"] = "C55.INPUT.READ.NATURAL"
+
 _PRODS = C5_4_REGISTRY.productions + (
     Production("C55.INPUT.DECLARE.NATURAL","C55.PROGRAM_INPUT_DECLARATION","PreparatoryUnit",
         (*_COMMON_DECL_PREFIX,W("מספר"),*_COMMON_DECL_SUFFIX),"C55.PROGRAM_INPUT_DECLARATION"),
@@ -50,6 +53,8 @@ _PRODS = C5_4_REGISTRY.productions + (
         (*_COMMON_DECL_PREFIX,Nonterminal("CollectionKind"),*_COMMON_DECL_SUFFIX),"C55.PROGRAM_INPUT_DECLARATION"),
     Production("C55.INPUT.READ.NATURAL","C55.PROGRAM_INPUT_REFERENCE","NumberValue",
         (W("המספר"),W("אשר"),W("עומד"),W("תחת"),W("הדבר"),W("אשר"),W("למלאכה"),W("הזאת"),W("שמו"),N("ProgramInputRoleName")),"C55.PROGRAM_INPUT_READ_NATURAL"),
+    Production("C55.INPUT.COUNT_AS.NATURAL","C55.PROGRAM_INPUT_REFERENCE","CountAsNumber",
+        (W("כמספר"),W("אשר"),W("עומד"),W("תחת"),W("הדבר"),W("אשר"),W("למלאכה"),W("הזאת"),W("שמו"),N("ProgramInputRoleName")),"C54.COUNT_AS_NUMBER"),
     Production("C55.INPUT.READ.SYMBOL","C55.PROGRAM_INPUT_REFERENCE","SymbolValue",
         (W("השם"),W("אשר"),W("במשפחת"),W("השמות"),W("אשר"),W("שמה"),N("SymbolDomainName"),W("עומד"),W("תחת"),W("הדבר"),W("אשר"),W("למלאכה"),W("הזאת"),W("שמו"),N("ProgramInputRoleName")),"C55.PROGRAM_INPUT_READ_SYMBOL"),
     Production("C55.INPUT.READ.INDEX","C55.PROGRAM_INPUT_REFERENCE","IndexValue",

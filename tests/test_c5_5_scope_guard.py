@@ -10,7 +10,7 @@ def test_c55_adds_only_program_input_declaration_and_reference_productions():
     new=[p for p in C5_5_REGISTRY.productions if p.production_id not in old]
     assert new
     assert all(p.production_id.startswith("C55.INPUT.") for p in new)
-    assert {p.lhs for p in new} <= {"PreparatoryUnit","NumberValue","SymbolValue","IndexValue","CollectionValue"}
+    assert {p.lhs for p in new} <= {"PreparatoryUnit","NumberValue","SymbolValue","IndexValue","CollectionValue","CountAsNumber"}
     assert not any(p.lhs in {"AtomicAction","BodyAtomicAction","ExecutableUnit","PrincipalExecution"} for p in new)
 
 
