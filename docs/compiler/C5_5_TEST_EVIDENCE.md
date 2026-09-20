@@ -207,7 +207,7 @@ All three engines validate invocation before evaluator/VM Preparation.
 
 ## CI evidence — implementation code head
 
-GitHub Actions push run #269 / ID `35531901936` completed with **13/13 jobs successful** on implementation evidence head `b2b6e558a61cd2ded9173c042f435377b232f217`:
+GitHub Actions push run #269 / ID `35532841149` completed with **13/13 jobs successful** on post-audit code evidence head `3dbed236f77a3b9937789f09cce6ba11962dfd96`:
 
 - core — PASS
 - Tooling portability Ubuntu — PASS
