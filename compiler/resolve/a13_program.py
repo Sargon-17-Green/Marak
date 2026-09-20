@@ -59,6 +59,32 @@ class _Env:
         return value
 
 
+class _UnresolvedOutputContract(Exception):
+    def __init__(self, act: ActId, where: ParseLeaf | ParseNode):
+        super().__init__(act.spelling)
+        self.act = act
+        self.where = where
+
+
+def _body_env_snapshot(env: _Env) -> _Env:
+    """Freeze source visibility at one body-definition point; share only output contracts."""
+    snap = _Env()
+    snap.next_serial = env.next_serial
+    snap.places = dict(env.places)
+    snap.acts = dict(env.acts)
+    snap.roles = dict(env.roles)
+    snap.bodies = set(env.bodies)
+    snap.place_domains = dict(env.place_domains)
+    snap.role_domains = dict(env.role_domains)
+    snap.symbol_domains = dict(env.symbol_domains)
+    snap.symbol_members = dict(env.symbol_members)
+    # Output domains are whole-program contracts.  Sharing only this table lets a
+    # deferred body learn a later-defined act's independently resolved contract
+    # without gaining visibility of later source declarations.
+    snap.output_domains = env.output_domains
+    return snap
+
+
 def _span(node: ParseNode | ParseLeaf) -> OriginalSpan | None:
     return node.original
 
@@ -497,7 +523,9 @@ def _lower_collection(
             raise _issue("REF0112","Immediate result reference has no structurally immediate preceding performance.","להפניית התוצאה המיידית אין ביצוע קודם הצמוד לה מבחינה מבנית.",leaf,act=act.spelling)
         if recent_act!=act:
             raise _issue("REF0113","Immediate result reference names a different act from the directly preceding performance.","הפניית התוצאה המיידית נוקבת במעשה שונה מן הביצוע הקודם הישיר.",leaf,expected=recent_act.spelling,actual=act.spelling)
-        domain=env.output_domains.get(act)
+        if act not in env.output_domains:
+            raise _UnresolvedOutputContract(act,leaf)
+        domain=env.output_domains[act]
         if not isinstance(domain,CollectionDomain):
             raise _issue("REF0403","Collection immediate-result head requires a Collection output contract.","ראש תוצאה מיידית של ספר דורש חוזה פלט מסוג Collection.",leaf,act=act.spelling,output_domain=repr(domain))
         return HastRecentTypedResult(node.original,act,domain)
@@ -778,6 +806,15 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
         raise RuntimeError("CoreProgram lacks source span")
     env = _Env()
     preparation_hast = []
+    pending_bodies: list[dict[str, object]] = []
+
+    def lower_body_with_contract(wrapper: ParseNode, body_node: ParseNode, act: ActId, body_env: _Env) -> HastActBody:
+        body = _lower_sequence(_one_child(body_node, "BodySequence"), body_env, current_act=act, body=True)
+        domains = _body_output_domains(body)
+        if len(domains) > 1:
+            raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",body_node,act=act.spelling,domains=sorted(map(repr,domains)))
+        env.output_domains[act] = next(iter(domains)) if domains else None
+        return HastActBody(wrapper.original or root.original, act, body)
 
     prep_nodes: list[ParseNode] = []
     prep_children = _child_nodes(root, "Preparation")
@@ -975,16 +1012,49 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             act = env.acts[name]
             if act.serial in env.bodies:
                 raise _issue("REF0105", "Duplicate body definition for one act.", "הגדרת גוף כפולה לאותו מעשה.", names[0], act=name)
-            body = _lower_sequence(_one_child(body_node, "BodySequence"), env, current_act=act, body=True)
-            domains=_body_output_domains(body)
-            if len(domains)>1:
-                raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",body_node,act=act.spelling,domains=sorted(map(repr,domains)))
-            env.output_domains[act]=next(iter(domains)) if domains else None
+            body_env = _body_env_snapshot(env)
+            slot = len(preparation_hast)
+            try:
+                body_hast = lower_body_with_contract(wrapper, body_node, act, body_env)
+            except _UnresolvedOutputContract as blocked:
+                pending_bodies.append({
+                    "slot": slot, "wrapper": wrapper, "body_node": body_node,
+                    "act": act, "env": body_env, "blocked": blocked,
+                })
+                preparation_hast.append(None)
+            else:
+                preparation_hast.append(body_hast)
+            # The body definition has occurred in source even when semantic lowering is deferred.
+            # This preserves A13's prohibition on later role declarations for its owner.
             env.bodies.add(act.serial)
-            preparation_hast.append(HastActBody(wrapper.original or root.original, act, body))
             continue
 
         raise RuntimeError(f"unsupported A13 preparatory production {pid}")
+
+    while pending_bodies:
+        progressed = False
+        remaining = []
+        for pending in pending_bodies:
+            try:
+                body_hast = lower_body_with_contract(
+                    pending["wrapper"], pending["body_node"], pending["act"], pending["env"]
+                )
+            except _UnresolvedOutputContract as blocked:
+                pending["blocked"] = blocked
+                remaining.append(pending)
+            else:
+                preparation_hast[pending["slot"]] = body_hast
+                progressed = True
+        if not progressed:
+            blocked = remaining[0]["blocked"]
+            raise _issue(
+                "REF0404",
+                "Collection immediate-result output contract is cyclic or otherwise unresolved.",
+                "חוזה הפלט של תוצאת הספר המיידית מעגלי או שאינו ניתן לפתרון.",
+                blocked.where,
+                act=blocked.act.spelling,
+            )
+        pending_bodies = remaining
 
     missing_bodies = [act for act in env.acts.values() if act.serial not in env.bodies]
     if missing_bodies:
