@@ -16,11 +16,13 @@ def empty_nat(): return "ספר מספרים אשר אין בו מספר"
 def empty_idx(): return "ספר מספרי שנים אשר אין בו מספר שנה"
 def empty_sym(d): return f"ספר שמות ממשפחת השמות אשר שמה {d} אשר אין בו שם"
 def empty_books_nat(): return "ספר ספרי מספרים אשר אין בו ספר"
+def empty_books_idx(): return "ספר ספרי מספרי שנים אשר אין בו ספר"
 def empty_books_sym(d): return f"ספר ספרי שמות ממשפחת השמות אשר שמה {d} אשר אין בו ספר"
 def append_nat(book,v): return f"ספר מספרים אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
 def append_idx(book,v): return f"ספר מספרי שנים אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
 def append_sym(d,book,v): return f"ספר שמות ממשפחת השמות אשר שמה {d} אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
 def append_books_nat(book,v): return f"ספר ספרי מספרים אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
+def append_books_idx(book,v): return f"ספר ספרי מספרי שנים אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
 def append_books_sym(d,book,v): return f"ספר ספרי שמות ממשפחת השמות אשר שמה {d} אשר בו כל אשר ב {book} כסדרו ואחר כלם {v}"
 def book_place(p): return f"הספר אשר במקום אשר שמו {p}"
 def book_role(a,r): return f"הספר אשר במעשה הזה עומד תחת הדבר אשר במעשה אשר שמו {a} שמו {r}"
@@ -220,6 +222,21 @@ def test_index_collection_construct_count_select_and_membership():
         {"index":"BeforeZero","magnitude":1},{"index":"Zero"}
     ]
     assert dict(obs["facts"])["דגל"]==1
+
+
+
+def test_nested_index_kind_selection_and_recursive_membership_end_to_end():
+    inner=append_idx(append_idx(empty_idx(),"שנה אחת לפני שנת אין"),"שנת אין")
+    outer=append_books_idx(empty_books_idx(),inner)
+    cond=f"אם {inner} כתוב בתוך {book_place('ספרים')} {replace_nat('דגל',num(1))} ואם לא {replace_nat('דגל',num(2))}"
+    src=" ".join([
+        place_book("ספרים",outer),place_book("נבחר",empty_idx()),place_nat("דגל",2),
+        "ועתה "+replace_book("נבחר",first_book(book_place("ספרים")))+" ואחרי כן "+cond,
+    ])
+    _,obs=three(src)
+    facts=dict(obs["facts"])
+    assert facts["נבחר"]==[{"index":"BeforeZero","magnitude":1},{"index":"Zero"}]
+    assert facts["דגל"]==1
 
 
 def test_nested_natural_lex_order_strict_prefix_and_equal_ties():
