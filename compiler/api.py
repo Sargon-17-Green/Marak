@@ -312,7 +312,7 @@ def _resolved_explanation(program: HastCoreProgram) -> dict[str, Any]:
         "program_division": {
             "preparation": [type(x).__name__ for x in program.preparation],
             "principal": type(program.principal).__name__,
-            "entry_is_surface_transition": "????",
+            "entry_is_surface_transition": "ועתה",
             "entry_is_not_magic_main": True,
         },
         "identities": {
