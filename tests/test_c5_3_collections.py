@@ -188,3 +188,163 @@ def test_untyped_empty_and_deeper_source_nesting_are_not_admitted():
         "ספר מספרים אשר בו כל אשר ב ספר מספרים אשר אין בו מספר כסדרו ואחר כלם שנת אין",
     ]:
         assert not parse(src,start_lhs="CollectionValue").forest.alternatives
+
+
+
+def test_pure_append_does_not_mutate_source_collection():
+    src=" ".join([
+        place_book("מקור",nat_book(1)),place_book("יעד",empty_nat()),
+        "ועתה "+replace_book("יעד",append_nat(book_place("מקור"),num(2))),
+    ])
+    _,obs=three(src)
+    facts=dict(obs["facts"])
+    assert facts["מקור"]==[1]
+    assert facts["יעד"]==[1,2]
+
+
+def test_failed_collection_rhs_preserves_earlier_effect_and_destination_and_stops_later_work():
+    src=" ".join([
+        place_book("מקור",nat_book(1)),place_book("יעד",nat_book(8)),place_nat("דגל",1),
+        "ועתה "+" ואחרי כן ".join([
+            replace_nat("דגל",num(2)),
+            replace_book("יעד",append_nat(book_place("יעד"),nth_nat(book_place("מקור"),num(2)))),
+            replace_nat("דגל",num(3)),
+        ]),
+    ])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    observed=[
+        reference_observable(execute_reference(c.hast)),
+        ir_reference_observable(execute_reference_ir(c.ir)),
+        backend_observable(execute_ir(c.ir)),
+    ]
+    assert observed[0]==observed[1]==observed[2]
+    assert observed[0]["outcome"]=="Error"
+    assert observed[0]["error"]["code"]=="COLLECTION_POSITION_ERROR"
+    facts=dict(observed[0]["facts"])
+    assert facts["מקור"]==[1]
+    assert facts["יעד"]==[8]
+    assert facts["דגל"]==2
+
+
+def test_first_and_last_empty_books_fail_with_collection_position_error():
+    for expr in (first_nat(empty_nat()),last_nat(empty_nat())):
+        src=" ".join([place_nat("יעד",1),"ועתה "+replace_nat("יעד",expr)])
+        c=compile_source(src)
+        assert c.valid,[d.to_dict() for d in c.diagnostics]
+        obs=reference_observable(execute_reference(c.hast))
+        assert obs["outcome"]=="Error"
+        assert obs["error"]["code"]=="COLLECTION_POSITION_ERROR"
+
+
+def test_missing_symbol_order_profile_is_static_invalid_no_declaration_fallback():
+    d="צבעים"
+    src=" ".join([
+        symbol_domain(d),member(d,"ראשון",1,"א"),member(d,"שני",1,"ב"),
+        place_book("ספר",symbol_book(d,"שני","ראשון")),
+        "ועתה "+replace_book("ספר",sort_sym(d,book_place("ספר"))),
+    ])
+    c=compile_source(src)
+    assert not c.valid
+    assert any(x.metadata.get("semantic_code")=="DOMAIN_COLLECTION_ORDER" for x in c.diagnostics)
+
+
+def test_symbol_sort_wrong_domain_relation_is_static_invalid():
+    d1,d2="צבעים","טעמים"
+    src=" ".join([
+        symbol_domain(d1),member(d1,"א",1,"א"),member(d1,"ב",1,"ב"),order(d1,"א","ב"),
+        symbol_domain(d2),member(d2,"ג",1,"ג"),member(d2,"ד",1,"ד"),order(d2,"ג","ד"),
+        place_book("ספר",symbol_book(d2,"ד","ג")),
+        "ועתה "+replace_book("ספר",sort_sym(d1,book_place("ספר"))),
+    ])
+    c=compile_source(src)
+    assert not c.valid
+    assert any(x.code=="SEM0408" or x.metadata.get("semantic_code")=="DOMAIN_COLLECTION_ORDER" for x in c.diagnostics)
+
+
+def test_nested_symbol_lexicographic_order_uses_leaf_profile_and_prefix_rule():
+    d="דרגות"
+    inner_short=symbol_book(d,"נמוך")
+    inner_long=symbol_book(d,"נמוך","גבוה")
+    inner_high=symbol_book(d,"גבוה")
+    outer=append_books_sym(d,append_books_sym(d,append_books_sym(d,empty_books_sym(d),inner_high),inner_long),inner_short)
+    src=" ".join([
+        symbol_domain(d),member(d,"נמוך",1,"נמוך"),member(d,"גבוה",1,"גבוה"),order(d,"נמוך","גבוה"),
+        place_book("ספרים",outer),
+        "ועתה "+replace_book("ספרים",sort_lex_sym(d,book_place("ספרים"))),
+    ])
+    _,obs=three(src)
+    assert dict(obs["facts"])["ספרים"]==[["נמוך"],["נמוך","גבוה"],["גבוה"]]
+
+
+def test_nested_act_occurrences_carry_collection_roles_without_aliasing():
+    a,b="חיצון","פנימי"; ra,rb="ספרחיצון","ספרפנימי"
+    src=" ".join([
+        place_book("מקור",nat_book(4,6)),place_book("יעד",empty_nat()),
+        act(a),act(b),role_book(a,ra),role_book(b,rb),
+        body(b,output(book_role(b,rb))),
+        body(a,perform_one(b,rb,book_role(a,ra))+" ואחרי כן "+output(book_role(a,ra))),
+        "ועתה "+perform_one(a,ra,book_place("מקור"))+" ואחרי כן "+replace_book("יעד",book_recent(a)),
+    ])
+    _,obs=three(src)
+    assert dict(obs["facts"])["מקור"]==[4,6]
+    assert dict(obs["facts"])["יעד"]==[4,6]
+
+
+def test_recursive_occurrences_can_carry_collection_role_under_fuel_harness():
+    a,r="חוזר","ספר"
+    src=" ".join([
+        place_book("מקור",nat_book(2,5)),act(a),role_book(a,r),
+        body(a,perform_one(a,r,book_role(a,r))),
+        "ועתה "+perform_one(a,r,book_place("מקור")),
+    ])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    obs=[
+        reference_observable(execute_reference(c.hast,fuel=8)),
+        ir_reference_observable(execute_reference_ir(c.ir,fuel=8)),
+        backend_observable(execute_ir(c.ir,fuel=8)),
+    ]
+    assert obs[0]==obs[1]==obs[2]
+    assert obs[0]["outcome"]=="Divergence"
+
+
+def test_collection_charter_transparency_on_nested_book_program():
+    outer=append_books_nat(empty_books_nat(),nat_book(1,2))
+    base=" ".join([place_book("ספרים",outer),"ועתה "+replace_book("ספרים",book_place("ספרים"))])
+    _,expected=three(base)
+    variants=[
+        base.replace(" ","\n"),
+        base.replace(" ",", "),
+        "123 "+base,
+        "Latin "+base,
+        base.replace("ספרים","סְפרים"),
+        base.replace("ספר","**ספר**"),
+        base.replace("ספר","״ספר״"),
+    ]
+    for variant in variants:
+        _,actual=three(variant)
+        assert actual==expected
+
+
+def test_negative_collection_surface_families_remain_unadmitted():
+    b=empty_nat()
+    bad=[
+        "ספר[1]",
+        "הדבר אשר אחריו",
+        f"{b} הוא {b}",
+        f"הספר הערוך מן {b} כמשפט המעשה אשר שמו משוה",
+        "ספר שאין בו דבר",
+        "ספר ספרי ספרי מספרים אשר אין בו ספר",
+    ]
+    for source in bad:
+        assert not parse(source,start_lhs="CollectionValue").forest.alternatives
+        assert not parse(source,start_lhs="Proposition").forest.alternatives
+
+
+def test_moderate_collection_size_has_no_fixed_semantic_count_cap():
+    values=list(range(1,33))
+    b=nat_book(*values)
+    src=" ".join([place_book("ספר",b),place_nat("מנה",1),"ועתה "+replace_nat("מנה",count(book_place("ספר")))])
+    _,obs=three(src)
+    assert dict(obs["facts"])["מנה"]==32
