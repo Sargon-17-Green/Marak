@@ -831,6 +831,21 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             preparation_hast.append(HastSymbolOrderAdjacent(wrapper.original or root.original,domain,before.member_id,after.member_id))
             continue
 
+        if pid=="C53.PREP.PLACE":
+            names=_direct_leaves(wrapper,"PlaceName")
+            if len(names)!=2 or names[0].text!=names[1].text:
+                raise _issue("REF0001","Initialized typed place introduction must repeat the same place name.","הצגת מקום מאותחל בעל טיפוס מפורש חייבת לחזור על אותו שם מקום.",names[-1] if names else wrapper)
+            name=names[0].text
+            if name in env.places:
+                raise _issue("REF0102","Duplicate place name.","שם מקום כפול.",names[0],name=name)
+            initial=_lower_collection(_one_child(wrapper,"CollectionValue"),env,current_act=None,recent_act=None,pending_self_place=name)
+            domain=_require_collection_domain(initial,wrapper)
+            place=PlaceId(env.serial(),name)
+            env.places[name]=place
+            env.place_domains[place]=domain
+            preparation_hast.append(HastPlaceIntroduction(wrapper.original or root.original,place,initial))
+            continue
+
         if pid in {"C52.PREP.PLACE.SYMBOL","C52.PREP.PLACE.INDEX"}:
             names=_direct_leaves(wrapper,"PlaceName")
             if len(names)!=2 or names[0].text!=names[1].text:
@@ -843,6 +858,28 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             domain=hast_value_domain(initial)
             place=PlaceId(env.serial(),name); env.places[name]=place; env.place_domains[place]=domain
             preparation_hast.append(HastPlaceIntroduction(wrapper.original or root.original,place,initial))
+            continue
+
+        if pid=="C53.ROLE.DECLARE":
+            owners=_direct_leaves(wrapper,"RoleOwnerActionName")
+            roles=_direct_leaves(wrapper,"DeclaredRoleName")
+            if len(owners)!=3 or len({x.text for x in owners})!=1 or len(roles)!=2 or len({x.text for x in roles})!=1:
+                raise _issue("REF0001","Typed role declaration repeated descriptions must co-refer explicitly.","התיאורים החוזרים בהצהרת תפקיד חייבים להתייחס במפורש לאותם שמות.",wrapper)
+            owner_name,role_name=owners[0].text,roles[0].text
+            if owner_name not in env.acts:
+                raise _issue("REF0107","Role owner act has not been introduced.","המעשה בעל התפקיד טרם הוצג.",owners[0],owner=owner_name)
+            owner=env.acts[owner_name]
+            if owner.serial in env.bodies:
+                raise _issue("REF0108","Role declaration appears after its owner's body definition.","הצהרת תפקיד מופיעה לאחר הגדרת הגוף של המעשה בעל התפקיד.",roles[0],owner=owner_name,role=role_name)
+            key=(owner.serial,role_name)
+            if key in env.roles:
+                raise _issue("REF0104","Duplicate role name within one act.","שם תפקיד כפול בתוך מעשה אחד.",roles[0],owner=owner_name,role=role_name)
+            kind=_one_child(wrapper,"CollectionKind")
+            domain=CollectionDomain(_collection_kind_element_domain(kind,env))
+            role=RoleId(env.serial(),owner,role_name)
+            env.roles[key]=role
+            env.role_domains[role]=domain
+            preparation_hast.append(HastRoleDeclaration(wrapper.original or root.original,role))
             continue
 
         if pid in {"C52.ROLE.DECLARE.SYMBOL","C52.ROLE.DECLARE.INDEX"}:
@@ -939,6 +976,10 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             if act.serial in env.bodies:
                 raise _issue("REF0105", "Duplicate body definition for one act.", "הגדרת גוף כפולה לאותו מעשה.", names[0], act=name)
             body = _lower_sequence(_one_child(body_node, "BodySequence"), env, current_act=act, body=True)
+            domains=_body_output_domains(body)
+            if len(domains)>1:
+                raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",body_node,act=act.spelling,domains=sorted(map(repr,domains)))
+            env.output_domains[act]=next(iter(domains)) if domains else None
             env.bodies.add(act.serial)
             preparation_hast.append(HastActBody(wrapper.original or root.original, act, body))
             continue
@@ -958,29 +999,18 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
     seq = _one_child(principal_node, "ExecutableSequence")
     principal = _lower_sequence(seq, env, current_act=None, body=False)
 
-    def body_output_domains(action: HastExecutable) -> set[Domain]:
-        if isinstance(action,HastProduceResult):
-            return {hast_value_domain(action.value)}
-        if isinstance(action,HastThen):
-            out=set()
-            for x in action.actions: out.update(body_output_domains(x))
-            return out
-        if isinstance(action,HastConditional):
-            return body_output_domains(action.if_holds) | body_output_domains(action.if_not)
-        if isinstance(action,(HastFixedRecurrence,HastPostActionRecurrence)):
-            return body_output_domains(action.action)
-        return set()
-
     places = tuple(sorted(env.places.values()))
     acts = tuple(sorted(env.acts.values()))
     roles = tuple(sorted(env.roles.values()))
     body_by_act = {x.act: x.body for x in preparation_hast if isinstance(x, HastActBody)}
     output_contracts=[]
     for act in acts:
-        domains=body_output_domains(body_by_act[act])
-        if len(domains)>1:
-            raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",root,act=act.spelling,domains=sorted(map(repr,domains)))
-        output_contracts.append(HastActOutputDomain(act,next(iter(domains)) if domains else None))
+        if act not in env.output_domains:
+            domains=_body_output_domains(body_by_act[act])
+            if len(domains)>1:
+                raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",root,act=act.spelling,domains=sorted(map(repr,domains)))
+            env.output_domains[act]=next(iter(domains)) if domains else None
+        output_contracts.append(HastActOutputDomain(act,env.output_domains[act]))
     return HastCoreProgram(
         root.original,
         tuple(preparation_hast),
