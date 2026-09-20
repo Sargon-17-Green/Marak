@@ -1,4 +1,4 @@
-# B15 — A16 Semantic Remediation Review
+﻿# B15 — A16 Semantic Remediation Review
 
 Final status: **B15 REMEDIATION COMPLETE — READY FOR MASTER POST-M2 LANGUAGE GATE**
 
@@ -14,3 +14,5 @@ Result:
 - A17 requirements: none;
 - semantic reopening: none;
 - Master clarification: none.
+
+Draft PR: https://github.com/Sargon-17-Green/Marak/pull/9

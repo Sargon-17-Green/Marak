@@ -1,4 +1,4 @@
-# B15 Package Manifest
+﻿# B15 Package Manifest
 
 Baseline:
 - A16 HEAD: `bb7b5da71e34eeaab4dfe2a735f1025ae87c1ec0`
@@ -21,3 +21,5 @@ Required review outputs are present, together with:
 - conceptual C implementation requirements because all B15 semantic gates are green.
 
 No production compiler/parser, frozen A13/B12 file, or Megillah candidate is modified.
+
+Draft PR: https://github.com/Sargon-17-Green/Marak/pull/9

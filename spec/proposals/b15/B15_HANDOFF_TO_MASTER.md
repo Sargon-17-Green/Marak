@@ -1,4 +1,4 @@
-# B15 Handoff to Master
+﻿# B15 Handoff to Master
 
 Status: **B15 REMEDIATION COMPLETE — READY FOR MASTER POST-M2 LANGUAGE GATE**
 
@@ -84,3 +84,5 @@ No A17 requirement. No semantic reopening. No Master clarification.
 
 B15 includes `B15_C_IMPLEMENTATION_REQUIREMENTS.md` only as conceptual semantic requirements for a
 future C workstream. B15 itself does not begin compiler implementation and does not declare M3.
+
+Draft PR: https://github.com/Sargon-17-Green/Marak/pull/9
