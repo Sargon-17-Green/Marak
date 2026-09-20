@@ -17,6 +17,7 @@ from compiler.lex.words import WordToken, lex_words
 from compiler.models.diagnostics import Diagnostic, Severity
 from compiler.models.hast import HastCoreProgram
 from compiler.models.ir import IRProgram
+from compiler.models.program_contract import ir_program_contract_id, reowner_program_inputs
 from compiler.morphology.api import MorphologyEngine
 from compiler.normalize.code import NormalizationResult, normalize_code
 from compiler.parse.current_registry import CURRENT_REGISTRY
@@ -210,6 +211,14 @@ def check(source: str | SourceText, *, file: str="<memory>", registry:Constructi
                     source_span=hast.source_span,
                     metadata={"semantic_code":exc.issue.code},
                 ))
+            if not diagnostics and hast.program_input_domains:
+                # Finalize source-resolved ProgramInputIds with a reusable,
+                # source-independent program contract that artifact validation
+                # can recompute.  The provisional owner is excluded from the
+                # fingerprint, so this is deterministic and non-circular.
+                provisional_ir=lower_validated_hast(hast)
+                owner=ir_program_contract_id(provisional_ir)
+                hast=reowner_program_inputs(hast,owner)
     return CheckResult(not diagnostics,tuple(diagnostics),n,tokens,forest,parsed,hast)
 
 def compile_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY)->CompilationResult:
