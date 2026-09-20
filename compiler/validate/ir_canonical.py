@@ -151,7 +151,13 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         if isinstance(domain,SymbolDomain) and domain.identity not in declared_symbol_domains:
             _fail(code,"Symbol domain contract references undeclared domain identity")
         if isinstance(domain,CollectionDomain):
-            ensure_declared_domain(domain.element_domain,code)
+            element=domain.element_domain
+            if isinstance(element,CollectionDomain) and isinstance(element.element_domain,CollectionDomain):
+                _fail("IR_COLLECTION_DOMAIN_DEPTH","Collection nesting deeper than the admitted two levels is not canonical")
+            leaf=element.element_domain if isinstance(element,CollectionDomain) else element
+            if leaf not in {NATURAL,BIDIRECTIONAL_INDEX} and not isinstance(leaf,SymbolDomain):
+                _fail("IR_COLLECTION_DOMAIN_LEAF","Collection domain has a non-admitted leaf domain")
+            ensure_declared_domain(element,code)
 
     for d in place_domains.values(): ensure_declared_domain(d,"IR_PLACE_DOMAIN_CONTRACT")
     for d in role_domains.values(): ensure_declared_domain(d,"IR_ROLE_DOMAIN_CONTRACT")
