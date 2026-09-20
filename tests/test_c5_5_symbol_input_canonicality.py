@@ -24,7 +24,12 @@ from tests.test_c5_2_surface_pipeline import (
     replace_nat,
     symbol_domain,
 )
-from tests.test_c5_5_program_inputs import place_nat_value, subtract
+from tests.test_c5_5_program_inputs import (
+    input_nat,
+    input_nat_ref,
+    place_nat_value,
+    subtract,
+)
 
 
 def input_symbol(role: str, domain: str) -> str:
@@ -69,18 +74,27 @@ def three(compiled, bindings):
 
 def symbol_program(*, external_label: str = "אדום", preparation_fault: bool = False):
     domain, declared, role = "צבעים", "אדוםפנימי", "צבעקלט"
-    preparation = (
-        place_nat_value("שגיאה", subtract(num(2), num(1)))
-        if preparation_fault
-        else place_nat("יעד", 1)
-    )
-    src = " ".join([
+    parts = [
         symbol_domain(domain),
         member(domain, declared, 1, external_label),
         input_symbol(role, domain),
-        preparation,
-        "ועתה " + replace_nat("שגיאה" if preparation_fault else "יעד", num(1)),
-    ])
+    ]
+    if preparation_fault:
+        natural_role = "מספרקלט"
+        parts.extend([
+            input_nat(natural_role),
+            place_nat_value(
+                "שגיאה",
+                subtract(input_nat_ref(natural_role), num(1)),
+            ),
+            "ועתה " + replace_nat("שגיאה", num(1)),
+        ])
+    else:
+        parts.extend([
+            place_nat("יעד", 1),
+            "ועתה " + replace_nat("יעד", num(1)),
+        ])
+    src = " ".join(parts)
     compiled = compile_source(src)
     assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
     declaration = compiled.ir.symbol_members[0]
@@ -96,16 +110,24 @@ def test_undeclared_symbol_member_is_rejected_before_preparation_in_all_engines(
     compiled, role, declaration = symbol_program(preparation_fault=True)
     pid = input_id(compiled, role)
 
+    natural_pid = input_id(compiled, "מספרקלט")
+    natural_binding = InputBinding(natural_pid, __import__(
+        "compiler.models.values", fromlist=["NaturalValue"]
+    ).NaturalValue(2))
+
     valid = three(
         compiled,
-        (InputBinding(
-            pid,
-            SymbolValue(
-                declaration.domain_id,
-                declaration.member_id,
-                declaration.external_label,
+        (
+            InputBinding(
+                pid,
+                SymbolValue(
+                    declaration.domain_id,
+                    declaration.member_id,
+                    declaration.external_label,
+                ),
             ),
-        ),),
+            natural_binding,
+        ),
     )
     assert valid["outcome"] == "Error"
     assert valid["error"]["phase"] == "PREPARATION"
@@ -116,10 +138,13 @@ def test_undeclared_symbol_member_is_rejected_before_preparation_in_all_engines(
     )
     invalid = three(
         compiled,
-        (InputBinding(
-            pid,
-            SymbolValue(declaration.domain_id, invented, "מומצא"),
-        ),),
+        (
+            InputBinding(
+                pid,
+                SymbolValue(declaration.domain_id, invented, "מומצא"),
+            ),
+            natural_binding,
+        ),
     )
     assert_domain_mismatch(invalid)
 
