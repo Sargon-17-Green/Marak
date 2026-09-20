@@ -7,13 +7,13 @@ from compiler.runtime.ir_reference import execute_reference_ir
 from compiler.runtime.observables import backend_observable, ir_reference_observable, reference_observable
 from compiler.runtime.reference import execute_reference
 from compiler.models.hast import HastRepeatExactly
-from compiler.models.ir import IRRepeatExactly
+from compiler.models.ir import IRAddNatural, IRNatural, IRReadCurrentFact, IRRepeatExactly
 from tests.test_c5_2_surface_pipeline import (
-    act, body, current, idx_role, num, output, perform, place_nat, replace_nat,
-    role_idx,
+    act, body, current, idx_role, member, num, output, perform, perform_one,
+    place_nat, replace_nat, role_idx, role_sym, sym, sym_role, symbol_domain,
 )
 from tests.test_c5_3_collections import (
-    append_nat, book_place, count, empty_nat, nat_book, place_book, replace_book,
+    append_nat, book_place, count, empty_nat, nat_book, nth_nat, place_book, replace_book,
 )
 
 
@@ -73,6 +73,25 @@ def test_literal_one_two_many_and_large_admitted_counts_source_first():
         assert isinstance(c.ir.principal,IRRepeatExactly)
 
 
+def test_direct_morphology_frontier_compiles_without_becoming_semantic_ceiling():
+    n=99_999_999
+    src=" ".join([place_nat("מונה",1),"ועתה "+repeat_literal(n,increment("מונה"))])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    assert isinstance(c.ir.principal,IRRepeatExactly)
+    assert isinstance(c.ir.principal.count,IRNatural)
+    assert c.ir.principal.count.value==n
+
+
+def test_dynamic_count_can_exceed_direct_morphology_frontier_without_semantic_cap():
+    count_expr=add(num(99_999_999),num(1))
+    src=" ".join([place_nat("מונה",1),"ועתה "+repeat_dynamic(count_expr,increment("מונה"))])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    assert isinstance(c.ir.principal,IRRepeatExactly)
+    assert isinstance(c.ir.principal.count,IRAddNatural)
+
+
 def test_dynamic_current_place_count_is_evaluated_once_while_body_mutates_that_place():
     # Entry count is 3. Re-evaluating after each iteration would never terminate,
     # because the body increments the very place that supplied the count.
@@ -83,6 +102,7 @@ def test_dynamic_current_place_count_is_evaluated_once_while_body_mutates_that_p
     c,obs=three(src)
     assert dict(obs["facts"])["מנין"]==6
     assert isinstance(c.ir.principal,IRRepeatExactly)
+    assert isinstance(c.ir.principal.count,IRReadCurrentFact)
 
 
 def test_computed_dynamic_count_is_evaluated_once_over_two_mutable_places():
@@ -220,6 +240,53 @@ def test_repeated_index_carrying_act_keeps_typed_role_and_output_contract():
     assert all(x[1]=={"index":"Zero"} for x in obs["products"])
 
 
+def test_repeated_symbol_carrying_act_keeps_typed_role_and_output_contract():
+    domain,worker,role,red="צבעים","צבעמעביר","צבע","אדום"
+    src=" ".join([
+        symbol_domain(domain),member(domain,red,1,"אדום"),
+        act(worker),role_sym(worker,role,domain),
+        body(worker,output(sym_role(domain,worker,role))),
+        "ועתה "+repeat_literal(2,perform_one(worker,role,sym(domain,red))),
+    ])
+    _,obs=three(src)
+    assert obs["products"]==[[worker,"אדום"],[worker,"אדום"]]
+
+
+def test_recurrence_does_not_create_immediate_result_provenance_of_last_iteration():
+    worker="פולט"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {worker}"
+    src=" ".join([
+        place_nat("יעד",1),act(worker),body(worker,output(num(7))),
+        "ועתה "+repeat_literal(2,perform(worker))+" ואחרי כן "+replace_nat("יעד",recent),
+    ])
+    c=compile_source(src)
+    assert not c.valid
+    assert "REF0112" in [d.code for d in c.diagnostics]
+
+
+def test_failure_after_output_keeps_completed_output_event_and_stops_recurrence():
+    worker="פולט"
+    failing=nth_nat(book_place("ספר"),num(2))
+    src=" ".join([
+        place_book("ספר",nat_book(11)),place_nat("יעד",9),
+        act(worker),body(worker,output(num(7))+" ואחרי כן "+replace_nat("יעד",failing)),
+        "ועתה "+repeat_literal(3,perform(worker)),
+    ])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    observed=[
+        reference_observable(execute_reference(c.hast)),
+        ir_reference_observable(execute_reference_ir(c.ir)),
+        backend_observable(execute_ir(c.ir)),
+    ]
+    assert observed[0]==observed[1]==observed[2]
+    obs=observed[0]
+    assert obs["outcome"]=="Error"
+    assert obs["error"]["code"]=="COLLECTION_POSITION_ERROR"
+    assert obs["products"]==[[worker,7]]
+    assert dict(obs["facts"])["יעד"]==9
+
+
 def test_divergent_repeated_action_never_advances_to_later_iteration_under_fuel_harness():
     worker="נצחי"
     src=" ".join([
@@ -246,6 +313,7 @@ def test_attachment_and_negative_surface_forms_are_rejected_without_heuristics()
         f"שבעה פעמים {action}",
         f"{action} פעמים {as_count(current('מונה'))}",
         f"פעמים כמספר המספר אשר במקום אשר שמו מונה {action}",
+        f"פעמים כמספר השנה אשר במקום אשר שמו שנה {action}",
         f"אפס פעמים {action}",
         f"repeat {action}",
         f"for {action}",
