@@ -31,10 +31,12 @@ def test_c52_artifact_bytes_are_cross_host_canonical():
         "index":index_flow_source(),
         "large":large_numeral_source([10_000,999_999,1_000_000,14_777_149,99_999_999]),
     }
+    actual={}
     for name,source in cases.items():
         c=compile_source(source)
         assert c.valid
-        assert digest(c.artifact)==EXPECTED[name]
+        actual[name]=digest(c.artifact)
+    assert actual=={name:EXPECTED[name] for name in cases}
 
 
 def test_current_registry_bytes_are_cross_host_canonical_lf():
