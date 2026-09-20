@@ -319,6 +319,10 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             if inner and node.count > 1:
                 _fail("IR_OUTPUT_IN_RECURRENCE", "result production inside fixed recurrence can occur more than once in one occurrence")
             return inner * node.count
+        if isinstance(node, i.IRRepeatExactly):
+            # A second direct Produce in the same occurrence is the existing
+            # runtime output-cardinality error; RepeatExactly creates no result collection.
+            return output_path_max(node.action)
         if isinstance(node, i.IRPostActionRecurrence):
             if output_path_max(node.action):
                 _fail("IR_OUTPUT_IN_RECURRENCE", "result production inside post-action recurrence can occur repeatedly in one occurrence")
@@ -375,6 +379,17 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             if type(node.count) is not int or node.count <= 0:
                 _fail("IR_FIXED_RECURRENCE", "fixed recurrence count is not a positive Natural")
             output_path_max(node)
+            action(node.action, current_act=current_act, recent_act=None, allow_output=allow_output)
+            return None
+        if isinstance(node, i.IRRepeatExactly):
+            count_domain = value(
+                node.count, visible_places=visible, current_act=current_act,
+                recent_act=recent_act, context="execution",
+            )
+            if count_domain != NATURAL:
+                _fail("IR_RECURRENCE_COUNT_DOMAIN", "RepeatExactly count must independently resolve to Natural")
+            if not isinstance(node.action, (i.IRReplaceCurrentFact, i.IRPerformAct, i.IRProduceResult)):
+                _fail("IR_RECURRENCE_BODY", "RepeatExactly must preserve exactly one atomic action boundary")
             action(node.action, current_act=current_act, recent_act=None, allow_output=allow_output)
             return None
         if isinstance(node, i.IRPostActionRecurrence):

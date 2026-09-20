@@ -82,6 +82,8 @@ def action(a: h.HastExecutable) -> i.IRAction:
         return i.IRConditional(a.source_span, prop(a.proposition), action(a.if_holds), action(a.if_not))
     if isinstance(a, h.HastFixedRecurrence):
         return i.IRFixedRecurrence(a.source_span, a.count, action(a.action))
+    if isinstance(a, h.HastRepeatExactly):
+        return i.IRRepeatExactly(a.source_span, num(a.count), action(a.action))
     if isinstance(a, h.HastPostActionRecurrence):
         return i.IRPostActionRecurrence(a.source_span, action(a.action), prop(a.proposition))
     raise TypeError(type(a).__name__)

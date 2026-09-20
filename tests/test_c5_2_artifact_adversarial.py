@@ -135,5 +135,5 @@ def test_previous_artifact_schema_is_cleanly_rejected():
         verify_artifact(data)
 
 
-def test_artifact_version_is_explicitly_04_candidate():
-    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.4-candidate-1"
+def test_artifact_version_is_explicitly_current_candidate():
+    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.5-candidate-1"

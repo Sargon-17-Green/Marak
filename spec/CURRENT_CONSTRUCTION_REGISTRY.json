@@ -516,6 +516,25 @@
       ],
       "status": "normative",
       "summary": "Typed empty books, pure append, selection and deterministic ordering."
+    },
+    {
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_COUNTED_RECURRENCE"
+      ],
+      "status": "normative",
+      "summary": "Dynamic counts are existing Natural Value descriptions with only their initial numeric head inflected to כמספר."
+    },
+    {
+      "construction_id": "C54.EXACT_COUNTED_RECURRENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_COUNTED_RECURRENCE",
+        "B-REP-R06"
+      ],
+      "status": "normative",
+      "summary": "RepeatExactly determines one Natural count once at entry and repeats exactly one atomic action; no iterator or implicit result collection exists."
     }
   ],
   "language_edition": "core-0.1-integration-candidate-a13-b12",
@@ -747,24 +766,6 @@
       ],
       "root": false,
       "semantic_id": "A10.AFTER_GATED_RECURRENCE"
-    },
-    {
-      "admitted": true,
-      "construction_id": "A9.COUNTED_RECURRENCE",
-      "lhs": "CountedConsequence",
-      "production_id": "A10.REPEAT.COUNTED",
-      "rhs": [
-        {
-          "kind": "nonterminal",
-          "name": "RepeatCount"
-        },
-        {
-          "kind": "nonterminal",
-          "name": "AtomicAction"
-        }
-      ],
-      "root": false,
-      "semantic_id": "A9.COUNTED_RECURRENCE"
     },
     {
       "admitted": true,
@@ -5537,9 +5538,469 @@
       ],
       "root": false,
       "semantic_id": "C53.SELECT_ORDINAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.A10_PLACE_CURRENT_NUMBER",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.A11_NUMBER_CURRENT_ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.A12_RESULT_IMMEDIATE_SINGLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצא"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.A9_NUMBER_ADD",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בהוסיף"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "על"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.A9_NUMBER_SUBTRACT",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "הנחשב"
+        },
+        {
+          "kind": "word",
+          "text": "בגרע"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.C52_NUMBER_LITERAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-direct-1-99999999"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.C53_COUNT",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "הדברים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.C53_FIRST_NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בראש"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.C53_LAST_NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "האחרון"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.COUNT_AS_NUMBER",
+      "lhs": "CountAsNumber",
+      "production_id": "C54.COUNT_AS.C53_SELECT_NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרו"
+        },
+        {
+          "kind": "word",
+          "text": "בסדר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.EXACT_COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "C54.REPEAT.DYNAMIC",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "פעמים"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CountAsNumber"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.REPEAT_EXACTLY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.EXACT_COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "C54.REPEAT.MANY",
+      "rhs": [
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-feminine-count-3-99999999"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.REPEAT_EXACTLY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.EXACT_COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "C54.REPEAT.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "פעם"
+        },
+        {
+          "kind": "word",
+          "text": "אחת"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.REPEAT_EXACTLY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C54.EXACT_COUNTED_RECURRENCE",
+      "lhs": "CountedConsequence",
+      "production_id": "C54.REPEAT.TWO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שתי"
+        },
+        {
+          "kind": "word",
+          "text": "פעמים"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AtomicAction"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.REPEAT_EXACTLY"
     }
   ],
-  "registry_version": "c5.3-a15-a16.1",
+  "registry_version": "c5.4-a15-b13.1",
   "semantic_gates": [
     {
       "construction_id": "A10.NAMED_ACT_PERFORMANCE",
@@ -5605,5 +6066,5 @@
       "status": "ready"
     }
   ],
-  "source_snapshot": "C5.2+A15/A16 finite ordered Collection production integration candidate"
+  "source_snapshot": "C5.3+A15 counted recurrence+B13 RepeatExactly production integration"
 }

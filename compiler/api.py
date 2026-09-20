@@ -98,7 +98,7 @@ def _construction_ids(element:ParseElement)->set[str]:
     return out
 
 def _is_a13(registry:ConstructionRegistry)->bool:
-    return registry.registry_version.startswith(("a13-b12","c5.2-","c5.3-"))
+    return registry.registry_version.startswith(("a13-b12","c5.2-","c5.3-","c5.4-"))
 
 def _slice_parses_as(tokens, registry: ConstructionRegistry, lhs: str) -> bool:
     if not tokens:

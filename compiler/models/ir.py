@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from compiler.models.domains import Domain, ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.source.source_map import OriginalSpan
 
-IR_VERSION = "core-ir-0.4-candidate-1"
+IR_VERSION = "core-ir-0.5-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -216,6 +216,13 @@ class IRConditional(IRAction):
 @dataclass(frozen=True, slots=True)
 class IRFixedRecurrence(IRAction):
     count: int
+    action: IRAction
+
+
+@dataclass(frozen=True, slots=True)
+class IRRepeatExactly(IRAction):
+    """Count expression is preserved and evaluated once at recurrence entry."""
+    count: IRNumber
     action: IRAction
 
 
