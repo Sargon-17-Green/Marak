@@ -108,6 +108,8 @@ jobs:
           python spec/proposals/b14/reference/run_b14_integration_tests.py
           python spec/proposals/a16/reference/run_a16_surface_tests.py
           python spec/proposals/b15/reference/run_b15_tests.py
+      - name: Report C5.3 resource sanity
+        run: python tools/c5_3_resource_sanity.py
       - name: Regenerate C5.3 canonical bytes
         if: always()
         run: |
