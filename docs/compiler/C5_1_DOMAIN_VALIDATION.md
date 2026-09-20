@@ -9,3 +9,8 @@ A13/B12 Natural nodes remain specialized. Natural arithmetic and equality reject
 Stable domain diagnostics are reserved as `DOM0001` through `DOM0012`; structured validation issues also retain precise semantic invariant codes such as `IR_DOMAIN_ROLE_ASSOCIATION` and `IR_DOMAIN_RESULT_HEAD` for artifact diagnostics. Program invocation uses the distinct B13/B15 codes `MISSING_INPUT_BINDING`, `EXTRA_INPUT_BINDING`, `DUPLICATE_INPUT_BINDING`, and `INPUT_DOMAIN_MISMATCH`.
 
 No runtime name lookup was introduced. Place/Act/Role operations use resolved identities; source spellings are retained only for diagnostics/observable labels.
+
+## Master remediation - exact-once HAST contracts
+`validate_hast_domains()` now rejects duplicate contract records before constructing lookup mappings. Exact-once validation is enforced independently for `HastPlaceDomain`, `HastRoleDomain`, `HastActOutputDomain`, and `HastProgramInputDomain`. IR/artifact validation remains an independent second trust-boundary check; lowering no longer relies on it to catch malformed HAST contracts.
+
+The abstract Program Input validator documents and tests `NaturalValue` as the Natural binding representation. Missing, extra, duplicate, and wrong-domain Natural bindings are rejected before any Preparation execution boundary is entered.

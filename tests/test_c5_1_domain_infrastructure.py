@@ -80,8 +80,8 @@ def test_symbol_flows_place_role_output_recent_result_and_artifact():
     program=_program(d,H.HastSymbolValue(sp(),d_id,member,"????"))
     _,data,obs=_roundtrip(program)
     assert verify_artifact(data)
-    assert obs["facts"]==[["?????????",{"domain":"???","member":"????"}]]
-    assert obs["products"]==[["?????????",{"domain":"???","member":"????"}]]
+    assert obs["facts"]==[["?????????","????"]]
+    assert obs["products"]==[["?????????","????"]]
 
 
 def test_bidirectional_index_flows_same_carrier_chain():
@@ -94,7 +94,7 @@ def test_collection_flows_same_carrier_chain():
     d_id=SymbolDomainId(201,"???"); member=SymbolMemberId(1,"???"); elem=SymbolDomain(d_id); d=CollectionDomain(elem)
     literal=H.HastCollectionValue(sp(),elem,(H.HastSymbolValue(sp(),d_id,member,"???"),))
     _,_,obs=_roundtrip(_program(d,literal))
-    assert obs["facts"]==[["?????????",[{"domain":"???","member":"???"}]]]
+    assert obs["facts"]==[["?????????",["???"]]]
 
 
 def test_a13_core_contracts_are_explicitly_natural():
@@ -216,8 +216,115 @@ def test_artifact_v01_schema_is_rejected_not_reinterpreted():
 
 
 def test_symbol_observation_is_invariant_under_internal_identity_renumbering():
-    d1=SymbolDomainId(9101,"צבע"); m1=SymbolMemberId(1,"אדום")
-    d2=SymbolDomainId(77,"צבע"); m2=SymbolMemberId(900,"אדום")
-    _,_,obs1=_roundtrip(_program(SymbolDomain(d1),H.HastSymbolValue(sp(),d1,m1,"אדום")))
-    _,_,obs2=_roundtrip(_program(SymbolDomain(d2),H.HastSymbolValue(sp(),d2,m2,"אדום")))
+    d1=SymbolDomainId(9101,"colors"); m1=SymbolMemberId(1,"red_source")
+    d2=SymbolDomainId(77,"colors"); m2=SymbolMemberId(900,"red_source")
+    _,_,obs1=_roundtrip(_program(SymbolDomain(d1),H.HastSymbolValue(sp(),d1,m1,"RED")))
+    _,_,obs2=_roundtrip(_program(SymbolDomain(d2),H.HastSymbolValue(sp(),d2,m2,"RED")))
     assert obs1==obs2
+
+
+def _symbol_observation(*, domain_serial: int, domain_spelling: str, member_serial: int, member_spelling: str, label: str, nested: bool = False):
+    did=SymbolDomainId(domain_serial,domain_spelling)
+    mid=SymbolMemberId(member_serial,member_spelling)
+    elem=SymbolDomain(did)
+    symbol=H.HastSymbolValue(sp(),did,mid,label)
+    if nested:
+        domain=CollectionDomain(elem)
+        literal=H.HastCollectionValue(sp(),elem,(symbol,))
+    else:
+        domain=elem
+        literal=symbol
+    _,_,obs=_roundtrip(_program(domain,literal))
+    return obs
+
+
+def test_symbol_observation_domain_source_rename_invariant():
+    a=_symbol_observation(domain_serial=1,domain_spelling="color",member_serial=1,member_spelling="red_source",label="RED")
+    b=_symbol_observation(domain_serial=1,domain_spelling="hue",member_serial=1,member_spelling="red_source",label="RED")
+    assert a==b
+
+
+def test_symbol_observation_member_source_rename_invariant():
+    a=_symbol_observation(domain_serial=1,domain_spelling="color",member_serial=1,member_spelling="red_source",label="RED")
+    b=_symbol_observation(domain_serial=1,domain_spelling="color",member_serial=1,member_spelling="scarlet_source",label="RED")
+    assert a==b
+
+
+def test_symbol_observation_identity_and_source_rename_invariant():
+    a=_symbol_observation(domain_serial=10,domain_spelling="color",member_serial=20,member_spelling="red_source",label="RED")
+    b=_symbol_observation(domain_serial=900,domain_spelling="hue",member_serial=700,member_spelling="scarlet_source",label="RED")
+    assert a==b
+
+
+def test_symbol_observation_changes_with_external_label():
+    a=_symbol_observation(domain_serial=1,domain_spelling="color",member_serial=1,member_spelling="red_source",label="RED")
+    b=_symbol_observation(domain_serial=1,domain_spelling="color",member_serial=1,member_spelling="red_source",label="CRIMSON")
+    assert a!=b
+    assert a["facts"][0][1]=="RED"
+    assert b["facts"][0][1]=="CRIMSON"
+
+
+def test_nested_collection_symbol_observation_erases_source_identity_recursively():
+    a=_symbol_observation(domain_serial=10,domain_spelling="color",member_serial=20,member_spelling="red_source",label="RED",nested=True)
+    b=_symbol_observation(domain_serial=900,domain_spelling="hue",member_serial=700,member_spelling="scarlet_source",label="RED",nested=True)
+    assert a==b
+    assert a["facts"][0][1]==["RED"]
+
+
+@pytest.mark.parametrize(
+    ("field","semantic_code"),
+    [
+        ("place_domains","DOMAIN_PLACE_CONTRACT"),
+        ("role_domains","DOMAIN_ROLE_CONTRACT"),
+        ("act_output_domains","DOMAIN_OUTPUT_CONTRACT"),
+    ],
+)
+def test_hast_duplicate_static_domain_contracts_rejected_before_ir(field,semantic_code):
+    p=_program(BIDIRECTIONAL_INDEX,H.HastIndexValue(sp(),"zero",0))
+    records=getattr(p,field)
+    bad=dataclasses.replace(p,**{field:records+(records[0],)})
+    with pytest.raises(DomainValidationError,match=semantic_code):
+        validate_hast_domains(bad)
+
+
+def test_hast_duplicate_program_input_domain_contract_rejected_before_ir():
+    p=_program(BIDIRECTIONAL_INDEX,H.HastIndexValue(sp(),"zero",0))
+    inp=ProgramInputId(41,"calculation_day")
+    record=H.HastProgramInputDomain(inp,NATURAL)
+    bad=dataclasses.replace(p,program_input_domains=(record,record))
+    with pytest.raises(DomainValidationError,match="DOMAIN_PROGRAM_INPUT_DUPLICATE"):
+        validate_hast_domains(bad)
+
+
+def test_natural_program_input_invocation_contract():
+    p=_program(BIDIRECTIONAL_INDEX,H.HastIndexValue(sp(),"zero",0))
+    inp=ProgramInputId(51,"calculation_day")
+    declared=dataclasses.replace(p,program_input_domains=(H.HastProgramInputDomain(inp,NATURAL),))
+    ir=lower_validated_hast(declared)
+
+    valid=validate_invocation(ir,(InputBinding(inp,NaturalValue(123)),))
+    assert isinstance(valid,ValidatedInvocation)
+
+    symbol_domain=SymbolDomainId(52,"symbol_domain")
+    wrong=validate_invocation(ir,(InputBinding(inp,SymbolValue(symbol_domain,SymbolMemberId(1,"member"),"VISIBLE")),))
+    assert [x.code for x in wrong]==[INPUT_DOMAIN_MISMATCH]
+
+    missing=validate_invocation(ir,())
+    assert [x.code for x in missing]==[MISSING_INPUT_BINDING]
+
+    duplicate=validate_invocation(ir,(InputBinding(inp,NaturalValue(1)),InputBinding(inp,NaturalValue(2))))
+    assert [x.code for x in duplicate]==[DUPLICATE_INPUT_BINDING]
+
+    extra_id=ProgramInputId(53,"target_day")
+    extra=validate_invocation(ir,(InputBinding(inp,NaturalValue(123)),InputBinding(extra_id,NaturalValue(456))))
+    assert [x.code for x in extra]==[EXTRA_INPUT_BINDING]
+
+
+
+def test_duplicate_visible_symbol_labels_do_not_define_symbol_equality():
+    from compiler.models.values import observable_value
+    did=SymbolDomainId(61,"colors")
+    a=SymbolValue(did,SymbolMemberId(1,"member_a"),"VISIBLE")
+    b=SymbolValue(did,SymbolMemberId(2,"member_b"),"VISIBLE")
+    assert a != b
+    assert observable_value(a) == observable_value(b) == "VISIBLE"

@@ -9,3 +9,8 @@ Deliberately deferred: full A15/A16 grammar integration; Symbol declaration pars
 No A/B integration contradiction was found. Expected-type rescue is rejected, no runtime source-name lookup was introduced, and no Megillah-specific behavior exists in the production path.
 
 Verification achieved before the evidence-only final commit: full pytest 280 + 126, all requested B15/A16/B14/B13/A15/A13/B12 proposal regressions, and green Ubuntu/Windows domain/tooling CI. The final HEAD is required to repeat CI before C5.1 is reported COMPLETE.
+
+## Master review remediation closure
+The reviewed C5.1 package exposed Symbol source-domain spelling in the normal observable projection. This blocker is closed: Symbol observation is now `external_label` only, while Symbol equality remains identity-based. Adversarial tests prove invariance under source-domain/member renaming and internal renumbering across all three execution layers, including nested collections.
+
+The review also identified HAST contract duplicate-overwrite hardening and requested explicit Natural Program Input coverage. Both are closed before IR lowering: all four HAST domain-contract families reject duplicates, and the invocation boundary explicitly uses `NaturalValue(n)` with all required validation outcomes tested. No serialized schema changed, so compiler/HAST/IR/artifact versions remain unchanged from C5.1. No A/B contradiction was found.

@@ -76,7 +76,10 @@ def observable_value(value: SemanticValue):
     if isinstance(value, NaturalValue):
         return value.value
     if isinstance(value, SymbolValue):
-        return {"domain": value.domain_id.spelling, "member": value.external_label}
+        # B13/B15 language observation is the canonical visible label only.
+        # Domain/member source names and implementation identities remain
+        # available to resolution/validation/debug layers but are erased here.
+        return value.external_label
     if isinstance(value, BidirectionalIndexValue):
         if value.side == "zero":
             return {"index": "Zero"}

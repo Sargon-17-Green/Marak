@@ -1,3 +1,11 @@
+"""Abstract Program Input invocation contract.
+
+Bindings carry compiler semantic Values, never transport/host values.  In
+particular a Natural input is represented here as ``NaturalValue(n)``; the
+Python ``int`` used by some execution internals is not an invocation-boundary
+representation.  Transport adapters may construct these Values later, but
+that conversion is outside Marak language semantics.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -44,7 +52,12 @@ def validate_invocation(program: IRProgram, bindings: tuple[InputBinding, ...]) 
         if expected is None:
             issues.append(InvocationIssue(EXTRA_INPUT_BINDING, binding.input_id, "Program Input is not declared by this program"))
             continue
-        if value_domain(binding.value) != expected:
+        try:
+            actual = value_domain(binding.value)
+        except TypeError:
+            issues.append(InvocationIssue(INPUT_DOMAIN_MISMATCH, binding.input_id, "Program Input binding is not a Marak semantic Value"))
+            continue
+        if actual != expected:
             issues.append(InvocationIssue(INPUT_DOMAIN_MISMATCH, binding.input_id, "Program Input Value domain does not equal its declared domain"))
 
     for input_id in contracts:

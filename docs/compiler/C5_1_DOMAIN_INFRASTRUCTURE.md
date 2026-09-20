@@ -17,3 +17,10 @@ Place initialization/replacement, named role association, act output, and immedi
 
 ## Surface scope
 C5.1 does not land the complete A15/A16 grammar. Non-Natural end-to-end coverage uses canonical production HAST fixtures that enter the same lowering, IR, artifact verifier, reference execution, and portable backend as parsed programs. This proves production carrier architecture without inventing new surface syntax.
+
+## Master remediation - observation quotient
+The Master review found that the initial C5.1 Symbol projection leaked `SymbolDomainId.spelling`. This is closed. Normal language observation of a Symbol now exposes only its canonical `external_label`. Domain/member source spelling, serials, and internal IDs remain available only to resolution, validation, artifacts, diagnostics, and explicit debug projections.
+
+Consistent renaming or renumbering of Symbol domain/member source identities leaves HAST-reference, IR-reference, and portable-backend language observations unchanged. Changing `external_label` changes observation. Distinct Symbol members with the same visible label remain semantically distinct even though their visible presentation can coincide. The same source-identity erasure is recursive inside `Collection<Symbol>`.
+
+Program Input bindings at the abstract invocation boundary carry `SemanticValue` instances. In particular, Natural is represented as `NaturalValue(n)` at this boundary; execution-internal Python integers are not an invocation representation. Transport conversion remains outside Marak semantics.

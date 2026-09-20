@@ -27,11 +27,41 @@
     "workflow_run_id": 35499266986
   },
   "compiler_pytest": {
-    "passed": 280,
+    "passed": 291,
     "status": "PASS",
     "subtests_passed": 126
   },
   "expected_type_rescue": "REJECTED",
+  "master_remediation": {
+    "a_b_contradiction": "NONE",
+    "duplicate_visible_label_identity": "PRESERVED",
+    "external_label_sensitivity": "PASS",
+    "hast_duplicate_contracts": {
+      "act_output": "REJECT",
+      "place": "REJECT",
+      "program_input": "REJECT",
+      "role": "REJECT"
+    },
+    "natural_program_input": {
+      "duplicate": "DUPLICATE_INPUT_BINDING",
+      "extra": "EXTRA_INPUT_BINDING",
+      "missing": "MISSING_INPUT_BINDING",
+      "representation": "NaturalValue(n)",
+      "valid": "PASS",
+      "wrong_domain": "INPUT_DOMAIN_MISMATCH"
+    },
+    "rename_invariance": [
+      "domain_source_spelling",
+      "member_source_spelling",
+      "domain_member_serial_and_spelling",
+      "nested_collection_symbol"
+    ],
+    "symbol_observation": {
+      "after": "external_label only",
+      "before": "domain source spelling + external label",
+      "status": "CLOSED"
+    }
+  },
   "proposal_suites": {
     "A13": 289,
     "A15": 335280,

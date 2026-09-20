@@ -157,6 +157,20 @@ def ir_value_domain(
 
 
 def validate_hast_domains(program: h.HastCoreProgram) -> None:
+    place_ids = [x.place for x in program.place_domains]
+    role_ids = [x.role for x in program.role_domains]
+    output_ids = [x.act for x in program.act_output_domains]
+    input_ids = [x.input_id for x in program.program_input_domains]
+
+    if len(place_ids) != len(set(place_ids)):
+        _fail("DOMAIN_PLACE_CONTRACT", "duplicate place domain contract")
+    if len(role_ids) != len(set(role_ids)):
+        _fail("DOMAIN_ROLE_CONTRACT", "duplicate role domain contract")
+    if len(output_ids) != len(set(output_ids)):
+        _fail("DOMAIN_OUTPUT_CONTRACT", "duplicate act output-domain contract")
+    if len(input_ids) != len(set(input_ids)):
+        _fail("DOMAIN_PROGRAM_INPUT_DUPLICATE", "duplicate Program Input domain contract")
+
     places = {x.place: require_domain(x.domain) for x in program.place_domains}
     roles = {x.role: require_domain(x.domain) for x in program.role_domains}
     outputs = {x.act: None if x.domain is None else require_domain(x.domain) for x in program.act_output_domains}
@@ -167,8 +181,6 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         _fail("DOMAIN_ROLE_CONTRACT", "every role requires exactly one static domain contract")
     if set(outputs) != set(program.acts):
         _fail("DOMAIN_OUTPUT_CONTRACT", "every act requires an explicit none-or-domain output contract")
-    if len(program.program_input_domains) != len({x.input_id for x in program.program_input_domains}):
-        _fail("DOMAIN_PROGRAM_INPUT_DUPLICATE", "duplicate Program Input identity")
     for x in program.program_input_domains:
         require_domain(x.domain)
 
