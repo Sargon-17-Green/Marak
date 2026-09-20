@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import asdict
 from pathlib import Path
 
 from compiler.api import compile_source
@@ -36,7 +37,7 @@ obj = {
         "code": frontier.code,
         "phase": frontier.phase,
         "message_en": frontier.message_en,
-        "source_span": None if frontier.source_span is None else frontier.source_span.to_dict(),
+        "source_span": None if frontier.source_span is None else asdict(frontier.source_span),
         "normalized_span": frontier.normalized_span,
         "metadata": frontier.metadata,
     },
