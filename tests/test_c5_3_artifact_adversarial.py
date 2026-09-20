@@ -120,3 +120,21 @@ def test_recursive_nested_element_domain_forgery_rejected():
     init=p.initial_facts[0]
     bad=dataclasses.replace(p,initial_facts=(dataclasses.replace(init,value=forged_outer),))
     expect_reject(bad,"IR_DOMAIN_COLLECTION_ELEMENT")
+
+
+def test_internally_consistent_depth_three_collection_domain_is_not_canonical():
+    p=natural_sort_program()
+    span=p.source_span
+    leaf=I.IRCollectionValue(span,NATURAL,(I.IRNatural(span,1),))
+    middle=I.IRCollectionValue(span,CollectionDomain(NATURAL),(leaf,))
+    outer=I.IRCollectionValue(span,CollectionDomain(CollectionDomain(NATURAL)),(middle,))
+    top_domain=CollectionDomain(CollectionDomain(CollectionDomain(NATURAL)))
+    init=p.initial_facts[0]
+    place=p.place_domains[0].place
+    bad=dataclasses.replace(
+        p,
+        initial_facts=(dataclasses.replace(init,value=outer),),
+        place_domains=(I.IRPlaceDomain(span,place,top_domain),),
+        principal=I.IRReplaceCurrentFact(span,place,outer),
+    )
+    expect_reject(bad,"IR_COLLECTION_DOMAIN_DEPTH")
