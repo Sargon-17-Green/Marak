@@ -9,7 +9,10 @@ from pathlib import Path
 from compiler.api import compile_source
 from compiler.normalize.code import normalize_code
 
-if hasattr(sys.stdout, "reconfigure"):\n    sys.stdout.reconfigure(encoding="utf-8")\n\nROOT = Path(__file__).resolve().parents[1]
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = ROOT / "megillah" / "candidates" / "Megilat_HaItim_Marak_Candidate.md"
 ORIGINAL = ROOT / "megillah" / "original" / "Megilat_HaItim_Yehuda_FINAL_2026-09-18.md"
 
