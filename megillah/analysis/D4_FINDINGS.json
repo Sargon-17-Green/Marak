@@ -1,0 +1,43 @@
+{
+  "schema": "marak-workstream-d4-findings-v1",
+  "baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
+  "findings": [
+    {
+      "id": "D4-LANG-001",
+      "severity": "MAJOR_BLOCKER_AT_CURRENT_FRONTIER",
+      "classification": "NEW_LANGUAGE_SURFACE_NEED",
+      "source_spans": [
+        {
+          "path": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+          "start_line": 17,
+          "end_line": 17,
+          "role": "two external day inputs"
+        },
+        {
+          "path": "megillah/original/Megilat_HaItim_Yehuda_FINAL_2026-09-18.md",
+          "start_line": 35,
+          "end_line": 73,
+          "role": "foundation-day identity, unbounded before/after relation, unique but non-order-preserving day number"
+        }
+      ],
+      "normative_expectation": "Use an existing semantic domain/value if it faithfully carries the source need; do not invent Day/Date/host datetime.",
+      "actual_behavior": "C5.5 can bind BidirectionalIndex inputs, but production source only exposes that domain with year-typed head מספר שנה. Attempted day-typed head מספר יום is rejected. Natural input exists but source explicitly states chronological order is not derivable from day numbers alone.",
+      "minimal_reproducer": "tests/test_d4_megillah_conformance.py::test_day_domain_audit_current_surface_has_year_index_but_no_day_index_head",
+      "positive_control": "the same test compiles a C5.5 BidirectionalIndex input using the admitted year head",
+      "anti_imitation": "This does not request a conventional Date, Integer, timestamp, or Day object. The semantic need is an unbounded ordered coordinate around a distinguished origin, already modeled by BidirectionalIndex. Only a truthful non-year source exposure is missing.",
+      "generality": "A15 explicitly deferred a generic/non-year source noun for BidirectionalIndex pending independent evidence. The Megillah day-coordinate corpus supplies concrete evidence that the accepted semantic domain is needed outside the year surface profile.",
+      "rejected_workarounds": [
+        "Natural-only input: loses source-described chronological order",
+        "Symbol: finite and cannot represent the unbounded day line",
+        "Collection/pair encoding: opaque wholesale encoding, not local repair",
+        "year-typed מספר שנה for a day: linguistically false",
+        "host date/datetime/timestamp: non-Marak host ontology"
+      ],
+      "routing": "MASTER -> A/B for surface/semantic integration decision; C only after normative decision if implementation work is required",
+      "d_can_continue_safely": "Yes for independent audits/proofs; no production-candidate advance through original line 35."
+    }
+  ],
+  "new_source_findings": [],
+  "new_compiler_findings": [],
+  "new_spec_findings": []
+}

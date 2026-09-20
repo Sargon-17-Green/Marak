@@ -1,0 +1,181 @@
+{
+  "schema": "marak-workstream-d4-section-reclassification-v1",
+  "baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
+  "sections": [
+    {
+      "id": "D3-SECTION-001",
+      "d3_status": "MIXED_DOCUMENTATION_AND_INTERFACE_REQUIREMENT",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "retain documentary map",
+        "convert two-input contract only after faithful input domain is available"
+      ],
+      "new_blockers": [
+        "D4-LANG-001"
+      ],
+      "compiler_evidence": [
+        "C5.5 Program Input binding proof passes",
+        "day-typed Index surface negative proof"
+      ]
+    },
+    {
+      "id": "D3-SECTION-002",
+      "d3_status": "REUSABLE_COMPUTATION",
+      "post_c55_status": "CLOSED_BY_D3",
+      "repairs_required": [],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "D3-STRUCT-0001 5+6=11 regression preserved"
+      ]
+    },
+    {
+      "id": "D3-SECTION-003",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-005",
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "post_c55_status": "STILL_BLOCKED",
+      "repairs_required": [
+        "canonicalize large numerals occurrence-by-occurrence",
+        "structurally express foundation-day/day-number computation"
+      ],
+      "new_blockers": [
+        "D4-LANG-001"
+      ],
+      "compiler_evidence": [
+        "large Natural production proof passes",
+        "candidate frontier remains at original line 35"
+      ]
+    },
+    {
+      "id": "D3-SECTION-004",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "rewrite historical count-before/after wording to canonical RepeatExactly",
+        "wrap composite repeated work as named act"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "literal 127 and dynamic-count production proofs pass"
+      ]
+    },
+    {
+      "id": "D3-SECTION-005",
+      "d3_status": "REUSABLE_COMPUTATION",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "convert square prose/body to explicit act-compatible state/result structure",
+        "move dynamic count to canonical prefix"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "RepeatExactly available; historical postposed form is noncanonical by A15"
+      ]
+    },
+    {
+      "id": "D3-SECTION-006",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-005",
+        "D-LANGUAGE-REQUEST-006"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "canonicalize 125/127 feminine counts",
+        "replace עשה כן recurrence with explicit atomic/named action"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "127 exact-count proof passes"
+      ]
+    },
+    {
+      "id": "D3-SECTION-007",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-004"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "rewrite each comparison to explicit A רב מן B orientation",
+        "repair remaining implicit antecedents"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "Natural GT production proof passes"
+      ]
+    },
+    {
+      "id": "D3-SECTION-008",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004",
+        "D-LANGUAGE-REQUEST-005"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "typed candidate-year Collections",
+        "explicit Natural ordering",
+        "canonical large numerals"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "Collection/GT/large-Natural production proofs pass independently"
+      ]
+    },
+    {
+      "id": "D3-SECTION-009",
+      "d3_status": "BLOCKED_ON_POST_M2_LANGUAGE",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-001",
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004"
+      ],
+      "post_c55_status": "PARTIALLY_CLOSED",
+      "repairs_required": [
+        "declare finite Symbol domains with counted labels and explicit order",
+        "use typed Symbol Collections and lexicographic order",
+        "canonicalize numeric comparisons"
+      ],
+      "new_blockers": [],
+      "compiler_evidence": [
+        "Symbol label/order and Collection production proofs pass"
+      ]
+    },
+    {
+      "id": "D3-SECTION-010",
+      "d3_status": "PRINCIPAL_COMPUTATION",
+      "historical_dependencies": [
+        "D-LANGUAGE-REQUEST-001",
+        "D-LANGUAGE-REQUEST-002",
+        "D-LANGUAGE-REQUEST-003",
+        "D-LANGUAGE-REQUEST-004",
+        "D-LANGUAGE-REQUEST-007"
+      ],
+      "post_c55_status": "STILL_BLOCKED",
+      "repairs_required": [
+        "retain five fields in five typed referents",
+        "place unique principal transition only after legal Preparation",
+        "bind two source day inputs faithfully"
+      ],
+      "new_blockers": [
+        "D4-LANG-001"
+      ],
+      "compiler_evidence": [
+        "five-field typed-state strategy proof passes; input-domain surface remains blocked"
+      ]
+    }
+  ]
+}

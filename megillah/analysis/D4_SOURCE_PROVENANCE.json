@@ -1,0 +1,18 @@
+{
+  "schema": "marak-workstream-d4-source-provenance-v1",
+  "candidate_path": "megillah/candidates/Megilat_HaItim_Marak_Candidate.md",
+  "starting_candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+  "d4_candidate_source_changed": false,
+  "inherits": {
+    "path": "megillah/analysis/D3_SOURCE_PROVENANCE.json",
+    "meaning": "All candidate-line provenance remains exactly the accepted D3 mapping because D4 makes no candidate source edit."
+  },
+  "d4_new_source_spans": [],
+  "provenance_coverage": "100% inherited D3 candidate coverage; no D4 orphan source introduced",
+  "blocked_future_derivation": {
+    "source_span": "original lines 17 and 35-73",
+    "requirement": "two source-described days and their before/after relation",
+    "blocker": "D4-LANG-001",
+    "note": "No Program Input declaration is inserted until a faithful source domain/profile exists."
+  }
+}
