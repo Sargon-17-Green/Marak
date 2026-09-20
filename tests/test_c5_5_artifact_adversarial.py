@@ -90,6 +90,34 @@ def test_duplicate_conflicting_and_cross_owner_input_contracts_are_rejected():
     expect_ir_reject(dataclasses.replace(p,program_input_domains=(contract,conflicting)),"IR_PROGRAM_INPUT_DOMAIN_CONTRACT")
 
 
+def test_program_input_serial_and_role_spelling_collisions_are_rejected():
+    p=nat_program(); contract=p.program_input_domains[0]
+    owner=contract.input_id.program_contract
+
+    # Source resolution allocates one semantic serial per declared Program Input
+    # and rejects duplicate role spelling. Canonical artifacts must not admit
+    # source-unrepresentable collisions merely because the full dataclass IDs differ.
+    same_serial=ProgramInputId(contract.input_id.serial,"אחר",owner)
+    bad_serial=dataclasses.replace(
+        p,
+        program_input_domains=(
+            contract,
+            I.IRProgramInputDomain(p.source_span,same_serial,NATURAL),
+        ),
+    )
+    expect_ir_reject(with_recomputed_owner(bad_serial),"IR_PROGRAM_INPUT_DOMAIN_CONTRACT")
+
+    same_spelling=ProgramInputId(contract.input_id.serial+1000,contract.input_id.spelling,owner)
+    bad_spelling=dataclasses.replace(
+        p,
+        program_input_domains=(
+            contract,
+            I.IRProgramInputDomain(p.source_span,same_spelling,NATURAL),
+        ),
+    )
+    expect_ir_reject(with_recomputed_owner(bad_spelling),"IR_PROGRAM_INPUT_DOMAIN_CONTRACT")
+
+
 def test_natural_and_index_input_read_domain_forgery_is_rejected():
     p=nat_program(); init=p.initial_facts[0]; pid=p.program_input_domains[0].input_id
     sid=SymbolDomainId(999_010,"מזויף")

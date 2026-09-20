@@ -85,6 +85,12 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
     input_ids = [x.input_id for x in program.program_input_domains]
     if len(input_ids) != len(set(input_ids)):
         _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "duplicate Program Input identity")
+    input_serials = [x.serial for x in input_ids]
+    if len(input_serials) != len(set(input_serials)):
+        _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "Program Input identity serial collision")
+    input_spellings = [x.spelling for x in input_ids]
+    if len(input_spellings) != len(set(input_spellings)):
+        _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "duplicate Program Input role spelling within one owning program")
     input_domains: dict[object, Domain] = {}
     input_owners=set()
     for x in program.program_input_domains:
