@@ -33,6 +33,14 @@ def count(v): return f"מספר הדברים אשר בתוך {v}"
 def first_nat(v): return f"המספר אשר בראש {v}"
 def last_nat(v): return f"המספר האחרון אשר בתוך {v}"
 def nth_nat(v,k): return f"המספר אשר מספרו בסדר {v} הוא {k}"
+def first_idx(v): return f"מספר השנה אשר בראש {v}"
+def last_idx(v): return f"מספר השנה האחרון אשר בתוך {v}"
+def nth_idx(v,k): return f"מספר השנה אשר מספרו בסדר {v} הוא {k}"
+def first_sym(v): return f"השם אשר בראש {v}"
+def last_sym(v): return f"השם האחרון אשר בתוך {v}"
+def nth_sym(v,k): return f"השם אשר מספרו בסדר {v} הוא {k}"
+def first_book(v): return f"הספר אשר בראש {v}"
+def last_book(v): return f"הספר האחרון אשר בתוך {v}"
 def nth_book(v,k): return f"הספר אשר מספרו בסדר {v} הוא {k}"
 def sort_nat(v): return f"הספר הערוך מן {v} מן המעט אל הרב"
 def sort_sym(d,v): return f"הספר הערוך מן {v} כמשפט משפחת השמות אשר שמה {d}"
@@ -93,6 +101,62 @@ def test_first_last_and_positive_ordinal_selection():
     _,obs=three(src)
     facts=dict(obs["facts"])
     assert (facts["א"],facts["ב"],facts["ג"])==(7,9,2)
+
+
+
+def test_index_symbol_and_nested_first_last_ordinal_selection_end_to_end():
+    idx_source=append_idx(append_idx(empty_idx(),"שנה אחת לפני שנת אין"),"שנת אין")
+    idx_actions=[
+        replace_book("אראש",append_idx(empty_idx(),first_idx(book_place("א")))),
+        replace_book("אסוף",append_idx(empty_idx(),last_idx(book_place("א")))),
+        replace_book("אשני",append_idx(empty_idx(),nth_idx(book_place("א"),num(2)))),
+    ]
+    idx_src=" ".join([
+        place_book("א",idx_source),
+        place_book("אראש",empty_idx()),place_book("אסוף",empty_idx()),place_book("אשני",empty_idx()),
+        "ועתה "+" ואחרי כן ".join(idx_actions),
+    ])
+    _,idx_obs=three(idx_src)
+    idx_facts=dict(idx_obs["facts"])
+    assert idx_facts["אראש"]==[{"index":"BeforeZero","magnitude":1}]
+    assert idx_facts["אסוף"]==[{"index":"Zero"}]
+    assert idx_facts["אשני"]==[{"index":"Zero"}]
+
+    d="בחירה"
+    sb=symbol_book(d,"ראשון","שני")
+    sym_actions=[
+        replace_book("שראש",append_sym(d,empty_sym(d),first_sym(book_place("ס")))),
+        replace_book("סוף",append_sym(d,empty_sym(d),last_sym(book_place("ס")))),
+        replace_book("ששני",append_sym(d,empty_sym(d),nth_sym(book_place("ס"),num(2)))),
+    ]
+    sym_src=" ".join([
+        symbol_domain(d),member(d,"ראשון",1,"א"),member(d,"שני",1,"ב"),
+        place_book("ס",sb),
+        place_book("שראש",empty_sym(d)),place_book("סוף",empty_sym(d)),place_book("ששני",empty_sym(d)),
+        "ועתה "+" ואחרי כן ".join(sym_actions),
+    ])
+    _,sym_obs=three(sym_src)
+    sym_facts=dict(sym_obs["facts"])
+    assert sym_facts["שראש"]==["א"]
+    assert sym_facts["סוף"]==["ב"]
+    assert sym_facts["ששני"]==["ב"]
+
+    outer=append_books_nat(append_books_nat(empty_books_nat(),nat_book(1)),nat_book(2,3))
+    nested_actions=[
+        replace_book("נראש",first_book(book_place("נ"))),
+        replace_book("נסוף",last_book(book_place("נ"))),
+        replace_book("נשני",nth_book(book_place("נ"),num(2))),
+    ]
+    nested_src=" ".join([
+        place_book("נ",outer),
+        place_book("נראש",empty_nat()),place_book("נסוף",empty_nat()),place_book("נשני",empty_nat()),
+        "ועתה "+" ואחרי כן ".join(nested_actions),
+    ])
+    _,nested_obs=three(nested_src)
+    nested_facts=dict(nested_obs["facts"])
+    assert nested_facts["נראש"]==[1]
+    assert nested_facts["נסוף"]==[2,3]
+    assert nested_facts["נשני"]==[2,3]
 
 
 def test_zero_and_out_of_range_positions_are_collection_position_errors():
@@ -343,11 +407,11 @@ def test_negative_collection_surface_families_remain_unadmitted():
 
 
 def test_moderate_collection_size_has_no_fixed_semantic_count_cap():
-    values=list(range(1,33))
+    values=list(range(1,129))
     b=nat_book(*values)
     src=" ".join([place_book("ספר",b),place_nat("מנה",1),"ועתה "+replace_nat("מנה",count(book_place("ספר")))])
     _,obs=three(src)
-    assert dict(obs["facts"])["מנה"]==32
+    assert dict(obs["facts"])["מנה"]==128
 
 
 def test_collection_immediate_result_contract_is_independent_of_body_definition_order():
