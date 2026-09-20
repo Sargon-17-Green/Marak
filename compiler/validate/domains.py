@@ -267,6 +267,7 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         if x.before_member_id == x.after_member_id:
             _fail("DOMAIN_SYMBOL_ORDER", "Symbol order self edge")
         edges_by_domain.setdefault(x.domain_id, []).append((x.before_member_id, x.after_member_id))
+    complete_order_domains=set()
     for domain_id, edges in edges_by_domain.items():
         if len(edges) != len(set(edges)):
             _fail("DOMAIN_SYMBOL_ORDER", "duplicate Symbol adjacency fact")
@@ -291,6 +292,7 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             cur=outgoing[cur]
         if seen != members:
             _fail("DOMAIN_SYMBOL_ORDER", "Symbol order is cyclic or disconnected")
+        complete_order_domains.add(domain_id)
 
     places = {x.place: require_domain(x.domain) for x in program.place_domains}
     roles = {x.role: require_domain(x.domain) for x in program.role_domains}
@@ -355,6 +357,27 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
                 value(node.position)
         if isinstance(node, h.HastCollectionOrder):
             value(node.collection)
+            if node.order_kind=="natural":
+                if node.element_domain!=NATURAL or node.symbol_domain_id is not None:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Natural Collection order has invalid profile metadata")
+            elif node.order_kind=="lex-natural":
+                if node.element_domain!=CollectionDomain(NATURAL) or node.symbol_domain_id is not None:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Natural Collection order has invalid profile metadata")
+            elif node.order_kind=="symbol":
+                if not isinstance(node.element_domain,SymbolDomain) or node.symbol_domain_id!=node.element_domain.identity:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Symbol Collection order domain/profile mismatch")
+                if node.symbol_domain_id not in complete_order_domains:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Symbol Collection order requires an explicit complete Symbol order profile")
+            elif node.order_kind=="lex-symbol":
+                if not isinstance(node.element_domain,CollectionDomain) or not isinstance(node.element_domain.element_domain,SymbolDomain):
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order requires Collection<Symbol> elements")
+                expected=node.element_domain.element_domain.identity
+                if node.symbol_domain_id!=expected:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order domain/profile mismatch")
+                if expected not in complete_order_domains:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order requires an explicit complete Symbol order profile")
+            else:
+                _fail("DOMAIN_COLLECTION_ORDER", "unknown Collection order profile")
         return d
 
     def action(node: h.HastExecutable, current_act=None) -> None:
