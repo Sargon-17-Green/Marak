@@ -13,6 +13,7 @@ from compiler.models.domains import (
     BIDIRECTIONAL_INDEX, NATURAL, CollectionDomain, ProgramInputId,
     SymbolDomain, SymbolDomainId,
 )
+from compiler.models.program_contract import ir_program_contract_id, reowner_program_inputs
 from tests.test_c5_2_surface_pipeline import member, num, place_typed, replace_nat, symbol_domain
 from tests.test_c5_3_collections import place_book, replace_book
 from tests.test_c5_5_program_inputs import input_nat, input_nat_ref
@@ -44,6 +45,10 @@ def expect_ir_reject(program,needle):
         verify_artifact(malicious_bytes(program))
 
 
+def with_recomputed_owner(program):
+    return reowner_program_inputs(program,ir_program_contract_id(program))
+
+
 def resign(obj):
     payload=json.dumps(obj["program"],ensure_ascii=False,sort_keys=True,separators=(",",":"),allow_nan=False).encode("utf-8")
     obj["payload_sha256"]=hashlib.sha256(payload).hexdigest()
@@ -56,7 +61,7 @@ def test_undeclared_and_forged_program_input_ids_are_rejected():
     pid=init.value.input_id
     forged=ProgramInputId(999_001,"זר",pid.program_contract)
     bad=dataclasses.replace(p,initial_facts=(dataclasses.replace(init,value=dataclasses.replace(init.value,input_id=forged)),))
-    expect_ir_reject(bad,"IR_PROGRAM_INPUT_READ")
+    expect_ir_reject(with_recomputed_owner(bad),"IR_PROGRAM_INPUT_READ")
 
 
 def test_consistent_program_input_owner_forgery_is_rejected_against_recomputed_program_contract():
@@ -116,7 +121,7 @@ def test_symbol_input_wrong_declared_symbol_domain_is_rejected():
     d2id=next(x.domain_id for x in p.symbol_domains if x.domain_id.spelling==d2)
     forged=dataclasses.replace(init.value,domain=SymbolDomain(d2id))
     initials=tuple(dataclasses.replace(x,value=forged) if x is init else x for x in p.initial_facts)
-    expect_ir_reject(dataclasses.replace(p,initial_facts=initials),"IR_PROGRAM_INPUT_READ")
+    expect_ir_reject(with_recomputed_owner(dataclasses.replace(p,initial_facts=initials)),"IR_PROGRAM_INPUT_READ")
 
 
 def test_collection_and_nested_collection_element_domain_forgery_is_rejected():
@@ -133,7 +138,7 @@ def test_collection_and_nested_collection_element_domain_forgery_is_rejected():
         p=c.ir; init=p.initial_facts[0]
         assert isinstance(init.value,I.IRReadProgramInputValue)
         forged=dataclasses.replace(init.value,domain=forged_domain)
-        expect_ir_reject(dataclasses.replace(p,initial_facts=(dataclasses.replace(init,value=forged),)),"IR_PROGRAM_INPUT_READ")
+        expect_ir_reject(with_recomputed_owner(dataclasses.replace(p,initial_facts=(dataclasses.replace(init,value=forged),))),"IR_PROGRAM_INPUT_READ")
 
 
 @pytest.mark.parametrize("mutation,needle",[
