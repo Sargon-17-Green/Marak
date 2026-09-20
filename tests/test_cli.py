@@ -20,7 +20,7 @@ class CliTests(unittest.TestCase):
         self.assertIn("ir_version", obj)
         self.assertIn("artifact_format_version", obj)
         self.assertIn("construction_registry_version", obj)
-        self.assertEqual(obj["construction_registry_version"], "c5.2-a15-a16.1")
+        self.assertEqual(obj["construction_registry_version"], "c5.3-a15-a16.1")
 
     def test_check_rejects_source_that_cannot_complete_current_normative_shell(self):
         with tempfile.TemporaryDirectory() as td:
