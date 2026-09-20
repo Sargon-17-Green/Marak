@@ -21,6 +21,10 @@ class InputBinding:
     input_id: ProgramInputId
     value: SemanticValue
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.input_id, ProgramInputId):
+            raise TypeError("InputBinding requires a resolved ProgramInputId; raw source spelling is not a binding identity")
+
 
 @dataclass(frozen=True, slots=True)
 class InvocationIssue:
