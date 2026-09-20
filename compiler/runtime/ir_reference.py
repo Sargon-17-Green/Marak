@@ -225,10 +225,18 @@ class IRReferenceEvaluator:
                     items.append(v)
             return CollectionValue(node.element_domain,tuple(items))
         if isinstance(node,i.IRCollectionAppend):
-            collection=self.value(node.collection,state,occ,prov)
+            chain=[]
+            current=node
+            while isinstance(current,i.IRCollectionAppend):
+                chain.append(current)
+                current=current.collection
+            collection=self.value(current,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
-            item=self._semantic_item(self.value(node.item,state,occ,prov),node.element_domain)
-            return CollectionValue(node.element_domain,collection.items+(item,))
+            items=list(collection.items)
+            for append in reversed(chain):
+                if collection.element_domain!=append.element_domain: raise _Fault("INTERNAL_DOMAIN_GUARD")
+                items.append(self._semantic_item(self.value(append.item,state,occ,prov),append.element_domain))
+            return CollectionValue(node.element_domain,tuple(items))
         if isinstance(node,i.IRCollectionCount):
             collection=self.value(node.collection,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
