@@ -475,6 +475,47 @@
       ],
       "status": "normative",
       "summary": "Symbol/Index named-role declarations and current occurrence values."
+    },
+    {
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_TYPED_STATE_SURFACE",
+        "A16_TYPED_ROLE_SURFACE",
+        "A16_TYPED_OUTPUT_SURFACE",
+        "B15_DOMAIN_FLOW_SEMANTICS"
+      ],
+      "status": "normative",
+      "summary": "Collection places, named roles, output and immediate result."
+    },
+    {
+      "construction_id": "C53.COLLECTION_KIND",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_ORDERED_COLLECTION_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "The six admitted finite ordered book kinds only."
+    },
+    {
+      "construction_id": "C53.COLLECTION_PROPOSITION",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_ORDERED_COLLECTION_SURFACE",
+        "B13_ORDERED_COLLECTION_MODEL"
+      ],
+      "status": "normative",
+      "summary": "Collection membership proposition with domain semantic equality."
+    },
+    {
+      "construction_id": "C53.COLLECTION_VALUE",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_ORDERED_COLLECTION_SURFACE",
+        "B13_ORDERED_COLLECTION_MODEL"
+      ],
+      "status": "normative",
+      "summary": "Typed empty books, pure append, selection and deterministic ordering."
     }
   ],
   "language_edition": "core-0.1-integration-candidate-a13-b12",
@@ -3482,9 +3523,2023 @@
       ],
       "root": false,
       "semantic_id": "C52.SYMBOL_REFERENCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.NESTED.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.NESTED.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.NESTED.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.APPEND.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "ב"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כסדרו"
+        },
+        {
+          "kind": "word",
+          "text": "ואחר"
+        },
+        {
+          "kind": "word",
+          "text": "כלם"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.APPEND"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "AssociationValue",
+      "production_id": "C53.ASSOC.VALUE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ASSOCIATION_VALUE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "NumberValue",
+      "production_id": "C53.COUNT",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "הדברים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "CollectionValue",
+      "production_id": "C53.CURRENT.PLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.CURRENT_PLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "CollectionValue",
+      "production_id": "C53.CURRENT.ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.CURRENT_ROLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "שנה"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.NESTED.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "ספר"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.NESTED.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "ספר"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.NESTED.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "ספר"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.EMPTY.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        },
+        {
+          "kind": "word",
+          "text": "בו"
+        },
+        {
+          "kind": "word",
+          "text": "שם"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.EMPTY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C53.FIRST.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בראש"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_FIRST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "NumberValue",
+      "production_id": "C53.FIRST.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בראש"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_FIRST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.FIRST.NESTED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בראש"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_FIRST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "SymbolValue",
+      "production_id": "C53.FIRST.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בראש"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_FIRST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "CollectionValue",
+      "production_id": "C53.IMMEDIATE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצא"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.IMMEDIATE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_NATURAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.NESTED.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_NESTED_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.NESTED.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "מספרים"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_NESTED_NATURAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.NESTED.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ספרי"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_NESTED_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_KIND",
+      "lhs": "CollectionKind",
+      "production_id": "C53.KIND.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.KIND_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C53.LAST.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "האחרון"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_LAST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "NumberValue",
+      "production_id": "C53.LAST.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "האחרון"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_LAST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.LAST.NESTED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "האחרון"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_LAST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "SymbolValue",
+      "production_id": "C53.LAST.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "האחרון"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_LAST"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_PROPOSITION",
+      "lhs": "Proposition",
+      "production_id": "C53.MEMBER.INDEX",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        },
+        {
+          "kind": "word",
+          "text": "כתוב"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.MEMBERSHIP"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_PROPOSITION",
+      "lhs": "Proposition",
+      "production_id": "C53.MEMBER.NATURAL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "כתוב"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.MEMBERSHIP"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_PROPOSITION",
+      "lhs": "Proposition",
+      "production_id": "C53.MEMBER.NESTED",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כתוב"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.MEMBERSHIP"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_PROPOSITION",
+      "lhs": "Proposition",
+      "production_id": "C53.MEMBER.SYMBOL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        },
+        {
+          "kind": "word",
+          "text": "כתוב"
+        },
+        {
+          "kind": "word",
+          "text": "בתוך"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.MEMBERSHIP"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.ORDER.LEX.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "הערוך"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "מראש"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ועד"
+        },
+        {
+          "kind": "word",
+          "text": "אחריתו"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעט"
+        },
+        {
+          "kind": "word",
+          "text": "אל"
+        },
+        {
+          "kind": "word",
+          "text": "הרב"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ORDER_LEX_NATURAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.ORDER.LEX.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "הערוך"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "מראש"
+        },
+        {
+          "kind": "word",
+          "text": "כל"
+        },
+        {
+          "kind": "word",
+          "text": "ספר"
+        },
+        {
+          "kind": "word",
+          "text": "ועד"
+        },
+        {
+          "kind": "word",
+          "text": "אחריתו"
+        },
+        {
+          "kind": "word",
+          "text": "כמשפט"
+        },
+        {
+          "kind": "word",
+          "text": "משפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ORDER_LEX_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.ORDER.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "הערוך"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעט"
+        },
+        {
+          "kind": "word",
+          "text": "אל"
+        },
+        {
+          "kind": "word",
+          "text": "הרב"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ORDER_NATURAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.ORDER.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "הערוך"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "כמשפט"
+        },
+        {
+          "kind": "word",
+          "text": "משפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ORDER_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "AtomicAction",
+      "production_id": "C53.PLACE.REPLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שים"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.REPLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C53.PREP.PLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "מקום"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "ובמקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "לבדו"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.PREP_PLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "BodyAtomicAction",
+      "production_id": "C53.RESULT.PRODUCE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הוצא"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.PRODUCE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_CARRIER",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C53.ROLE.DECLARE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionKind"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.ROLE_COLLECTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C53.SELECT.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרו"
+        },
+        {
+          "kind": "word",
+          "text": "בסדר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_ORDINAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "NumberValue",
+      "production_id": "C53.SELECT.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרו"
+        },
+        {
+          "kind": "word",
+          "text": "בסדר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_ORDINAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "CollectionValue",
+      "production_id": "C53.SELECT.NESTED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרו"
+        },
+        {
+          "kind": "word",
+          "text": "בסדר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_ORDINAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C53.COLLECTION_VALUE",
+      "lhs": "SymbolValue",
+      "production_id": "C53.SELECT.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "מספרו"
+        },
+        {
+          "kind": "word",
+          "text": "בסדר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C53.SELECT_ORDINAL"
     }
   ],
-  "registry_version": "c5.2-a15-a16.1",
+  "registry_version": "c5.3-a15-a16.1",
   "semantic_gates": [
     {
       "construction_id": "A10.NAMED_ACT_PERFORMANCE",
@@ -3550,5 +5605,5 @@
       "status": "ready"
     }
   ],
-  "source_snapshot": "A13+B12+C5.1+A15+A16+B13+B15 integrated implementation candidate"
+  "source_snapshot": "C5.2+A15/A16 finite ordered Collection production integration candidate"
 }
