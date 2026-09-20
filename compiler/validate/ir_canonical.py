@@ -235,9 +235,6 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
                 pd=value(node.position,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
                 if pd!=NATURAL:
                     _fail("IR_DOMAIN_COLLECTION_POSITION","Collection position must be Natural")
-                k=_constant_natural(node.position)
-                if k==0:
-                    _fail("IR_STATIC_COLLECTION_POSITION","Collection position zero is outside the positive ordinal domain")
             if isinstance(node,i.IRCollectionSelectNatural):
                 if actual!=CollectionDomain(NATURAL):
                     _fail("IR_DOMAIN_COLLECTION_SELECT","Natural element head requires Collection<Natural>")
