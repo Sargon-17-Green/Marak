@@ -14,6 +14,16 @@ def value(n: h.HastValue) -> i.IRValue:
         return i.IRIndexValue(n.source_span, n.side, n.magnitude)
     if isinstance(n, h.HastCollectionValue):
         return i.IRCollectionValue(n.source_span, n.element_domain, tuple(value(x) for x in n.items))
+    if isinstance(n, h.HastCollectionAppend):
+        return i.IRCollectionAppend(n.source_span, value(n.collection), value(n.item), n.element_domain)
+    if isinstance(n, h.HastCollectionCount):
+        return i.IRCollectionCount(n.source_span, value(n.collection))
+    if isinstance(n, h.HastCollectionSelectNatural):
+        return i.IRCollectionSelectNatural(n.source_span, value(n.collection), None if n.position is None else num(n.position), n.mode)
+    if isinstance(n, h.HastCollectionSelectValue):
+        return i.IRCollectionSelectValue(n.source_span, value(n.collection), n.element_domain, None if n.position is None else num(n.position), n.mode)
+    if isinstance(n, h.HastCollectionOrder):
+        return i.IRCollectionOrder(n.source_span, value(n.collection), n.element_domain, n.order_kind, n.symbol_domain_id)
     if isinstance(n, h.HastIndexSuccessor):
         return i.IRIndexSuccessor(n.source_span, value(n.operand))
     if isinstance(n, h.HastIndexPredecessor):
@@ -51,6 +61,8 @@ def prop(p: h.HastProposition) -> i.IRProposition:
         return i.IRNaturalGTProposition(p.source_span, num(p.left), num(p.right))
     if isinstance(p, h.HastSymbolEqualProposition):
         return i.IRSymbolEqualProposition(p.source_span, value(p.left), value(p.right), p.domain_id)
+    if isinstance(p, h.HastCollectionMembershipProposition):
+        return i.IRCollectionMembershipProposition(p.source_span, value(p.item), value(p.collection), p.element_domain)
     raise TypeError(type(p).__name__)
 
 
