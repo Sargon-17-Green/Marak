@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from compiler.models import ir as i
-from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, Domain, SymbolDomain, require_domain
+from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDomain, Domain, SymbolDomain, require_domain
 from compiler.validate.domains import DomainValidationError, ir_value_domain
 
 
@@ -120,6 +120,7 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         if edge.before_member_id==edge.after_member_id:
             _fail("IR_SYMBOL_ORDER_SELF","Symbol order self edge")
         edges_by_domain.setdefault(edge.domain_id,[]).append((edge.before_member_id,edge.after_member_id))
+    complete_order_domains=set()
     for domain_id,edges in edges_by_domain.items():
         if len(edges)!=len(set(edges)):
             _fail("IR_SYMBOL_ORDER_DUPLICATE","duplicate Symbol adjacency")
@@ -140,6 +141,7 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             cur=outgoing[cur]
         if seen!=members:
             _fail("IR_SYMBOL_ORDER_CHAIN","Symbol order is cyclic/disconnected")
+        complete_order_domains.add(domain_id)
 
     def ensure_declared_domain(domain: Domain, code: str) -> None:
         try:
@@ -211,7 +213,61 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             _constant_natural(node)
         elif isinstance(node, i.IRCollectionValue):
             for item in node.items:
-                value(item, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context=context)
+                child_domain=value(item, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context=context)
+                if child_domain!=node.element_domain:
+                    _fail("IR_DOMAIN_COLLECTION_ELEMENT","serialized Collection member has the wrong domain")
+        elif isinstance(node,i.IRCollectionAppend):
+            source=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+            item=value(node.item,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+            if source!=CollectionDomain(node.element_domain) or item!=node.element_domain:
+                _fail("IR_DOMAIN_COLLECTION_APPEND","Collection append metadata/operand domain mismatch")
+        elif isinstance(node,i.IRCollectionCount):
+            actual=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+            if not isinstance(actual,CollectionDomain):
+                _fail("IR_DOMAIN_COLLECTION_COUNT","Collection count operand is not a Collection")
+        elif isinstance(node,(i.IRCollectionSelectNatural,i.IRCollectionSelectValue)):
+            actual=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+            if node.mode not in {"first","last","ordinal"}:
+                _fail("IR_COLLECTION_POSITION_MODE","unknown Collection selection mode")
+            if (node.mode=="ordinal") != (node.position is not None):
+                _fail("IR_COLLECTION_POSITION_MODE","Collection selection position shape does not match mode")
+            if node.position is not None:
+                pd=value(node.position,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+                if pd!=NATURAL:
+                    _fail("IR_DOMAIN_COLLECTION_POSITION","Collection position must be Natural")
+                k=_constant_natural(node.position)
+                if k==0:
+                    _fail("IR_STATIC_COLLECTION_POSITION","Collection position zero is outside the positive ordinal domain")
+            if isinstance(node,i.IRCollectionSelectNatural):
+                if actual!=CollectionDomain(NATURAL):
+                    _fail("IR_DOMAIN_COLLECTION_SELECT","Natural element head requires Collection<Natural>")
+            elif actual!=CollectionDomain(node.element_domain):
+                _fail("IR_DOMAIN_COLLECTION_SELECT","typed Collection selection head disagrees with element domain")
+        elif isinstance(node,i.IRCollectionOrder):
+            actual=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
+            if actual!=CollectionDomain(node.element_domain):
+                _fail("IR_DOMAIN_COLLECTION_ORDER","Collection order metadata disagrees with source book domain")
+            if node.order_kind=="natural":
+                if node.element_domain!=NATURAL or node.symbol_domain_id is not None:
+                    _fail("IR_COLLECTION_ORDER_PROFILE","invalid Natural Collection order profile")
+            elif node.order_kind=="lex-natural":
+                if node.element_domain!=CollectionDomain(NATURAL) or node.symbol_domain_id is not None:
+                    _fail("IR_COLLECTION_ORDER_PROFILE","invalid lexicographic Natural Collection order profile")
+            elif node.order_kind=="symbol":
+                if not isinstance(node.element_domain,SymbolDomain) or node.symbol_domain_id!=node.element_domain.identity:
+                    _fail("IR_COLLECTION_ORDER_PROFILE","Symbol order profile/domain mismatch")
+                if node.symbol_domain_id not in complete_order_domains:
+                    _fail("IR_COLLECTION_ORDER_INCOMPLETE","Symbol Collection order requires an explicit complete order profile")
+            elif node.order_kind=="lex-symbol":
+                if not isinstance(node.element_domain,CollectionDomain) or not isinstance(node.element_domain.element_domain,SymbolDomain):
+                    _fail("IR_COLLECTION_ORDER_PROFILE","lexicographic Symbol order requires Collection<Symbol> element domain")
+                expected=node.element_domain.element_domain.identity
+                if node.symbol_domain_id!=expected:
+                    _fail("IR_COLLECTION_ORDER_PROFILE","lexicographic Symbol order profile/domain mismatch")
+                if expected not in complete_order_domains:
+                    _fail("IR_COLLECTION_ORDER_INCOMPLETE","lexicographic Symbol order requires an explicit complete order profile")
+            else:
+                _fail("IR_COLLECTION_ORDER_PROFILE","unknown Collection order profile")
         return domain
 
     def proposition(node: i.IRProposition, *, visible_places: set[int], current_act: int | None, recent_act: int | None) -> None:
@@ -230,6 +286,12 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             right=value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
             if left!=expected or right!=expected:
                 _fail("IR_SYMBOL_EQUALITY_DOMAIN","Symbol equality operands must belong to one exact declared domain")
+            return
+        if isinstance(node,i.IRCollectionMembershipProposition):
+            item=value(node.item,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            collection=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            if item!=node.element_domain or collection!=CollectionDomain(node.element_domain):
+                _fail("IR_COLLECTION_MEMBERSHIP_DOMAIN","membership item/book domains disagree")
             return
         _fail("IR_PROPOSITION_KIND",f"unsupported proposition {type(node).__name__}")
 
