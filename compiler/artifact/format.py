@@ -14,7 +14,7 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.4-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.5-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
@@ -29,7 +29,7 @@ _IR_CLASSES = (
     irm.IRCollectionMembershipProposition,
     irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
     irm.IRPerformAct, irm.IRProduceResult, irm.IRThen, irm.IRConditional,
-    irm.IRFixedRecurrence, irm.IRPostActionRecurrence,
+    irm.IRFixedRecurrence, irm.IRRepeatExactly, irm.IRPostActionRecurrence,
     irm.IRSymbolDomainDeclaration, irm.IRSymbolMemberDeclaration, irm.IRSymbolOrderAdjacent,
 )
 _DOMAIN_CLASSES = (
@@ -226,6 +226,11 @@ def verify_ir(program: irm.IRProgram) -> None:
             type(n.count) is not int or n.count <= 0 or not isinstance(n.action, irm.IRAction)
         ):
             raise ArtifactVerificationError("invalid fixed recurrence")
+        if isinstance(n, irm.IRRepeatExactly):
+            if not isinstance(n.count, irm.IRNumber):
+                raise ArtifactVerificationError("RECURRENCE_COUNT_DOMAIN_ERROR: RepeatExactly count operand is not Natural")
+            if not isinstance(n.action, (irm.IRReplaceCurrentFact, irm.IRPerformAct, irm.IRProduceResult)):
+                raise ArtifactVerificationError("invalid RepeatExactly repeated atomic action")
         if isinstance(n, irm.IRPostActionRecurrence) and (
             not isinstance(n.action, irm.IRAction) or not isinstance(n.proposition, irm.IRProposition)
         ):

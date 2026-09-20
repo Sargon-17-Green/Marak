@@ -10,8 +10,9 @@ from compiler.models.values import (
     semantic_value_equal, value_domain,
 )
 
-BACKEND_VERSION = "portable-ir-vm-0.4-candidate-1"
+BACKEND_VERSION = "portable-ir-vm-0.5-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
+RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
 
 
@@ -91,6 +92,13 @@ class _Clear:
 
 @dataclass(frozen=True)
 class _Fixed:
+    remaining: int
+    action: i.IRAction
+    occ: _Occ | None
+
+
+@dataclass(frozen=True)
+class _RepeatExactly:
     remaining: int
     action: i.IRAction
     occ: _Occ | None
@@ -321,6 +329,16 @@ class PortableVM:
                     frames.append(_Clear()); current = x.if_holds if yes else x.if_not; continue
                 if isinstance(x, i.IRFixedRecurrence):
                     frames.append(_Fixed(x.count - 1, x.action, current_occ)); current = x.action; current_prov = None; continue
+                if isinstance(x, i.IRRepeatExactly):
+                    try:
+                        count = self.value(x.count, cur, current_occ, current_prov)
+                        if type(count) is not int or count < 0:
+                            raise _Fault(RECURRENCE_COUNT_DOMAIN_ERROR)
+                    except _Fault as e:
+                        step = ("err", cur, VMError(e.code, "EXECUTION", e.detail)); current = None; continue
+                    if count == 0:
+                        step = ("ok", cur, None); current = None; continue
+                    frames.append(_RepeatExactly(count - 1, x.action, current_occ)); current = x.action; current_prov = None; continue
                 if isinstance(x, i.IRPostActionRecurrence):
                     frames.append(_Post(x.action, x.proposition, current_occ)); current = x.action; current_prov = None; continue
                 if isinstance(x, i.IRPerformAct):
@@ -366,6 +384,11 @@ class PortableVM:
                 if frame.remaining > 0:
                     current_occ = frame.occ; current_prov = None; current = frame.action
                     frames.append(_Fixed(frame.remaining - 1, frame.action, frame.occ)); step = None; continue
+                step = ("ok", cur, None); continue
+            if isinstance(frame, _RepeatExactly):
+                if frame.remaining > 0:
+                    current_occ = frame.occ; current_prov = None; current = frame.action
+                    frames.append(_RepeatExactly(frame.remaining - 1, frame.action, frame.occ)); step = None; continue
                 step = ("ok", cur, None); continue
             if isinstance(frame, _Post):
                 try:

@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from compiler.models.hast import (
     HastActBody, HastAddNatural, HastConditional, HastCoreProgram, HastCurrentFact,
     HastCurrentRoleNumber, HastEqualProposition, HastExactNatural, HastExecutable,
-    HastFixedRecurrence, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
+    HastFixedRecurrence, HastRepeatExactly, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
     HastPostActionRecurrence, HastProduceResult, HastProposition, HastRecentResult,
     HastReplaceCurrentFact, HastSubtractNatural, HastThen,
     HastCollectionAppend, HastCollectionCount, HastCollectionSelectNatural,
@@ -22,6 +22,7 @@ CORE_OUTPUT_CARDINALITY_ERROR = "CORE_OUTPUT_CARDINALITY_ERROR"
 ROLE_VALUE_OUTSIDE_PERFORMANCE = "ROLE_VALUE_OUTSIDE_PERFORMANCE"
 COLLECTION_POSITION_ERROR = "COLLECTION_POSITION_ERROR"
 ORDER_RELATION_ERROR = "ORDER_RELATION_ERROR"
+RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
 
@@ -146,6 +147,13 @@ class _ClearProvenanceFrame:
 
 @dataclass(frozen=True, slots=True)
 class _FixedFrame:
+    remaining: int
+    action: HastExecutable
+    occurrence: _Occurrence | None
+
+
+@dataclass(frozen=True, slots=True)
+class _RepeatExactlyFrame:
     remaining: int
     action: HastExecutable
     occurrence: _Occurrence | None
@@ -451,6 +459,24 @@ class ReferenceEvaluator:
                     current_prov = None
                     continue
 
+                if isinstance(a, HastRepeatExactly):
+                    try:
+                        count = self.eval_value(a.count, current_state, current_occ, current_prov)
+                        if type(count) is not int or count < 0:
+                            raise _TermFault(RECURRENCE_COUNT_DOMAIN_ERROR)
+                    except _TermFault as e:
+                        step = _StepError(current_state, RuntimeErrorRecord(e.code, "EXECUTION", e.detail))
+                        current_action = None
+                        continue
+                    if count == 0:
+                        step = _StepNormal(current_state, None)
+                        current_action = None
+                        continue
+                    frames.append(_RepeatExactlyFrame(count - 1, a.action, current_occ))
+                    current_action = a.action
+                    current_prov = None
+                    continue
+
                 if isinstance(a, HastPostActionRecurrence):
                     frames.append(_PostFrame(a.action, a.proposition, current_occ))
                     current_action = a.action
@@ -538,6 +564,17 @@ class ReferenceEvaluator:
                 step = _StepNormal(current_state, None)
                 continue
 
+            if isinstance(frame, _RepeatExactlyFrame):
+                if frame.remaining > 0:
+                    current_occ = frame.occurrence
+                    current_prov = None
+                    current_action = frame.action
+                    frames.append(_RepeatExactlyFrame(frame.remaining - 1, frame.action, frame.occurrence))
+                    step = None
+                    continue
+                step = _StepNormal(current_state, None)
+                continue
+
             if isinstance(frame, _PostFrame):
                 try:
                     stop = self.holds(frame.proposition, current_state, frame.occurrence, step.provenance)
@@ -610,7 +647,7 @@ def execute_reference(
 
 __all__ = [
     "ARITHMETIC_DOMAIN_ERROR", "RESULT_PROVENANCE_ERROR", "CORE_OUTPUT_CARDINALITY_ERROR",
-    "COLLECTION_POSITION_ERROR", "ORDER_RELATION_ERROR",
+    "COLLECTION_POSITION_ERROR", "ORDER_RELATION_ERROR", "RECURRENCE_COUNT_DOMAIN_ERROR",
     "ROLE_VALUE_OUTSIDE_PERFORMANCE", "IMPLEMENTATION_RESOURCE_EXHAUSTION",
     "DEFAULT_MAX_ACTIVE_PERFORMANCES", "RuntimeErrorRecord", "SemanticState", "Product",
     "NormalOutcome", "ErrorOutcome", "DivergenceOutcome", "ResourceExhaustionOutcome", "Outcome",
