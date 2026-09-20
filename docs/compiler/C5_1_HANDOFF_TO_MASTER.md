@@ -8,4 +8,4 @@ Deliberately deferred: full A15/A16 grammar integration; Symbol declaration pars
 
 No A/B integration contradiction was found. Expected-type rescue is rejected, no runtime source-name lookup was introduced, and no Megillah-specific behavior exists in the production path.
 
-Required final gates before marking COMPLETE: final full pytest, Linux/Windows CI matrix, clean proposal regressions, branch freshness/rebase check, Draft PR, and handoff package.
+Verification achieved before the evidence-only final commit: full pytest 280 + 126, all requested B15/A16/B14/B13/A15/A13/B12 proposal regressions, and green Ubuntu/Windows domain/tooling CI. The final HEAD is required to repeat CI before C5.1 is reported COMPLETE.

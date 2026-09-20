@@ -1,6 +1,31 @@
 {
   "artifact_adversarial_status": "PASS",
   "baseline_main": "6888bd538a73f9dc76bf87cdf87640b7b4b93d9e",
+  "ci": {
+    "core": {
+      "a13_checks": 289,
+      "b12": "PASS",
+      "job_id": 106047977685,
+      "pytest_passed": 280,
+      "status": "PASS",
+      "subtests_passed": 126
+    },
+    "domain_ubuntu": {
+      "job_id": 106047977651,
+      "pytest_passed": 42,
+      "status": "PASS",
+      "subtests_passed": 7
+    },
+    "domain_windows": {
+      "job_id": 106047977507,
+      "pytest_passed": 42,
+      "status": "PASS",
+      "subtests_passed": 7
+    },
+    "tooling_portability_ubuntu": "PASS",
+    "tooling_portability_windows": "PASS",
+    "workflow_run_id": 35499266986
+  },
   "compiler_pytest": {
     "passed": 280,
     "status": "PASS",
