@@ -262,6 +262,34 @@ def test_collection_place_role_output_and_immediate_result_roundtrip():
     assert facts["יעד"]==[4,6]
 
 
+
+def test_collection_domain_mismatches_are_static_source_errors():
+    wrong_append=" ".join([
+        place_book("יעד",empty_nat()),
+        "ועתה "+replace_book("יעד",append_nat(empty_idx(),num(1))),
+    ])
+    result=compile_source(wrong_append)
+    assert not result.valid
+    assert "SEM0405" in [d.code for d in result.diagnostics]
+
+    wrong_replace=" ".join([
+        place_book("יעד",empty_nat()),
+        "ועתה "+replace_book("יעד",empty_idx()),
+    ])
+    result=compile_source(wrong_replace)
+    assert not result.valid
+    assert "SEM0302" in [d.code for d in result.diagnostics]
+
+    a,r="מקבל","ספר"
+    wrong_role=" ".join([
+        act(a),role_book(a,r,"ספר מספרים"),body(a,output(book_role(a,r))),
+        "ועתה "+perform_one(a,r,empty_idx()),
+    ])
+    result=compile_source(wrong_role)
+    assert not result.valid
+    assert "SEM0304" in [d.code for d in result.diagnostics]
+
+
 def test_untyped_empty_and_deeper_source_nesting_are_not_admitted():
     for src in [
         "ספר שאין בו דבר",
