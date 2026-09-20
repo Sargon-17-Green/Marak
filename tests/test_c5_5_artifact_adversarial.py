@@ -59,6 +59,20 @@ def test_undeclared_and_forged_program_input_ids_are_rejected():
     expect_ir_reject(bad,"IR_PROGRAM_INPUT_READ")
 
 
+def test_consistent_program_input_owner_forgery_is_rejected_against_recomputed_program_contract():
+    p=nat_program()
+    contract=p.program_input_domains[0]
+    init=p.initial_facts[0]
+    assert isinstance(init.value,I.IRReadProgramInputNumber)
+    forged=ProgramInputId(contract.input_id.serial,contract.input_id.spelling,"marak-ir-contract-sha256:"+"0"*64)
+    bad=dataclasses.replace(
+        p,
+        program_input_domains=(dataclasses.replace(contract,input_id=forged),),
+        initial_facts=(dataclasses.replace(init,value=dataclasses.replace(init.value,input_id=forged)),),
+    )
+    expect_ir_reject(bad,"IR_PROGRAM_INPUT_OWNERSHIP")
+
+
 def test_duplicate_conflicting_and_cross_owner_input_contracts_are_rejected():
     p=nat_program(); contract=p.program_input_domains[0]
     expect_ir_reject(dataclasses.replace(p,program_input_domains=(contract,contract)),"IR_PROGRAM_INPUT_DOMAIN_CONTRACT")
