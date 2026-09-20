@@ -13,7 +13,7 @@ from compiler.runtime.ir_reference import execute_reference_ir
 from compiler.runtime.observables import backend_observable, ir_reference_observable, reference_observable
 from compiler.runtime.reference import execute_reference
 from tests.test_c5_2_surface_pipeline import (
-    gt_source, idx_place, member, num, order, place_nat, place_typed,
+    current, gt_source, idx_place, member, num, order, place_nat, place_typed,
     pred, replace_idx, replace_nat, sym, symbol_domain,
 )
 from tests.test_c5_3_collections import (
@@ -181,3 +181,44 @@ def test_day_natural_number_alone_is_explicitly_insufficient_in_source_evidence(
     text = CANDIDATE.read_text(encoding="utf-8")
     assert "ומן המספרים לבדם לא תדע אי זה יום לפני ואי זה יום אחרי" in text
     assert "אם יום אחד לפני חברו או אחריו מן הימים תדע ולא ממספריהם" in text
+
+
+def test_five_result_fields_need_no_generic_tuple_value():
+    cut_domain, month_domain = "קציצות", "חדשים"
+    source = " ".join([
+        symbol_domain(cut_domain),
+        member(cut_domain, "ארד", 1, "ארד"),
+        symbol_domain(month_domain),
+        member(month_domain, "טין", 1, "טין"),
+        place_typed("שנה", "שנת אין"),
+        place_typed("קציצה", sym(cut_domain, "ארד")),
+        place_nat("יוםקציצה", 3),
+        place_typed("חדש", sym(month_domain, "טין")),
+        place_nat("יוםחדש", 5),
+        "ועתה " + replace_nat("יוםחדש", num(5)),
+    ])
+    _, observed = run_three(source)
+    facts = dict(observed["facts"])
+    assert facts["שנה"] == {"index": "Zero"}
+    assert facts["קציצה"] == "ארד"
+    assert facts["יוםקציצה"] == 3
+    assert facts["חדש"] == "טין"
+    assert facts["יוםחדש"] == 5
+
+
+def test_program_input_invalid_invocation_stops_before_preparation():
+    role = "קלט"
+    target = "יעד"
+    # A valid input of 2 would make Preparation attempt 1-2 and fail.
+    # With no binding, invocation validation must win before Preparation starts.
+    initializer = f"המספר הנחשב בגרע {input_nat_ref(role)} מן {num(1)}"
+    source = " ".join([
+        input_nat(role),
+        place_nat_value(target, initializer),
+        "ועתה " + replace_nat(target, num(1)),
+    ])
+    compiled = compile_source(source)
+    assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+    observed = backend_observable(execute_ir(compiled.ir, bindings=()))
+    assert observed["outcome"] == "InvalidInvocation"
+    assert [x["code"] for x in observed["issues"]] == ["MISSING_INPUT_BINDING"]
