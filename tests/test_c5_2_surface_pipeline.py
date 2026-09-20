@@ -215,6 +215,7 @@ def test_explain_surfaces_c52_resolved_metadata_without_changing_observation():
     assert obj["identities"]["symbol_domains_debug"]
     assert len(obj["identities"]["symbol_members_debug"])==2
     assert obj["symbol_order_debug"][0]["relation"]=="adjacent-before"
+    assert obj["program_division"]["entry_is_surface_transition"]=="ועתה"
     assert all(x["debug_only_internal_identity"] for x in obj["identities"]["symbol_members_debug"])
     assert any(x["typed"] for x in obj["immediate_result_provenance"])
 
