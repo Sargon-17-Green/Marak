@@ -4,10 +4,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from compiler.models import ir as i
-from compiler.models.domains import NATURAL
+from compiler.models.domains import NATURAL, Domain
 from compiler.models.values import (
     BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue, SymbolValue,
     index_successor, index_predecessor, symbol_identity_equal,
+    semantic_value_equal, value_domain,
 )
 from compiler.version import IR_REFERENCE_VERSION
 
@@ -138,6 +139,25 @@ class IRReferenceEvaluator:
         self.acts = {x.act: x for x in program.acts}
         self.place_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "place"))
         self.act_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "act"))
+        self.symbol_order_rank = {}
+        members_by_domain = {}
+        outgoing_by_domain = {}
+        for m in program.symbol_members:
+            members_by_domain.setdefault(m.domain_id,set()).add(m.member_id)
+        for edge in program.symbol_order_edges:
+            outgoing_by_domain.setdefault(edge.domain_id,{})[edge.before_member_id]=edge.after_member_id
+        for domain_id,members in members_by_domain.items():
+            outgoing=outgoing_by_domain.get(domain_id,{})
+            incoming=set(outgoing.values())
+            starts=[m for m in members if m not in incoming]
+            if len(starts)==1:
+                rank={}; cur=starts[0]
+                while cur not in rank:
+                    rank[cur]=len(rank)
+                    if cur not in outgoing: break
+                    cur=outgoing[cur]
+                if set(rank)==members:
+                    self.symbol_order_rank[domain_id]=rank
 
     def consume(self) -> bool:
         if self.fuel is None:
@@ -146,6 +166,37 @@ class IRReferenceEvaluator:
             return False
         self.fuel -= 1
         return True
+
+    def _semantic_item(self,value: object,domain: Domain):
+        if domain==NATURAL:
+            if type(value) is not int: raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return NaturalValue(value)
+        if not isinstance(value,(SymbolValue,BidirectionalIndexValue,CollectionValue)) or value_domain(value)!=domain:
+            raise _Fault("INTERNAL_DOMAIN_GUARD")
+        return value
+
+    def _select(self,collection: CollectionValue,mode: str,position: int | None):
+        k=1 if mode=="first" else len(collection.items) if mode=="last" else position
+        if type(k) is not int or k<1 or k>len(collection.items):
+            raise _Fault("COLLECTION_POSITION_ERROR",f"position={k}, count={len(collection.items)}")
+        item=collection.items[k-1]
+        return item.value if isinstance(item,NaturalValue) else item
+
+    def _order(self,collection: CollectionValue,kind: str,symbol_domain_id):
+        try:
+            if kind=="natural":
+                items=sorted(collection.items,key=lambda x:x.value)
+            elif kind=="symbol":
+                rank=self.symbol_order_rank[symbol_domain_id]; items=sorted(collection.items,key=lambda x:rank[x.member_id])
+            elif kind=="lex-natural":
+                items=sorted(collection.items,key=lambda x:tuple(v.value for v in x.items))
+            elif kind=="lex-symbol":
+                rank=self.symbol_order_rank[symbol_domain_id]; items=sorted(collection.items,key=lambda x:tuple(rank[v.member_id] for v in x.items))
+            else:
+                raise KeyError(kind)
+            return CollectionValue(collection.element_domain,tuple(items))
+        except (KeyError,AttributeError,TypeError):
+            raise _Fault("ORDER_RELATION_ERROR")
 
     def value(self, node: i.IRValue, state: dict[int, object], occ: _Occurrence | None, prov: _Provenance | None) -> object:
         if isinstance(node, i.IRNatural):
@@ -173,6 +224,31 @@ class IRReferenceEvaluator:
                 else:
                     items.append(v)
             return CollectionValue(node.element_domain,tuple(items))
+        if isinstance(node,i.IRCollectionAppend):
+            collection=self.value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            item=self._semantic_item(self.value(node.item,state,occ,prov),node.element_domain)
+            return CollectionValue(node.element_domain,collection.items+(item,))
+        if isinstance(node,i.IRCollectionCount):
+            collection=self.value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return len(collection.items)
+        if isinstance(node,i.IRCollectionSelectNatural):
+            collection=self.value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            pos=None if node.position is None else _natural(self.value(node.position,state,occ,prov))
+            selected=self._select(collection,node.mode,pos)
+            if type(selected) is not int: raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return selected
+        if isinstance(node,i.IRCollectionSelectValue):
+            collection=self.value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            pos=None if node.position is None else _natural(self.value(node.position,state,occ,prov))
+            return self._select(collection,node.mode,pos)
+        if isinstance(node,i.IRCollectionOrder):
+            collection=self.value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return self._order(collection,node.order_kind,node.symbol_domain_id)
         if isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
             return state[node.place]
         if isinstance(node, (i.IRReadRoleNumber, i.IRReadRoleValue)):
@@ -202,6 +278,11 @@ class IRReferenceEvaluator:
             left=self.value(proposition.left,state,occ,prov); right=self.value(proposition.right,state,occ,prov)
             if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
             return symbol_identity_equal(left,right)
+        if isinstance(proposition,i.IRCollectionMembershipProposition):
+            collection=self.value(proposition.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            item=self._semantic_item(self.value(proposition.item,state,occ,prov),proposition.element_domain)
+            return any(semantic_value_equal(item,x) for x in collection.items)
         raise _Fault("INTERNAL_UNKNOWN_PROPOSITION")
 
     def action(self, action, state, occ=None, prov=None):
