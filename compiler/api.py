@@ -25,6 +25,7 @@ from compiler.resolve.a13_program import A13ResolutionError, resolve_a13_program
 from compiler.validate.a12_rules import find_a12_validation_issues
 from compiler.validate.a13_b12_rules import validate_a13_b12
 from compiler.validate.ir_canonical import validate_canonical_ir
+from compiler.validate.domains import DomainValidationError, validate_hast_domains
 from compiler.parse.grammar import ConstructionRegistry
 from compiler.parse.forest import AmbiguityStatus, ParseElement, ParseForest, ParseLeaf, ParseNode
 from compiler.parse.parser import ParseResult, Parser
@@ -97,7 +98,7 @@ def _construction_ids(element:ParseElement)->set[str]:
     return out
 
 def _is_a13(registry:ConstructionRegistry)->bool:
-    return registry.registry_version.startswith("a13-b12")
+    return registry.registry_version.startswith(("a13-b12","c5.2-"))
 
 def _slice_parses_as(tokens, registry: ConstructionRegistry, lhs: str) -> bool:
     if not tokens:
@@ -196,6 +197,18 @@ def check(source: str | SourceText, *, file: str="<memory>", registry:Constructi
         if hast is not None:
             for x in validate_a13_b12(hast):
                 diagnostics.append(Diagnostic(x.code,Severity.ERROR,"semantic",x.message_en,x.message_he,source_span=x.source_span,metadata={"semantic_code":x.semantic_code,**x.metadata}))
+            try:
+                validate_hast_domains(hast)
+            except DomainValidationError as exc:
+                diagnostics.append(Diagnostic(
+                    exc.issue.diagnostic_code,
+                    Severity.ERROR,
+                    "semantic",
+                    exc.issue.detail,
+                    exc.issue.detail,
+                    source_span=hast.source_span,
+                    metadata={"semantic_code":exc.issue.code},
+                ))
     return CheckResult(not diagnostics,tuple(diagnostics),n,tokens,forest,parsed,hast)
 
 def compile_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY)->CompilationResult:
@@ -258,9 +271,16 @@ def _walk_hast(node):
 
 
 def _resolved_explanation(program: HastCoreProgram) -> dict[str, Any]:
-    from compiler.models.hast import HastActBody, HastActIntroduction, HastPlaceIntroduction, HastRecentResult, HastRoleDeclaration
+    from compiler.models.hast import (
+        HastActBody, HastActIntroduction, HastPlaceIntroduction, HastRecentResult,
+        HastRecentTypedResult, HastRoleDeclaration, HastSymbolDomainDeclaration,
+        HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
+    )
     visibility=[]
     body_ownership=[]
+    symbol_domains=[]
+    symbol_members=[]
+    symbol_order=[]
     for index, unit in enumerate(program.preparation):
         if isinstance(unit, HastPlaceIntroduction):
             visibility.append({"kind":"place","id":unit.place.serial,"spelling":unit.place.spelling,"visible_after_preparation_index":index})
@@ -270,10 +290,24 @@ def _resolved_explanation(program: HastCoreProgram) -> dict[str, Any]:
             visibility.append({"kind":"role","id":unit.role.serial,"spelling":unit.role.spelling,"owner_act_id":unit.role.owner.serial,"visible_after_preparation_index":index})
         elif isinstance(unit, HastActBody):
             body_ownership.append({"act_id":unit.act.serial,"act":unit.act.spelling,"preparation_index":index,"source_span":_span_dict(unit.source_span)})
+        elif isinstance(unit,HastSymbolDomainDeclaration):
+            symbol_domains.append({"domain_id":unit.domain_id.serial,"source_name":unit.domain_id.spelling,"debug_only_internal_identity":True})
+        elif isinstance(unit,HastSymbolMemberDeclaration):
+            symbol_members.append({
+                "domain_id":unit.domain_id.serial,"member_id":unit.member_id.serial,
+                "source_name":unit.member_id.spelling,"canonical_external_label":unit.external_label,
+                "debug_only_internal_identity":True,
+            })
+        elif isinstance(unit,HastSymbolOrderAdjacent):
+            symbol_order.append({
+                "domain_id":unit.domain_id.serial,"before_member_id":unit.before_member_id.serial,
+                "after_member_id":unit.after_member_id.serial,"relation":"adjacent-before",
+                "debug_only_internal_identity":True,
+            })
     recent=[]
     for node in _walk_hast(program):
-        if isinstance(node, HastRecentResult):
-            recent.append({"act_id":node.act.serial,"act":node.act.spelling,"source_span":_span_dict(node.source_span),"relation":"just-completed direct performance; intervening executable expires provenance"})
+        if isinstance(node,(HastRecentResult,HastRecentTypedResult)):
+            recent.append({"act_id":node.act.serial,"act":node.act.spelling,"source_span":_span_dict(node.source_span),"relation":"just-completed direct performance; intervening executable expires provenance","typed":isinstance(node,HastRecentTypedResult)})
     return {
         "program_division": {
             "preparation": [type(x).__name__ for x in program.preparation],
@@ -285,7 +319,15 @@ def _resolved_explanation(program: HastCoreProgram) -> dict[str, Any]:
             "places": [{"id":x.serial,"spelling":x.spelling} for x in program.places],
             "acts": [{"id":x.serial,"spelling":x.spelling} for x in program.acts],
             "roles": [{"id":x.serial,"spelling":x.spelling,"owner_act_id":x.owner.serial,"owner_act":x.owner.spelling} for x in program.roles],
+            "symbol_domains_debug":symbol_domains,
+            "symbol_members_debug":symbol_members,
         },
+        "static_domains": {
+            "places":[{"place_id":x.place.serial,"domain":_semantic_obj(x.domain)} for x in program.place_domains],
+            "roles":[{"role_id":x.role.serial,"domain":_semantic_obj(x.domain)} for x in program.role_domains],
+            "act_outputs":[{"act_id":x.act.serial,"domain":None if x.domain is None else _semantic_obj(x.domain)} for x in program.act_output_domains],
+        },
+        "symbol_order_debug":symbol_order,
         "visibility": visibility,
         "ownership": {"roles": [{"role_id":x.serial,"owner_act_id":x.owner.serial} for x in program.roles],"bodies":body_ownership},
         "immediate_result_provenance": recent,

@@ -1,0 +1,66 @@
+{
+  "artifact_version": "core-artifact-0.3-candidate-1",
+  "cases": [
+    {
+      "case": "valid_symbol_roundtrip",
+      "evidence": "source -> 0.3 artifact -> verifier -> three execution layers",
+      "expected": "ACCEPT"
+    },
+    {
+      "case": "valid_index_roundtrip",
+      "evidence": "typed Index carrier and succ/pred",
+      "expected": "ACCEPT"
+    },
+    {
+      "case": "forged_symbol_label",
+      "evidence": "IR_SYMBOL_LABEL_FORGERY",
+      "expected": "REJECT"
+    },
+    {
+      "case": "unknown_symbol_member",
+      "evidence": "IR_SYMBOL_VALUE_IDENTITY",
+      "expected": "REJECT"
+    },
+    {
+      "case": "cross_domain_symbol_equality",
+      "evidence": "IR_SYMBOL_EQUALITY_DOMAIN",
+      "expected": "REJECT"
+    },
+    {
+      "case": "malformed_index_zero",
+      "evidence": "invalid BidirectionalIndex zero/magnitude relation",
+      "expected": "REJECT"
+    },
+    {
+      "case": "index_operation_natural_operand",
+      "evidence": "IR_DOMAIN_INDEX_OPERAND",
+      "expected": "REJECT"
+    },
+    {
+      "case": "natural_gt_index_operand",
+      "evidence": "IR_NATURAL_GT_DOMAIN",
+      "expected": "REJECT"
+    },
+    {
+      "case": "symbol_order_unknown_member",
+      "evidence": "IR_SYMBOL_ORDER_MEMBER",
+      "expected": "REJECT"
+    },
+    {
+      "case": "symbol_order_self_edge",
+      "evidence": "IR_SYMBOL_ORDER_SELF",
+      "expected": "REJECT"
+    },
+    {
+      "case": "duplicate_symbol_identity",
+      "evidence": "IR_SYMBOL_MEMBER_DUPLICATE",
+      "expected": "REJECT"
+    },
+    {
+      "case": "artifact_0_2_under_0_3_verifier",
+      "evidence": "unknown artifact version",
+      "expected": "REJECT"
+    }
+  ],
+  "schema": "marak-c5.2-artifact-matrix-v1"
+}

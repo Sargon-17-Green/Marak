@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from compiler.models.domains import Domain, ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.source.source_map import OriginalSpan
 
-IR_VERSION = "core-ir-0.2-candidate-1"
+IR_VERSION = "core-ir-0.3-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -62,6 +62,16 @@ class IRCollectionValue(IRValue):
 
 
 @dataclass(frozen=True, slots=True)
+class IRIndexSuccessor(IRValue):
+    operand: IRValue
+
+
+@dataclass(frozen=True, slots=True)
+class IRIndexPredecessor(IRValue):
+    operand: IRValue
+
+
+@dataclass(frozen=True, slots=True)
 class IRReadCurrentFact(IRNumber):
     place: int
 
@@ -111,6 +121,19 @@ class IRCheckedSubtractNatural(IRNumber):
 class IREqualProposition(IRProposition):
     left: IRNumber
     right: IRNumber
+
+
+@dataclass(frozen=True, slots=True)
+class IRNaturalGTProposition(IRProposition):
+    left: IRNumber
+    right: IRNumber
+
+
+@dataclass(frozen=True, slots=True)
+class IRSymbolEqualProposition(IRProposition):
+    left: IRValue
+    right: IRValue
+    domain_id: SymbolDomainId
 
 
 @dataclass(frozen=True, slots=True)
@@ -182,6 +205,25 @@ class IRSymbol(IRNode):
 
 
 @dataclass(frozen=True, slots=True)
+class IRSymbolDomainDeclaration(IRNode):
+    domain_id: SymbolDomainId
+
+
+@dataclass(frozen=True, slots=True)
+class IRSymbolMemberDeclaration(IRNode):
+    domain_id: SymbolDomainId
+    member_id: SymbolMemberId
+    external_label: str
+
+
+@dataclass(frozen=True, slots=True)
+class IRSymbolOrderAdjacent(IRNode):
+    domain_id: SymbolDomainId
+    before_member_id: SymbolMemberId
+    after_member_id: SymbolMemberId
+
+
+@dataclass(frozen=True, slots=True)
 class IRPlaceDomain(IRNode):
     place: int
     domain: Domain
@@ -217,6 +259,9 @@ class IRProgram:
     role_domains: tuple[IRRoleDomain, ...] = ()
     act_output_domains: tuple[IRActOutputDomain, ...] = ()
     program_input_domains: tuple[IRProgramInputDomain, ...] = ()
+    symbol_domains: tuple[IRSymbolDomainDeclaration, ...] = ()
+    symbol_members: tuple[IRSymbolMemberDeclaration, ...] = ()
+    symbol_order_edges: tuple[IRSymbolOrderAdjacent, ...] = ()
 
 
 __all__ = [n for n in globals() if n.startswith("IR")]

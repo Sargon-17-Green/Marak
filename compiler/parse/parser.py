@@ -9,6 +9,7 @@ from compiler.morphology.api import MorphAnalysis
 from compiler.parse.forest import ParseAlternative, ParseElement, ParseForest, ParseLeaf, ParseNode
 from compiler.parse.grammar import (
     ConstructionRegistry,
+    CountedLabelTerminal,
     MorphTerminal,
     NameTerminal,
     NumeralTerminal,
@@ -169,7 +170,7 @@ class Parser:
 
     def _match_terminal(
         self,
-        symbol: WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal,
+        symbol: WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal,
         pos: int,
         tokens: Sequence[WordToken],
         token_words: tuple[str, ...],
@@ -204,6 +205,31 @@ class Parser:
                     OriginalSpan(first.original.start, last.original.end),
                     terminal_role=f"Numeral:{symbol.lexicon_id}",
                     numeric_value=value,
+                )))
+            return tuple(out)
+
+        if isinstance(symbol, CountedLabelTerminal):
+            out: list[tuple[int, ParseLeaf]] = []
+            for numeral_end, count, _ in match_numeral_lexicon(symbol.lexicon_id, token_words, pos):
+                marker_end = numeral_end + 2
+                if token_words[numeral_end:marker_end] != ("והמלים", "הן"):
+                    continue
+                label_end = marker_end + count
+                if label_end > len(tokens):
+                    continue
+                label_words = token_words[marker_end:label_end]
+                if not label_words:
+                    continue
+                first = tokens[pos]
+                last = tokens[label_end - 1]
+                out.append((label_end, ParseLeaf(
+                    first.index,
+                    " ".join(label_words),
+                    first.normalized_start,
+                    last.normalized_end,
+                    OriginalSpan(first.original.start, last.original.end),
+                    terminal_role=f"CountedLabel:{symbol.lexicon_id}",
+                    numeric_value=count,
                 )))
             return tuple(out)
 
@@ -276,6 +302,8 @@ class Parser:
                 expected.add("morph:" + ",".join(bits))
             elif isinstance(symbol, NumeralTerminal):
                 expected.add(f"numeral:{symbol.lexicon_id}")
+            elif isinstance(symbol, CountedLabelTerminal):
+                expected.add(f"counted-label:{symbol.lexicon_id}")
             else:
                 expected.add(f"nonterminal:{symbol.name}")
         return ParseFailure(furthest, tuple(sorted(expected)))

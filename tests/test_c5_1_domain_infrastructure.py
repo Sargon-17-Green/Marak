@@ -38,7 +38,19 @@ def sp() -> OriginalSpan:
 
 def _program(domain, literal: H.HastValue) -> H.HastCoreProgram:
     s=sp(); place=PlaceId(1,"?????????"); act=ActId(2,"?????????"); role=RoleId(3,act,"??????????")
-    prep=(
+    symbol_declarations=[]
+    seen_domains=set(); seen_members=set()
+    def collect_symbols(value):
+        if isinstance(value,H.HastSymbolValue):
+            if value.domain_id not in seen_domains:
+                seen_domains.add(value.domain_id); symbol_declarations.append(H.HastSymbolDomainDeclaration(s,value.domain_id))
+            key=(value.domain_id,value.member_id)
+            if key not in seen_members:
+                seen_members.add(key); symbol_declarations.append(H.HastSymbolMemberDeclaration(s,value.domain_id,value.member_id,value.external_label))
+        elif isinstance(value,H.HastCollectionValue):
+            for item in value.items: collect_symbols(item)
+    collect_symbols(literal)
+    prep=tuple(symbol_declarations)+(
         H.HastPlaceIntroduction(s,place,literal),
         H.HastActIntroduction(s,act),
         H.HastRoleDeclaration(s,role),

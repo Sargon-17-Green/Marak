@@ -72,6 +72,30 @@ def value_domain(value: SemanticValue) -> Domain:
     raise TypeError(f"unknown Marak Value {type(value).__name__}")
 
 
+def symbol_identity_equal(left: SymbolValue, right: SymbolValue) -> bool:
+    return left.domain_id == right.domain_id and left.member_id == right.member_id
+
+
+def index_successor(value: BidirectionalIndexValue) -> BidirectionalIndexValue:
+    if value.side == "before":
+        if value.magnitude == 1:
+            return BidirectionalIndexValue("zero", 0)
+        return BidirectionalIndexValue("before", value.magnitude - 1)
+    if value.side == "zero":
+        return BidirectionalIndexValue("after", 1)
+    return BidirectionalIndexValue("after", value.magnitude + 1)
+
+
+def index_predecessor(value: BidirectionalIndexValue) -> BidirectionalIndexValue:
+    if value.side == "after":
+        if value.magnitude == 1:
+            return BidirectionalIndexValue("zero", 0)
+        return BidirectionalIndexValue("after", value.magnitude - 1)
+    if value.side == "zero":
+        return BidirectionalIndexValue("before", 1)
+    return BidirectionalIndexValue("before", value.magnitude + 1)
+
+
 def observable_value(value: SemanticValue):
     if isinstance(value, NaturalValue):
         return value.value
@@ -91,5 +115,6 @@ def observable_value(value: SemanticValue):
 
 __all__ = [
     "NaturalValue", "SymbolValue", "BidirectionalIndexValue", "CollectionValue",
-    "SemanticValue", "value_domain", "observable_value",
+    "SemanticValue", "value_domain", "symbol_identity_equal",
+    "index_successor", "index_predecessor", "observable_value",
 ]

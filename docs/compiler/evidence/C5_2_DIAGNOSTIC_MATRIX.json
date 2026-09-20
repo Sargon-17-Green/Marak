@@ -1,0 +1,119 @@
+{
+  "diagnostics": [
+    {
+      "code": "REF0201",
+      "host_exception_leak": false,
+      "meaning": "Symbol domain used before declaration",
+      "phase": "resolve"
+    },
+    {
+      "code": "REF0202",
+      "host_exception_leak": false,
+      "meaning": "Symbol member used before declaration",
+      "phase": "resolve"
+    },
+    {
+      "code": "REF0203",
+      "host_exception_leak": false,
+      "meaning": "Symbol current-place explicit domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "REF0204",
+      "host_exception_leak": false,
+      "meaning": "Symbol current-role explicit domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "REF0205",
+      "host_exception_leak": false,
+      "meaning": "Duplicate Symbol domain source name",
+      "phase": "resolve"
+    },
+    {
+      "code": "REF0206",
+      "host_exception_leak": false,
+      "meaning": "Duplicate member source name within a domain",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0301",
+      "host_exception_leak": false,
+      "meaning": "Cross-domain Symbol equality",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0302",
+      "host_exception_leak": false,
+      "meaning": "Typed replacement value/place domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0303",
+      "host_exception_leak": false,
+      "meaning": "Displaced Symbol-place head domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0304",
+      "host_exception_leak": false,
+      "meaning": "Role association domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0305",
+      "host_exception_leak": false,
+      "meaning": "Symbol order operand domain mismatch",
+      "phase": "resolve"
+    },
+    {
+      "code": "SEM0306",
+      "host_exception_leak": false,
+      "meaning": "Mixed act output domains",
+      "phase": "resolve"
+    },
+    {
+      "code": "DOM0003",
+      "host_exception_leak": false,
+      "meaning": "Place replacement domain mismatch",
+      "phase": "semantic"
+    },
+    {
+      "code": "DOM0004",
+      "host_exception_leak": false,
+      "meaning": "Role association domain mismatch",
+      "phase": "semantic"
+    },
+    {
+      "code": "DOM0005",
+      "host_exception_leak": false,
+      "meaning": "Output-domain mismatch",
+      "phase": "semantic"
+    },
+    {
+      "code": "DOM0009",
+      "host_exception_leak": false,
+      "meaning": "Typed reference mismatch",
+      "phase": "semantic"
+    },
+    {
+      "code": "DOM0011",
+      "host_exception_leak": false,
+      "meaning": "Equality domain mismatch",
+      "phase": "semantic"
+    },
+    {
+      "code": "DOM0012",
+      "host_exception_leak": false,
+      "meaning": "Other static domain/order contract violation",
+      "phase": "semantic"
+    },
+    {
+      "code": "PARSE0002",
+      "host_exception_leak": false,
+      "meaning": "Malformed or non-admitted C5.2 surface, including counted-label boundary failures",
+      "phase": "parse"
+    }
+  ],
+  "schema": "marak-c5.2-diagnostic-matrix-v1"
+}

@@ -5,13 +5,18 @@ from dataclasses import dataclass
 from compiler.models.hast import (
     HastActBody, HastActIntroduction, HastAddNatural, HastConditional,
     HastCoreProgram, HastCurrentFact, HastCurrentRoleNumber, HastEqualProposition,
-    HastExactNatural, HastExecutable, HastFixedRecurrence, HastNumber,
+    HastExactNatural, HastExecutable, HastFixedRecurrence, HastNumber, HastValue,
     HastPerformAct, HastPlaceIntroduction, HastPostActionRecurrence,
     HastProduceResult, HastProposition, HastRecentResult, HastReplaceCurrentFact,
     HastRoleAssociation, HastRoleDeclaration, HastSubtractNatural, HastThen,
     HastPlaceDomain, HastRoleDomain, HastActOutputDomain,
+    HastSymbolValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult,
+    HastIndexValue, HastIndexSuccessor, HastIndexPredecessor,
+    HastNaturalGTProposition, HastSymbolEqualProposition,
+    HastSymbolDomainDeclaration, HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
 )
-from compiler.models.domains import NATURAL
+from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, Domain, SymbolDomain, SymbolDomainId, SymbolMemberId
+from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
 from compiler.source.source_map import OriginalSpan
@@ -39,6 +44,10 @@ class _Env:
         self.acts: dict[str, ActId] = {}
         self.roles: dict[tuple[int, str], RoleId] = {}
         self.bodies: set[int] = set()
+        self.place_domains: dict[PlaceId, Domain] = {}
+        self.role_domains: dict[RoleId, Domain] = {}
+        self.symbol_domains: dict[str, SymbolDomainId] = {}
+        self.symbol_members: dict[tuple[int, str], tuple[SymbolMemberId, str]] = {}
 
     def serial(self) -> int:
         value = self.next_serial
@@ -131,6 +140,19 @@ def _resolve_act(name: str, env: _Env, where: ParseLeaf | ParseNode) -> ActId:
     return env.acts[name]
 
 
+def _resolve_symbol_domain(name: str, env: _Env, where: ParseLeaf | ParseNode) -> SymbolDomainId:
+    if name not in env.symbol_domains:
+        raise _issue("REF0201", "Symbol domain reference occurs before its declaration.", "הפניה למשפחת שמות מופיעה לפני הצגתה.", where, domain=name)
+    return env.symbol_domains[name]
+
+
+def _resolve_symbol_member(domain: SymbolDomainId, name: str, env: _Env, where: ParseLeaf | ParseNode) -> tuple[SymbolMemberId, str]:
+    key=(domain.serial,name)
+    if key not in env.symbol_members:
+        raise _issue("REF0202", "Symbol member reference occurs before its declaration in the named domain.", "הפניה לשם במשפחה מופיעה לפני הצגתו.", where, domain=domain.spelling, member=name)
+    return env.symbol_members[key]
+
+
 def _resolve_role(owner: ActId, name: str, env: _Env, where: ParseLeaf | ParseNode) -> RoleId:
     key = (owner.serial, name)
     if key not in env.roles:
@@ -154,8 +176,9 @@ def _lower_number(
     if span is None:
         raise RuntimeError("number node lacks source span")
     pid = node.production_id
-    if pid == "A12.NUMBER.LITERAL":
-        leaves = tuple(l for l in _all_leaves(node, "Numeral:a12-direct-1-9999") if l.numeric_value is not None)
+    if pid in {"A12.NUMBER.LITERAL", "C52.NUMBER.LITERAL"}:
+        role = "Numeral:a12-direct-1-9999" if pid == "A12.NUMBER.LITERAL" else "Numeral:a15-direct-1-99999999"
+        leaves = tuple(l for l in _all_leaves(node, role) if l.numeric_value is not None)
         if len(leaves) != 1:
             raise RuntimeError("literal numeral leaf contract")
         return HastExactNatural(span, leaves[0].numeric_value)  # type: ignore[arg-type]
@@ -211,23 +234,145 @@ def _lower_number(
     raise RuntimeError(f"unsupported admitted NumberValue production {pid}")
 
 
+def _lower_symbol(
+    node: ParseNode,
+    env: _Env,
+    *,
+    current_act: ActId | None,
+    recent_act: ActId | None,
+    pending_self_place: str | None = None,
+) -> HastValue:
+    if node.original is None:
+        raise RuntimeError("SymbolValue node lacks source span")
+    pid=node.production_id
+    domains=_direct_leaves(node,"SymbolDomainName")
+    if not domains:
+        raise RuntimeError(f"SymbolValue lacks explicit domain head: {pid}")
+    domain=_resolve_symbol_domain(domains[0].text,env,domains[0])
+    expected=SymbolDomain(domain)
+    if pid=="C52.SYMBOL.REF":
+        member_leaf=_direct_leaves(node,"SymbolMemberName")[0]
+        member,label=_resolve_symbol_member(domain,member_leaf.text,env,member_leaf)
+        return HastSymbolValue(node.original,domain,member,label)
+    if pid=="C52.SYMBOL.CURRENT.PLACE":
+        place_leaf=_direct_leaves(node,"PlaceName")[0]
+        place=_resolve_place(place_leaf.text,env,place_leaf,self_name=pending_self_place)
+        if env.place_domains.get(place)!=expected:
+            raise _issue("REF0203","Symbol current-place head names a domain different from the place's static domain.","ראש משפחת השמות של הערך הנוכחי במקום מציין תחום שונה מן התחום הסטטי של המקום.",domains[0],place=place.spelling,domain=domain.spelling)
+        return HastCurrentValue(node.original,place,expected)
+    if pid=="C52.SYMBOL.CURRENT.ROLE":
+        owner_leaf=_direct_leaves(node,"RoleOwnerActionName")[0]
+        role_leaf=_direct_leaves(node,"AssociatedRoleName")[0]
+        owner=_resolve_act(owner_leaf.text,env,owner_leaf)
+        role=_resolve_role(owner,role_leaf.text,env,role_leaf)
+        if current_act!=owner:
+            raise _issue("REF0110","A current role value is available only in an occurrence of its owning act.","הערך הנוכחי של תפקיד זמין רק בעת ביצוע המעשה שהוא בעל התפקיד.",role_leaf,owner=owner.spelling,role=role.spelling)
+        if env.role_domains.get(role)!=expected:
+            raise _issue("REF0204","Symbol current-role head names a domain different from the role's static domain.","ראש משפחת השמות של הערך הנוכחי בתפקיד מציין תחום שונה מן התחום הסטטי של התפקיד.",domains[0],role=role.spelling,domain=domain.spelling)
+        return HastCurrentRoleValue(node.original,role,expected)
+    if pid=="C52.SYMBOL.IMMEDIATE":
+        act_leaf=_direct_leaves(node,"ResultActionName")[0]
+        act=_resolve_act(act_leaf.text,env,act_leaf)
+        if recent_act is None:
+            raise _issue("REF0112","Immediate result reference has no structurally immediate preceding performance.","להפניית התוצאה המיידית אין ביצוע קודם הצמוד לה מבחינה מבנית.",act_leaf,act=act.spelling)
+        if recent_act!=act:
+            raise _issue("REF0113","Immediate result reference names a different act from the directly preceding performance.","הפניית התוצאה המיידית נוקבת במעשה שונה מן הביצוע הקודם הישיר.",act_leaf,expected=recent_act.spelling,actual=act.spelling)
+        return HastRecentTypedResult(node.original,act,expected)
+    raise RuntimeError(f"unsupported admitted SymbolValue production {pid}")
+
+
+def _lower_index(
+    node: ParseNode,
+    env: _Env,
+    *,
+    current_act: ActId | None,
+    recent_act: ActId | None,
+    pending_self_place: str | None = None,
+) -> HastValue:
+    if node.original is None:
+        raise RuntimeError("IndexValue node lacks source span")
+    pid=node.production_id
+    if pid=="C52.INDEX.ZERO": return HastIndexValue(node.original,"zero",0)
+    if pid=="C52.INDEX.BEFORE.ONE": return HastIndexValue(node.original,"before",1)
+    if pid=="C52.INDEX.AFTER.ONE": return HastIndexValue(node.original,"after",1)
+    if pid=="C52.INDEX.BEFORE.TWO": return HastIndexValue(node.original,"before",2)
+    if pid=="C52.INDEX.AFTER.TWO": return HastIndexValue(node.original,"after",2)
+    if pid in {"C52.INDEX.BEFORE.MANY","C52.INDEX.AFTER.MANY"}:
+        leaves=tuple(x for x in _all_leaves(node,"Numeral:a15-feminine-count-3-99999999") if x.numeric_value is not None)
+        if len(leaves)!=1: raise RuntimeError("Index distance numeral contract")
+        return HastIndexValue(node.original,"before" if "BEFORE" in pid else "after",leaves[0].numeric_value)
+    if pid=="C52.INDEX.CURRENT.PLACE":
+        leaf=_direct_leaves(node,"PlaceName")[0]
+        place=_resolve_place(leaf.text,env,leaf,self_name=pending_self_place)
+        if env.place_domains.get(place)!=BIDIRECTIONAL_INDEX:
+            raise _issue("REF0210","Index current-place reference requires a BidirectionalIndex place.","הפניית אינדקס לערך הנוכחי במקום מחייבת מקום שתחומו BidirectionalIndex.",leaf,place=place.spelling)
+        return HastCurrentValue(node.original,place,BIDIRECTIONAL_INDEX)
+    if pid=="C52.INDEX.CURRENT.ROLE":
+        owner_leaf=_direct_leaves(node,"RoleOwnerActionName")[0]
+        role_leaf=_direct_leaves(node,"AssociatedRoleName")[0]
+        owner=_resolve_act(owner_leaf.text,env,owner_leaf); role=_resolve_role(owner,role_leaf.text,env,role_leaf)
+        if current_act!=owner:
+            raise _issue("REF0110","A current role value is available only in an occurrence of its owning act.","הערך הנוכחי של תפקיד זמין רק בעת ביצוע המעשה שהוא בעל התפקיד.",role_leaf,owner=owner.spelling,role=role.spelling)
+        if env.role_domains.get(role)!=BIDIRECTIONAL_INDEX:
+            raise _issue("REF0211","Index current-role reference requires a BidirectionalIndex role.","הפניית אינדקס לערך הנוכחי בתפקיד מחייבת תפקיד שתחומו BidirectionalIndex.",role_leaf,role=role.spelling)
+        return HastCurrentRoleValue(node.original,role,BIDIRECTIONAL_INDEX)
+    if pid=="C52.INDEX.IMMEDIATE":
+        leaf=_direct_leaves(node,"ResultActionName")[0]; act=_resolve_act(leaf.text,env,leaf)
+        if recent_act is None:
+            raise _issue("REF0112","Immediate result reference has no structurally immediate preceding performance.","להפניית התוצאה המיידית אין ביצוע קודם הצמוד לה מבחינה מבנית.",leaf,act=act.spelling)
+        if recent_act!=act:
+            raise _issue("REF0113","Immediate result reference names a different act from the directly preceding performance.","הפניית התוצאה המיידית נוקבת במעשה שונה מן הביצוע הקודם הישיר.",leaf,expected=recent_act.spelling,actual=act.spelling)
+        return HastRecentTypedResult(node.original,act,BIDIRECTIONAL_INDEX)
+    if pid in {"C52.INDEX.SUCC","C52.INDEX.PRED"}:
+        operand=_lower_index(_one_child(node,"IndexValue"),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        return HastIndexSuccessor(node.original,operand) if pid.endswith("SUCC") else HastIndexPredecessor(node.original,operand)
+    raise RuntimeError(f"unsupported admitted IndexValue production {pid}")
+
+
+def _lower_value(node: ParseNode, env: _Env, *, current_act: ActId | None, recent_act: ActId | None, pending_self_place: str | None=None) -> HastValue:
+    if node.symbol=="AssociationValue":
+        return _lower_value(_single_parse_child(node),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+    if node.symbol=="NumberValue":
+        return _lower_number(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+    if node.symbol=="SymbolValue":
+        return _lower_symbol(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+    if node.symbol=="IndexValue":
+        return _lower_index(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+    raise RuntimeError(f"unsupported Value category {node.symbol}")
+
+
 def _lower_proposition(node: ParseNode, env: _Env, *, current_act: ActId | None, recent_act: ActId | None) -> HastProposition:
-    if node.production_id != "A9.PROPOSITION.NUMERIC_IDENTITY":
-        raise RuntimeError(f"unsupported proposition {node.production_id}")
-    nums = _child_nodes(node, "NumberValue")
-    assert len(nums) == 2
     assert node.original is not None
-    return HastEqualProposition(
-        node.original,
-        _lower_number(nums[0], env, current_act=current_act, recent_act=recent_act),
-        _lower_number(nums[1], env, current_act=current_act, recent_act=recent_act),
-    )
+    if node.production_id == "A9.PROPOSITION.NUMERIC_IDENTITY":
+        nums = _child_nodes(node, "NumberValue")
+        assert len(nums) == 2
+        return HastEqualProposition(
+            node.original,
+            _lower_number(nums[0], env, current_act=current_act, recent_act=recent_act),
+            _lower_number(nums[1], env, current_act=current_act, recent_act=recent_act),
+        )
+    if node.production_id == "C52.PROP.NATURAL.GT":
+        nums=_child_nodes(node,"NumberValue")
+        assert len(nums)==2
+        return HastNaturalGTProposition(node.original,
+            _lower_number(nums[0],env,current_act=current_act,recent_act=recent_act),
+            _lower_number(nums[1],env,current_act=current_act,recent_act=recent_act))
+    if node.production_id == "C52.PROP.SYMBOL.EQ":
+        vals=_child_nodes(node,"SymbolValue")
+        assert len(vals)==2
+        left=_lower_symbol(vals[0],env,current_act=current_act,recent_act=recent_act)
+        right=_lower_symbol(vals[1],env,current_act=current_act,recent_act=recent_act)
+        ld=hast_value_domain(left); rd=hast_value_domain(right)
+        if ld != rd or not isinstance(ld,SymbolDomain):
+            raise _issue("SEM0301","Symbol equality operands must independently resolve to the same declared Symbol domain.","אופרנדי השוויון של Symbol חייבים להיפתר בנפרד לאותו תחום Symbol מוצהר.",node,left_domain=repr(ld),right_domain=repr(rd))
+        return HastSymbolEqualProposition(node.original,left,right,ld.identity)
+    raise RuntimeError(f"unsupported proposition {node.production_id}")
 
 
 def _flatten_role_associations(node: ParseNode) -> list[ParseNode]:
-    if node.production_id == "A11.ROLE.ASSOCIATIONS.ONE":
+    if node.production_id in {"A11.ROLE.ASSOCIATIONS.ONE","C52.ROLE.ASSOC.ONE"}:
         return [node]
-    if node.production_id == "A11.ROLE.ASSOCIATIONS.MORE":
+    if node.production_id in {"A11.ROLE.ASSOCIATIONS.MORE","C52.ROLE.ASSOC.MORE"}:
         prev = _one_child(node, "RoleAssociations")
         return _flatten_role_associations(prev) + [node]
     raise RuntimeError(f"unexpected role association production {node.production_id}")
@@ -275,7 +420,24 @@ def _lower_action(
         value = _lower_number(_one_child(node, "NumberValue"), env, current_act=current_act, recent_act=recent_act)
         return HastReplaceCurrentFact(span, place, value)
 
-    if pid in {"A10.ACT.PERFORM", "A11.ACT.PERFORM.WITH.ROLES"}:
+    if pid in {"C52.PLACE.REPLACE.SYMBOL","C52.PLACE.REPLACE.INDEX"}:
+        names=_direct_leaves(node,"PlaceName")
+        if len(names)!=2 or names[0].text!=names[1].text:
+            raise _issue("REF0001","Typed replacement destination and displaced current-value description must name the same place.","יעד ההחלפה בעל הטיפוס ותיאור הערך הנוכחי המוחלף חייבים לנקוב באותו מקום.",names[-1] if names else node)
+        place=_resolve_place(names[0].text,env,names[0])
+        value_node=_one_child(node,"SymbolValue" if pid.endswith("SYMBOL") else "IndexValue")
+        value=_lower_value(value_node,env,current_act=current_act,recent_act=recent_act)
+        actual=hast_value_domain(value)
+        if env.place_domains.get(place)!=actual:
+            raise _issue("SEM0302","Typed replacement value domain does not equal the place's fixed domain.","תחום ערך ההחלפה בעל הטיפוס אינו שווה לתחום הקבוע של המקום.",node,place=place.spelling)
+        if pid.endswith("SYMBOL"):
+            head=_direct_leaves(node,"SymbolDomainName")[0]
+            explicit=SymbolDomain(_resolve_symbol_domain(head.text,env,head))
+            if explicit!=env.place_domains.get(place):
+                raise _issue("SEM0303","Displaced Symbol-place head names the wrong Symbol domain.","ראש משפחת השמות בתיאור מקום ה־Symbol המוחלף מציין תחום Symbol שגוי.",head,place=place.spelling)
+        return HastReplaceCurrentFact(span,place,value)
+
+    if pid in {"A10.ACT.PERFORM", "A11.ACT.PERFORM.WITH.ROLES", "C52.ACT.PERFORM.ROLES"}:
         role_name = "ActionName" if pid == "A10.ACT.PERFORM" else "PerformedActionName"
         act_leaf = _direct_leaves(node, role_name)[0]
         act = _resolve_act(act_leaf.text, env, act_leaf)
@@ -283,53 +445,40 @@ def _lower_action(
         associations: list[HastRoleAssociation] = []
         seen: set[str] = set()
         role_nodes = _child_nodes(node, "RoleAssociations")
-        if pid == "A11.ACT.PERFORM.WITH.ROLES":
+        if pid != "A10.ACT.PERFORM":
             if len(role_nodes) != 1:
                 raise RuntimeError("role association wrapper contract")
             for assoc_node in _flatten_role_associations(role_nodes[0]):
                 owners = _direct_leaves(assoc_node, "RoleOwnerActionName")
                 roles = _direct_leaves(assoc_node, "AssociatedRoleName")
-                nums = _child_nodes(assoc_node, "NumberValue")
-                # In the recursive MORE node direct leaves/name and NumberValue
-                # belong only to the newly appended association.
-                if len(owners) != 1 or len(roles) != 1 or len(nums) != 1:
+                if len(owners) != 1 or len(roles) != 1:
                     raise RuntimeError("role association direct-shape contract")
                 if owners[0].text != act.spelling:
-                    raise _issue(
-                        "REF0111", "Role association explicitly names a different owning act.",
-                        "שיוך התפקיד נוקב במפורש במעשה בעלים שונה.", owners[0],
-                        performed=act.spelling, owner=owners[0].text,
-                    )
+                    raise _issue("REF0111","Role association explicitly names a different owning act.","שיוך התפקיד נוקב במפורש במעשה בעלים שונה.",owners[0],performed=act.spelling,owner=owners[0].text)
                 role = _resolve_role(act, roles[0].text, env, roles[0])
                 if role.spelling in seen:
-                    raise _issue(
-                        "REF0111", "A role is associated more than once in one performance.",
-                        "תפקיד משויך יותר מפעם אחת בביצוע יחיד.", roles[0], role=role.spelling,
-                    )
+                    raise _issue("REF0111","A role is associated more than once in one performance.","תפקיד משויך יותר מפעם אחת בביצוע יחיד.",roles[0],role=role.spelling)
                 seen.add(role.spelling)
-                associations.append(HastRoleAssociation(
-                    assoc_node.original or span,
-                    role,
-                    _lower_number(nums[0], env, current_act=current_act, recent_act=recent_act),
-                ))
+                if pid == "A11.ACT.PERFORM.WITH.ROLES":
+                    value_node=_one_child(assoc_node,"NumberValue")
+                else:
+                    value_node=_one_child(assoc_node,"AssociationValue")
+                value=_lower_value(value_node,env,current_act=current_act,recent_act=recent_act)
+                if env.role_domains.get(role)!=hast_value_domain(value):
+                    raise _issue("SEM0304","Role association value domain does not equal the role's static domain.","תחום הערך בשיוך תפקיד אינו שווה לתחום הסטטי של התפקיד.",assoc_node,role=role.spelling)
+                associations.append(HastRoleAssociation(assoc_node.original or span,role,value))
         if set(seen) != set(required):
             missing = sorted(set(required) - seen)
             extra = sorted(seen - set(required))
-            raise _issue(
-                "REF0111", "Performance role associations must match the described act's required roles exactly.",
-                "שיוכי התפקידים בביצוע חייבים להתאים בדיוק לתפקידי המעשה המתואר.",
-                act_leaf, act=act.spelling, missing=missing, extra=extra,
-            )
+            raise _issue("REF0111","Performance role associations must match the described act's required roles exactly.","שיוכי התפקידים בביצוע חייבים להתאים בדיוק לתפקידים הנדרשים של המעשה המתואר.",act_leaf,act=act.spelling,missing=missing,extra=extra)
         return HastPerformAct(span, act, tuple(sorted(associations, key=lambda a: a.role.serial)))
 
-    if pid == "A12.RESULT.PRODUCE":
+    if pid in {"A12.RESULT.PRODUCE","C52.RESULT.PRODUCE.SYMBOL","C52.RESULT.PRODUCE.INDEX"}:
         if current_act is None:
-            raise _issue(
-                "REF0114", "Result production is licensed only within the current act performance.",
-                "הפקת תוצאה מותרת רק בתוך הביצוע הנוכחי של מעשה.", node,
-            )
-        value = _lower_number(_one_child(node, "NumberValue"), env, current_act=current_act, recent_act=recent_act)
-        return HastProduceResult(span, value)
+            raise _issue("REF0114","Result production is licensed only within the current act performance.","הפקת תוצאה מותרת רק בתוך הביצוע הנוכחי של מעשה.",node)
+        symbol={"A12.RESULT.PRODUCE":"NumberValue","C52.RESULT.PRODUCE.SYMBOL":"SymbolValue","C52.RESULT.PRODUCE.INDEX":"IndexValue"}[pid]
+        value=_lower_value(_one_child(node,symbol),env,current_act=current_act,recent_act=recent_act)
+        return HastProduceResult(span,value)
 
     if pid == "A10.CONDITIONAL.PAIRED":
         prop = _lower_proposition(_one_child(node, "Proposition"), env, current_act=current_act, recent_act=recent_act)
@@ -386,8 +535,86 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
         prep_nodes = _flatten_preparation(prep_children[0])
 
     for wrapper in prep_nodes:
-        inner = _single_parse_child(wrapper) if wrapper.production_id != "A13.PREP.PLACE.INTRODUCE" else wrapper
         pid = wrapper.production_id
+        unwrap_ids={
+            "A13.PREP.ACT.INTRODUCE","A13.PREP.ROLE.DECLARE","A13.PREP.BODY.DEFINE",
+            "C52.PREP.SYMBOL.DOMAIN","C52.PREP.SYMBOL.MEMBER","C52.PREP.SYMBOL.ORDER",
+        }
+        inner = _single_parse_child(wrapper) if pid in unwrap_ids else wrapper
+
+        if pid == "C52.PREP.SYMBOL.DOMAIN":
+            leaf=_direct_leaves(inner,"SymbolDomainName")[0]
+            if leaf.text in env.symbol_domains:
+                raise _issue("REF0205","Duplicate Symbol domain name.","שם משפחת שמות כפול.",leaf,domain=leaf.text)
+            domain=SymbolDomainId(env.serial(),leaf.text)
+            env.symbol_domains[leaf.text]=domain
+            preparation_hast.append(HastSymbolDomainDeclaration(wrapper.original or root.original,domain))
+            continue
+
+        if pid == "C52.PREP.SYMBOL.MEMBER":
+            domains=_direct_leaves(inner,"SymbolDomainName")
+            members=_direct_leaves(inner,"SymbolMemberName")
+            labels=_direct_leaves(inner,"CountedLabel:a15-direct-1-99999999")
+            if len(domains)!=2 or len({x.text for x in domains})!=1 or len(members)!=2 or len({x.text for x in members})!=1 or len(labels)!=1:
+                raise _issue("REF0001","Symbol member declaration must explicitly co-refer to one domain/member and one counted label.","הצהרת שם במשפחה חייבת להתייחס במפורש למשפחה אחת, לשם אחד ולתווית מנויה אחת.",inner)
+            domain=_resolve_symbol_domain(domains[0].text,env,domains[0])
+            key=(domain.serial,members[0].text)
+            if key in env.symbol_members:
+                raise _issue("REF0206","Duplicate Symbol member source name within one domain.","שם מקור כפול של איבר Symbol בתוך תחום אחד.",members[0],domain=domain.spelling,member=members[0].text)
+            member=SymbolMemberId(env.serial(),members[0].text)
+            label=labels[0].text
+            env.symbol_members[key]=(member,label)
+            preparation_hast.append(HastSymbolMemberDeclaration(wrapper.original or root.original,domain,member,label))
+            continue
+
+        if pid == "C52.PREP.SYMBOL.ORDER":
+            domain_leaf=_direct_leaves(inner,"SymbolDomainName")[0]
+            domain=_resolve_symbol_domain(domain_leaf.text,env,domain_leaf)
+            vals=_child_nodes(inner,"SymbolValue")
+            if len(vals)!=2: raise RuntimeError("Symbol order arity")
+            before=_lower_symbol(vals[0],env,current_act=None,recent_act=None)
+            after=_lower_symbol(vals[1],env,current_act=None,recent_act=None)
+            expected=SymbolDomain(domain)
+            if hast_value_domain(before)!=expected or hast_value_domain(after)!=expected:
+                raise _issue("SEM0305","Symbol order adjacency operands must belong to the explicitly named domain.","אופרנדי הסמיכות בסדר Symbol חייבים להשתייך לתחום הנקוב במפורש.",inner,domain=domain.spelling)
+            assert isinstance(before,HastSymbolValue) and isinstance(after,HastSymbolValue)
+            preparation_hast.append(HastSymbolOrderAdjacent(wrapper.original or root.original,domain,before.member_id,after.member_id))
+            continue
+
+        if pid in {"C52.PREP.PLACE.SYMBOL","C52.PREP.PLACE.INDEX"}:
+            names=_direct_leaves(wrapper,"PlaceName")
+            if len(names)!=2 or names[0].text!=names[1].text:
+                raise _issue("REF0001","Initialized typed place introduction must repeat the same place name.","הצגת מקום מאותחל בעל טיפוס מפורש חייבת לחזור על אותו שם מקום.",names[-1] if names else wrapper)
+            name=names[0].text
+            if name in env.places:
+                raise _issue("REF0102","Duplicate place name.","שם מקום כפול.",names[0],name=name)
+            symbol="SymbolValue" if pid.endswith("SYMBOL") else "IndexValue"
+            initial=_lower_value(_one_child(wrapper,symbol),env,current_act=None,recent_act=None,pending_self_place=name)
+            domain=hast_value_domain(initial)
+            place=PlaceId(env.serial(),name); env.places[name]=place; env.place_domains[place]=domain
+            preparation_hast.append(HastPlaceIntroduction(wrapper.original or root.original,place,initial))
+            continue
+
+        if pid in {"C52.ROLE.DECLARE.SYMBOL","C52.ROLE.DECLARE.INDEX"}:
+            owners=_direct_leaves(wrapper,"RoleOwnerActionName"); roles=_direct_leaves(wrapper,"DeclaredRoleName")
+            if len(owners)!=3 or len({x.text for x in owners})!=1 or len(roles)!=2 or len({x.text for x in roles})!=1:
+                raise _issue("REF0001","Typed role declaration repeated descriptions must co-refer explicitly.","התיאורים החוזרים בהצהרת תפקיד חייבים להתייחס במפורש לאותם שמות.",wrapper)
+            owner_name,role_name=owners[0].text,roles[0].text
+            if owner_name not in env.acts:
+                raise _issue("REF0107","Role owner act has not been introduced.","המעשה בעל התפקיד טרם הוצג.",owners[0],owner=owner_name)
+            owner=env.acts[owner_name]
+            if owner.serial in env.bodies:
+                raise _issue("REF0108","Role declaration appears after its owner's body definition.","הצהרת תפקיד מופיעה לאחר הגדרת הגוף של המעשה בעל התפקיד.",roles[0],owner=owner_name,role=role_name)
+            key=(owner.serial,role_name)
+            if key in env.roles:
+                raise _issue("REF0104","Duplicate role name within one act.","שם תפקיד כפול בתוך מעשה אחד.",roles[0],owner=owner_name,role=role_name)
+            domain=BIDIRECTIONAL_INDEX
+            if pid.endswith("SYMBOL"):
+                dleaf=_direct_leaves(wrapper,"SymbolDomainName")[0]
+                domain=SymbolDomain(_resolve_symbol_domain(dleaf.text,env,dleaf))
+            role=RoleId(env.serial(),owner,role_name); env.roles[key]=role; env.role_domains[role]=domain
+            preparation_hast.append(HastRoleDeclaration(wrapper.original or root.original,role))
+            continue
 
         if pid == "A13.PREP.PLACE.INTRODUCE":
             names = _direct_leaves(wrapper, "PlaceName")
@@ -405,6 +632,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             initial = _lower_number(value_node, env, current_act=None, recent_act=None, pending_self_place=name)
             place = PlaceId(env.serial(), name)
             env.places[name] = place
+            env.place_domains[place] = NATURAL
             preparation_hast.append(HastPlaceIntroduction(wrapper.original or root.original, place, initial))
             continue
 
@@ -440,6 +668,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
                 raise _issue("REF0104", "Duplicate role name within one act.", "שם תפקיד כפול בתוך מעשה אחד.", roles[0], owner=owner_name, role=role_name)
             role = RoleId(env.serial(), owner, role_name)
             env.roles[key] = role
+            env.role_domains[role] = NATURAL
             preparation_hast.append(HastRoleDeclaration(wrapper.original or root.original, role))
             continue
 
@@ -479,21 +708,29 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
     seq = _one_child(principal_node, "ExecutableSequence")
     principal = _lower_sequence(seq, env, current_act=None, body=False)
 
-    def body_has_output(action: HastExecutable) -> bool:
-        if isinstance(action, HastProduceResult):
-            return True
-        if isinstance(action, HastThen):
-            return any(body_has_output(x) for x in action.actions)
-        if isinstance(action, HastConditional):
-            return body_has_output(action.if_holds) or body_has_output(action.if_not)
-        if isinstance(action, (HastFixedRecurrence, HastPostActionRecurrence)):
-            return body_has_output(action.action)
-        return False
+    def body_output_domains(action: HastExecutable) -> set[Domain]:
+        if isinstance(action,HastProduceResult):
+            return {hast_value_domain(action.value)}
+        if isinstance(action,HastThen):
+            out=set()
+            for x in action.actions: out.update(body_output_domains(x))
+            return out
+        if isinstance(action,HastConditional):
+            return body_output_domains(action.if_holds) | body_output_domains(action.if_not)
+        if isinstance(action,(HastFixedRecurrence,HastPostActionRecurrence)):
+            return body_output_domains(action.action)
+        return set()
 
     places = tuple(sorted(env.places.values()))
     acts = tuple(sorted(env.acts.values()))
     roles = tuple(sorted(env.roles.values()))
     body_by_act = {x.act: x.body for x in preparation_hast if isinstance(x, HastActBody)}
+    output_contracts=[]
+    for act in acts:
+        domains=body_output_domains(body_by_act[act])
+        if len(domains)>1:
+            raise _issue("SEM0306","One act has result-production sites with different semantic domains.","למעשה אחד יש אתרי הפקת תוצאה בעלי תחומים סמנטיים שונים.",root,act=act.spelling,domains=sorted(map(repr,domains)))
+        output_contracts.append(HastActOutputDomain(act,next(iter(domains)) if domains else None))
     return HastCoreProgram(
         root.original,
         tuple(preparation_hast),
@@ -501,11 +738,12 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
         places,
         acts,
         roles,
-        tuple(HastPlaceDomain(x, NATURAL) for x in places),
-        tuple(HastRoleDomain(x, NATURAL) for x in roles),
-        tuple(HastActOutputDomain(x, NATURAL if body_has_output(body_by_act[x]) else None) for x in acts),
+        tuple(HastPlaceDomain(x, env.place_domains[x]) for x in places),
+        tuple(HastRoleDomain(x, env.role_domains[x]) for x in roles),
+        tuple(output_contracts),
         (),
     )
+
 
 
 __all__ = ["A13ResolutionIssue", "A13ResolutionError", "resolve_a13_program"]

@@ -14,6 +14,10 @@ def value(n: h.HastValue) -> i.IRValue:
         return i.IRIndexValue(n.source_span, n.side, n.magnitude)
     if isinstance(n, h.HastCollectionValue):
         return i.IRCollectionValue(n.source_span, n.element_domain, tuple(value(x) for x in n.items))
+    if isinstance(n, h.HastIndexSuccessor):
+        return i.IRIndexSuccessor(n.source_span, value(n.operand))
+    if isinstance(n, h.HastIndexPredecessor):
+        return i.IRIndexPredecessor(n.source_span, value(n.operand))
     if isinstance(n, h.HastCurrentFact):
         return i.IRReadCurrentFact(n.source_span, n.place.serial)
     if isinstance(n, h.HastCurrentValue):
@@ -43,6 +47,10 @@ def num(n: h.HastNumber) -> i.IRNumber:
 def prop(p: h.HastProposition) -> i.IRProposition:
     if isinstance(p, h.HastEqualProposition):
         return i.IREqualProposition(p.source_span, num(p.left), num(p.right))
+    if isinstance(p, h.HastNaturalGTProposition):
+        return i.IRNaturalGTProposition(p.source_span, num(p.left), num(p.right))
+    if isinstance(p, h.HastSymbolEqualProposition):
+        return i.IRSymbolEqualProposition(p.source_span, value(p.left), value(p.right), p.domain_id)
     raise TypeError(type(p).__name__)
 
 
@@ -100,6 +108,9 @@ def lower_validated_hast(program: h.HastCoreProgram) -> i.IRProgram:
         tuple(i.IRRoleDomain(program.source_span, x.role.serial, x.domain) for x in program.role_domains),
         tuple(i.IRActOutputDomain(program.source_span, x.act.serial, x.domain) for x in program.act_output_domains),
         tuple(i.IRProgramInputDomain(program.source_span, x.input_id, x.domain) for x in program.program_input_domains),
+        tuple(i.IRSymbolDomainDeclaration(x.source_span, x.domain_id) for x in program.preparation if isinstance(x, h.HastSymbolDomainDeclaration)),
+        tuple(i.IRSymbolMemberDeclaration(x.source_span, x.domain_id, x.member_id, x.external_label) for x in program.preparation if isinstance(x, h.HastSymbolMemberDeclaration)),
+        tuple(i.IRSymbolOrderAdjacent(x.source_span, x.domain_id, x.before_member_id, x.after_member_id) for x in program.preparation if isinstance(x, h.HastSymbolOrderAdjacent)),
     )
 
 

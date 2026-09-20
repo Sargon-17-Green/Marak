@@ -6,10 +6,10 @@ from compiler.models import ir as i
 from compiler.models.domains import NATURAL
 from compiler.models.values import (
     BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue,
-    SymbolValue,
+    SymbolValue, index_successor, index_predecessor, symbol_identity_equal,
 )
 
-BACKEND_VERSION = "portable-ir-vm-0.2-candidate-1"
+BACKEND_VERSION = "portable-ir-vm-0.3-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
 
@@ -152,6 +152,14 @@ class PortableVM:
             return SymbolValue(n.domain_id, n.member_id, n.external_label)
         if isinstance(n, i.IRIndexValue):
             return BidirectionalIndexValue(n.side, n.magnitude)
+        if isinstance(n, i.IRIndexSuccessor):
+            operand=self.value(n.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_successor(operand)
+        if isinstance(n, i.IRIndexPredecessor):
+            operand=self.value(n.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_predecessor(operand)
         if isinstance(n, i.IRCollectionValue):
             items=[]
             for child in n.items:
@@ -186,6 +194,12 @@ class PortableVM:
     def holds(self, p, state, occ, prov):
         if isinstance(p, i.IREqualProposition):
             return _natural(self.value(p.left, state, occ, prov)) == _natural(self.value(p.right, state, occ, prov))
+        if isinstance(p,i.IRNaturalGTProposition):
+            return _natural(self.value(p.left,state,occ,prov)) > _natural(self.value(p.right,state,occ,prov))
+        if isinstance(p,i.IRSymbolEqualProposition):
+            left=self.value(p.left,state,occ,prov); right=self.value(p.right,state,occ,prov)
+            if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return symbol_identity_equal(left,right)
         raise _Fault("INTERNAL_UNKNOWN_PROPOSITION")
 
     def action(self, a, state, occ=None, prov=None):
