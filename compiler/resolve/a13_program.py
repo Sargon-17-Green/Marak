@@ -266,6 +266,26 @@ def _lower_number(
                 leaf, expected=recent_act.spelling, actual=act.spelling,
             )
         return HastRecentResult(span, act)
+    if pid == "C53.COUNT":
+        book=_lower_collection(_one_child(node,"CollectionValue"),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        _require_collection_domain(book,node)
+        return HastCollectionCount(span,book)
+    if pid in {"C53.FIRST.NATURAL","C53.LAST.NATURAL","C53.SELECT.NATURAL"}:
+        children=_child_nodes(node,"CollectionValue")
+        if len(children)!=1:
+            raise RuntimeError("Natural Collection selection book contract")
+        book=_lower_collection(children[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        domain=_require_collection_domain(book,node)
+        if domain.element_domain!=NATURAL:
+            raise _issue("SEM0402","Natural element head requires a book of Naturals.","ראש איבר מספרי דורש ספר מספרים.",node,book_domain=repr(domain))
+        mode="first" if ".FIRST." in pid else "last" if ".LAST." in pid else "ordinal"
+        position=None
+        if mode=="ordinal":
+            nums=_child_nodes(node,"NumberValue")
+            if len(nums)!=1:
+                raise RuntimeError("Collection ordinal position contract")
+            position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        return HastCollectionSelectNatural(span,book,position,mode)
     if pid == "A9.NUMBER.ADD":
         nums = _child_nodes(node, "NumberValue")
         if len(nums) != 2:
@@ -298,6 +318,22 @@ def _lower_symbol(
     if node.original is None:
         raise RuntimeError("SymbolValue node lacks source span")
     pid=node.production_id
+    if pid in {"C53.FIRST.SYMBOL","C53.LAST.SYMBOL","C53.SELECT.SYMBOL"}:
+        children=_child_nodes(node,"CollectionValue")
+        if len(children)!=1:
+            raise RuntimeError("Symbol Collection selection book contract")
+        book=_lower_collection(children[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        domain=_require_collection_domain(book,node)
+        if not isinstance(domain.element_domain,SymbolDomain):
+            raise _issue("SEM0403","Symbol element head requires a book from one Symbol domain.","ראש איבר של שם דורש ספר שמות ממשפחת שמות אחת.",node,book_domain=repr(domain))
+        mode="first" if ".FIRST." in pid else "last" if ".LAST." in pid else "ordinal"
+        position=None
+        if mode=="ordinal":
+            nums=_child_nodes(node,"NumberValue")
+            if len(nums)!=1:
+                raise RuntimeError("Collection ordinal position contract")
+            position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        return HastCollectionSelectValue(node.original,book,domain.element_domain,position,mode)
     domains=_direct_leaves(node,"SymbolDomainName")
     if not domains:
         raise RuntimeError(f"SymbolValue lacks explicit domain head: {pid}")
@@ -345,6 +381,22 @@ def _lower_index(
     if node.original is None:
         raise RuntimeError("IndexValue node lacks source span")
     pid=node.production_id
+    if pid in {"C53.FIRST.INDEX","C53.LAST.INDEX","C53.SELECT.INDEX"}:
+        children=_child_nodes(node,"CollectionValue")
+        if len(children)!=1:
+            raise RuntimeError("Index Collection selection book contract")
+        book=_lower_collection(children[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        domain=_require_collection_domain(book,node)
+        if domain.element_domain!=BIDIRECTIONAL_INDEX:
+            raise _issue("SEM0404","Year-number element head requires a book of BidirectionalIndex values.","ראש איבר של מספר שנה דורש ספר מספרי שנים.",node,book_domain=repr(domain))
+        mode="first" if ".FIRST." in pid else "last" if ".LAST." in pid else "ordinal"
+        position=None
+        if mode=="ordinal":
+            nums=_child_nodes(node,"NumberValue")
+            if len(nums)!=1:
+                raise RuntimeError("Collection ordinal position contract")
+            position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        return HastCollectionSelectValue(node.original,book,BIDIRECTIONAL_INDEX,position,mode)
     if pid=="C52.INDEX.ZERO": return HastIndexValue(node.original,"zero",0)
     if pid=="C52.INDEX.BEFORE.ONE": return HastIndexValue(node.original,"before",1)
     if pid=="C52.INDEX.AFTER.ONE": return HastIndexValue(node.original,"after",1)
@@ -382,6 +434,117 @@ def _lower_index(
     raise RuntimeError(f"unsupported admitted IndexValue production {pid}")
 
 
+def _lower_collection(
+    node: ParseNode,
+    env: _Env,
+    *,
+    current_act: ActId | None,
+    recent_act: ActId | None,
+    pending_self_place: str | None = None,
+) -> HastValue:
+    if node.original is None:
+        raise RuntimeError("CollectionValue node lacks source span")
+    pid=node.production_id
+    if pid.startswith("C53.EMPTY."):
+        element_domain=_collection_kind_element_domain(node,env)
+        return HastCollectionValue(node.original,element_domain,())
+
+    if pid.startswith("C53.APPEND."):
+        element_domain=_collection_kind_element_domain(node,env)
+        books=_child_nodes(node,"CollectionValue")
+        if pid in {"C53.APPEND.NESTED.NATURAL","C53.APPEND.NESTED.INDEX","C53.APPEND.NESTED.SYMBOL"}:
+            if len(books)!=2:
+                raise RuntimeError("nested Collection append arity")
+            source=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+            item=_lower_collection(books[1],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        else:
+            if len(books)!=1:
+                raise RuntimeError("Collection append source arity")
+            source=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+            item_symbol="NumberValue" if pid=="C53.APPEND.NATURAL" else "IndexValue" if pid=="C53.APPEND.INDEX" else "SymbolValue"
+            item=_lower_value(_one_child(node,item_symbol),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        source_domain=_require_collection_domain(source,node)
+        if source_domain!=CollectionDomain(element_domain):
+            raise _issue("SEM0405","Pure append book kind disagrees with the source book domain.","סוג הספר בהוספה הטהורה אינו מתאים לתחום הספר המקורי.",node,expected=repr(CollectionDomain(element_domain)),actual=repr(source_domain))
+        if hast_value_domain(item)!=element_domain:
+            raise _issue("SEM0406","Pure append item does not belong to the book element domain.","האיבר הנוסף לספר אינו שייך לתחום איברי הספר.",node,expected=repr(element_domain),actual=repr(hast_value_domain(item)))
+        return HastCollectionAppend(node.original,source,item,element_domain)
+
+    if pid=="C53.CURRENT.PLACE":
+        leaf=_direct_leaves(node,"PlaceName")[0]
+        place=_resolve_place(leaf.text,env,leaf,self_name=pending_self_place)
+        domain=env.place_domains.get(place)
+        if not isinstance(domain,CollectionDomain):
+            raise _issue("REF0401","Collection current-place reference requires a Collection-bearing place.","הפניית הספר שבמקום דורשת מקום הנושא Collection.",leaf,place=place.spelling)
+        return HastCurrentValue(node.original,place,domain)
+
+    if pid=="C53.CURRENT.ROLE":
+        owner_leaf=_direct_leaves(node,"RoleOwnerActionName")[0]
+        role_leaf=_direct_leaves(node,"AssociatedRoleName")[0]
+        owner=_resolve_act(owner_leaf.text,env,owner_leaf)
+        role=_resolve_role(owner,role_leaf.text,env,role_leaf)
+        if current_act!=owner:
+            raise _issue("REF0110","A current role value is available only in an occurrence of its owning act.","הערך הנוכחי של תפקיד זמין רק בעת ביצוע המעשה שהוא בעל התפקיד.",role_leaf,owner=owner.spelling,role=role.spelling)
+        domain=env.role_domains.get(role)
+        if not isinstance(domain,CollectionDomain):
+            raise _issue("REF0402","Collection current-role reference requires a Collection-bearing role.","הפניית הספר שבתפקיד דורשת תפקיד הנושא Collection.",role_leaf,role=role.spelling)
+        return HastCurrentRoleValue(node.original,role,domain)
+
+    if pid=="C53.IMMEDIATE":
+        leaf=_direct_leaves(node,"ResultActionName")[0]
+        act=_resolve_act(leaf.text,env,leaf)
+        if recent_act is None:
+            raise _issue("REF0112","Immediate result reference has no structurally immediate preceding performance.","להפניית התוצאה המיידית אין ביצוע קודם הצמוד לה מבחינה מבנית.",leaf,act=act.spelling)
+        if recent_act!=act:
+            raise _issue("REF0113","Immediate result reference names a different act from the directly preceding performance.","הפניית התוצאה המיידית נוקבת במעשה שונה מן הביצוע הקודם הישיר.",leaf,expected=recent_act.spelling,actual=act.spelling)
+        domain=env.output_domains.get(act)
+        if not isinstance(domain,CollectionDomain):
+            raise _issue("REF0403","Collection immediate-result head requires a Collection output contract.","ראש תוצאה מיידית של ספר דורש חוזה פלט מסוג Collection.",leaf,act=act.spelling,output_domain=repr(domain))
+        return HastRecentTypedResult(node.original,act,domain)
+
+    if pid in {"C53.FIRST.NESTED","C53.LAST.NESTED","C53.SELECT.NESTED"}:
+        books=_child_nodes(node,"CollectionValue")
+        if len(books)!=1:
+            raise RuntimeError("nested Collection selection book contract")
+        book=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        domain=_require_collection_domain(book,node)
+        if not isinstance(domain.element_domain,CollectionDomain):
+            raise _issue("SEM0407","Book element head requires a book of books.","ראש איבר של ספר דורש ספר ספרים.",node,book_domain=repr(domain))
+        mode="first" if ".FIRST." in pid else "last" if ".LAST." in pid else "ordinal"
+        position=None
+        if mode=="ordinal":
+            nums=_child_nodes(node,"NumberValue")
+            if len(nums)!=1:
+                raise RuntimeError("nested Collection ordinal position contract")
+            position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        return HastCollectionSelectValue(node.original,book,domain.element_domain,position,mode)
+
+    if pid in {"C53.ORDER.NATURAL","C53.ORDER.SYMBOL","C53.ORDER.LEX.NATURAL","C53.ORDER.LEX.SYMBOL"}:
+        books=_child_nodes(node,"CollectionValue")
+        if len(books)!=1:
+            raise RuntimeError("Collection order source contract")
+        book=_lower_collection(books[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+        actual=_require_collection_domain(book,node)
+        symbol_domain_id=None
+        if pid=="C53.ORDER.NATURAL":
+            element_domain=NATURAL; kind="natural"
+        elif pid=="C53.ORDER.LEX.NATURAL":
+            element_domain=CollectionDomain(NATURAL); kind="lex-natural"
+        else:
+            leaf=_direct_leaves(node,"SymbolDomainName")[0]
+            symbol_domain_id=_resolve_symbol_domain(leaf.text,env,leaf)
+            symbol_domain=SymbolDomain(symbol_domain_id)
+            if pid=="C53.ORDER.SYMBOL":
+                element_domain=symbol_domain; kind="symbol"
+            else:
+                element_domain=CollectionDomain(symbol_domain); kind="lex-symbol"
+        if actual!=CollectionDomain(element_domain):
+            raise _issue("SEM0408","Collection order profile does not apply to the resolved book domain.","פרופיל סדר הספר אינו חל על תחום הספר שנפתר.",node,expected=repr(CollectionDomain(element_domain)),actual=repr(actual))
+        return HastCollectionOrder(node.original,book,element_domain,kind,symbol_domain_id)
+
+    raise RuntimeError(f"unsupported admitted CollectionValue production {pid}")
+
+
 def _lower_value(node: ParseNode, env: _Env, *, current_act: ActId | None, recent_act: ActId | None, pending_self_place: str | None=None) -> HastValue:
     if node.symbol=="AssociationValue":
         return _lower_value(_single_parse_child(node),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
@@ -391,6 +554,8 @@ def _lower_value(node: ParseNode, env: _Env, *, current_act: ActId | None, recen
         return _lower_symbol(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
     if node.symbol=="IndexValue":
         return _lower_index(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
+    if node.symbol=="CollectionValue":
+        return _lower_collection(node,env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
     raise RuntimeError(f"unsupported Value category {node.symbol}")
 
 
