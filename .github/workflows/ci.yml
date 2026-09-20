@@ -198,7 +198,7 @@ jobs:
       - run: python -m pip install pytest
       - run: python -m pip install -e .
       - name: Run C5.5 targeted source/invocation/artifact/scope tests
-        run: python -m pytest -q tests/test_c5_5_program_inputs.py tests/test_c5_5_typed_inputs.py tests/test_c5_5_source_contract.py tests/test_c5_5_artifact_adversarial.py tests/test_c5_5_scope_guard.py
+        run: python -m pytest -q tests/test_c5_5_program_inputs.py tests/test_c5_5_typed_inputs.py tests/test_c5_5_symbol_input_canonicality.py tests/test_c5_5_source_contract.py tests/test_c5_5_artifact_adversarial.py tests/test_c5_5_scope_guard.py
       - name: Run full C5.5 regression suite
         run: python -m pytest -q
       - name: Run C5.5 required proposal regressions
