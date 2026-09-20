@@ -223,10 +223,18 @@ class PortableVM:
                     items.append(v)
             return CollectionValue(n.element_domain,tuple(items))
         if isinstance(n,i.IRCollectionAppend):
-            collection=self.value(n.collection,state,occ,prov)
+            chain=[]
+            current=n
+            while isinstance(current,i.IRCollectionAppend):
+                chain.append(current)
+                current=current.collection
+            collection=self.value(current,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
-            item=self._semantic_item(self.value(n.item,state,occ,prov),n.element_domain)
-            return CollectionValue(n.element_domain,collection.items+(item,))
+            items=list(collection.items)
+            for append in reversed(chain):
+                if collection.element_domain!=append.element_domain: raise _Fault("INTERNAL_DOMAIN_GUARD")
+                items.append(self._semantic_item(self.value(append.item,state,occ,prov),append.element_domain))
+            return CollectionValue(n.element_domain,tuple(items))
         if isinstance(n,i.IRCollectionCount):
             collection=self.value(n.collection,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
