@@ -5,7 +5,7 @@ Status: implementation code candidate verified on branch `workstream-c/c5-5-prog
 ## Baseline and scope
 
 - canonical production baseline: `aede14151708d71b25235ed89fb81cba71e95ed5`
-- implementation evidence head: `b2b6e558a61cd2ded9173c042f435377b232f217`
+- post-audit code evidence head: `3dbed236f77a3b9937789f09cce6ba11962dfd96`
 - Draft PR: #15
 - C5.1–C5.4 remain frozen dependencies.
 - Workstream D / Megillah conformance is not started.
@@ -207,7 +207,7 @@ All three engines validate invocation before evaluator/VM Preparation.
 
 ## CI evidence — implementation code head
 
-GitHub Actions push run #264 / ID `35531901936` completed with **13/13 jobs successful** on implementation evidence head `b2b6e558a61cd2ded9173c042f435377b232f217`:
+GitHub Actions push run #269 / ID `35531901936` completed with **13/13 jobs successful** on implementation evidence head `b2b6e558a61cd2ded9173c042f435377b232f217`:
 
 - core — PASS
 - Tooling portability Ubuntu — PASS
@@ -224,12 +224,12 @@ GitHub Actions push run #264 / ID `35531901936` completed with **13/13 jobs succ
 - C5.5 Program Input Binding Windows — PASS
 
 C5.5 Ubuntu:
-- targeted C5.5 source/invocation/artifact/scope: **32 passed in 0.83s**
-- full pytest: **449 passed + 126 subtests in 17.02s**
+- targeted C5.5 source/invocation/artifact/scope: **33 passed in 0.61s**
+- full pytest: **450 passed + 126 subtests in 13.49s**
 
 C5.5 Windows:
-- targeted: **32 passed in 0.89s**
-- full pytest: **449 passed + 126 subtests in 17.04s**
+- targeted: **33 passed in 0.91s**
+- full pytest: **450 passed + 126 subtests in 17.57s**
 
 Required proposal regressions on both C5.5 jobs:
 - A13: **289 checks PASS**
@@ -242,7 +242,7 @@ Required proposal regressions on both C5.5 jobs:
 
 ## Canonical regeneration and cross-platform hashes
 
-Run #264 regenerated the current registry and all canonical artifacts on both Ubuntu and Windows and then ran committed-byte verification with `git diff --exit-code`.
+Run #269 regenerated the current registry and all canonical artifacts on both Ubuntu and Windows and then ran committed-byte verification with `git diff --exit-code`.
 
 Registry SHA-256 on both hosts:
 
@@ -266,20 +266,20 @@ The registry was deliberately regenerated again after adding the C5.5 Natural-re
 
 Resource sanity is observational, not a language threshold.
 
-Ubuntu:
-- compile: **8.379 ms**
-- 64 iterations: **0.278 ms**
-- 256: **0.809 ms**
-- 1024: **3.150 ms**
-- 4096: **89.535 ms**
+Ubuntu (run #269):
+- compile: **6.309 ms**
+- 64 iterations: **0.212 ms**
+- 256: **0.629 ms**
+- 1024: **2.470 ms**
+- 4096: **70.364 ms**
 - traced peak at 4096: **1,944 bytes**
 
-Windows:
-- compile: **8.513 ms**
-- 64 iterations: **0.274 ms**
-- 256: **0.871 ms**
-- 1024: **3.254 ms**
-- 4096: **180.075 ms**
+Windows (run #269):
+- compile: **8.644 ms**
+- 64 iterations: **0.273 ms**
+- 256: **0.837 ms**
+- 1024: **3.261 ms**
+- 4096: **178.617 ms**
 - traced peak at 4096: **1,944 bytes**
 
 No semantic input-size or recurrence-size limit was added.
@@ -294,5 +294,6 @@ C5.5 integration exposed and resolved:
 4. **Abstract C5.1 fixture compatibility** — C5.1's preparation-independent abstract Program Input contract fixture was kept valid; production source programs receive a canonical owner during successful checking, while canonical IR remains strict.
 5. **Canonical registry regeneration drift** — adding the explicit Natural-input-to-`CountAsNumber` composition production changed registry bytes after an earlier regeneration. Registry was regenerated again and portability expectation updated to `9e1c9a...`.
 6. **Adversarial test layering** — once owner verification was strengthened, deep domain-forgery fixtures failed earlier at ownership. Fixtures now recompute the canonical owner after semantic tampering when the purpose is to exercise the deeper read/domain validator; a separate test preserves the ownership-forgery check.
+7. **Same-program ProgramInput identity collision gap** — canonical IR initially rejected only duplicate full `ProgramInputId` objects. Post-handoff audit proved that a valid-digest artifact could otherwise encode two source-unrepresentable inputs with the same semantic serial but different spelling, or the same role spelling with different serials. Canonical validation now rejects both collision classes, with a dedicated adversarial regression.
 
 No known semantic blocker remains on the implementation side at the code-evidence head. Independent Master review remains required.

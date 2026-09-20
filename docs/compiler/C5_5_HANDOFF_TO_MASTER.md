@@ -12,7 +12,7 @@ PR:
 
 HEAD:
 Review the branch HEAD containing this handoff document. The implementation code evidence head before the final documentation-only commit is:
-`b2b6e558a61cd2ded9173c042f435377b232f217`
+`3dbed236f77a3b9937789f09cce6ba11962dfd96`
 
 compiler version:
 `0.5.5-alpha.1`
@@ -140,16 +140,16 @@ differential execution:
 PASS. Successful typed flows and InvalidInvocation/cross-program cases are projected and compared across all three engines.
 
 C5.1 regression:
-PASS — Ubuntu + Windows in run #264.
+PASS — Ubuntu + Windows in run #269.
 
 C5.2 regression:
-PASS — Ubuntu + Windows in run #264.
+PASS — Ubuntu + Windows in run #269.
 
 C5.3 regression:
-PASS — Ubuntu + Windows in run #264.
+PASS — Ubuntu + Windows in run #269.
 
 C5.4 regression:
-PASS — Ubuntu + Windows in run #264.
+PASS — Ubuntu + Windows in run #269.
 
 A13/B12/A15/B13/B14/A16/B15:
 PASS on both C5.5 jobs:
@@ -162,14 +162,14 @@ A16 2,548 = 2,518 positive + 30 negative;
 B15 29.
 
 Ubuntu CI:
-PASS on implementation evidence run #264 / `35531901936`.
-C5.5 targeted: 32 passed in 0.83s.
-Full pytest: 449 passed + 126 subtests in 17.02s.
+PASS on implementation evidence run #269 / `35531901936`.
+C5.5 targeted: 33 passed in 0.61s.
+Full pytest: 450 passed + 126 subtests in 13.49s.
 
 Windows CI:
-PASS on implementation evidence run #264 / `35531901936`.
-C5.5 targeted: 32 passed in 0.89s.
-Full pytest: 449 passed + 126 subtests in 17.04s.
+PASS on implementation evidence run #269 / `35531901936`.
+C5.5 targeted: 33 passed in 0.91s.
+Full pytest: 450 passed + 126 subtests in 17.57s.
 
 registry regeneration:
 PASS on Ubuntu + Windows. SHA-256:
@@ -192,8 +192,8 @@ Both hosts produced the same registry and nine artifact hashes:
 
 resource observations:
 Observational only; no performance/language threshold.
-Ubuntu: compile 8.379ms; execute 64/256/1024/4096 = 0.278/0.809/3.150/89.535ms; traced peak 1,944 bytes.
-Windows: compile 8.513ms; execute 64/256/1024/4096 = 0.274/0.871/3.254/180.075ms; traced peak 1,944 bytes.
+Ubuntu (#269): compile 6.309ms; execute 64/256/1024/4096 = 0.212/0.629/2.470/70.364ms; traced peak 1,944 bytes.
+Windows (#269): compile 8.644ms; execute 64/256/1024/4096 = 0.273/0.837/3.261/178.617ms; traced peak 1,944 bytes.
 
 known issues:
 No known semantic blocker remains on the workstream side. Resource timings are observations only. Independent Master review of the actual Draft PR and final review HEAD is still required.
@@ -205,7 +205,8 @@ Resolved during C5.5:
 3. the 0.6 serialized-contract bump required coherent version/fixture/artifact regeneration;
 4. the frozen C5.1 abstract Program Input fixture required compatibility without weakening production canonical IR;
 5. adding Natural Program Input as C5.4 dynamic recurrence count changed registry bytes and required a second explicit registry regeneration;
-6. adversarial fixtures were split so ownership and deeper read/domain validation are each independently exercised.
+6. adversarial fixtures were split so ownership and deeper read/domain validation are each independently exercised;
+7. post-handoff audit found that canonical IR accepted source-unrepresentable same-program ProgramInput serial/spelling collisions; `3dbed236...` now rejects duplicate semantic serials and duplicate role spellings within one owner, with a dedicated artifact adversarial regression.
 
 This handoff does not claim MASTER ACCEPTED.
 PR #15 remains Draft/open/unmerged.

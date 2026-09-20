@@ -92,9 +92,9 @@ For compiled programs, the owner is a SHA-256 fingerprint over source-independen
 1. charter-equivalent source variants retain the same program-contract identity;
 2. artifact verification can recompute the owner from the decoded IR and reject a consistently forged owner even when the artifact digest was recomputed.
 
-Canonical IR requires every Program Input identity in one program to carry the same recomputed owner.
+Canonical IR requires every Program Input identity in one program to carry the same recomputed owner. It also rejects source-unrepresentable identity collisions: Program Input serials are unique within the program contract, and Program Input role spellings are unique within that same owner.
 
-Two different programs with colliding input serial/spelling metadata therefore do not automatically share Program Input identities.
+Two different programs with colliding input serial/spelling metadata therefore do not automatically share Program Input identities; forged same-program serial or role-spelling collisions are rejected before execution.
 
 ## HAST and IR representation
 
