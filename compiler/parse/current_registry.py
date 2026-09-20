@@ -1,1 +1,3 @@
-from compiler.parse.c5_3_registry import C5_3_REGISTRY\nCURRENT_REGISTRY = C5_3_REGISTRY\n__all__=["CURRENT_REGISTRY"]\n
+from compiler.parse.c5_3_registry import C5_3_REGISTRY
+CURRENT_REGISTRY = C5_3_REGISTRY
+__all__=["CURRENT_REGISTRY"]
