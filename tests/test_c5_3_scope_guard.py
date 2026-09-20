@@ -76,3 +76,16 @@ def test_c53_canonical_layers_add_no_repeat_exactly_iterator_or_mutable_collecti
 def test_language_edition_stays_frozen_while_registry_advances():
     assert C5_3_REGISTRY.language_edition=="core-0.1-integration-candidate-a13-b12"
     assert C5_3_REGISTRY.registry_version=="c5.3-a15-a16.1"
+
+
+def test_c53_append_runtime_avoids_repeated_prefix_tuple_copy():
+    runtime_paths=[
+        ROOT/"compiler"/"runtime"/"reference.py",
+        ROOT/"compiler"/"runtime"/"ir_reference.py",
+        ROOT/"compiler"/"backend"/"portable.py",
+    ]
+    for path in runtime_paths:
+        text=path.read_text(encoding="utf-8").replace(" ","")
+        assert ".items+(item,)" not in text
+        assert "whileisinstance(current," in text
+        assert "items=list(collection.items)" in text
