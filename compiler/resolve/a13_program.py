@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from compiler.models.hast import (
     HastActBody, HastActIntroduction, HastAddNatural, HastConditional,
@@ -9,7 +9,7 @@ from compiler.models.hast import (
     HastPerformAct, HastPlaceIntroduction, HastPostActionRecurrence,
     HastProduceResult, HastProposition, HastRecentResult, HastReplaceCurrentFact,
     HastRoleAssociation, HastRoleDeclaration, HastSubtractNatural, HastThen,
-    HastPlaceDomain, HastRoleDomain, HastActOutputDomain,
+    HastPlaceDomain, HastRoleDomain, HastActOutputDomain, HastRepeatExactly,
     HastSymbolValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult,
     HastIndexValue, HastIndexSuccessor, HastIndexPredecessor,
     HastNaturalGTProposition, HastSymbolEqualProposition,
@@ -22,6 +22,7 @@ from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDoma
 from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
+from compiler.parse.c5_4_registry import COUNT_AS_NUMBER_ORIGINS
 from compiler.source.source_map import OriginalSpan
 
 
@@ -238,7 +239,7 @@ def _body_output_domains(action: HastExecutable) -> set[Domain]:
         return out
     if isinstance(action,HastConditional):
         return _body_output_domains(action.if_holds) | _body_output_domains(action.if_not)
-    if isinstance(action,(HastFixedRecurrence,HastPostActionRecurrence)):
+    if isinstance(action,(HastFixedRecurrence,HastRepeatExactly,HastPostActionRecurrence)):
         return _body_output_domains(action.action)
     return set()
 
@@ -642,6 +643,21 @@ def _flatten_role_associations(node: ParseNode) -> list[ParseNode]:
     raise RuntimeError(f"unexpected role association production {node.production_id}")
 
 
+def _lower_count_as_number(
+    node: ParseNode,
+    env: _Env,
+    *,
+    current_act: ActId | None,
+    recent_act: ActId | None,
+) -> HastNumber:
+    """Lower the exact NumberValue production from which כמספר was derived."""
+    original_id = COUNT_AS_NUMBER_ORIGINS.get(node.production_id)
+    if original_id is None:
+        raise RuntimeError(f"unexpected CountAsNumber production {node.production_id}")
+    number_node = replace(node, production_id=original_id, symbol="NumberValue")
+    return _lower_number(number_node, env, current_act=current_act, recent_act=recent_act)
+
+
 def _repeat_count(node: ParseNode) -> int:
     mapping = {
         "A9.REPEAT.COUNT.3": 3, "A9.REPEAT.COUNT.4": 4, "A9.REPEAT.COUNT.5": 5,
@@ -772,6 +788,27 @@ def _lower_action(
         count = _repeat_count(_one_child(node, "RepeatCount"))
         action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=recent_act)
         return HastFixedRecurrence(span, count, action)
+
+    if pid in {"C54.REPEAT.ONE", "C54.REPEAT.TWO", "C54.REPEAT.MANY", "C54.REPEAT.DYNAMIC"}:
+        if pid == "C54.REPEAT.ONE":
+            count: HastNumber = HastExactNatural(span, 1)
+        elif pid == "C54.REPEAT.TWO":
+            count = HastExactNatural(span, 2)
+        elif pid == "C54.REPEAT.MANY":
+            leaves = tuple(l for l in _all_leaves(node, "Numeral:a15-feminine-count-3-99999999") if l.numeric_value is not None)
+            if len(leaves) != 1:
+                raise RuntimeError("C5.4 literal recurrence count contract")
+            count = HastExactNatural(span, leaves[0].numeric_value)  # type: ignore[arg-type]
+        else:
+            count = _lower_count_as_number(
+                _one_child(node, "CountAsNumber"), env,
+                current_act=current_act, recent_act=recent_act,
+            )
+        repeated = _lower_action(
+            _one_child(node, "AtomicAction"), env,
+            current_act=current_act, recent_act=recent_act,
+        )
+        return HastRepeatExactly(span, count, repeated)
 
     if pid == "A10.RECURRENCE.AFTER_UNTIL":
         action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=recent_act)

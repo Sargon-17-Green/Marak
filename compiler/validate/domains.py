@@ -421,6 +421,12 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
                 _fail("DOMAIN_PROPOSITION", f"unsupported proposition {type(node.proposition).__name__}")
             action(node.if_holds, current_act)
             action(node.if_not, current_act)
+        elif isinstance(node, h.HastRepeatExactly):
+            if value(node.count) != NATURAL:
+                _fail("DOMAIN_RECURRENCE_COUNT", "RepeatExactly count must independently resolve to Natural")
+            if not isinstance(node.action, (h.HastReplaceCurrentFact, h.HastPerformAct, h.HastProduceResult)):
+                _fail("DOMAIN_RECURRENCE_BODY", "RepeatExactly must contain exactly one atomic action")
+            action(node.action, current_act)
         elif isinstance(node, (h.HastFixedRecurrence, h.HastPostActionRecurrence)):
             action(node.action, current_act)
 
