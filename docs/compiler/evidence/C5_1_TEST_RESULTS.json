@@ -1,0 +1,26 @@
+{
+  "artifact_adversarial_status": "PASS",
+  "baseline_main": "6888bd538a73f9dc76bf87cdf87640b7b4b93d9e",
+  "compiler_pytest": {
+    "passed": 280,
+    "status": "PASS",
+    "subtests_passed": 126
+  },
+  "expected_type_rescue": "REJECTED",
+  "proposal_suites": {
+    "A13": 289,
+    "A15": 335280,
+    "A16": 2548,
+    "B12": "PASS",
+    "B13": 28,
+    "B14": 22,
+    "B15": 29
+  },
+  "runtime_name_lookup": "NOT_INTRODUCED",
+  "schema": "marak-c5.1-test-evidence-v1",
+  "typed_carriers": [
+    "Symbol",
+    "BidirectionalIndex",
+    "Collection"
+  ]
+}

@@ -5,6 +5,11 @@ from typing import Any
 from compiler.backend.portable import VMErrorOutcome, VMDivergence, VMNormal
 from compiler.runtime.reference import DivergenceOutcome, ErrorOutcome, NormalOutcome
 from compiler.runtime.ir_reference import IRReferenceDivergence, IRReferenceErrorOutcome, IRReferenceNormal
+from compiler.models.values import observable_value
+
+
+def _language_value(value):
+    return value if type(value) is int else observable_value(value)
 
 
 def _name_map(pairs) -> dict[int, str]:
@@ -20,20 +25,20 @@ def reference_observable(outcome: object) -> dict[str, Any]:
     if isinstance(outcome, NormalOutcome):
         return {
             "outcome": "Normal",
-            "facts": [[place.spelling, value] for place, value in outcome.state.facts],
-            "products": [[p.act.spelling, p.value] for p in outcome.products],
+            "facts": [[place.spelling, _language_value(value)] for place, value in outcome.state.facts],
+            "products": [[p.act.spelling, _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, ErrorOutcome):
         return {
             "outcome": "Error",
-            "facts": [[place.spelling, value] for place, value in outcome.state.facts],
+            "facts": [[place.spelling, _language_value(value)] for place, value in outcome.state.facts],
             "error": {"code": outcome.error.code, "phase": outcome.error.phase, "detail": outcome.error.detail},
-            "products": [[p.act.spelling, p.value] for p in outcome.products],
+            "products": [[p.act.spelling, _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, DivergenceOutcome):
         return {
             "outcome": "Divergence",
-            "products": [[p.act.spelling, p.value] for p in outcome.products],
+            "products": [[p.act.spelling, _language_value(p.value)] for p in outcome.products],
             "harness_reason": outcome.harness_reason,
         }
     # Resource-exhaustion outcomes are implementation/tooling status, not a
@@ -50,20 +55,20 @@ def backend_observable(outcome: object) -> dict[str, Any]:
     if isinstance(outcome, VMNormal):
         return {
             "outcome": "Normal",
-            "facts": [[place[k], value] for k, value in outcome.facts],
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "facts": [[place[k], _language_value(value)] for k, value in outcome.facts],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, VMErrorOutcome):
         return {
             "outcome": "Error",
-            "facts": [[place[k], value] for k, value in outcome.facts],
+            "facts": [[place[k], _language_value(value)] for k, value in outcome.facts],
             "error": {"code": outcome.error.code, "phase": outcome.error.phase, "detail": outcome.error.detail},
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, VMDivergence):
         return {
             "outcome": "Divergence",
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
             "harness_reason": "fuel-exhausted",
         }
     if type(outcome).__name__ == "VMResourceExhaustion":
@@ -80,20 +85,20 @@ def ir_reference_observable(outcome: object) -> dict[str, Any]:
     if isinstance(outcome, IRReferenceNormal):
         return {
             "outcome": "Normal",
-            "facts": [[place[k], value] for k, value in outcome.facts],
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "facts": [[place[k], _language_value(value)] for k, value in outcome.facts],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, IRReferenceErrorOutcome):
         return {
             "outcome": "Error",
-            "facts": [[place[k], value] for k, value in outcome.facts],
+            "facts": [[place[k], _language_value(value)] for k, value in outcome.facts],
             "error": {"code": outcome.error.code, "phase": outcome.error.phase, "detail": outcome.error.detail},
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
         }
     if isinstance(outcome, IRReferenceDivergence):
         return {
             "outcome": "Divergence",
-            "products": [[act[p.act], p.value] for p in outcome.products],
+            "products": [[act[p.act], _language_value(p.value)] for p in outcome.products],
             "harness_reason": outcome.harness_reason,
         }
     if type(outcome).__name__ == "IRReferenceResourceExhaustion":

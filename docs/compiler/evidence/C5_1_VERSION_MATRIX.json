@@ -1,0 +1,29 @@
+{
+  "artifact": {
+    "after": "core-artifact-0.2-candidate-1",
+    "before": "core-artifact-0.1-candidate-1",
+    "old_read": "REJECT"
+  },
+  "backend": {
+    "after": "portable-ir-vm-0.2-candidate-1"
+  },
+  "compiler": {
+    "after": "0.5.1-alpha.1",
+    "before": "0.4.2-alpha.1"
+  },
+  "hast": {
+    "after": "core-hast-0.2-candidate-1",
+    "before": "core-hast-0.1-candidate-1"
+  },
+  "ir": {
+    "after": "core-ir-0.2-candidate-1",
+    "before": "core-ir-0.1-candidate-1"
+  },
+  "ir_reference": {
+    "after": "core-ir-reference-0.2-candidate-1"
+  },
+  "language_edition": {
+    "after": "core-0.1-integration-candidate-a13-b12",
+    "before": "core-0.1-integration-candidate-a13-b12"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "baseline": {
+    "compile_mean_s": 0.06692133000178728,
+    "compile_median_s": 0.06623740000941325,
+    "run_mean_s": 0.07263850000163075,
+    "run_median_s": 0.07318690000101924,
+    "sha": "6888bd538a73f9dc76bf87cdf87640b7b4b93d9e"
+  },
+  "c5_1": {
+    "compile_mean_s": 0.053327459999127316,
+    "compile_median_s": 0.05157574999611825,
+    "run_mean_s": 0.060792269997182305,
+    "run_median_s": 0.058864649981842376
+  },
+  "host": "Windows",
+  "iterations": 10,
+  "program": "A13 tiny RM",
+  "schema": "marak-c5.1-performance-smoke-v1"
+}

@@ -1,0 +1,20 @@
+{
+  "DOM0001": "unresolved expression domain",
+  "DOM0002": "place initializer domain mismatch",
+  "DOM0003": "place replacement domain mismatch",
+  "DOM0004": "role association domain mismatch",
+  "DOM0005": "act output domain mismatch",
+  "DOM0006": "immediate-result typed-head mismatch",
+  "DOM0007": "collection element domain mismatch",
+  "DOM0008": "Program Input domain contract",
+  "DOM0009": "typed reference contract mismatch",
+  "DOM0010": "Natural operation domain mismatch",
+  "DOM0011": "equality domain mismatch",
+  "DOM0012": "incomplete/invalid domain contract",
+  "invocation": [
+    "MISSING_INPUT_BINDING",
+    "EXTRA_INPUT_BINDING",
+    "DUPLICATE_INPUT_BINDING",
+    "INPUT_DOMAIN_MISMATCH"
+  ]
+}
