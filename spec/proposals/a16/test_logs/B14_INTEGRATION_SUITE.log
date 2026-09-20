@@ -1,0 +1,27 @@
+test_all_five_gap_ids_recorded (__main__.B14IntegrationTests.test_all_five_gap_ids_recorded) ... ok
+test_collection_duplicates_and_ordinal (__main__.B14IntegrationTests.test_collection_duplicates_and_ordinal) ... ok
+test_collection_immutable_accumulation (__main__.B14IntegrationTests.test_collection_immutable_accumulation) ... ok
+test_domain_composition_gap_registry (__main__.B14IntegrationTests.test_domain_composition_gap_registry) ... ok
+test_dynamic_index_surface_absent_in_a15 (__main__.B14IntegrationTests.test_dynamic_index_surface_absent_in_a15) ... ok
+test_huge_direct_numeral_exact (__main__.B14IntegrationTests.test_huge_direct_numeral_exact) ... ok
+test_index_before_zero_after_and_progression (__main__.B14IntegrationTests.test_index_before_zero_after_and_progression) ... ok
+test_inputs_identity_order_independent (__main__.B14IntegrationTests.test_inputs_identity_order_independent) ... ok
+test_inputs_missing_extra_duplicate_wrong_domain (__main__.B14IntegrationTests.test_inputs_missing_extra_duplicate_wrong_domain) ... ok
+test_natural_gt (__main__.B14IntegrationTests.test_natural_gt) ... ok
+test_natural_input_to_working_state_is_composable (__main__.B14IntegrationTests.test_natural_input_to_working_state_is_composable) ... ok
+test_nested_lex_order (__main__.B14IntegrationTests.test_nested_lex_order) ... ok
+test_repeat_divergence (__main__.B14IntegrationTests.test_repeat_divergence) ... ok
+test_repeat_dynamic_count_once (__main__.B14IntegrationTests.test_repeat_dynamic_count_once) ... ok
+test_repeat_error_boundary (__main__.B14IntegrationTests.test_repeat_error_boundary) ... ok
+test_repeat_zero_one_large (__main__.B14IntegrationTests.test_repeat_zero_one_large) ... ok
+test_repeated_named_performances_each_output_once (__main__.B14IntegrationTests.test_repeated_named_performances_each_output_once) ... ok
+test_repeated_output_rule_same_occurrence (__main__.B14IntegrationTests.test_repeated_output_rule_same_occurrence) ... ok
+test_symbol_identity_not_label (__main__.B14IntegrationTests.test_symbol_identity_not_label) ... ok
+test_symbol_order_complete_and_incomplete (__main__.B14IntegrationTests.test_symbol_order_complete_and_incomplete) ... ok
+test_symbol_same_label_cross_domain_distinct (__main__.B14IntegrationTests.test_symbol_same_label_cross_domain_distinct) ... ok
+test_wrong_domain_membership_is_not_admitted_surface (__main__.B14IntegrationTests.test_wrong_domain_membership_is_not_admitted_surface) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.024s
+
+OK

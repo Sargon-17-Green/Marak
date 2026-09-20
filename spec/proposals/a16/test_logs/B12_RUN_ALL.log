@@ -1,0 +1,76 @@
+=== B11_ORIGINAL ===
+PASS test_state_without_cells
+PASS test_exact_huge_arithmetic_and_negative_subtraction
+PASS test_conditional_no_boolean_value
+PASS test_fixed_repeat
+PASS test_post_action_recurrence_is_at_least_once
+PASS test_post_action_recurrence_decrement
+PASS test_named_roles_order_invariant_and_output_nonterminal
+PASS test_zero_or_one_output_profile
+PASS test_immediate_result_context_expires
+PASS test_multiplication_semantic_example
+PASS test_factorial_semantic_example
+PASS test_gcd_semantic_example
+PASS test_fibonacci_semantic_example
+PASS test_register_machine_mapping_grid
+B11 INTEGRATED SUITE: PASS (14 tests)
+RM GRID CASES: 324
+=== B11_INTENT_UNDER_B12 ===
+PASS test_b11_state_referents
+PASS test_b11_numeric_intent_with_normative_delta
+PASS test_b11_conditional
+PASS test_b11_fixed_repeat
+PASS test_b11_post_repeat_at_least_once
+PASS test_b11_decrement_to_zero
+PASS test_b11_role_order_invariant
+PASS test_b11_zero_or_one_output
+PASS test_b11_provenance_expiry
+PASS test_b11_preparation_replaces_old_generic_examples
+PASS test_b11_output_nonterminal
+PASS test_b11_recursion_occurrences
+PASS test_b11_no_boolean_truthiness
+PASS test_b11_rm_intent
+B11 INTENT REGRESSION UNDER B12: PASS (14 tests)
+INTENTIONAL NORMATIVE DELTA: B11 signed subtraction -> B12 Natural domain error
+=== B12_SEMANTICS ===
+PASS test_numeric_3_minus_2
+PASS test_numeric_3_minus_3
+PASS test_static_underflow_rejected
+PASS test_dynamic_underflow_runtime_error_and_target_unchanged
+PASS test_no_negative_literal
+PASS test_huge_natural_exactness
+PASS test_prior_completed_action_preserved_failed_action_uncommitted_later_suppressed
+PASS test_preparation_underflow_prevents_principal
+PASS test_preparation_establishes_initial_state
+PASS test_preparation_act_definition_does_not_perform
+PASS test_principal_explicit_sequence_normal_completion
+PASS test_single_principal_run_not_implicit_top_level_execution
+PASS test_prior_place_reference_valid
+PASS test_future_place_reference_invalid
+PASS test_place_self_initializer_invalid
+PASS test_same_spelling_different_kinds_distinct
+PASS test_duplicate_place_rejected
+PASS test_duplicate_act_rejected
+PASS test_duplicate_role_rejected
+PASS test_duplicate_body_rejected
+PASS test_self_recursion_valid_and_diverges_under_harness
+PASS test_mutual_recursion_with_prior_introductions_valid
+PASS test_mutual_recursion_future_identity_invalid
+PASS test_role_association_is_occurrence_specific
+PASS test_role_value_outside_occurrence_invalid
+PASS test_output_nonterminal_then_state_action
+PASS test_immediate_result_provenance
+PASS test_stale_provenance_runtime_fallback_error
+PASS test_no_output_result_reference_runtime_fallback_error
+PASS test_finite_act_and_whole_program_normal_completion
+PASS test_trace_nonobservable
+PASS test_post_action_checkpoint_first_action_always_occurs
+PASS test_decrement_recurrence_stays_in_naturals
+B12 SEMANTIC TESTS: PASS (33 tests)
+=== B12_RM ===
+RM COUNTDOWN CASES: 128
+PASS test_halt_normal_completion_and_projection
+RM UNDERFLOW-GUARD CASES: 65
+PASS test_decjz_underflow_guard
+B12 RM WITNESS: PASS
+B12 RUN_ALL: PASS
