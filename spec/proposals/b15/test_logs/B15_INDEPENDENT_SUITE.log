@@ -1,0 +1,34 @@
+test_D_adequacy_all_seven (__main__.B15IndependentTests.test_D_adequacy_all_seven) ... ok
+test_collection_append_is_pure_state_changes_only_on_replace (__main__.B15IndependentTests.test_collection_append_is_pure_state_changes_only_on_replace) ... ok
+test_consumer_cannot_rescue_bare_symbol_identifier (__main__.B15IndependentTests.test_consumer_cannot_rescue_bare_symbol_identifier) ... ok
+test_consumer_cannot_rescue_untyped_book (__main__.B15IndependentTests.test_consumer_cannot_rescue_untyped_book) ... ok
+test_cross_domain_symbol_equality_static_invalid_not_false (__main__.B15IndependentTests.test_cross_domain_symbol_equality_static_invalid_not_false) ... ok
+test_failed_rhs_no_commit_prior_state_preserved (__main__.B15IndependentTests.test_failed_rhs_no_commit_prior_state_preserved) ... ok
+test_index_crossing_laws_and_farther_magnitudes (__main__.B15IndependentTests.test_index_crossing_laws_and_farther_magnitudes) ... ok
+test_index_step_rejects_natural_no_promotion (__main__.B15IndependentTests.test_index_step_rejects_natural_no_promotion) ... ok
+test_megillah_year_progression_needs_no_natural_to_index (__main__.B15IndependentTests.test_megillah_year_progression_needs_no_natural_to_index) ... ok
+test_output_contract_zero_same_and_mixed_sites (__main__.B15IndependentTests.test_output_contract_zero_same_and_mixed_sites) ... ok
+test_output_is_nonterminal_and_provenance_survives_later_callee_body_action (__main__.B15IndependentTests.test_output_is_nonterminal_and_provenance_survives_later_callee_body_action) ... ok
+test_place_divergent_initializer_has_no_partial_place (__main__.B15IndependentTests.test_place_divergent_initializer_has_no_partial_place) ... ok
+test_place_domain_static_before_initializer_evaluation (__main__.B15IndependentTests.test_place_domain_static_before_initializer_evaluation) ... ok
+test_place_identity_not_value_and_typed_current (__main__.B15IndependentTests.test_place_identity_not_value_and_typed_current) ... ok
+test_place_unresolved_domain_not_rescued_by_context (__main__.B15IndependentTests.test_place_unresolved_domain_not_rescued_by_context) ... ok
+test_program_A_symbol_flow (__main__.B15IndependentTests.test_program_A_symbol_flow) ... ok
+test_program_B_index_flow (__main__.B15IndependentTests.test_program_B_index_flow) ... ok
+test_program_C_collection_flow (__main__.B15IndependentTests.test_program_C_collection_flow) ... ok
+test_recursive_non_natural_role_occurrences_are_distinct (__main__.B15IndependentTests.test_recursive_non_natural_role_occurrences_are_distinct) ... ok
+test_repeated_performances_each_have_independent_output_no_collection (__main__.B15IndependentTests.test_repeated_performances_each_have_independent_output_no_collection) ... ok
+test_role_domain_static_and_wrong_domain_before_occurrence (__main__.B15IndependentTests.test_role_domain_static_and_wrong_domain_before_occurrence) ... ok
+test_same_role_spelling_different_act_not_interchangeable (__main__.B15IndependentTests.test_same_role_spelling_different_act_not_interchangeable) ... ok
+test_second_output_same_occurrence_rejected (__main__.B15IndependentTests.test_second_output_same_occurrence_rejected) ... ok
+test_structurally_stale_immediate_is_static_invalid_and_runtime_fallback_stays_b12 (__main__.B15IndependentTests.test_structurally_stale_immediate_is_static_invalid_and_runtime_fallback_stays_b12) ... ok
+test_symbol_equality_is_proposition_consumed_by_control (__main__.B15IndependentTests.test_symbol_equality_is_proposition_consumed_by_control) ... ok
+test_symbol_equality_member_identity_not_label (__main__.B15IndependentTests.test_symbol_equality_member_identity_not_label) ... ok
+test_wrong_domain_replacement_rejected_before_rhs_eval (__main__.B15IndependentTests.test_wrong_domain_replacement_rejected_before_rhs_eval) ... ok
+test_wrong_immediate_head_is_static_invalid (__main__.B15IndependentTests.test_wrong_immediate_head_is_static_invalid) ... ok
+test_zero_output_runtime_path_uses_b12_result_provenance_error (__main__.B15IndependentTests.test_zero_output_runtime_path_uses_b12_result_provenance_error) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.020s
+
+OK
