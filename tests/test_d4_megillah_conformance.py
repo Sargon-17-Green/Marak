@@ -211,7 +211,7 @@ def test_program_input_invalid_invocation_stops_before_preparation():
     target = "יעד"
     # A valid input of 2 would make Preparation attempt 1-2 and fail.
     # With no binding, invocation validation must win before Preparation starts.
-    initializer = f"המספר הנחשב בגרע {input_nat_ref(role)} מן {num(1)}"
+    initializer = f"המספר הנחשב בגרע את {input_nat_ref(role)} מן {num(1)}"
     source = " ".join([
         input_nat(role),
         place_nat_value(target, initializer),
