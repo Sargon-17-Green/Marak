@@ -53,7 +53,7 @@ class M4StaticAuditTests(unittest.TestCase):
     def test_historical_registry_snapshots_are_distinct_from_new_current_snapshot(self):
         current=(ROOT/'spec/CURRENT_CONSTRUCTION_REGISTRY.json').read_bytes()
         a13=(ROOT/'spec/A13_B12_CONSTRUCTION_REGISTRY.json').read_bytes()
-        self.assertEqual(current,a13)
+        self.assertNotEqual(current,a13)
         hashes=[]
         for name in HISTORICAL:
             p=ROOT/f'spec/{name}_CONSTRUCTION_REGISTRY.json'

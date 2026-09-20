@@ -7,6 +7,7 @@ from compiler.models import ir as i
 from compiler.models.domains import NATURAL
 from compiler.models.values import (
     BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue, SymbolValue,
+    index_successor, index_predecessor, symbol_identity_equal,
 )
 from compiler.version import IR_REFERENCE_VERSION
 
@@ -153,6 +154,14 @@ class IRReferenceEvaluator:
             return SymbolValue(node.domain_id, node.member_id, node.external_label)
         if isinstance(node, i.IRIndexValue):
             return BidirectionalIndexValue(node.side, node.magnitude)
+        if isinstance(node, i.IRIndexSuccessor):
+            operand=self.value(node.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_successor(operand)
+        if isinstance(node, i.IRIndexPredecessor):
+            operand=self.value(node.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_predecessor(operand)
         if isinstance(node, i.IRCollectionValue):
             items=[]
             for child in node.items:
@@ -187,6 +196,12 @@ class IRReferenceEvaluator:
     def holds(self, proposition, state, occ, prov):
         if isinstance(proposition, i.IREqualProposition):
             return _natural(self.value(proposition.left, state, occ, prov)) == _natural(self.value(proposition.right, state, occ, prov))
+        if isinstance(proposition,i.IRNaturalGTProposition):
+            return _natural(self.value(proposition.left,state,occ,prov)) > _natural(self.value(proposition.right,state,occ,prov))
+        if isinstance(proposition,i.IRSymbolEqualProposition):
+            left=self.value(proposition.left,state,occ,prov); right=self.value(proposition.right,state,occ,prov)
+            if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return symbol_identity_equal(left,right)
         raise _Fault("INTERNAL_UNKNOWN_PROPOSITION")
 
     def action(self, action, state, occ=None, prov=None):

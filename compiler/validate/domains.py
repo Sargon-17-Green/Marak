@@ -68,6 +68,10 @@ def hast_value_domain(node: h.HastValue) -> Domain:
         return SymbolDomain(node.domain_id)
     if isinstance(node, h.HastIndexValue):
         return BIDIRECTIONAL_INDEX
+    if isinstance(node, (h.HastIndexSuccessor, h.HastIndexPredecessor)):
+        if hast_value_domain(node.operand) != BIDIRECTIONAL_INDEX:
+            _fail("DOMAIN_INDEX_OPERAND", "BidirectionalIndex successor/predecessor operand is not BidirectionalIndex")
+        return BIDIRECTIONAL_INDEX
     if isinstance(node, h.HastCollectionValue):
         require_domain(node.element_domain)
         for item in node.items:
@@ -126,6 +130,10 @@ def ir_value_domain(
         return SymbolDomain(node.domain_id)
     if isinstance(node, i.IRIndexValue):
         return BIDIRECTIONAL_INDEX
+    if isinstance(node, (i.IRIndexSuccessor, i.IRIndexPredecessor)):
+        if ir_value_domain(node.operand, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != BIDIRECTIONAL_INDEX:
+            _fail("IR_DOMAIN_INDEX_OPERAND", "BidirectionalIndex successor/predecessor operand is not BidirectionalIndex")
+        return BIDIRECTIONAL_INDEX
     if isinstance(node, i.IRCollectionValue):
         require_domain(node.element_domain)
         for item in node.items:
@@ -171,6 +179,61 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
     if len(input_ids) != len(set(input_ids)):
         _fail("DOMAIN_PROGRAM_INPUT_DUPLICATE", "duplicate Program Input domain contract")
 
+    symbol_domain_nodes = [x for x in program.preparation if isinstance(x, h.HastSymbolDomainDeclaration)]
+    symbol_member_nodes = [x for x in program.preparation if isinstance(x, h.HastSymbolMemberDeclaration)]
+    symbol_order_nodes = [x for x in program.preparation if isinstance(x, h.HastSymbolOrderAdjacent)]
+    domain_ids = [x.domain_id for x in symbol_domain_nodes]
+    if len(domain_ids) != len(set(domain_ids)):
+        _fail("DOMAIN_SYMBOL_DECLARATION", "duplicate Symbol domain declaration")
+    declared_domains = set(domain_ids)
+    member_keys = [(x.domain_id, x.member_id) for x in symbol_member_nodes]
+    if len(member_keys) != len(set(member_keys)):
+        _fail("DOMAIN_SYMBOL_MEMBER", "duplicate Symbol member identity")
+    member_labels = {}
+    members_by_domain = {}
+    for x in symbol_member_nodes:
+        if x.domain_id not in declared_domains:
+            _fail("DOMAIN_SYMBOL_MEMBER", "Symbol member belongs to an undeclared domain")
+        if not x.external_label:
+            _fail("DOMAIN_SYMBOL_MEMBER", "Symbol member canonical external label is empty")
+        member_labels[(x.domain_id, x.member_id)] = x.external_label
+        members_by_domain.setdefault(x.domain_id, set()).add(x.member_id)
+
+    edges_by_domain = {}
+    for x in symbol_order_nodes:
+        if x.domain_id not in declared_domains:
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order references undeclared domain")
+        members = members_by_domain.get(x.domain_id, set())
+        if x.before_member_id not in members or x.after_member_id not in members:
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order references unknown member")
+        if x.before_member_id == x.after_member_id:
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order self edge")
+        edges_by_domain.setdefault(x.domain_id, []).append((x.before_member_id, x.after_member_id))
+    for domain_id, edges in edges_by_domain.items():
+        if len(edges) != len(set(edges)):
+            _fail("DOMAIN_SYMBOL_ORDER", "duplicate Symbol adjacency fact")
+        members = members_by_domain.get(domain_id, set())
+        outgoing = {}
+        incoming = {}
+        for before, after in edges:
+            if before in outgoing or after in incoming:
+                _fail("DOMAIN_SYMBOL_ORDER", "Symbol order contains fork or merge")
+            outgoing[before] = after
+            incoming[after] = before
+        if len(edges) != max(0, len(members)-1):
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order profile is incomplete")
+        starts = [m for m in members if m not in incoming]
+        if len(starts) != 1:
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order does not have exactly one chain start")
+        seen=set(); cur=starts[0]
+        while cur not in seen:
+            seen.add(cur)
+            if cur not in outgoing:
+                break
+            cur=outgoing[cur]
+        if seen != members:
+            _fail("DOMAIN_SYMBOL_ORDER", "Symbol order is cyclic or disconnected")
+
     places = {x.place: require_domain(x.domain) for x in program.place_domains}
     roles = {x.role: require_domain(x.domain) for x in program.role_domains}
     outputs = {x.act: None if x.domain is None else require_domain(x.domain) for x in program.act_output_domains}
@@ -186,7 +249,16 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
 
     def value(node: h.HastValue) -> Domain:
         d = hast_value_domain(node)
-        if isinstance(node, h.HastCurrentFact):
+        if isinstance(node, h.HastSymbolValue):
+            expected_label = member_labels.get((node.domain_id, node.member_id))
+            if expected_label is None:
+                _fail("DOMAIN_SYMBOL_VALUE", "Symbol Value references undeclared domain/member identity")
+            if expected_label != node.external_label:
+                _fail("DOMAIN_SYMBOL_LABEL", "Symbol Value label does not match declared canonical member label")
+        elif isinstance(node, (h.HastIndexSuccessor, h.HastIndexPredecessor)):
+            if value(node.operand) != BIDIRECTIONAL_INDEX:
+                _fail("DOMAIN_INDEX_OPERAND", "Index successor/predecessor requires BidirectionalIndex operand")
+        elif isinstance(node, h.HastCurrentFact):
             if places.get(node.place) != NATURAL:
                 _fail("DOMAIN_TYPED_HEAD", "numeric current-fact reference requires a Natural place")
         elif isinstance(node, h.HastCurrentValue):
@@ -238,6 +310,17 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             if isinstance(node.proposition, h.HastEqualProposition):
                 if value(node.proposition.left) != NATURAL or value(node.proposition.right) != NATURAL:
                     _fail("DOMAIN_EQUALITY", "Core numeric equality remains Natural-specialized")
+            elif isinstance(node.proposition, h.HastNaturalGTProposition):
+                if value(node.proposition.left) != NATURAL or value(node.proposition.right) != NATURAL:
+                    _fail("DOMAIN_NATURAL_GT", "Natural strict ordering requires two independently Natural operands")
+            elif isinstance(node.proposition, h.HastSymbolEqualProposition):
+                left_domain=value(node.proposition.left)
+                right_domain=value(node.proposition.right)
+                expected=SymbolDomain(node.proposition.domain_id)
+                if left_domain != expected or right_domain != expected:
+                    _fail("DOMAIN_SYMBOL_EQUALITY", "Symbol equality operands must belong to the same declared Symbol domain")
+            else:
+                _fail("DOMAIN_PROPOSITION", f"unsupported proposition {type(node.proposition).__name__}")
             action(node.if_holds, current_act)
             action(node.if_not, current_act)
         elif isinstance(node, (h.HastFixedRecurrence, h.HastPostActionRecurrence)):

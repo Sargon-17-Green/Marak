@@ -5,13 +5,13 @@ from dataclasses import dataclass
 from compiler.models.hast import (
     HastActBody, HastAddNatural, HastConditional, HastCoreProgram, HastCurrentFact,
     HastCurrentRoleNumber, HastEqualProposition, HastExactNatural, HastExecutable,
-    HastFixedRecurrence, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastPerformAct, HastPlaceIntroduction,
+    HastFixedRecurrence, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
     HastPostActionRecurrence, HastProduceResult, HastProposition, HastRecentResult,
     HastReplaceCurrentFact, HastSubtractNatural, HastThen,
 )
 from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
 from compiler.models.domains import NATURAL
-from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue
+from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, symbol_identity_equal
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
@@ -212,6 +212,14 @@ class ReferenceEvaluator:
             return SymbolValue(node.domain_id, node.member_id, node.external_label)
         if isinstance(node, HastIndexValue):
             return BidirectionalIndexValue(node.side, node.magnitude)
+        if isinstance(node, HastIndexSuccessor):
+            operand=self.eval_value(node.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return index_successor(operand)
+        if isinstance(node, HastIndexPredecessor):
+            operand=self.eval_value(node.operand,state,occ,prov)
+            if not isinstance(operand,BidirectionalIndexValue): raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return index_predecessor(operand)
         if isinstance(node, HastCollectionValue):
             items=[]
             for child in node.items:
@@ -263,6 +271,12 @@ class ReferenceEvaluator:
     def holds(self, proposition: HastProposition, state: SemanticState, occ: _Occurrence | None, prov: _Provenance | None) -> bool:
         if isinstance(proposition, HastEqualProposition):
             return self.eval_number(proposition.left, state, occ, prov) == self.eval_number(proposition.right, state, occ, prov)
+        if isinstance(proposition,HastNaturalGTProposition):
+            return self.eval_number(proposition.left,state,occ,prov) > self.eval_number(proposition.right,state,occ,prov)
+        if isinstance(proposition,HastSymbolEqualProposition):
+            left=self.eval_value(proposition.left,state,occ,prov); right=self.eval_value(proposition.right,state,occ,prov)
+            if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return symbol_identity_equal(left,right)
         raise _TermFault("INTERNAL_UNKNOWN_PROPOSITION")
 
     def execute(self, action: HastExecutable, state: SemanticState, occ: _Occurrence | None = None, prov: _Provenance | None = None):

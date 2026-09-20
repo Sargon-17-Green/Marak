@@ -10,7 +10,7 @@ from compiler.models.domains import (
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.2-candidate-1"
+HAST_VERSION = "core-hast-0.3-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +78,16 @@ class HastCollectionValue(HastValue):
 
 
 @dataclass(frozen=True, slots=True)
+class HastIndexSuccessor(HastValue):
+    operand: HastValue
+
+
+@dataclass(frozen=True, slots=True)
+class HastIndexPredecessor(HastValue):
+    operand: HastValue
+
+
+@dataclass(frozen=True, slots=True)
 class HastCurrentFact(HastNumber):
     place: PlaceId
 
@@ -126,6 +136,19 @@ class HastSubtractNatural(HastNumber):
 class HastEqualProposition(HastProposition):
     left: HastNumber
     right: HastNumber
+
+
+@dataclass(frozen=True, slots=True)
+class HastNaturalGTProposition(HastProposition):
+    left: HastNumber
+    right: HastNumber
+
+
+@dataclass(frozen=True, slots=True)
+class HastSymbolEqualProposition(HastProposition):
+    left: HastValue
+    right: HastValue
+    domain_id: SymbolDomainId
 
 
 @dataclass(frozen=True, slots=True)
@@ -179,6 +202,25 @@ class HastFixedRecurrence(HastExecutable):
     def __post_init__(self) -> None:
         if type(self.count) is not int or self.count < 0:
             raise ValueError("fixed recurrence count must be a Natural")
+
+
+@dataclass(frozen=True, slots=True)
+class HastSymbolDomainDeclaration(HastPreparatory):
+    domain_id: SymbolDomainId
+
+
+@dataclass(frozen=True, slots=True)
+class HastSymbolMemberDeclaration(HastPreparatory):
+    domain_id: SymbolDomainId
+    member_id: SymbolMemberId
+    external_label: str
+
+
+@dataclass(frozen=True, slots=True)
+class HastSymbolOrderAdjacent(HastPreparatory):
+    domain_id: SymbolDomainId
+    before_member_id: SymbolMemberId
+    after_member_id: SymbolMemberId
 
 
 @dataclass(frozen=True, slots=True)

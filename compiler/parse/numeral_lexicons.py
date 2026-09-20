@@ -10011,16 +10011,19 @@ A12_VALUE_BY_TEXT = {text: value for value, text in enumerate(A12_DIRECT_NUMERAL
 
 
 def match_numeral_lexicon(lexicon_id: str, words: tuple[str, ...], start: int):
-    if lexicon_id != A12_DIRECT_NUMERAL_LEXICON_ID:
-        raise KeyError(f"unknown numeral lexicon {lexicon_id}")
-    out = []
-    stop = min(len(words), start + MAX_A12_NUMERAL_WORDS)
-    for end in range(start + 1, stop + 1):
-        text = " ".join(words[start:end])
-        value = A12_VALUE_BY_TEXT.get(text)
-        if value is not None:
-            out.append((end, value, text))
-    return tuple(out)
+    if lexicon_id == A12_DIRECT_NUMERAL_LEXICON_ID:
+        out = []
+        stop = min(len(words), start + MAX_A12_NUMERAL_WORDS)
+        for end in range(start + 1, stop + 1):
+            text = " ".join(words[start:end])
+            value = A12_VALUE_BY_TEXT.get(text)
+            if value is not None:
+                out.append((end, value, text))
+        return tuple(out)
+    # Late import avoids a module cycle: the productive recognizer reuses the
+    # frozen A12 reverse table as the exact 1..9999 compatibility authority.
+    from compiler.parse.a15_numerals import match_a15_numeral
+    return match_a15_numeral(lexicon_id, words, start)
 
 
 __all__ = [

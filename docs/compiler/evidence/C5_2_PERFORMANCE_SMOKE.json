@@ -1,0 +1,54 @@
+{
+  "baseline": {
+    "baseline_sha": "974ea3c2ec9474e9d6c5c4897970e69ed66de692",
+    "natural_tiny": {
+      "artifact_bytes": 11774,
+      "compile_ms_median": 54.916499997489154,
+      "compile_ms_min": 44.35789998387918,
+      "run_ms_median": 0.16029999824240804,
+      "run_ms_min": 0.15659999917261302
+    },
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.0"
+  },
+  "candidate": {
+    "compiler_version": "0.5.2-alpha.1",
+    "index": {
+      "artifact_bytes": 10167,
+      "compile_ms_median": 101.1984999931883,
+      "compile_ms_min": 95.91210001963191,
+      "run_ms_median": 0.10010000551119447,
+      "run_ms_min": 0.09690001024864614
+    },
+    "large_numeral": {
+      "artifact_bytes": 6148,
+      "compile_ms_median": 49.099600000772625,
+      "compile_ms_min": 36.49520000908524,
+      "run_ms_median": 0.023999979021027684,
+      "run_ms_min": 0.022799998987466097
+    },
+    "natural_tiny": {
+      "artifact_bytes": 11838,
+      "compile_ms_median": 78.11349999974482,
+      "compile_ms_min": 51.314499985892326,
+      "run_ms_median": 0.17169999773614109,
+      "run_ms_min": 0.1644000003580004
+    },
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.0",
+    "symbol": {
+      "artifact_bytes": 13184,
+      "compile_ms_median": 146.53600001474842,
+      "compile_ms_min": 116.14880000706762,
+      "run_ms_median": 0.08509997860528529,
+      "run_ms_min": 0.08339999476447701
+    }
+  },
+  "natural_tiny_delta_percent": {
+    "compile_median": 42.24049238993064,
+    "run_median": 7.111665389099886
+  },
+  "registry_sha256": "2e1d5a8d685ca0f52c9a657cfd20a0594465c4cc5fa344bf55693a169c9a0483",
+  "repetitions": 25,
+  "threshold_applied": false
+}

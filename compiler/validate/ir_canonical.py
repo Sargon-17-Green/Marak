@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from compiler.models import ir as i
-from compiler.models.domains import NATURAL, Domain, require_domain
+from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, Domain, SymbolDomain, require_domain
 from compiler.validate.domains import DomainValidationError, ir_value_domain
 
 
@@ -92,6 +92,69 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         except TypeError as exc:
             _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", str(exc))
 
+    domain_ids=[x.domain_id for x in program.symbol_domains]
+    if len(domain_ids)!=len(set(domain_ids)):
+        _fail("IR_SYMBOL_DOMAIN_DUPLICATE","duplicate Symbol domain declaration")
+    declared_symbol_domains=set(domain_ids)
+    for d in declared_symbol_domains:
+        if d.serial<=0 or not d.spelling:
+            _fail("IR_SYMBOL_DOMAIN_ID","invalid Symbol domain identity")
+    member_keys=[(x.domain_id,x.member_id) for x in program.symbol_members]
+    if len(member_keys)!=len(set(member_keys)):
+        _fail("IR_SYMBOL_MEMBER_DUPLICATE","duplicate Symbol member identity in domain")
+    member_labels={}
+    members_by_domain={}
+    for m in program.symbol_members:
+        if m.domain_id not in declared_symbol_domains:
+            _fail("IR_SYMBOL_MEMBER_DOMAIN","Symbol member belongs to undeclared domain")
+        if m.member_id.serial<=0 or not m.member_id.spelling or not m.external_label:
+            _fail("IR_SYMBOL_MEMBER_METADATA","invalid Symbol member metadata")
+        member_labels[(m.domain_id,m.member_id)]=m.external_label
+        members_by_domain.setdefault(m.domain_id,set()).add(m.member_id)
+
+    edges_by_domain={}
+    for edge in program.symbol_order_edges:
+        members=members_by_domain.get(edge.domain_id)
+        if members is None or edge.before_member_id not in members or edge.after_member_id not in members:
+            _fail("IR_SYMBOL_ORDER_MEMBER","Symbol order references unknown domain/member")
+        if edge.before_member_id==edge.after_member_id:
+            _fail("IR_SYMBOL_ORDER_SELF","Symbol order self edge")
+        edges_by_domain.setdefault(edge.domain_id,[]).append((edge.before_member_id,edge.after_member_id))
+    for domain_id,edges in edges_by_domain.items():
+        if len(edges)!=len(set(edges)):
+            _fail("IR_SYMBOL_ORDER_DUPLICATE","duplicate Symbol adjacency")
+        members=members_by_domain[domain_id]; outgoing={}; incoming={}
+        for before,after in edges:
+            if before in outgoing or after in incoming:
+                _fail("IR_SYMBOL_ORDER_FORK","Symbol order fork/merge")
+            outgoing[before]=after; incoming[after]=before
+        if len(edges)!=max(0,len(members)-1):
+            _fail("IR_SYMBOL_ORDER_INCOMPLETE","Symbol order profile does not contain all members")
+        starts=[m for m in members if m not in incoming]
+        if len(starts)!=1:
+            _fail("IR_SYMBOL_ORDER_CHAIN","Symbol order lacks unique chain start")
+        seen=set(); cur=starts[0]
+        while cur not in seen:
+            seen.add(cur)
+            if cur not in outgoing: break
+            cur=outgoing[cur]
+        if seen!=members:
+            _fail("IR_SYMBOL_ORDER_CHAIN","Symbol order is cyclic/disconnected")
+
+    def ensure_declared_domain(domain: Domain, code: str) -> None:
+        try:
+            require_domain(domain)
+        except TypeError as exc:
+            _fail(code,str(exc))
+        if isinstance(domain,SymbolDomain) and domain.identity not in declared_symbol_domains:
+            _fail(code,"Symbol domain contract references undeclared domain identity")
+
+    for d in place_domains.values(): ensure_declared_domain(d,"IR_PLACE_DOMAIN_CONTRACT")
+    for d in role_domains.values(): ensure_declared_domain(d,"IR_ROLE_DOMAIN_CONTRACT")
+    for d in output_domains.values():
+        if d is not None: ensure_declared_domain(d,"IR_OUTPUT_DOMAIN_CONTRACT")
+    for x in program.program_input_domains: ensure_declared_domain(x.domain,"IR_PROGRAM_INPUT_DOMAIN_CONTRACT")
+
     def value(
         node: i.IRValue,
         *,
@@ -110,7 +173,16 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         except DomainValidationError as exc:
             _fail(exc.issue.code, exc.issue.detail)
 
-        if isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
+        if isinstance(node,i.IRSymbolValue):
+            expected_label=member_labels.get((node.domain_id,node.member_id))
+            if expected_label is None:
+                _fail("IR_SYMBOL_VALUE_IDENTITY","Symbol Value references undeclared domain/member")
+            if node.external_label!=expected_label:
+                _fail("IR_SYMBOL_LABEL_FORGERY","Symbol Value label does not match canonical declared member label")
+        elif isinstance(node,(i.IRIndexSuccessor,i.IRIndexPredecessor)):
+            if value(node.operand,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)!=BIDIRECTIONAL_INDEX:
+                _fail("IR_INDEX_OPERAND_DOMAIN","Index successor/predecessor operand is not BidirectionalIndex")
+        elif isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
             if node.place not in places:
                 _fail("IR_UNRESOLVED_PLACE", "current-value read references unknown place")
             if node.place not in visible_places:
@@ -143,12 +215,24 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         return domain
 
     def proposition(node: i.IRProposition, *, visible_places: set[int], current_act: int | None, recent_act: int | None) -> None:
-        if not isinstance(node, i.IREqualProposition):
-            _fail("IR_PROPOSITION_KIND", f"unsupported proposition {type(node).__name__}")
-        if value(node.left, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context="execution") != NATURAL:
-            _fail("IR_PROPOSITION_DOMAIN", "Core numeric equality left operand is not Natural")
-        if value(node.right, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context="execution") != NATURAL:
-            _fail("IR_PROPOSITION_DOMAIN", "Core numeric equality right operand is not Natural")
+        if isinstance(node,i.IREqualProposition):
+            if value(node.left,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL or value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL:
+                _fail("IR_PROPOSITION_DOMAIN","Core numeric equality requires Natural operands")
+            return
+        if isinstance(node,i.IRNaturalGTProposition):
+            if value(node.left,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL or value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL:
+                _fail("IR_NATURAL_GT_DOMAIN","Natural strict ordering requires Natural operands")
+            return
+        if isinstance(node,i.IRSymbolEqualProposition):
+            expected=SymbolDomain(node.domain_id)
+            ensure_declared_domain(expected,"IR_SYMBOL_EQUALITY_DOMAIN")
+            left=value(node.left,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            right=value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            if left!=expected or right!=expected:
+                _fail("IR_SYMBOL_EQUALITY_DOMAIN","Symbol equality operands must belong to one exact declared domain")
+            return
+        _fail("IR_PROPOSITION_KIND",f"unsupported proposition {type(node).__name__}")
+
 
     def output_path_max(node: i.IRAction) -> int:
         if isinstance(node, i.IRProduceResult):

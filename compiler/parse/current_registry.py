@@ -1,3 +1,3 @@
-from compiler.parse.a13_b12_registry import A13_B12_REGISTRY
-CURRENT_REGISTRY = A13_B12_REGISTRY
+from compiler.parse.c5_2_registry import C5_2_REGISTRY
+CURRENT_REGISTRY = C5_2_REGISTRY
 __all__=["CURRENT_REGISTRY"]

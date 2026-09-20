@@ -372,6 +372,109 @@
       ],
       "status": "normative",
       "summary": "Bare עד אשר does not select a conventional pre-test or post-test recurrence model."
+    },
+    {
+      "construction_id": "C52.INDEX_VALUE",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_BIDIRECTIONAL_INDEX_SURFACE",
+        "A16_INDEX_SUCCESSOR_PREDECESSOR"
+      ],
+      "status": "normative",
+      "summary": "Year-profile BidirectionalIndex literals and total successor/predecessor."
+    },
+    {
+      "construction_id": "C52.NATURAL_GT",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_NUMERIC_ORDERING"
+      ],
+      "status": "normative",
+      "summary": "Strict Natural greater-than proposition."
+    },
+    {
+      "construction_id": "C52.PRODUCTIVE_NATURALS",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_PRODUCTIVE_NUMERALS"
+      ],
+      "status": "normative",
+      "summary": "A15 direct Naturals 1..99,999,999 with exact canonical magnitude grammar."
+    },
+    {
+      "construction_id": "C52.SYMBOL_DECLARATIONS",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_SYMBOL_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Finite Symbol domain/member declarations with counted canonical visible-label metadata."
+    },
+    {
+      "construction_id": "C52.SYMBOL_EQUALITY",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_SYMBOL_EQUALITY"
+      ],
+      "status": "normative",
+      "summary": "Same-domain Symbol identity proposition."
+    },
+    {
+      "construction_id": "C52.SYMBOL_ORDER",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_SYMBOL_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Explicit adjacent Symbol-order metadata."
+    },
+    {
+      "construction_id": "C52.SYMBOL_VALUE",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_SYMBOL_SURFACE",
+        "A16_TYPED_STATE_SURFACE",
+        "A16_TYPED_ROLE_SURFACE",
+        "A16_TYPED_OUTPUT_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Exact domain-qualified Symbol values and typed carrier references."
+    },
+    {
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_TYPED_ROLE_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Named performance associations over independently typed values."
+    },
+    {
+      "construction_id": "C52.TYPED_OUTPUT",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_TYPED_OUTPUT_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Symbol/Index output production and typed immediate-result references."
+    },
+    {
+      "construction_id": "C52.TYPED_PLACE",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_TYPED_STATE_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Symbol/Index place initialization, current content and replacement."
+    },
+    {
+      "construction_id": "C52.TYPED_ROLE",
+      "kind": "positive",
+      "spec_ids": [
+        "A16_TYPED_ROLE_SURFACE"
+      ],
+      "status": "normative",
+      "summary": "Symbol/Index named-role declarations and current occurrence values."
     }
   ],
   "language_edition": "core-0.1-integration-candidate-a13-b12",
@@ -676,44 +779,6 @@
     },
     {
       "admitted": true,
-      "construction_id": "A11.ROLE_ASSOCIATION",
-      "lhs": "AtomicAction",
-      "production_id": "A11.ACT.PERFORM.WITH.ROLES",
-      "rhs": [
-        {
-          "kind": "word",
-          "text": "עשה"
-        },
-        {
-          "kind": "word",
-          "text": "את"
-        },
-        {
-          "kind": "word",
-          "text": "המעשה"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "שמו"
-        },
-        {
-          "kind": "name",
-          "role": "PerformedActionName"
-        },
-        {
-          "kind": "nonterminal",
-          "name": "RoleAssociations"
-        }
-      ],
-      "root": false,
-      "semantic_id": "A11.ROLE_ASSOCIATION"
-    },
-    {
-      "admitted": true,
       "construction_id": "A11.CURRENT_PERFORMANCE",
       "lhs": "NumberValue",
       "production_id": "A11.NUMBER.CURRENT.ROLE",
@@ -777,118 +842,6 @@
       ],
       "root": false,
       "semantic_id": "A11.CURRENT_ROLE_NUMBER"
-    },
-    {
-      "admitted": true,
-      "construction_id": "A11.ROLE_ASSOCIATION",
-      "lhs": "RoleAssociations",
-      "production_id": "A11.ROLE.ASSOCIATIONS.MORE",
-      "rhs": [
-        {
-          "kind": "nonterminal",
-          "name": "RoleAssociations"
-        },
-        {
-          "kind": "word",
-          "text": "ובהיות"
-        },
-        {
-          "kind": "nonterminal",
-          "name": "NumberValue"
-        },
-        {
-          "kind": "word",
-          "text": "תחת"
-        },
-        {
-          "kind": "word",
-          "text": "הדבר"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "במעשה"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "שמו"
-        },
-        {
-          "kind": "name",
-          "role": "RoleOwnerActionName"
-        },
-        {
-          "kind": "word",
-          "text": "שמו"
-        },
-        {
-          "kind": "name",
-          "role": "AssociatedRoleName"
-        }
-      ],
-      "root": false,
-      "semantic_id": "A11.ROLE_ASSOCIATION"
-    },
-    {
-      "admitted": true,
-      "construction_id": "A11.ROLE_ASSOCIATION",
-      "lhs": "RoleAssociations",
-      "production_id": "A11.ROLE.ASSOCIATIONS.ONE",
-      "rhs": [
-        {
-          "kind": "word",
-          "text": "בהיות"
-        },
-        {
-          "kind": "nonterminal",
-          "name": "NumberValue"
-        },
-        {
-          "kind": "word",
-          "text": "תחת"
-        },
-        {
-          "kind": "word",
-          "text": "הדבר"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "במעשה"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "שמו"
-        },
-        {
-          "kind": "name",
-          "role": "RoleOwnerActionName"
-        },
-        {
-          "kind": "word",
-          "text": "שמו"
-        },
-        {
-          "kind": "name",
-          "role": "AssociatedRoleName"
-        }
-      ],
-      "root": false,
-      "semantic_id": "A11.ROLE_ASSOCIATION"
     },
     {
       "admitted": true,
@@ -1189,32 +1142,6 @@
       ],
       "root": false,
       "semantic_id": "A12.BODY_UNIT"
-    },
-    {
-      "admitted": true,
-      "construction_id": "A12.DIRECT_NUMERIC_LITERAL",
-      "lhs": "NumberValue",
-      "production_id": "A12.NUMBER.LITERAL",
-      "rhs": [
-        {
-          "kind": "word",
-          "text": "המספר"
-        },
-        {
-          "kind": "word",
-          "text": "אשר"
-        },
-        {
-          "kind": "word",
-          "text": "הוא"
-        },
-        {
-          "kind": "numeral",
-          "lexicon_id": "a12-direct-1-9999"
-        }
-      ],
-      "root": false,
-      "semantic_id": "A12.DIRECT_NUMERIC_LITERAL"
     },
     {
       "admitted": true,
@@ -1793,9 +1720,1771 @@
       ],
       "root": false,
       "semantic_id": "A9.EXACT_REPEAT_COUNT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "AtomicAction",
+      "production_id": "C52.ACT.PERFORM.ROLES",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "עשה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PerformedActionName"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "RoleAssociations"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "AssociationValue",
+      "production_id": "C52.ASSOC.VALUE.INDEX",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ASSOCIATION_VALUE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "AssociationValue",
+      "production_id": "C52.ASSOC.VALUE.NATURAL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ASSOCIATION_VALUE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "AssociationValue",
+      "production_id": "C52.ASSOC.VALUE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ASSOCIATION_VALUE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.AFTER.MANY",
+      "rhs": [
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-feminine-count-3-99999999"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_AFTER_MANY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.AFTER.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שנה"
+        },
+        {
+          "kind": "word",
+          "text": "אחת"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_AFTER_ONE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.AFTER.TWO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שתי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_AFTER_TWO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.BEFORE.MANY",
+      "rhs": [
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-feminine-count-3-99999999"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_BEFORE_MANY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.BEFORE.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שנה"
+        },
+        {
+          "kind": "word",
+          "text": "אחת"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_BEFORE_ONE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.BEFORE.TWO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שתי"
+        },
+        {
+          "kind": "word",
+          "text": "שנים"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_BEFORE_TWO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.CURRENT.PLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_CURRENT_PLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ROLE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.CURRENT.ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_CURRENT_ROLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_OUTPUT",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.IMMEDIATE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצא"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_IMMEDIATE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.PRED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_PREDECESSOR"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.SUCC",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אחר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_SUCCESSOR"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C52.INDEX.ZERO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שנת"
+        },
+        {
+          "kind": "word",
+          "text": "אין"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.INDEX_ZERO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.PRODUCTIVE_NATURALS",
+      "lhs": "NumberValue",
+      "production_id": "C52.NUMBER.LITERAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-direct-1-99999999"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.NATURAL_LITERAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "AtomicAction",
+      "production_id": "C52.PLACE.REPLACE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שים"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.REPLACE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "AtomicAction",
+      "production_id": "C52.PLACE.REPLACE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שים"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "ואשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.REPLACE_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.PREP.PLACE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "מקום"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "ובמקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        },
+        {
+          "kind": "word",
+          "text": "לבדו"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PREP_PLACE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.PREP.PLACE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "מקום"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "ובמקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        },
+        {
+          "kind": "word",
+          "text": "לבדו"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PREP_PLACE_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_DECLARATIONS",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.PREP.SYMBOL.DOMAIN",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolDomainDeclaration"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PREP_SYMBOL_DOMAIN"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_DECLARATIONS",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.PREP.SYMBOL.MEMBER",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolMemberDeclaration"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PREP_SYMBOL_MEMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_ORDER",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.PREP.SYMBOL.ORDER",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolOrderDeclaration"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PREP_SYMBOL_ORDER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.NATURAL_GT",
+      "lhs": "Proposition",
+      "production_id": "C52.PROP.NATURAL.GT",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        },
+        {
+          "kind": "word",
+          "text": "רב"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "NumberValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.NATURAL_GT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_EQUALITY",
+      "lhs": "Proposition",
+      "production_id": "C52.PROP.SYMBOL.EQ",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        },
+        {
+          "kind": "word",
+          "text": "הוא"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_EQUALITY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_OUTPUT",
+      "lhs": "BodyAtomicAction",
+      "production_id": "C52.RESULT.PRODUCE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הוצא"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PRODUCE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_OUTPUT",
+      "lhs": "BodyAtomicAction",
+      "production_id": "C52.RESULT.PRODUCE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הוצא"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.PRODUCE_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "RoleAssociations",
+      "production_id": "C52.ROLE.ASSOC.MORE",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "RoleAssociations"
+        },
+        {
+          "kind": "word",
+          "text": "ובהיות"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AssociationValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ASSOCIATION",
+      "lhs": "RoleAssociations",
+      "production_id": "C52.ROLE.ASSOC.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "בהיות"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "AssociationValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ROLE_ASSOCIATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ROLE",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.ROLE.DECLARE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "שנה"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ROLE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ROLE",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C52.ROLE.DECLARE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "שם"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.ROLE_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_PLACE",
+      "lhs": "SymbolValue",
+      "production_id": "C52.SYMBOL.CURRENT.PLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "ואשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_CURRENT_PLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_ROLE",
+      "lhs": "SymbolValue",
+      "production_id": "C52.SYMBOL.CURRENT.ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "ואשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_CURRENT_ROLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_DECLARATIONS",
+      "lhs": "SymbolDomainDeclaration",
+      "production_id": "C52.SYMBOL.DOMAIN",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "תהי"
+        },
+        {
+          "kind": "word",
+          "text": "משפחת"
+        },
+        {
+          "kind": "word",
+          "text": "שמות"
+        },
+        {
+          "kind": "word",
+          "text": "ושמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_DOMAIN"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.TYPED_OUTPUT",
+      "lhs": "SymbolValue",
+      "production_id": "C52.SYMBOL.IMMEDIATE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "ואשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצא"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_IMMEDIATE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_DECLARATIONS",
+      "lhs": "SymbolMemberDeclaration",
+      "production_id": "C52.SYMBOL.MEMBER",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "שם"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolMemberName"
+        },
+        {
+          "kind": "word",
+          "text": "ולשם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolMemberName"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "המלים"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "בשמו"
+        },
+        {
+          "kind": "word",
+          "text": "הנראה"
+        },
+        {
+          "kind": "word",
+          "text": "יהיה"
+        },
+        {
+          "kind": "counted_label",
+          "lexicon_id": "a15-direct-1-99999999"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_MEMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_ORDER",
+      "lhs": "SymbolOrderDeclaration",
+      "production_id": "C52.SYMBOL.ORDER",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "במשפט"
+        },
+        {
+          "kind": "word",
+          "text": "משפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "יהיה"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        },
+        {
+          "kind": "word",
+          "text": "מיד"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "SymbolValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_ORDER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C52.SYMBOL_VALUE",
+      "lhs": "SymbolValue",
+      "production_id": "C52.SYMBOL.REF",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolMemberName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C52.SYMBOL_REFERENCE"
     }
   ],
-  "registry_version": "a13-b12.1",
+  "registry_version": "c5.2-a15-a16.1",
   "semantic_gates": [
     {
       "construction_id": "A10.NAMED_ACT_PERFORMANCE",
@@ -1861,5 +3550,5 @@
       "status": "ready"
     }
   ],
-  "source_snapshot": "A13_A_Core_v0.1_Integration_Frozen_Candidate+B12_A13_SEMANTIC_INTEGRATION"
+  "source_snapshot": "A13+B12+C5.1+A15+A16+B13+B15 integrated implementation candidate"
 }

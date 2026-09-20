@@ -1,0 +1,61 @@
+{
+  "baseline_sha": "974ea3c2ec9474e9d6c5c4897970e69ed66de692",
+  "ci": {
+    "required_os": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "status": "PENDING"
+  },
+  "integration_findings": [],
+  "local": {
+    "c5_2_targeted": {
+      "status": "PASS",
+      "tests": 38
+    },
+    "full_pytest": {
+      "status": "PASS",
+      "subtests": 126,
+      "tests": 329
+    },
+    "proposal_regressions": {
+      "A13": {
+        "checks": 289,
+        "status": "PASS"
+      },
+      "A15": {
+        "a13_numerals_checked": 9999,
+        "case_checks": 335280,
+        "large_random_samples": 75000,
+        "status": "PASS"
+      },
+      "A16": {
+        "checks": 2548,
+        "negative": 30,
+        "positive": 2518,
+        "status": "PASS"
+      },
+      "B12": {
+        "status": "PASS",
+        "tests": "14 B11 integrated + 14 intent + 33 B12 + RM grids"
+      },
+      "B13": {
+        "status": "PASS",
+        "tests": 28
+      },
+      "B14": {
+        "status": "PASS",
+        "tests": 22
+      },
+      "B15": {
+        "status": "PASS",
+        "tests": 29
+      }
+    },
+    "registry_regeneration": {
+      "sha256": "2e1d5a8d685ca0f52c9a657cfd20a0594465c4cc5fa344bf55693a169c9a0483",
+      "status": "PASS"
+    }
+  },
+  "schema": "marak-c5.2-test-results-v1"
+}

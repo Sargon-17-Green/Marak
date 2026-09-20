@@ -88,6 +88,22 @@ class NumeralTerminal:
 
 
 @dataclass(frozen=True, slots=True)
+class CountedLabelTerminal:
+    """A15 finite-Symbol visible-label metadata field.
+
+    Starting at the count, this consumes one admitted direct Natural, the
+    exact words והמלים הן, and exactly that many normalized Hebrew words.
+    It creates declaration metadata only; it never creates a Text Value.
+    """
+
+    lexicon_id: str
+
+    def __post_init__(self) -> None:
+        if not self.lexicon_id:
+            raise ValueError("CountedLabelTerminal lexicon_id must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
 class Nonterminal:
     name: str
 
@@ -96,7 +112,7 @@ class Nonterminal:
             raise ValueError("nonterminal name must be non-empty")
 
 
-GrammarSymbol: TypeAlias = WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal | Nonterminal
+GrammarSymbol: TypeAlias = WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal | Nonterminal
 
 
 @dataclass(frozen=True, slots=True)
@@ -224,6 +240,8 @@ class ConstructionRegistry:
                 }
             if isinstance(s, NumeralTerminal):
                 return {"kind": "numeral", "lexicon_id": s.lexicon_id}
+            if isinstance(s, CountedLabelTerminal):
+                return {"kind": "counted_label", "lexicon_id": s.lexicon_id}
             return {"kind": "nonterminal", "name": s.name}
 
         out: dict[str, object] = {
@@ -293,6 +311,7 @@ __all__ = [
     "NameTerminal",
     "MorphTerminal",
     "NumeralTerminal",
+    "CountedLabelTerminal",
     "Nonterminal",
     "GrammarSymbol",
     "ConstructionDeclaration",

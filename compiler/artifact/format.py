@@ -14,17 +14,20 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.2-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.3-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
     irm.IRPlaceDomain, irm.IRRoleDomain, irm.IRActOutputDomain, irm.IRProgramInputDomain,
     irm.IRNatural, irm.IRSymbolValue, irm.IRIndexValue, irm.IRCollectionValue,
+    irm.IRIndexSuccessor, irm.IRIndexPredecessor,
     irm.IRReadCurrentFact, irm.IRReadCurrentValue, irm.IRReadRoleNumber, irm.IRReadRoleValue,
     irm.IRRecentResult, irm.IRRecentTypedResult, irm.IRAddNatural, irm.IRCheckedSubtractNatural,
-    irm.IREqualProposition, irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
+    irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRSymbolEqualProposition,
+    irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
     irm.IRPerformAct, irm.IRProduceResult, irm.IRThen, irm.IRConditional,
     irm.IRFixedRecurrence, irm.IRPostActionRecurrence,
+    irm.IRSymbolDomainDeclaration, irm.IRSymbolMemberDeclaration, irm.IRSymbolOrderAdjacent,
 )
 _DOMAIN_CLASSES = (
     NaturalDomain, SymbolDomain, BidirectionalIndexDomain, CollectionDomain,
