@@ -89,3 +89,15 @@ def test_c53_append_runtime_avoids_repeated_prefix_tuple_copy():
         assert ".items+(item,)" not in text
         assert "whileisinstance(current," in text
         assert "items=list(collection.items)" in text
+
+
+def test_c53_adds_no_collection_specific_semantic_size_cap():
+    paths=[
+        ROOT/"compiler"/"resolve"/"a13_program.py",
+        ROOT/"compiler"/"runtime"/"reference.py",
+        ROOT/"compiler"/"runtime"/"ir_reference.py",
+        ROOT/"compiler"/"backend"/"portable.py",
+    ]
+    blob="\n".join(path.read_text(encoding="utf-8") for path in paths).lower()
+    for needle in ("max_collection","collection_limit","collection_cap","max_book_size"):
+        assert needle not in blob
