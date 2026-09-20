@@ -386,7 +386,7 @@ def test_nested_symbol_collection_semantics_ignore_source_renaming_and_internal_
         outer=append_books_sym(domain,append_books_sym(domain,empty_books_sym(domain),high),low)
         parts=[]
         if shift_serials:
-            parts.append(place_nat("קדם",0))
+            parts.append(place_nat("קדם",1))
         parts.extend([
             symbol_domain(domain),
             member(domain,low_name,1,"נמוך"),
