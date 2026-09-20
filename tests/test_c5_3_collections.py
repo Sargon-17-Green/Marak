@@ -348,3 +348,56 @@ def test_moderate_collection_size_has_no_fixed_semantic_count_cap():
     src=" ".join([place_book("ספר",b),place_nat("מנה",1),"ועתה "+replace_nat("מנה",count(book_place("ספר")))])
     _,obs=three(src)
     assert dict(obs["facts"])["מנה"]==32
+
+
+def test_collection_immediate_result_contract_is_independent_of_body_definition_order():
+    producer,consumer="מפיק","צורך"
+    src=" ".join([
+        place_book("יעד",empty_nat()),
+        act(producer),act(consumer),
+        # Consumer body intentionally appears before the producer body.  The producer
+        # is already introduced, so A13 visibility is satisfied; only its output
+        # contract is learned later.
+        body(consumer,f"עשה את המעשה אשר שמו {producer} ואחרי כן "+output(book_recent(producer))),
+        body(producer,output(nat_book(3,4))),
+        f"ועתה עשה את המעשה אשר שמו {consumer} ואחרי כן "+replace_book("יעד",book_recent(consumer)),
+    ])
+    _,obs=three(src)
+    assert dict(obs["facts"])["יעד"]==[3,4]
+
+
+def test_cyclic_untyped_collection_output_contract_is_static_invalid():
+    a,b="ראשון","שני"
+    src=" ".join([
+        act(a),act(b),
+        body(a,f"עשה את המעשה אשר שמו {b} ואחרי כן "+output(book_recent(b))),
+        body(b,f"עשה את המעשה אשר שמו {a} ואחרי כן "+output(book_recent(a))),
+        f"ועתה עשה את המעשה אשר שמו {a}",
+    ])
+    result=compile_source(src)
+    assert not result.valid
+    assert "REF0404" in [d.code for d in result.diagnostics]
+
+
+def test_nested_symbol_collection_semantics_ignore_source_renaming_and_internal_serial_shift():
+    def program(domain,low_name,high_name,*,shift_serials):
+        low=symbol_book(domain,low_name)
+        high=symbol_book(domain,high_name)
+        outer=append_books_sym(domain,append_books_sym(domain,empty_books_sym(domain),high),low)
+        parts=[]
+        if shift_serials:
+            parts.append(place_nat("קדם",0))
+        parts.extend([
+            symbol_domain(domain),
+            member(domain,low_name,1,"נמוך"),
+            member(domain,high_name,1,"גבוה"),
+            order(domain,low_name,high_name),
+            place_book("ספרים",outer),
+            "ועתה "+replace_book("ספרים",sort_lex_sym(domain,book_place("ספרים"))),
+        ])
+        return " ".join(parts)
+
+    _,first=three(program("דרגותא","תחתוןא","עליוןא",shift_serials=False))
+    _,second=three(program("דרגותב","תחתוןב","עליוןב",shift_serials=True))
+    assert dict(first["facts"])["ספרים"]==[["נמוך"],["גבוה"]]
+    assert dict(second["facts"])["ספרים"]==dict(first["facts"])["ספרים"]
