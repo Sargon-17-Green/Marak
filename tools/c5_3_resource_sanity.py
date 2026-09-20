@@ -55,11 +55,20 @@ def timed(size: int) -> dict[str, object]:
     observed=backend_observable(outcome)
     if dict(observed["facts"])["מנה"] != size:
         raise RuntimeError(f"count mismatch for {size}")
+    m=compiled.check_result.parse_result.metrics
     return {
         "items":size,
         "source_bytes":len(source.encode("utf-8")),
         "compile_ms_untraced":round((t1-t0)*1000,3),
         "backend_ms_untraced":round((t2-t1)*1000,3),
+        "parser_metrics":{
+            "token_count":m.token_count,
+            "state_keys":m.state_keys,
+            "derivations":m.derivations,
+            "completed_nodes":m.completed_nodes,
+            "alternatives":m.alternatives,
+            "peak_state_keys_at_position":m.peak_state_keys_at_position,
+        },
     }
 
 
