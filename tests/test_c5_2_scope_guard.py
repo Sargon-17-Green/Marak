@@ -62,15 +62,15 @@ C52_RESOLUTION_DIAGNOSTICS = {
     "One act has result-production sites with different semantic domains.": "SEM0306",
 }
 
-_MOJIBAKE_MARKERS = ("\\u00c3", "\\u00c2", "\\u00e2\\u20ac", "\\u00ef\\u00bf\\u00bd")
+_MOJIBAKE_MARKERS = ("\u00c3", "\u00c2", "\u00e2\u20ac", "\u00ef\u00bf\u00bd")
 
 
 def _replacement_corruption(text: str) -> bool:
     return bool(
-        re.search(r"\\?{3,}",text)
-        or "\\ufffd" in text
+        "???" in text
+        or "\ufffd" in text
         or any(marker in text for marker in _MOJIBAKE_MARKERS)
-        or text.count("\\u00d7")>=2
+        or text.count("\u00d7")>=2
     )
 
 
