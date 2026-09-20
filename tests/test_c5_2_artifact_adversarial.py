@@ -129,11 +129,11 @@ def test_duplicate_symbol_member_identity_is_rejected():
 def test_previous_artifact_schema_is_cleanly_rejected():
     p=compiled(gt_source())
     obj=artifact_dict(p,language_edition="core-0.1-integration-candidate-a13-b12")
-    obj["artifact_version"]="core-artifact-0.2-candidate-1"
+    obj["artifact_version"]="core-artifact-0.3-candidate-1"
     data=json.dumps(obj,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode("utf-8")+b"\n"
     with pytest.raises(ArtifactVerificationError,match="unknown artifact version"):
         verify_artifact(data)
 
 
-def test_artifact_version_is_explicitly_03_candidate():
-    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.3-candidate-1"
+def test_artifact_version_is_explicitly_04_candidate():
+    assert ARTIFACT_FORMAT_VERSION=="core-artifact-0.4-candidate-1"
