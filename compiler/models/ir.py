@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from compiler.models.domains import Domain, ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.source.source_map import OriginalSpan
 
-IR_VERSION = "core-ir-0.3-candidate-1"
+IR_VERSION = "core-ir-0.4-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -59,6 +59,41 @@ class IRIndexValue(IRValue):
 class IRCollectionValue(IRValue):
     element_domain: Domain
     items: tuple[IRValue, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionAppend(IRValue):
+    collection: IRValue
+    item: IRValue
+    element_domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionCount(IRNumber):
+    collection: IRValue
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionSelectNatural(IRNumber):
+    collection: IRValue
+    position: IRNumber | None
+    mode: str
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionSelectValue(IRValue):
+    collection: IRValue
+    element_domain: Domain
+    position: IRNumber | None
+    mode: str
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionOrder(IRValue):
+    collection: IRValue
+    element_domain: Domain
+    order_kind: str
+    symbol_domain_id: SymbolDomainId | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -134,6 +169,13 @@ class IRSymbolEqualProposition(IRProposition):
     left: IRValue
     right: IRValue
     domain_id: SymbolDomainId
+
+
+@dataclass(frozen=True, slots=True)
+class IRCollectionMembershipProposition(IRProposition):
+    item: IRValue
+    collection: IRValue
+    element_domain: Domain
 
 
 @dataclass(frozen=True, slots=True)
