@@ -3,7 +3,7 @@ from __future__ import annotations
 from compiler.api import compile_source
 from compiler.backend.portable import execute_ir
 from compiler.models.domains import CollectionDomain, SymbolMemberId
-from compiler.models.values import CollectionValue, SymbolValue
+from compiler.models.values import CollectionValue, NaturalValue, SymbolValue
 from compiler.runtime.invocation import (
     INPUT_DOMAIN_MISMATCH,
     InputBinding,
@@ -111,9 +111,7 @@ def test_undeclared_symbol_member_is_rejected_before_preparation_in_all_engines(
     pid = input_id(compiled, role)
 
     natural_pid = input_id(compiled, "מספרקלט")
-    natural_binding = InputBinding(natural_pid, __import__(
-        "compiler.models.values", fromlist=["NaturalValue"]
-    ).NaturalValue(2))
+    natural_binding = InputBinding(natural_pid, NaturalValue(2))
 
     valid = three(
         compiled,
