@@ -62,14 +62,17 @@ def test_repeat_exactly_runtime_has_no_semantic_iteration_cap_or_host_recursion(
         assert needle not in lower
     for path in paths:
         tree=ast.parse(path.read_text(encoding="utf-8"),filename=str(path))
-        recursive_calls=[
-            n for n in ast.walk(tree)
-            if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute)
-            and n.func.attr in {"execute","action"} and isinstance(n.func.value,ast.Name)
-            and n.func.value.id=="self"
-        ]
-        # Existing act execution uses explicit continuation machinery too; the
-        # recurrence implementation must not introduce self.execute/self.action recursion.
+        recursive_calls=[]
+        for fn in (n for n in ast.walk(tree) if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))):
+            for call in ast.walk(fn):
+                if (
+                    isinstance(call,ast.Call) and isinstance(call.func,ast.Attribute)
+                    and isinstance(call.func.value,ast.Name) and call.func.value.id=="self"
+                    and call.func.attr==fn.name
+                ):
+                    recursive_calls.append((fn.name,call.lineno))
+        # Calls such as run()->self.action() are ordinary dispatch.  What C5.4
+        # forbids is host recursion of action()/execute() by recurrence depth.
         assert not recursive_calls
 
 

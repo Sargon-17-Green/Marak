@@ -125,14 +125,19 @@ def test_computed_zero_executes_body_zero_times_and_dynamic_one_once():
 
 
 def test_error_determining_count_happens_before_first_iteration_and_stops_later_continuation():
-    body_place="יעד"; flag="דגל"
-    failing_count=subtract(num(3),num(2))
+    body_place="יעד"; flag="דגל"; amount="גורע"; source="מקור"
+    # Dynamic current-place reads make the underflow a runtime count-evaluation
+    # failure rather than a statically provable constant error.
+    failing_count=subtract(current(amount),current(source))
     principal=" ואחרי כן ".join([
         replace_nat(flag,num(2)),
         repeat_dynamic(failing_count,increment(body_place)),
         replace_nat(flag,num(3)),
     ])
-    src=" ".join([place_nat(body_place,7),place_nat(flag,1),"ועתה "+principal])
+    src=" ".join([
+        place_nat(body_place,7),place_nat(flag,1),place_nat(amount,3),place_nat(source,2),
+        "ועתה "+principal,
+    ])
     c=compile_source(src)
     assert c.valid,[d.to_dict() for d in c.diagnostics]
     observed=[
@@ -154,7 +159,7 @@ def test_failure_on_iteration_k_preserves_prior_and_failing_iteration_commits_an
     select=f"המספר אשר מספרו בסדר {book_place(book)} הוא {current(tick)}"
     work=increment(tick)+" ואחרי כן "+replace_nat(target,select)
     src=" ".join([
-        place_nat(tick,zero()),place_nat(target,9),place_book(book,nat_book(11,22)),
+        place_nat(tick,1),place_nat(target,9),place_book(book,nat_book(11,22)),
         act(worker),body(worker,work),
         "ועתה "+repeat_literal(5,perform(worker)),
     ])
