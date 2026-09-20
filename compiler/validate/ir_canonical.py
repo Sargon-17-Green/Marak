@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from compiler.models import ir as i
 from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDomain, Domain, SymbolDomain, require_domain
 from compiler.validate.domains import DomainValidationError, ir_value_domain
+from compiler.models.program_contract import ir_program_contract_id
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,6 +97,13 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", str(exc))
     if len(input_owners)>1:
         _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "Program Input identities disagree on owning program contract")
+    if input_domains:
+        expected_owner=ir_program_contract_id(program)
+        if any(x.input_id.program_contract!=expected_owner for x in program.program_input_domains):
+            _fail(
+                "IR_PROGRAM_INPUT_OWNERSHIP",
+                "Program Input identity owner is not the canonical reusable-program contract for this IR",
+            )
 
     domain_ids=[x.domain_id for x in program.symbol_domains]
     if len(domain_ids)!=len(set(domain_ids)):
