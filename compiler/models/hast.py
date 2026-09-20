@@ -10,7 +10,7 @@ from compiler.models.domains import (
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.3-candidate-1"
+HAST_VERSION = "core-hast-0.4-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,6 +75,58 @@ class HastIndexValue(HastValue):
 class HastCollectionValue(HastValue):
     element_domain: Domain
     items: tuple[HastValue, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionAppend(HastValue):
+    collection: HastValue
+    item: HastValue
+    element_domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionCount(HastNumber):
+    collection: HastValue
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionSelectNatural(HastNumber):
+    collection: HastValue
+    position: HastNumber | None
+    mode: str
+    def __post_init__(self) -> None:
+        if self.mode not in {"first", "last", "ordinal"}:
+            raise ValueError("invalid Collection selection mode")
+        if (self.mode == "ordinal") != (self.position is not None):
+            raise ValueError("ordinal Collection selection alone has a position")
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionSelectValue(HastValue):
+    collection: HastValue
+    element_domain: Domain
+    position: HastNumber | None
+    mode: str
+    def __post_init__(self) -> None:
+        if self.mode not in {"first", "last", "ordinal"}:
+            raise ValueError("invalid Collection selection mode")
+        if (self.mode == "ordinal") != (self.position is not None):
+            raise ValueError("ordinal Collection selection alone has a position")
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionOrder(HastValue):
+    collection: HastValue
+    element_domain: Domain
+    order_kind: str
+    symbol_domain_id: SymbolDomainId | None = None
+    def __post_init__(self) -> None:
+        if self.order_kind not in {"natural", "symbol", "lex-natural", "lex-symbol"}:
+            raise ValueError("invalid Collection order profile")
+        if self.order_kind in {"symbol", "lex-symbol"} and self.symbol_domain_id is None:
+            raise ValueError("Symbol Collection order requires an explicit Symbol domain")
+        if self.order_kind in {"natural", "lex-natural"} and self.symbol_domain_id is not None:
+            raise ValueError("Natural Collection order cannot carry a Symbol domain")
 
 
 @dataclass(frozen=True, slots=True)
@@ -149,6 +201,13 @@ class HastSymbolEqualProposition(HastProposition):
     left: HastValue
     right: HastValue
     domain_id: SymbolDomainId
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionMembershipProposition(HastProposition):
+    item: HastValue
+    collection: HastValue
+    element_domain: Domain
 
 
 @dataclass(frozen=True, slots=True)
