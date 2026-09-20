@@ -14,8 +14,11 @@ from compiler.models.hast import (
     HastIndexValue, HastIndexSuccessor, HastIndexPredecessor,
     HastNaturalGTProposition, HastSymbolEqualProposition,
     HastSymbolDomainDeclaration, HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
+    HastCollectionValue, HastCollectionAppend, HastCollectionCount,
+    HastCollectionSelectNatural, HastCollectionSelectValue, HastCollectionOrder,
+    HastCollectionMembershipProposition,
 )
-from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, Domain, SymbolDomain, SymbolDomainId, SymbolMemberId
+from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDomain, Domain, SymbolDomain, SymbolDomainId, SymbolMemberId
 from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
@@ -48,6 +51,7 @@ class _Env:
         self.role_domains: dict[RoleId, Domain] = {}
         self.symbol_domains: dict[str, SymbolDomainId] = {}
         self.symbol_members: dict[tuple[int, str], tuple[SymbolMemberId, str]] = {}
+        self.output_domains: dict[ActId, Domain | None] = {}
 
     def serial(self) -> int:
         value = self.next_serial
@@ -162,6 +166,55 @@ def _resolve_role(owner: ActId, name: str, env: _Env, where: ParseLeaf | ParseNo
             kind="role", owner=owner.spelling, name=name,
         )
     return env.roles[key]
+
+
+def _collection_kind_element_domain(node: ParseNode, env: _Env) -> Domain:
+    pid=node.production_id
+    if pid in {"C53.KIND.NATURAL","C53.EMPTY.NATURAL","C53.APPEND.NATURAL"}:
+        return NATURAL
+    if pid in {"C53.KIND.INDEX","C53.EMPTY.INDEX","C53.APPEND.INDEX"}:
+        return BIDIRECTIONAL_INDEX
+    if pid in {"C53.KIND.NESTED.NATURAL","C53.EMPTY.NESTED.NATURAL","C53.APPEND.NESTED.NATURAL"}:
+        return CollectionDomain(NATURAL)
+    if pid in {"C53.KIND.NESTED.INDEX","C53.EMPTY.NESTED.INDEX","C53.APPEND.NESTED.INDEX"}:
+        return CollectionDomain(BIDIRECTIONAL_INDEX)
+    if pid in {
+        "C53.KIND.SYMBOL","C53.EMPTY.SYMBOL","C53.APPEND.SYMBOL",
+        "C53.KIND.NESTED.SYMBOL","C53.EMPTY.NESTED.SYMBOL","C53.APPEND.NESTED.SYMBOL",
+    }:
+        leaves=_direct_leaves(node,"SymbolDomainName")
+        if len(leaves)!=1:
+            raise RuntimeError("Collection Symbol book-kind domain-head contract")
+        base=SymbolDomain(_resolve_symbol_domain(leaves[0].text,env,leaves[0]))
+        if "NESTED" in pid:
+            return CollectionDomain(base)
+        return base
+    raise RuntimeError(f"unsupported Collection book kind {pid}")
+
+
+def _require_collection_domain(value: HastValue, where: ParseNode | ParseLeaf) -> CollectionDomain:
+    domain=hast_value_domain(value)
+    if not isinstance(domain,CollectionDomain):
+        raise _issue(
+            "SEM0401","Collection expression requires an independently resolved Collection domain.",
+            "ביטוי ספר דורש תחום Collection שנפתר באופן עצמאי.",where,actual_domain=repr(domain),
+        )
+    return domain
+
+
+def _body_output_domains(action: HastExecutable) -> set[Domain]:
+    if isinstance(action,HastProduceResult):
+        return {hast_value_domain(action.value)}
+    if isinstance(action,HastThen):
+        out:set[Domain]=set()
+        for x in action.actions:
+            out.update(_body_output_domains(x))
+        return out
+    if isinstance(action,HastConditional):
+        return _body_output_domains(action.if_holds) | _body_output_domains(action.if_not)
+    if isinstance(action,(HastFixedRecurrence,HastPostActionRecurrence)):
+        return _body_output_domains(action.action)
+    return set()
 
 
 def _lower_number(
