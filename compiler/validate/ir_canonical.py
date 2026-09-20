@@ -84,13 +84,18 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
     input_ids = [x.input_id for x in program.program_input_domains]
     if len(input_ids) != len(set(input_ids)):
         _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "duplicate Program Input identity")
+    input_domains: dict[object, Domain] = {}
+    input_owners=set()
     for x in program.program_input_domains:
-        if x.input_id.serial <= 0 or not x.input_id.spelling:
-            _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "invalid Program Input identity")
+        if x.input_id.serial <= 0 or not x.input_id.spelling or not x.input_id.program_contract:
+            _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "invalid Program Input identity or owning contract")
+        input_owners.add(x.input_id.program_contract)
         try:
-            require_domain(x.domain)
+            input_domains[x.input_id]=require_domain(x.domain)
         except TypeError as exc:
             _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", str(exc))
+    if len(input_owners)>1:
+        _fail("IR_PROGRAM_INPUT_DOMAIN_CONTRACT", "Program Input identities disagree on owning program contract")
 
     domain_ids=[x.domain_id for x in program.symbol_domains]
     if len(domain_ids)!=len(set(domain_ids)):
@@ -192,6 +197,13 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
         elif isinstance(node,(i.IRIndexSuccessor,i.IRIndexPredecessor)):
             if value(node.operand,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)!=BIDIRECTIONAL_INDEX:
                 _fail("IR_INDEX_OPERAND_DOMAIN","Index successor/predecessor operand is not BidirectionalIndex")
+        elif isinstance(node, i.IRReadProgramInputNumber):
+            if input_domains.get(node.input_id) != NATURAL:
+                _fail("IR_PROGRAM_INPUT_READ", "numeric Program Input read is undeclared or not Natural")
+        elif isinstance(node, i.IRReadProgramInputValue):
+            if input_domains.get(node.input_id) != node.domain:
+                _fail("IR_PROGRAM_INPUT_READ", "typed Program Input read is undeclared or disagrees with its exact domain")
+            ensure_declared_domain(node.domain,"IR_PROGRAM_INPUT_READ")
         elif isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
             if node.place not in places:
                 _fail("IR_UNRESOLVED_PLACE", "current-value read references unknown place")
