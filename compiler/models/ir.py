@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from compiler.models.domains import Domain, ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.source.source_map import OriginalSpan
 
-IR_VERSION = "core-ir-0.5-candidate-1"
+IR_VERSION = "core-ir-0.6-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,6 +104,17 @@ class IRIndexSuccessor(IRValue):
 @dataclass(frozen=True, slots=True)
 class IRIndexPredecessor(IRValue):
     operand: IRValue
+
+
+@dataclass(frozen=True, slots=True)
+class IRReadProgramInputNumber(IRNumber):
+    input_id: ProgramInputId
+
+
+@dataclass(frozen=True, slots=True)
+class IRReadProgramInputValue(IRValue):
+    input_id: ProgramInputId
+    domain: Domain
 
 
 @dataclass(frozen=True, slots=True)

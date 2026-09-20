@@ -28,10 +28,11 @@ class SymbolMemberId:
 class ProgramInputId:
     serial: int
     spelling: str
+    program_contract: str = "abstract-program-contract"
 
     def __post_init__(self) -> None:
-        if self.serial <= 0 or not self.spelling:
-            raise ValueError("ProgramInputId requires positive serial and spelling")
+        if self.serial <= 0 or not self.spelling or not self.program_contract:
+            raise ValueError("ProgramInputId requires positive serial, spelling, and owning program contract")
 
 
 @dataclass(frozen=True, slots=True)
