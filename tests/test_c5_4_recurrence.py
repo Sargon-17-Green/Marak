@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from compiler.api import compile_source, parse
+from compiler.api import check, compile_source, parse
 from compiler.backend.portable import execute_ir
 from compiler.parse.a15_numerals import format_feminine_count
 from compiler.runtime.ir_reference import execute_reference_ir
 from compiler.runtime.observables import backend_observable, ir_reference_observable, reference_observable
 from compiler.runtime.reference import execute_reference
 from compiler.models.hast import HastRepeatExactly
+from compiler.parse.a13_b12_registry import A13_B12_REGISTRY
+from compiler.validate.ir_canonical import validate_canonical_ir
 from compiler.models.ir import IRAddNatural, IRNatural, IRReadCurrentFact, IRRepeatExactly
 from tests.test_c5_2_surface_pipeline import (
     act, body, current, idx_role, member, num, output, perform, perform_one,
@@ -342,3 +344,108 @@ def test_charter_transparency_does_not_change_recurrence_semantics_or_scope():
     for source in variants:
         _,actual=three(source)
         assert actual==expected
+
+
+# C5.4-MR-001: recurrence entry is a provenance boundary for the body.
+def test_repeat_exactly_body_rejects_incoming_immediate_result_from_preceding_performance():
+    producer="פולט"; target="יעד"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {producer}"
+    src=" ".join([
+        place_nat(target,1),act(producer),body(producer,output(num(3))),
+        "ועתה "+perform(producer)+" ואחרי כן "+
+        repeat_literal(3,replace_nat(target,recent)),
+    ])
+    c=compile_source(src)
+    assert not c.valid
+    assert "REF0112" in [d.code for d in c.diagnostics]
+
+
+def test_dynamic_count_may_observe_incoming_result_once_but_repeat_body_starts_without_it():
+    producer="פולט"; target="מונה"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {producer}"
+    src=" ".join([
+        place_nat(target,10),act(producer),body(producer,output(num(3))),
+        "ועתה "+perform(producer)+" ואחרי כן "+
+        repeat_dynamic(recent,increment(target)),
+    ])
+    _,obs=three(src)
+    assert dict(obs["facts"])[target]==13
+    assert obs["products"]==[[producer,3]]
+
+
+def test_first_iteration_cannot_reuse_provenance_that_was_valid_for_dynamic_count():
+    producer="פולט"; target="יעד"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {producer}"
+    src=" ".join([
+        place_nat(target,1),act(producer),body(producer,output(num(3))),
+        "ועתה "+perform(producer)+" ואחרי כן "+
+        repeat_dynamic(recent,replace_nat(target,recent)),
+    ])
+    c=compile_source(src)
+    assert not c.valid
+    assert "REF0112" in [d.code for d in c.diagnostics]
+
+
+def test_historical_fixed_recurrence_body_also_starts_without_incoming_provenance():
+    producer="פולט"; target="יעד"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {producer}"
+    src=" ".join([
+        place_nat(target,1),act(producer),body(producer,output(num(3))),
+        "ועתה "+perform(producer)+" ואחרי כן שלש פעמים "+
+        replace_nat(target,recent),
+    ])
+    c=compile_source(src,registry=A13_B12_REGISTRY)
+    assert not c.valid
+    assert "REF0112" in [d.code for d in c.diagnostics]
+
+
+def test_post_action_recurrence_drops_incoming_provenance_but_proposition_sees_own_perform():
+    prior="קודם"; worker="מודד"; target="יעד"
+    prior_recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {prior}"
+    worker_recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {worker}"
+
+    bad=" ".join([
+        place_nat(target,1),
+        act(prior),body(prior,output(num(7))),
+        "ועתה "+perform(prior)+" ואחרי כן "+
+        replace_nat(target,prior_recent)+" וכן תעשה עד אשר "+
+        current(target)+" הוא "+num(7),
+    ])
+    rejected=compile_source(bad)
+    assert not rejected.valid
+    assert "REF0112" in [d.code for d in rejected.diagnostics]
+
+    good=" ".join([
+        place_nat(target,1),
+        act(prior),body(prior,output(num(7))),
+        act(worker),body(worker,output(num(1))),
+        "ועתה "+perform(prior)+" ואחרי כן "+
+        perform(worker)+" וכן תעשה עד אשר "+
+        worker_recent+" הוא "+num(1),
+    ])
+    _,obs=three(good)
+    assert obs["products"]==[[prior,7],[worker,1]]
+
+
+def test_source_resolution_and_canonical_ir_validation_agree_at_recurrence_boundary():
+    producer="פולט"; target="מונה"
+    recent=f"המספר אשר יצא עתה מן המעשה אשר שמו {producer}"
+
+    bad=" ".join([
+        place_nat(target,1),act(producer),body(producer,output(num(2))),
+        "ועתה "+perform(producer)+" ואחרי כן "+
+        repeat_literal(2,replace_nat(target,recent)),
+    ])
+    checked=check(bad)
+    assert not checked.valid
+    assert "REF0112" in [d.code for d in checked.diagnostics]
+
+    good=" ".join([
+        place_nat(target,10),act(producer),body(producer,output(num(2))),
+        "ועתה "+perform(producer)+" ואחרי כן "+
+        repeat_dynamic(recent,increment(target)),
+    ])
+    compiled=compile_source(good)
+    assert compiled.valid,[d.to_dict() for d in compiled.diagnostics]
+    assert compiled.ir is not None
+    validate_canonical_ir(compiled.ir)

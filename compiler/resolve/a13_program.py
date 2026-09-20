@@ -786,7 +786,10 @@ def _lower_action(
 
     if pid == "A10.REPEAT.COUNTED":
         count = _repeat_count(_one_child(node, "RepeatCount"))
-        action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=recent_act)
+        # A recurrence body starts a fresh structural-immediacy boundary.
+        # Incoming result provenance belongs to the enclosing sequence, not to
+        # iteration 1 (and the runtimes clear it between later iterations).
+        action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=None)
         return HastFixedRecurrence(span, count, action)
 
     if pid in {"C54.REPEAT.ONE", "C54.REPEAT.TWO", "C54.REPEAT.MANY", "C54.REPEAT.DYNAMIC"}:
@@ -804,14 +807,19 @@ def _lower_action(
                 _one_child(node, "CountAsNumber"), env,
                 current_act=current_act, recent_act=recent_act,
             )
+        # The count expression observes the incoming provenance exactly at
+        # recurrence entry, but the repeated action does not inherit it.
         repeated = _lower_action(
             _one_child(node, "AtomicAction"), env,
-            current_act=current_act, recent_act=recent_act,
+            current_act=current_act, recent_act=None,
         )
         return HastRepeatExactly(span, count, repeated)
 
     if pid == "A10.RECURRENCE.AFTER_UNTIL":
-        action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=recent_act)
+        # The repeated action never inherits provenance from before the
+        # recurrence.  Only a Perform completed by this action can create the
+        # provenance observed by the post-action proposition.
+        action = _lower_action(_one_child(node, "AtomicAction"), env, current_act=current_act, recent_act=None)
         action_recent = action.act if isinstance(action, HastPerformAct) else None
         prop = _lower_proposition(_one_child(node, "Proposition"), env, current_act=current_act, recent_act=action_recent)
         return HastPostActionRecurrence(span, action, prop)
