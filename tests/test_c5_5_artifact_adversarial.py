@@ -99,11 +99,11 @@ def test_natural_and_index_input_read_domain_forgery_is_rejected():
         program_input_domains=(symbol_contract,),
         symbol_domains=p.symbol_domains+(I.IRSymbolDomainDeclaration(p.source_span,sid),),
     )
-    expect_ir_reject(bad,"IR_PROGRAM_INPUT_READ")
+    expect_ir_reject(with_recomputed_owner(bad),"IR_PROGRAM_INPUT_READ")
 
     forged_read=I.IRReadProgramInputValue(init.value.source_span,pid,BIDIRECTIONAL_INDEX)
     bad=dataclasses.replace(p,initial_facts=(dataclasses.replace(init,value=forged_read),))
-    expect_ir_reject(bad,"IR_PROGRAM_INPUT_READ")
+    expect_ir_reject(with_recomputed_owner(bad),"IR_PROGRAM_INPUT_READ")
 
 
 def test_symbol_input_wrong_declared_symbol_domain_is_rejected():
