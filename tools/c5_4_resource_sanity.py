@@ -6,9 +6,24 @@ import tracemalloc
 
 from compiler.api import compile_source
 from compiler.backend.portable import execute_ir
-from compiler.parse.a15_numerals import format_feminine_count
+from compiler.parse.a15_numerals import format_feminine_count, format_natural
 from compiler.runtime.observables import backend_observable
-from tests.test_c5_2_surface_pipeline import current, num, place_nat, replace_nat
+
+
+def num(n: int) -> str:
+    return f"המספר אשר הוא {format_natural(n)}"
+
+
+def current(place: str) -> str:
+    return f"המספר אשר במקום אשר שמו {place}"
+
+
+def place_nat(place: str, n: int) -> str:
+    return f"יהי מקום ושמו {place} ובמקום אשר שמו {place} יהי {num(n)} לבדו"
+
+
+def replace_nat(place: str, value: str) -> str:
+    return f"שים במקום אשר שמו {place} את {value} תחת {current(place)}"
 
 
 def source(n: int) -> str:
