@@ -32,9 +32,19 @@ def program(size: int) -> str:
     ])
 
 
-def one(size: int) -> dict[str, object]:
+def checked_compile_and_run(source: str, size: int):
+    compiled=compile_source(source)
+    if not compiled.valid or compiled.ir is None:
+        raise RuntimeError([d.to_dict() for d in compiled.diagnostics])
+    outcome=execute_ir(compiled.ir)
+    observed=backend_observable(outcome)
+    if dict(observed["facts"])["מנה"] != size:
+        raise RuntimeError(f"count mismatch for {size}")
+    return compiled
+
+
+def timed(size: int) -> dict[str, object]:
     source=program(size)
-    tracemalloc.start()
     t0=time.perf_counter()
     compiled=compile_source(source)
     t1=time.perf_counter()
@@ -42,23 +52,36 @@ def one(size: int) -> dict[str, object]:
         raise RuntimeError([d.to_dict() for d in compiled.diagnostics])
     outcome=execute_ir(compiled.ir)
     t2=time.perf_counter()
-    _,peak=tracemalloc.get_traced_memory()
-    tracemalloc.stop()
     observed=backend_observable(outcome)
     if dict(observed["facts"])["מנה"] != size:
         raise RuntimeError(f"count mismatch for {size}")
     return {
         "items":size,
         "source_bytes":len(source.encode("utf-8")),
-        "compile_ms":round((t1-t0)*1000,3),
-        "backend_ms":round((t2-t1)*1000,3),
-        "traced_peak_bytes":peak,
+        "compile_ms_untraced":round((t1-t0)*1000,3),
+        "backend_ms_untraced":round((t2-t1)*1000,3),
     }
 
 
+def traced_peak(size: int) -> int:
+    source=program(size)
+    tracemalloc.start()
+    try:
+        checked_compile_and_run(source,size)
+        _,peak=tracemalloc.get_traced_memory()
+        return peak
+    finally:
+        tracemalloc.stop()
+
+
 def main() -> int:
-    rows=[one(n) for n in (16,32,64,128)]
-    print(json.dumps({"c5_3_resource_sanity":rows},ensure_ascii=False,sort_keys=True))
+    rows=[timed(n) for n in (16,32,64,128)]
+    evidence={
+        "timings":rows,
+        "traced_peak_bytes_at_128":traced_peak(128),
+        "timing_note":"wall timings are collected with tracemalloc disabled; peak is a separate traced run",
+    }
+    print(json.dumps({"c5_3_resource_sanity":evidence},ensure_ascii=False,sort_keys=True))
     return 0
 
 
