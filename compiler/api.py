@@ -30,6 +30,7 @@ from compiler.parse.grammar import ConstructionRegistry
 from compiler.parse.forest import AmbiguityStatus, ParseElement, ParseForest, ParseLeaf, ParseNode
 from compiler.parse.parser import ParseResult, Parser
 from compiler.runtime.reference import execute_reference
+from compiler.runtime.invocation import InputBinding, ValidatedInvocation
 from compiler.source.text import SourceText
 from compiler.source.unicode_policy import DEFAULT_WHITESPACE_POLICY, WhitespacePolicy
 
@@ -220,21 +221,21 @@ def compile_source(source: str|SourceText, *, file:str="<memory>", registry:Cons
     verify_artifact(artifact)
     return CompilationResult(True,(),c.hast,ir,artifact,c)
 
-def run_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None)->RunResult:
+def run_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None, bindings:tuple[InputBinding,...]|ValidatedInvocation=())->RunResult:
     comp=compile_source(source,file=file,registry=registry,whitespace_policy=whitespace_policy)
     if not comp.valid or comp.artifact is None:return RunResult(comp,None)
     try:
         ir=verify_artifact(comp.artifact)
-        return RunResult(comp,execute_ir(ir,fuel=fuel))
+        return RunResult(comp,execute_ir(ir,fuel=fuel,bindings=bindings))
     except (KeyboardInterrupt, SystemExit):
         raise
     except Exception as exc:
         return RunResult(comp,ToolRuntimeFailure(host_exception_type=type(exc).__name__))
 
-def run_reference(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None):
+def run_reference(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None, bindings:tuple[InputBinding,...]|ValidatedInvocation=()):
     c=check(source,file=file,registry=registry,whitespace_policy=whitespace_policy)
     if not c.valid or c.hast is None:return c,None
-    return c,execute_reference(c.hast,fuel=fuel)
+    return c,execute_reference(c.hast,fuel=fuel,bindings=bindings)
 
 def _span_dict(span):
     if span is None:return None

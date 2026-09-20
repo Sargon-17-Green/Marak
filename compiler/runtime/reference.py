@@ -11,10 +11,12 @@ from compiler.models.hast import (
     HastCollectionAppend, HastCollectionCount, HastCollectionSelectNatural,
     HastCollectionSelectValue, HastCollectionOrder, HastCollectionMembershipProposition,
     HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
+    HastProgramInputNumber, HastProgramInputValue,
 )
 from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
 from compiler.models.domains import NATURAL, CollectionDomain, Domain
 from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, symbol_identity_equal, semantic_value_equal, value_domain
+from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
@@ -192,8 +194,10 @@ class ReferenceEvaluator:
         fuel: int | None = None,
         debug_trace: bool = False,
         max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
+        invocation: ValidatedInvocation | None = None,
     ):
         self.program = program
+        self.input_values = runtime_input_values(invocation or ValidatedInvocation(()))
         self.fuel = fuel
         self.debug_trace_enabled = debug_trace
         self.trace: list[tuple] = []
@@ -352,6 +356,11 @@ class ReferenceEvaluator:
             if not isinstance(collection,CollectionValue):
                 raise _TermFault("INTERNAL_DOMAIN_GUARD")
             return self._order_collection(collection,node.order_kind,node.symbol_domain_id)
+        if isinstance(node, HastProgramInputValue):
+            try:
+                return self.input_values[node.input_id]
+            except KeyError:
+                raise _TermFault("INTERNAL_INVOCATION_GUARD")
         if isinstance(node, HastCurrentValue):
             return state.read(node.place)
         if isinstance(node, HastCurrentRoleValue):
@@ -374,6 +383,14 @@ class ReferenceEvaluator:
             return value
         if isinstance(node, HastExactNatural):
             return node.value
+        if isinstance(node, HastProgramInputNumber):
+            try:
+                value = self.input_values[node.input_id]
+            except KeyError:
+                raise _TermFault("INTERNAL_INVOCATION_GUARD")
+            if type(value) is not int:
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return value
         if isinstance(node, HastCurrentFact):
             return state.read(node.place)
         if isinstance(node, HastCurrentRoleNumber):
@@ -636,12 +653,17 @@ def execute_reference(
     fuel: int | None = None,
     debug_trace: bool = False,
     max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
-) -> Outcome:
+    bindings: tuple[InputBinding, ...] | ValidatedInvocation = (),
+):
+    invocation = prepare_invocation(program, bindings)
+    if isinstance(invocation, InvalidInvocation):
+        return invocation
     return ReferenceEvaluator(
         program,
         fuel=fuel,
         debug_trace=debug_trace,
         max_active_performances=max_active_performances,
+        invocation=invocation,
     ).run()
 
 

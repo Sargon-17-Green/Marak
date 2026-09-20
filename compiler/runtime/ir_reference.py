@@ -11,6 +11,7 @@ from compiler.models.values import (
     semantic_value_equal, value_domain,
 )
 from compiler.version import IR_REFERENCE_VERSION
+from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
@@ -135,10 +136,11 @@ def _public(value: object):
 
 
 class IRReferenceEvaluator:
-    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
+    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, invocation: ValidatedInvocation | None = None):
         if program.ir_version != i.IR_VERSION:
             raise ValueError("unsupported IR version")
         self.program = program
+        self.input_values = runtime_input_values(invocation or ValidatedInvocation(()))
         self.fuel = fuel
         self.max_active_performances = max_active_performances
         self.active_performances = 0
@@ -265,6 +267,11 @@ class IRReferenceEvaluator:
             collection=self.value(node.collection,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
             return self._order(collection,node.order_kind,node.symbol_domain_id)
+        if isinstance(node, (i.IRReadProgramInputNumber, i.IRReadProgramInputValue)):
+            try:
+                return self.input_values[node.input_id]
+            except KeyError:
+                raise _Fault("INTERNAL_INVOCATION_GUARD")
         if isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
             return state[node.place]
         if isinstance(node, (i.IRReadRoleNumber, i.IRReadRoleValue)):
@@ -429,8 +436,11 @@ class IRReferenceEvaluator:
             return IRReferenceResourceExhaustion(self.facts(state), tuple(self.products), detail=type(exc).__name__, place_names=self.place_names, act_names=self.act_names)
 
 
-def execute_ir_reference(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
-    return IRReferenceEvaluator(program, fuel=fuel, max_active_performances=max_active_performances).run()
+def execute_ir_reference(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, bindings: tuple[InputBinding, ...] | ValidatedInvocation = ()):
+    invocation = prepare_invocation(program, bindings)
+    if isinstance(invocation, InvalidInvocation):
+        return invocation
+    return IRReferenceEvaluator(program, fuel=fuel, max_active_performances=max_active_performances, invocation=invocation).run()
 
 
 # Stable M4 public name retained for compatibility.

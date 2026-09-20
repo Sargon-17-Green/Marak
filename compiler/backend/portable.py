@@ -9,8 +9,9 @@ from compiler.models.values import (
     SymbolValue, index_successor, index_predecessor, symbol_identity_equal,
     semantic_value_equal, value_domain,
 )
+from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 
-BACKEND_VERSION = "portable-ir-vm-0.5-candidate-1"
+BACKEND_VERSION = "portable-ir-vm-0.6-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
@@ -133,10 +134,11 @@ def _public(value: object):
 
 
 class PortableVM:
-    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
+    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, invocation: ValidatedInvocation | None = None):
         if program.ir_version != i.IR_VERSION:
             raise ValueError("unsupported IR version")
         self.p = program
+        self.input_values = runtime_input_values(invocation or ValidatedInvocation(()))
         self.fuel = fuel
         self.next_occ = 1
         self.products: list[VMProduct] = []
@@ -263,6 +265,11 @@ class PortableVM:
             collection=self.value(n.collection,state,occ,prov)
             if not isinstance(collection,CollectionValue): raise _Fault("INTERNAL_DOMAIN_GUARD")
             return self._order(collection,n.order_kind,n.symbol_domain_id)
+        if isinstance(n, (i.IRReadProgramInputNumber, i.IRReadProgramInputValue)):
+            try:
+                return self.input_values[n.input_id]
+            except KeyError:
+                raise _Fault("INTERNAL_INVOCATION_GUARD")
         if isinstance(n, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
             return state[n.place]
         if isinstance(n, (i.IRReadRoleNumber, i.IRReadRoleValue)):
@@ -430,5 +437,8 @@ class PortableVM:
             return VMResourceExhaustion(self._facts(state), tuple(self.products), detail=type(exc).__name__, place_names=self.place_names, act_names=self.act_names)
 
 
-def execute_ir(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
-    return PortableVM(program, fuel=fuel, max_active_performances=max_active_performances).run()
+def execute_ir(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, bindings: tuple[InputBinding, ...] | ValidatedInvocation = ()):
+    invocation = prepare_invocation(program, bindings)
+    if isinstance(invocation, InvalidInvocation):
+        return invocation
+    return PortableVM(program, fuel=fuel, max_active_performances=max_active_performances, invocation=invocation).run()
