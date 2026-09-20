@@ -5,11 +5,13 @@ from dataclasses import dataclass
 from compiler.models.hast import (
     HastActBody, HastAddNatural, HastConditional, HastCoreProgram, HastCurrentFact,
     HastCurrentRoleNumber, HastEqualProposition, HastExactNatural, HastExecutable,
-    HastFixedRecurrence, HastNumber, HastPerformAct, HastPlaceIntroduction,
+    HastFixedRecurrence, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastPerformAct, HastPlaceIntroduction,
     HastPostActionRecurrence, HastProduceResult, HastProposition, HastRecentResult,
     HastReplaceCurrentFact, HastSubtractNatural, HastThen,
 )
 from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
+from compiler.models.domains import NATURAL
+from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
@@ -28,22 +30,22 @@ class RuntimeErrorRecord:
 
 @dataclass(frozen=True, slots=True)
 class SemanticState:
-    facts: tuple[tuple[PlaceId, int], ...] = ()
+    facts: tuple[tuple[PlaceId, object], ...] = ()
 
-    def as_dict(self) -> dict[PlaceId, int]:
+    def as_dict(self) -> dict[PlaceId, object]:
         return dict(self.facts)
 
-    def read(self, place: PlaceId) -> int:
+    def read(self, place: PlaceId) -> object:
         return self.as_dict()[place]
 
-    def establish(self, place: PlaceId, value: int) -> "SemanticState":
+    def establish(self, place: PlaceId, value: object) -> "SemanticState":
         d = self.as_dict()
         if place in d:
             raise RuntimeError("internal duplicate initial establishment")
         d[place] = value
         return SemanticState(tuple(sorted(d.items(), key=lambda kv: kv[0].serial)))
 
-    def replace(self, place: PlaceId, value: int) -> "SemanticState":
+    def replace(self, place: PlaceId, value: object) -> "SemanticState":
         d = self.as_dict()
         if place not in d:
             raise RuntimeError("internal unresolved place reached runtime")
@@ -55,7 +57,7 @@ class SemanticState:
 class Product:
     occurrence: OccurrenceId
     act: ActId
-    value: int
+    value: object
 
 
 @dataclass(frozen=True, slots=True)
@@ -92,15 +94,15 @@ Outcome = NormalOutcome | ErrorOutcome | DivergenceOutcome | ResourceExhaustionO
 class _Occurrence:
     identity: OccurrenceId
     act: ActId
-    roles: dict[RoleId, int]
-    output: int | None = None
+    roles: dict[RoleId, object]
+    output: object | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class _Provenance:
     occurrence: OccurrenceId
     act: ActId
-    output: int | None
+    output: object | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -205,6 +207,36 @@ class ReferenceEvaluator:
         self.fuel -= 1
         return True
 
+    def eval_value(self, node: HastValue, state: SemanticState, occ: _Occurrence | None, prov: _Provenance | None) -> object:
+        if isinstance(node, HastSymbolValue):
+            return SymbolValue(node.domain_id, node.member_id, node.external_label)
+        if isinstance(node, HastIndexValue):
+            return BidirectionalIndexValue(node.side, node.magnitude)
+        if isinstance(node, HastCollectionValue):
+            items=[]
+            for child in node.items:
+                v=self.eval_value(child,state,occ,prov)
+                if node.element_domain == NATURAL:
+                    if type(v) is not int:
+                        raise _TermFault("INTERNAL_DOMAIN_GUARD", "validated Natural collection element produced a non-Natural value")
+                    items.append(NaturalValue(v))
+                else:
+                    items.append(v)
+            return CollectionValue(node.element_domain,tuple(items))
+        if isinstance(node, HastCurrentValue):
+            return state.read(node.place)
+        if isinstance(node, HastCurrentRoleValue):
+            if occ is None or node.role not in occ.roles:
+                raise _TermFault(ROLE_VALUE_OUTSIDE_PERFORMANCE)
+            return occ.roles[node.role]
+        if isinstance(node, HastRecentTypedResult):
+            if prov is None or prov.act != node.act or prov.output is None:
+                raise _TermFault(RESULT_PROVENANCE_ERROR)
+            return prov.output
+        if isinstance(node, HastNumber):
+            return self.eval_number(node,state,occ,prov)
+        raise _TermFault("INTERNAL_UNKNOWN_VALUE")
+
     def eval_number(self, node: HastNumber, state: SemanticState, occ: _Occurrence | None, prov: _Provenance | None) -> int:
         if isinstance(node, HastExactNatural):
             return node.value
@@ -252,7 +284,7 @@ class ReferenceEvaluator:
 
                 if isinstance(a, HastReplaceCurrentFact):
                     try:
-                        value = self.eval_number(a.value, current_state, current_occ, current_prov)
+                        value = self.eval_value(a.value, current_state, current_occ, current_prov)
                         step = _StepNormal(current_state.replace(a.place, value), None)
                     except _TermFault as e:
                         step = _StepError(current_state, RuntimeErrorRecord(e.code, "EXECUTION", e.detail))
@@ -289,9 +321,9 @@ class ReferenceEvaluator:
 
                 if isinstance(a, HastPerformAct):
                     try:
-                        values: dict[RoleId, int] = {}
+                        values: dict[RoleId, object] = {}
                         for assoc in a.associations:
-                            values[assoc.role] = self.eval_number(assoc.value, current_state, current_occ, current_prov)
+                            values[assoc.role] = self.eval_value(assoc.value, current_state, current_occ, current_prov)
                     except _TermFault as e:
                         step = _StepError(current_state, RuntimeErrorRecord(e.code, "EXECUTION", e.detail))
                         current_action = None
@@ -315,7 +347,7 @@ class ReferenceEvaluator:
                         current_action = None
                         continue
                     try:
-                        value = self.eval_number(a.value, current_state, current_occ, current_prov)
+                        value = self.eval_value(a.value, current_state, current_occ, current_prov)
                     except _TermFault as e:
                         step = _StepError(current_state, RuntimeErrorRecord(e.code, "EXECUTION", e.detail))
                         current_action = None
@@ -398,7 +430,7 @@ class ReferenceEvaluator:
             if not isinstance(prep, HastPlaceIntroduction):
                 continue
             try:
-                value = self.eval_number(prep.initial_fact, state, None, None)
+                value = self.eval_value(prep.initial_fact, state, None, None)
             except _TermFault as e:
                 return _StepError(state, RuntimeErrorRecord(e.code, "PREPARATION", e.detail))
             state = state.establish(prep.place, value)

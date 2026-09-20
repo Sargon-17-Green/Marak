@@ -1,0 +1,81 @@
+{
+  "artifact_adversarial_status": "PASS",
+  "baseline_main": "6888bd538a73f9dc76bf87cdf87640b7b4b93d9e",
+  "ci": {
+    "core": {
+      "a13_checks": 289,
+      "b12": "PASS",
+      "job_id": 106047977685,
+      "pytest_passed": 280,
+      "status": "PASS",
+      "subtests_passed": 126
+    },
+    "domain_ubuntu": {
+      "job_id": 106047977651,
+      "pytest_passed": 42,
+      "status": "PASS",
+      "subtests_passed": 7
+    },
+    "domain_windows": {
+      "job_id": 106047977507,
+      "pytest_passed": 42,
+      "status": "PASS",
+      "subtests_passed": 7
+    },
+    "tooling_portability_ubuntu": "PASS",
+    "tooling_portability_windows": "PASS",
+    "workflow_run_id": 35499266986
+  },
+  "compiler_pytest": {
+    "passed": 291,
+    "status": "PASS",
+    "subtests_passed": 126
+  },
+  "expected_type_rescue": "REJECTED",
+  "master_remediation": {
+    "a_b_contradiction": "NONE",
+    "duplicate_visible_label_identity": "PRESERVED",
+    "external_label_sensitivity": "PASS",
+    "hast_duplicate_contracts": {
+      "act_output": "REJECT",
+      "place": "REJECT",
+      "program_input": "REJECT",
+      "role": "REJECT"
+    },
+    "natural_program_input": {
+      "duplicate": "DUPLICATE_INPUT_BINDING",
+      "extra": "EXTRA_INPUT_BINDING",
+      "missing": "MISSING_INPUT_BINDING",
+      "representation": "NaturalValue(n)",
+      "valid": "PASS",
+      "wrong_domain": "INPUT_DOMAIN_MISMATCH"
+    },
+    "rename_invariance": [
+      "domain_source_spelling",
+      "member_source_spelling",
+      "domain_member_serial_and_spelling",
+      "nested_collection_symbol"
+    ],
+    "symbol_observation": {
+      "after": "external_label only",
+      "before": "domain source spelling + external label",
+      "status": "CLOSED"
+    }
+  },
+  "proposal_suites": {
+    "A13": 289,
+    "A15": 335280,
+    "A16": 2548,
+    "B12": "PASS",
+    "B13": 28,
+    "B14": 22,
+    "B15": 29
+  },
+  "runtime_name_lookup": "NOT_INTRODUCED",
+  "schema": "marak-c5.1-test-evidence-v1",
+  "typed_carriers": [
+    "Symbol",
+    "BidirectionalIndex",
+    "Collection"
+  ]
+}

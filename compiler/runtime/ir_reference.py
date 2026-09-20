@@ -1,14 +1,13 @@
-"""Independent reference evaluator for canonical validated Core IR.
-
-Act recursion is executed with explicit continuations rather than Python call
-recursion.  Those continuations are implementation-only and are not Marak
-language stack frames.
-"""
+"""Reference evaluator for canonical validated IR with typed Values."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 
 from compiler.models import ir as i
+from compiler.models.domains import NATURAL
+from compiler.models.values import (
+    BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue, SymbolValue,
+)
 from compiler.version import IR_REFERENCE_VERSION
 
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
@@ -26,12 +25,12 @@ class IRReferenceError:
 class IRReferenceProduct:
     occurrence: int
     act: int
-    value: int
+    value: object
 
 
 @dataclass(frozen=True, slots=True)
 class IRReferenceNormal:
-    facts: tuple[tuple[int, int], ...]
+    facts: tuple[tuple[int, object], ...]
     products: tuple[IRReferenceProduct, ...]
     place_names: tuple[tuple[int, str], ...] = ()
     act_names: tuple[tuple[int, str], ...] = ()
@@ -39,7 +38,7 @@ class IRReferenceNormal:
 
 @dataclass(frozen=True, slots=True)
 class IRReferenceErrorOutcome:
-    facts: tuple[tuple[int, int], ...]
+    facts: tuple[tuple[int, object], ...]
     error: IRReferenceError
     products: tuple[IRReferenceProduct, ...]
     place_names: tuple[tuple[int, str], ...] = ()
@@ -56,7 +55,7 @@ class IRReferenceDivergence:
 
 @dataclass(frozen=True, slots=True)
 class IRReferenceResourceExhaustion:
-    facts: tuple[tuple[int, int], ...]
+    facts: tuple[tuple[int, object], ...]
     products: tuple[IRReferenceProduct, ...]
     category: str = IMPLEMENTATION_RESOURCE_EXHAUSTION
     detail: str = "implementation activation budget exhausted"
@@ -64,110 +63,82 @@ class IRReferenceResourceExhaustion:
     act_names: tuple[tuple[int, str], ...] = ()
 
 
-@dataclass(slots=True)
+@dataclass
 class _Occurrence:
     identity: int
     act: int
-    roles: dict[int, int]
-    output: int | None = None
+    roles: dict[int, object]
+    output: object | None = None
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class _Provenance:
     occurrence: int
     act: int
-    output: int | None
+    output: object | None
 
 
-@dataclass(frozen=True, slots=True)
-class _NormalStep:
-    facts: tuple[tuple[int, int], ...]
-    provenance: _Provenance | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class _ErrorStep:
-    facts: tuple[tuple[int, int], ...]
-    error: IRReferenceError
-
-
-@dataclass(frozen=True, slots=True)
-class _DivergenceStep:
-    pass
-
-
-@dataclass(frozen=True, slots=True)
-class _ResourceStep:
-    facts: tuple[tuple[int, int], ...]
-    detail: str
-
-
-@dataclass(frozen=True, slots=True)
-class _ThenFrame:
+@dataclass(frozen=True)
+class _Then:
     remaining: tuple[i.IRAction, ...]
-    occurrence: _Occurrence | None
+    occ: _Occurrence | None
 
 
-@dataclass(frozen=True, slots=True)
-class _ClearFrame:
+@dataclass(frozen=True)
+class _Clear:
     pass
 
 
-@dataclass(frozen=True, slots=True)
-class _FixedFrame:
+@dataclass(frozen=True)
+class _Fixed:
     remaining: int
     action: i.IRAction
-    occurrence: _Occurrence | None
+    occ: _Occurrence | None
 
 
-@dataclass(frozen=True, slots=True)
-class _PostFrame:
+@dataclass(frozen=True)
+class _Post:
     action: i.IRAction
     proposition: i.IRProposition
-    occurrence: _Occurrence | None
+    occ: _Occurrence | None
 
 
-@dataclass(frozen=True, slots=True)
-class _PerformanceFrame:
+@dataclass(frozen=True)
+class _Perf:
     child: _Occurrence
 
 
-class _TermFault(Exception):
+class _Fault(Exception):
     def __init__(self, code: str, detail: str = ""):
-        super().__init__(code)
         self.code = code
         self.detail = detail
 
 
-def _facts_dict(facts: tuple[tuple[int, int], ...]) -> dict[int, int]:
-    return dict(facts)
+def _natural(value: object) -> int:
+    if type(value) is not int:
+        raise _Fault("INTERNAL_DOMAIN_GUARD")
+    return value
 
 
-def _freeze_facts(facts: dict[int, int]) -> tuple[tuple[int, int], ...]:
-    return tuple(sorted(facts.items()))
+def _public(value: object):
+    return value
 
 
 class IRReferenceEvaluator:
-    def __init__(
-        self,
-        program: i.IRProgram,
-        *,
-        fuel: int | None = None,
-        max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
-    ):
+    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
         if program.ir_version != i.IR_VERSION:
             raise ValueError("unsupported IR version")
         self.program = program
         self.fuel = fuel
         self.max_active_performances = max_active_performances
         self.active_performances = 0
-        self._next_occurrence = 1
-        self._products: list[IRReferenceProduct] = []
-        self._acts = {definition.act: definition for definition in program.acts}
-        self._place_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "place"))
-        self._act_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "act"))
+        self.next_occurrence = 1
+        self.products: list[IRReferenceProduct] = []
+        self.acts = {x.act: x for x in program.acts}
+        self.place_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "place"))
+        self.act_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "act"))
 
-    def _consume(self) -> bool:
+    def consume(self) -> bool:
         if self.fuel is None:
             return True
         if self.fuel <= 0:
@@ -175,184 +146,172 @@ class IRReferenceEvaluator:
         self.fuel -= 1
         return True
 
-    def number(self, node: i.IRNumber, facts: tuple[tuple[int, int], ...], occurrence: _Occurrence | None, provenance: _Provenance | None) -> int:
-        state = _facts_dict(facts)
+    def value(self, node: i.IRValue, state: dict[int, object], occ: _Occurrence | None, prov: _Provenance | None) -> object:
         if isinstance(node, i.IRNatural):
             return node.value
-        if isinstance(node, i.IRReadCurrentFact):
-            try:
-                return state[node.place]
-            except KeyError as exc:
-                raise _TermFault("INTERNAL_UNESTABLISHED_PLACE") from exc
-        if isinstance(node, i.IRReadRoleNumber):
-            if occurrence is None or node.role not in occurrence.roles:
-                raise _TermFault("ROLE_VALUE_OUTSIDE_PERFORMANCE")
-            return occurrence.roles[node.role]
-        if isinstance(node, i.IRRecentResult):
-            if provenance is None or provenance.act != node.act or provenance.output is None:
-                raise _TermFault("RESULT_PROVENANCE_ERROR")
-            return provenance.output
+        if isinstance(node, i.IRSymbolValue):
+            return SymbolValue(node.domain_id, node.member_id, node.external_label)
+        if isinstance(node, i.IRIndexValue):
+            return BidirectionalIndexValue(node.side, node.magnitude)
+        if isinstance(node, i.IRCollectionValue):
+            items=[]
+            for child in node.items:
+                v=self.value(child,state,occ,prov)
+                if node.element_domain == NATURAL:
+                    if type(v) is not int:
+                        raise _Fault("INTERNAL_DOMAIN_GUARD", "validated Natural collection element produced a non-Natural value")
+                    items.append(NaturalValue(v))
+                else:
+                    items.append(v)
+            return CollectionValue(node.element_domain,tuple(items))
+        if isinstance(node, (i.IRReadCurrentFact, i.IRReadCurrentValue)):
+            return state[node.place]
+        if isinstance(node, (i.IRReadRoleNumber, i.IRReadRoleValue)):
+            if occ is None or node.role not in occ.roles:
+                raise _Fault("ROLE_VALUE_OUTSIDE_PERFORMANCE")
+            return occ.roles[node.role]
+        if isinstance(node, (i.IRRecentResult, i.IRRecentTypedResult)):
+            if prov is None or prov.act != node.act or prov.output is None:
+                raise _Fault("RESULT_PROVENANCE_ERROR")
+            return prov.output
         if isinstance(node, i.IRAddNatural):
-            return self.number(node.addend, facts, occurrence, provenance) + self.number(node.augend, facts, occurrence, provenance)
+            return _natural(self.value(node.addend, state, occ, prov)) + _natural(self.value(node.augend, state, occ, prov))
         if isinstance(node, i.IRCheckedSubtractNatural):
-            amount = self.number(node.amount, facts, occurrence, provenance)
-            source = self.number(node.source, facts, occurrence, provenance)
+            amount = _natural(self.value(node.amount, state, occ, prov))
+            source = _natural(self.value(node.source, state, occ, prov))
             if amount > source:
-                raise _TermFault(node.error_code, f"{source}-{amount}")
+                raise _Fault(node.error_code, f"{source}-{amount}")
             return source - amount
-        raise _TermFault("INTERNAL_UNKNOWN_NUMBER")
+        raise _Fault("INTERNAL_UNKNOWN_VALUE")
 
-    def holds(self, proposition: i.IRProposition, facts: tuple[tuple[int, int], ...], occurrence: _Occurrence | None, provenance: _Provenance | None) -> bool:
+    def holds(self, proposition, state, occ, prov):
         if isinstance(proposition, i.IREqualProposition):
-            return self.number(proposition.left, facts, occurrence, provenance) == self.number(proposition.right, facts, occurrence, provenance)
-        raise _TermFault("INTERNAL_UNKNOWN_PROPOSITION")
+            return _natural(self.value(proposition.left, state, occ, prov)) == _natural(self.value(proposition.right, state, occ, prov))
+        raise _Fault("INTERNAL_UNKNOWN_PROPOSITION")
 
-    def action(self, action: i.IRAction, facts: tuple[tuple[int, int], ...], occurrence: _Occurrence | None = None, provenance: _Provenance | None = None):
-        frames: list[object] = []
-        current_action: i.IRAction | None = action
-        current_facts = facts
-        current_occ = occurrence
-        current_prov = provenance
-        step: _NormalStep | _ErrorStep | _DivergenceStep | _ResourceStep | None = None
-
+    def action(self, action, state, occ=None, prov=None):
+        frames = []
+        current = action
+        current_state = dict(state)
+        current_occ = occ
+        current_prov = prov
+        step = None
         while True:
-            if current_action is not None:
-                if not self._consume():
-                    step = _DivergenceStep(); current_action = None; continue
-                a = current_action
-                if isinstance(a, i.IRReplaceCurrentFact):
+            if current is not None:
+                if not self.consume():
+                    step = ("div", current_state, None); current = None; continue
+                node = current
+                if isinstance(node, i.IRReplaceCurrentFact):
                     try:
-                        value = self.number(a.value, current_facts, current_occ, current_prov)
-                    except _TermFault as exc:
-                        step = _ErrorStep(current_facts, IRReferenceError(exc.code, "EXECUTION", exc.detail)); current_action=None; continue
-                    state = _facts_dict(current_facts)
-                    if a.place not in state:
-                        step = _ErrorStep(current_facts, IRReferenceError("INTERNAL_UNESTABLISHED_PLACE", "EXECUTION")); current_action=None; continue
-                    state[a.place] = value
-                    step = _NormalStep(_freeze_facts(state), None); current_action=None; continue
-
-                if isinstance(a, i.IRThen):
-                    frames.append(_ThenFrame(tuple(a.actions[1:]), current_occ))
-                    current_action = a.actions[0]
-                    continue
-
-                if isinstance(a, i.IRConditional):
+                        v = self.value(node.value, current_state, current_occ, current_prov)
+                    except _Fault as e:
+                        step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); current = None; continue
+                    ns = dict(current_state); ns[node.place] = v; step = ("ok", ns, None); current = None; continue
+                if isinstance(node, i.IRThen):
+                    frames.append(_Then(tuple(node.actions[1:]), current_occ)); current = node.actions[0]; continue
+                if isinstance(node, i.IRConditional):
                     try:
-                        selected = a.if_holds if self.holds(a.proposition, current_facts, current_occ, current_prov) else a.if_not
-                    except _TermFault as exc:
-                        step = _ErrorStep(current_facts, IRReferenceError(exc.code, "EXECUTION", exc.detail)); current_action=None; continue
-                    frames.append(_ClearFrame()); current_action=selected; continue
-
-                if isinstance(a, i.IRFixedRecurrence):
-                    frames.append(_FixedFrame(a.count-1, a.action, current_occ))
-                    current_action=a.action; current_prov=None; continue
-
-                if isinstance(a, i.IRPostActionRecurrence):
-                    frames.append(_PostFrame(a.action, a.proposition, current_occ))
-                    current_action=a.action; current_prov=None; continue
-
-                if isinstance(a, i.IRPerformAct):
+                        selected = node.if_holds if self.holds(node.proposition, current_state, current_occ, current_prov) else node.if_not
+                    except _Fault as e:
+                        step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); current = None; continue
+                    frames.append(_Clear()); current = selected; continue
+                if isinstance(node, i.IRFixedRecurrence):
+                    frames.append(_Fixed(node.count - 1, node.action, current_occ)); current = node.action; current_prov = None; continue
+                if isinstance(node, i.IRPostActionRecurrence):
+                    frames.append(_Post(node.action, node.proposition, current_occ)); current = node.action; current_prov = None; continue
+                if isinstance(node, i.IRPerformAct):
                     try:
-                        role_values={assoc.role:self.number(assoc.value,current_facts,current_occ,current_prov) for assoc in a.associations}
-                    except _TermFault as exc:
-                        step=_ErrorStep(current_facts,IRReferenceError(exc.code,"EXECUTION",exc.detail)); current_action=None; continue
-                    definition=self._acts.get(a.act)
-                    if definition is None:
-                        step=_ErrorStep(current_facts,IRReferenceError("INTERNAL_UNRESOLVED_ACT","EXECUTION")); current_action=None; continue
+                        vals = {x.role: self.value(x.value, current_state, current_occ, current_prov) for x in node.associations}
+                    except _Fault as e:
+                        step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); current = None; continue
                     if self.max_active_performances is not None and self.active_performances >= self.max_active_performances:
-                        step=_ResourceStep(current_facts,f"caller-imposed active performance budget {self.max_active_performances} exhausted"); current_action=None; continue
-                    child=_Occurrence(self._next_occurrence,a.act,role_values); self._next_occurrence += 1
-                    self.active_performances += 1
-                    frames.append(_PerformanceFrame(child))
-                    current_action=definition.body; current_occ=child; current_prov=None; continue
-
-                if isinstance(a, i.IRProduceResult):
+                        step = ("resource", current_state, f"caller-imposed active performance budget {self.max_active_performances} exhausted"); current = None; continue
+                    child = _Occurrence(self.next_occurrence, node.act, vals)
+                    self.next_occurrence += 1; self.active_performances += 1
+                    frames.append(_Perf(child)); current = self.acts[node.act].body; current_occ = child; current_prov = None; continue
+                if isinstance(node, i.IRProduceResult):
                     if current_occ is None:
-                        step=_ErrorStep(current_facts,IRReferenceError("OUTPUT_OUTSIDE_PERFORMANCE","EXECUTION")); current_action=None; continue
+                        step = ("err", current_state, IRReferenceError("OUTPUT_OUTSIDE_PERFORMANCE", "EXECUTION")); current = None; continue
                     try:
-                        value=self.number(a.value,current_facts,current_occ,current_prov)
-                    except _TermFault as exc:
-                        step=_ErrorStep(current_facts,IRReferenceError(exc.code,"EXECUTION",exc.detail)); current_action=None; continue
+                        v = self.value(node.value, current_state, current_occ, current_prov)
+                    except _Fault as e:
+                        step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); current = None; continue
                     if current_occ.output is not None:
-                        step=_ErrorStep(current_facts,IRReferenceError("CORE_OUTPUT_CARDINALITY_ERROR","EXECUTION"))
+                        step = ("err", current_state, IRReferenceError("CORE_OUTPUT_CARDINALITY_ERROR", "EXECUTION"))
                     else:
-                        current_occ.output=value
-                        self._products.append(IRReferenceProduct(current_occ.identity,current_occ.act,value))
-                        step=_NormalStep(current_facts,None)
-                    current_action=None; continue
+                        current_occ.output = v
+                        self.products.append(IRReferenceProduct(current_occ.identity, current_occ.act, _public(v)))
+                        step = ("ok", dict(current_state), None)
+                    current = None; continue
+                step = ("err", current_state, IRReferenceError("INTERNAL_UNKNOWN_ACTION", "EXECUTION")); current = None; continue
 
-                step=_ErrorStep(current_facts,IRReferenceError("INTERNAL_UNKNOWN_ACTION","EXECUTION")); current_action=None; continue
-
-            assert step is not None
-            if not isinstance(step,_NormalStep):
+            kind, current_state, payload = step
+            if kind != "ok":
                 return step
             if not frames:
                 return step
-            frame=frames.pop(); current_facts=step.facts
-            if isinstance(frame,_ThenFrame):
+            frame = frames.pop()
+            if isinstance(frame, _Then):
                 if frame.remaining:
-                    current_occ=frame.occurrence; current_prov=step.provenance
-                    current_action=frame.remaining[0]
-                    frames.append(_ThenFrame(frame.remaining[1:],frame.occurrence)); step=None; continue
+                    current_occ = frame.occ; current_prov = payload; current = frame.remaining[0]
+                    frames.append(_Then(frame.remaining[1:], frame.occ)); step = None; continue
                 continue
-            if isinstance(frame,_ClearFrame):
-                step=_NormalStep(current_facts,None); continue
-            if isinstance(frame,_FixedFrame):
-                if frame.remaining>0:
-                    current_occ=frame.occurrence; current_prov=None; current_action=frame.action
-                    frames.append(_FixedFrame(frame.remaining-1,frame.action,frame.occurrence)); step=None; continue
-                step=_NormalStep(current_facts,None); continue
-            if isinstance(frame,_PostFrame):
+            if isinstance(frame, _Clear):
+                step = ("ok", current_state, None); continue
+            if isinstance(frame, _Fixed):
+                if frame.remaining > 0:
+                    current_occ = frame.occ; current_prov = None; current = frame.action
+                    frames.append(_Fixed(frame.remaining - 1, frame.action, frame.occ)); step = None; continue
+                step = ("ok", current_state, None); continue
+            if isinstance(frame, _Post):
                 try:
-                    stop=self.holds(frame.proposition,current_facts,frame.occurrence,step.provenance)
-                except _TermFault as exc:
-                    step=_ErrorStep(current_facts,IRReferenceError(exc.code,"EXECUTION",exc.detail)); continue
+                    stop = self.holds(frame.proposition, current_state, frame.occ, payload)
+                except _Fault as e:
+                    step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); continue
                 if stop:
-                    step=_NormalStep(current_facts,None); continue
-                current_occ=frame.occurrence; current_prov=None; current_action=frame.action; frames.append(frame); step=None; continue
-            if isinstance(frame,_PerformanceFrame):
+                    step = ("ok", current_state, None); continue
+                current_occ = frame.occ; current_prov = None; current = frame.action; frames.append(frame); step = None; continue
+            if isinstance(frame, _Perf):
                 self.active_performances -= 1
-                child=frame.child
-                step=_NormalStep(current_facts,_Provenance(child.identity,child.act,child.output)); continue
-            return _ErrorStep(current_facts,IRReferenceError("INTERNAL_UNKNOWN_CONTINUATION","EXECUTION"))
+                child = frame.child
+                step = ("ok", current_state, _Provenance(child.identity, child.act, child.output)); continue
+            return ("err", current_state, IRReferenceError("INTERNAL_UNKNOWN_CONTINUATION", "EXECUTION"))
 
-    def prepare(self) -> _NormalStep | _ErrorStep:
-        facts: tuple[tuple[int, int], ...] = ()
-        for initial in self.program.initial_facts:
-            try:
-                value = self.number(initial.value, facts, None, None)
-            except _TermFault as exc:
-                return _ErrorStep(facts, IRReferenceError(exc.code, "PREPARATION", exc.detail))
-            state = _facts_dict(facts)
-            if initial.place in state:
-                return _ErrorStep(facts, IRReferenceError("INTERNAL_DUPLICATE_INITIAL_FACT", "PREPARATION"))
-            state[initial.place] = value
-            facts = _freeze_facts(state)
-        return _NormalStep(facts, None)
+    def facts(self, state):
+        return tuple((k, _public(v)) for k, v in sorted(state.items()))
 
     def run(self):
+        state: dict[int, object] = {}
         try:
-            prepared=self.prepare()
-            if isinstance(prepared,_ErrorStep):
-                return IRReferenceErrorOutcome(prepared.facts,prepared.error,tuple(self._products),self._place_names,self._act_names)
-            step=self.action(self.program.principal,prepared.facts,None,None)
-            if isinstance(step,_NormalStep):
-                return IRReferenceNormal(step.facts,tuple(self._products),self._place_names,self._act_names)
-            if isinstance(step,_ErrorStep):
-                return IRReferenceErrorOutcome(step.facts,step.error,tuple(self._products),self._place_names,self._act_names)
-            if isinstance(step,_ResourceStep):
-                return IRReferenceResourceExhaustion(step.facts,tuple(self._products),detail=step.detail,place_names=self._place_names,act_names=self._act_names)
-            return IRReferenceDivergence(tuple(self._products),"fuel-exhausted",self._place_names,self._act_names)
-        except (MemoryError,RecursionError) as exc:
-            return IRReferenceResourceExhaustion((),tuple(self._products),detail=type(exc).__name__,place_names=self._place_names,act_names=self._act_names)
+            for initial in self.program.initial_facts:
+                try:
+                    value = self.value(initial.value, state, None, None)
+                except _Fault as e:
+                    return IRReferenceErrorOutcome(self.facts(state), IRReferenceError(e.code, "PREPARATION", e.detail), tuple(self.products), self.place_names, self.act_names)
+                state[initial.place] = value
+            kind, state, payload = self.action(self.program.principal, state)
+            facts = self.facts(state)
+            if kind == "ok":
+                return IRReferenceNormal(facts, tuple(self.products), self.place_names, self.act_names)
+            if kind == "err":
+                return IRReferenceErrorOutcome(facts, payload, tuple(self.products), self.place_names, self.act_names)
+            if kind == "resource":
+                return IRReferenceResourceExhaustion(facts, tuple(self.products), detail=payload, place_names=self.place_names, act_names=self.act_names)
+            return IRReferenceDivergence(tuple(self.products), place_names=self.place_names, act_names=self.act_names)
+        except (MemoryError, RecursionError) as exc:
+            return IRReferenceResourceExhaustion(self.facts(state), tuple(self.products), detail=type(exc).__name__, place_names=self.place_names, act_names=self.act_names)
 
 
-def execute_reference_ir(program:i.IRProgram,*,fuel:int|None=None,max_active_performances:int|None=DEFAULT_MAX_ACTIVE_PERFORMANCES):
-    return IRReferenceEvaluator(program,fuel=fuel,max_active_performances=max_active_performances).run()
+def execute_ir_reference(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES):
+    return IRReferenceEvaluator(program, fuel=fuel, max_active_performances=max_active_performances).run()
 
 
-__all__=[
-    "IR_REFERENCE_VERSION","IMPLEMENTATION_RESOURCE_EXHAUSTION","DEFAULT_MAX_ACTIVE_PERFORMANCES",
-    "IRReferenceError","IRReferenceProduct","IRReferenceNormal","IRReferenceErrorOutcome",
-    "IRReferenceDivergence","IRReferenceResourceExhaustion","IRReferenceEvaluator","execute_reference_ir",
+# Stable M4 public name retained for compatibility.
+execute_reference_ir = execute_ir_reference
+
+
+__all__ = [
+    "IR_REFERENCE_VERSION", "IRReferenceError", "IRReferenceProduct", "IRReferenceNormal",
+    "IRReferenceErrorOutcome", "IRReferenceDivergence", "IRReferenceResourceExhaustion",
+    "IRReferenceEvaluator", "execute_ir_reference", "execute_reference_ir",
 ]

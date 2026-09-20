@@ -9,7 +9,9 @@ from compiler.models.hast import (
     HastPerformAct, HastPlaceIntroduction, HastPostActionRecurrence,
     HastProduceResult, HastProposition, HastRecentResult, HastReplaceCurrentFact,
     HastRoleAssociation, HastRoleDeclaration, HastSubtractNatural, HastThen,
+    HastPlaceDomain, HastRoleDomain, HastActOutputDomain,
 )
+from compiler.models.domains import NATURAL
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
 from compiler.source.source_map import OriginalSpan
@@ -476,13 +478,33 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
     principal_node = _one_child(root, "PrincipalExecution")
     seq = _one_child(principal_node, "ExecutableSequence")
     principal = _lower_sequence(seq, env, current_act=None, body=False)
+
+    def body_has_output(action: HastExecutable) -> bool:
+        if isinstance(action, HastProduceResult):
+            return True
+        if isinstance(action, HastThen):
+            return any(body_has_output(x) for x in action.actions)
+        if isinstance(action, HastConditional):
+            return body_has_output(action.if_holds) or body_has_output(action.if_not)
+        if isinstance(action, (HastFixedRecurrence, HastPostActionRecurrence)):
+            return body_has_output(action.action)
+        return False
+
+    places = tuple(sorted(env.places.values()))
+    acts = tuple(sorted(env.acts.values()))
+    roles = tuple(sorted(env.roles.values()))
+    body_by_act = {x.act: x.body for x in preparation_hast if isinstance(x, HastActBody)}
     return HastCoreProgram(
         root.original,
         tuple(preparation_hast),
         principal,
-        tuple(sorted(env.places.values())),
-        tuple(sorted(env.acts.values())),
-        tuple(sorted(env.roles.values())),
+        places,
+        acts,
+        roles,
+        tuple(HastPlaceDomain(x, NATURAL) for x in places),
+        tuple(HastRoleDomain(x, NATURAL) for x in roles),
+        tuple(HastActOutputDomain(x, NATURAL if body_has_output(body_by_act[x]) else None) for x in acts),
+        (),
     )
 
 

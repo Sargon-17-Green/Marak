@@ -25,7 +25,7 @@ def test_artifact_verifier_invokes_shared_canonical_ir_validator():
 def test_backend_does_not_encode_role_correspondence_by_zip_position():
     text=(ROOT/'compiler/backend/portable.py').read_text(encoding='utf-8')
     assert 'zip(self.acts' not in text
-    assert 'z.role:self.number(z.value' in text
+    assert 'z.role: self.value(z.value' in text
 
 def test_public_observable_module_has_explicit_debug_serial_api():
     text=(ROOT/'compiler/runtime/observables.py').read_text(encoding='utf-8')

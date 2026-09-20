@@ -1,17 +1,16 @@
-"""Canonical HAST ownership for the A13/B12 Core integration candidate.
-
-The model records only distinctions justified by A13/B12.  It deliberately
-avoids a conventional Statement/Expression/Function/Parameter/Return ontology.
-Historical M3 fragment nodes are retained at the end for regression evidence.
-"""
+"""Canonical HAST for the frozen Core plus Post-M2 typed-domain infrastructure."""
 from __future__ import annotations
 
 from dataclasses import dataclass
 
+from compiler.models.domains import (
+    BIDIRECTIONAL_INDEX, NATURAL, CollectionDomain, Domain, ProgramInputId,
+    SymbolDomain, SymbolDomainId, SymbolMemberId,
+)
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.1-candidate-1"
+HAST_VERSION = "core-hast-0.2-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,9 +18,13 @@ class HastNode:
     source_span: OriginalSpan
 
 
-# ---- semantic categories justified by A13/B12 ----
 @dataclass(frozen=True, slots=True)
-class HastNumber(HastNode):
+class HastValue(HastNode):
+    pass
+
+
+@dataclass(frozen=True, slots=True)
+class HastNumber(HastValue):
     pass
 
 
@@ -43,10 +46,35 @@ class HastPreparatory(HastNode):
 @dataclass(frozen=True, slots=True)
 class HastExactNatural(HastNumber):
     value: int
-
     def __post_init__(self) -> None:
         if type(self.value) is not int or self.value < 0:
             raise ValueError("Core Natural must be a non-negative exact integer")
+
+
+@dataclass(frozen=True, slots=True)
+class HastSymbolValue(HastValue):
+    domain_id: SymbolDomainId
+    member_id: SymbolMemberId
+    external_label: str
+
+
+@dataclass(frozen=True, slots=True)
+class HastIndexValue(HastValue):
+    side: str
+    magnitude: int = 0
+    def __post_init__(self) -> None:
+        if self.side not in {"before", "zero", "after"}:
+            raise ValueError("index side must be before/zero/after")
+        if type(self.magnitude) is not int or self.magnitude < 0:
+            raise ValueError("index magnitude must be a Natural")
+        if (self.side == "zero") != (self.magnitude == 0):
+            raise ValueError("zero index alone has magnitude zero")
+
+
+@dataclass(frozen=True, slots=True)
+class HastCollectionValue(HastValue):
+    element_domain: Domain
+    items: tuple[HastValue, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,13 +83,31 @@ class HastCurrentFact(HastNumber):
 
 
 @dataclass(frozen=True, slots=True)
+class HastCurrentValue(HastValue):
+    place: PlaceId
+    domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
 class HastCurrentRoleNumber(HastNumber):
     role: RoleId
 
 
 @dataclass(frozen=True, slots=True)
+class HastCurrentRoleValue(HastValue):
+    role: RoleId
+    domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
 class HastRecentResult(HastNumber):
     act: ActId
+
+
+@dataclass(frozen=True, slots=True)
+class HastRecentTypedResult(HastValue):
+    act: ActId
+    domain: Domain
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,13 +131,13 @@ class HastEqualProposition(HastProposition):
 @dataclass(frozen=True, slots=True)
 class HastRoleAssociation(HastNode):
     role: RoleId
-    value: HastNumber
+    value: HastValue
 
 
 @dataclass(frozen=True, slots=True)
 class HastReplaceCurrentFact(HastExecutable):
     place: PlaceId
-    value: HastNumber
+    value: HastValue
 
 
 @dataclass(frozen=True, slots=True)
@@ -102,13 +148,12 @@ class HastPerformAct(HastExecutable):
 
 @dataclass(frozen=True, slots=True)
 class HastProduceResult(HastExecutable):
-    value: HastNumber
+    value: HastValue
 
 
 @dataclass(frozen=True, slots=True)
 class HastThen(HastExecutable):
     actions: tuple[HastExecutable, ...]
-
     def __post_init__(self) -> None:
         if not self.actions:
             raise ValueError("HastThen requires at least one action")
@@ -131,7 +176,6 @@ class HastPostActionRecurrence(HastExecutable):
 class HastFixedRecurrence(HastExecutable):
     count: int
     action: HastExecutable
-
     def __post_init__(self) -> None:
         if type(self.count) is not int or self.count < 0:
             raise ValueError("fixed recurrence count must be a Natural")
@@ -140,7 +184,7 @@ class HastFixedRecurrence(HastExecutable):
 @dataclass(frozen=True, slots=True)
 class HastPlaceIntroduction(HastPreparatory):
     place: PlaceId
-    initial_fact: HastNumber
+    initial_fact: HastValue
 
 
 @dataclass(frozen=True, slots=True)
@@ -160,15 +204,43 @@ class HastActBody(HastPreparatory):
 
 
 @dataclass(frozen=True, slots=True)
+class HastPlaceDomain:
+    place: PlaceId
+    domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
+class HastRoleDomain:
+    role: RoleId
+    domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
+class HastActOutputDomain:
+    act: ActId
+    domain: Domain | None
+
+
+@dataclass(frozen=True, slots=True)
+class HastProgramInputDomain:
+    input_id: ProgramInputId
+    domain: Domain
+
+
+@dataclass(frozen=True, slots=True)
 class HastCoreProgram(HastNode):
     preparation: tuple[HastPreparatory, ...]
     principal: HastExecutable
     places: tuple[PlaceId, ...]
     acts: tuple[ActId, ...]
     roles: tuple[RoleId, ...]
+    place_domains: tuple[HastPlaceDomain, ...] = ()
+    role_domains: tuple[HastRoleDomain, ...] = ()
+    act_output_domains: tuple[HastActOutputDomain, ...] = ()
+    program_input_domains: tuple[HastProgramInputDomain, ...] = ()
 
 
-# ---- M3 historical fragment model retained for regression/constituent tools ----
+# Historical fragment model retained for regression/constituent tools.
 @dataclass(frozen=True, slots=True)
 class HastProgram:
     units: tuple[HastNode, ...]
@@ -177,7 +249,6 @@ class HastProgram:
 @dataclass(frozen=True, slots=True)
 class HastExactInteger(HastNode):
     value: int
-
     def __post_init__(self) -> None:
         if type(self.value) is not int:
             raise TypeError("HastExactInteger requires an exact integer")
