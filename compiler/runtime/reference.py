@@ -8,15 +8,20 @@ from compiler.models.hast import (
     HastFixedRecurrence, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
     HastPostActionRecurrence, HastProduceResult, HastProposition, HastRecentResult,
     HastReplaceCurrentFact, HastSubtractNatural, HastThen,
+    HastCollectionAppend, HastCollectionCount, HastCollectionSelectNatural,
+    HastCollectionSelectValue, HastCollectionOrder, HastCollectionMembershipProposition,
+    HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
 )
 from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
-from compiler.models.domains import NATURAL
-from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, symbol_identity_equal
+from compiler.models.domains import NATURAL, CollectionDomain, Domain
+from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, symbol_identity_equal, semantic_value_equal, value_domain
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
 CORE_OUTPUT_CARDINALITY_ERROR = "CORE_OUTPUT_CARDINALITY_ERROR"
 ROLE_VALUE_OUTSIDE_PERFORMANCE = "ROLE_VALUE_OUTSIDE_PERFORMANCE"
+COLLECTION_POSITION_ERROR = "COLLECTION_POSITION_ERROR"
+ORDER_RELATION_ERROR = "ORDER_RELATION_ERROR"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
 
@@ -194,6 +199,29 @@ class ReferenceEvaluator:
             self.roles_by_act.setdefault(role.owner, tuple())
         for act in program.acts:
             self.roles_by_act[act] = tuple(sorted((r for r in program.roles if r.owner == act), key=lambda r: r.serial))
+        self.symbol_order_rank = {}
+        members_by_domain = {}
+        edges_by_domain = {}
+        for unit in program.preparation:
+            if isinstance(unit,HastSymbolMemberDeclaration):
+                members_by_domain.setdefault(unit.domain_id,set()).add(unit.member_id)
+            elif isinstance(unit,HastSymbolOrderAdjacent):
+                edges_by_domain.setdefault(unit.domain_id,{})[unit.before_member_id]=unit.after_member_id
+        for domain_id,members in members_by_domain.items():
+            if not members:
+                continue
+            outgoing=edges_by_domain.get(domain_id,{})
+            incoming=set(outgoing.values())
+            starts=[m for m in members if m not in incoming]
+            if len(starts)==1:
+                rank={}; cur=starts[0]
+                while cur not in rank:
+                    rank[cur]=len(rank)
+                    if cur not in outgoing:
+                        break
+                    cur=outgoing[cur]
+                if set(rank)==members:
+                    self.symbol_order_rank[domain_id]=rank
 
     def _event(self, *parts) -> None:
         if self.debug_trace_enabled:
@@ -206,6 +234,49 @@ class ReferenceEvaluator:
             return False
         self.fuel -= 1
         return True
+
+    def _semantic_item(self, value: object, domain: Domain):
+        if domain == NATURAL:
+            if type(value) is not int:
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return NaturalValue(value)
+        if not isinstance(value,(SymbolValue,BidirectionalIndexValue,CollectionValue)) or value_domain(value)!=domain:
+            raise _TermFault("INTERNAL_DOMAIN_GUARD")
+        return value
+
+    def _selected_runtime_value(self, item):
+        return item.value if isinstance(item,NaturalValue) else item
+
+    def _select_collection(self, collection: CollectionValue, mode: str, position: int | None):
+        if mode=="first":
+            k=1
+        elif mode=="last":
+            k=len(collection.items)
+        elif mode=="ordinal":
+            if position is None:
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            k=position
+        else:
+            raise _TermFault("INTERNAL_DOMAIN_GUARD")
+        if k<1 or k>len(collection.items):
+            raise _TermFault(COLLECTION_POSITION_ERROR,f"position={k}, count={len(collection.items)}")
+        return self._selected_runtime_value(collection.items[k-1])
+
+    def _order_collection(self, collection: CollectionValue, kind: str, symbol_domain_id):
+        try:
+            if kind=="natural":
+                return CollectionValue(collection.element_domain,tuple(sorted(collection.items,key=lambda x:x.value)))
+            if kind=="symbol":
+                rank=self.symbol_order_rank[symbol_domain_id]
+                return CollectionValue(collection.element_domain,tuple(sorted(collection.items,key=lambda x:rank[x.member_id])))
+            if kind=="lex-natural":
+                return CollectionValue(collection.element_domain,tuple(sorted(collection.items,key=lambda x:tuple(v.value for v in x.items))))
+            if kind=="lex-symbol":
+                rank=self.symbol_order_rank[symbol_domain_id]
+                return CollectionValue(collection.element_domain,tuple(sorted(collection.items,key=lambda x:tuple(rank[v.member_id] for v in x.items))))
+        except (KeyError,AttributeError,TypeError):
+            raise _TermFault(ORDER_RELATION_ERROR)
+        raise _TermFault(ORDER_RELATION_ERROR)
 
     def eval_value(self, node: HastValue, state: SemanticState, occ: _Occurrence | None, prov: _Provenance | None) -> object:
         if isinstance(node, HastSymbolValue):
@@ -231,6 +302,37 @@ class ReferenceEvaluator:
                 else:
                     items.append(v)
             return CollectionValue(node.element_domain,tuple(items))
+        if isinstance(node,HastCollectionAppend):
+            collection=self.eval_value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            item=self._semantic_item(self.eval_value(node.item,state,occ,prov),node.element_domain)
+            return CollectionValue(node.element_domain,collection.items+(item,))
+        if isinstance(node,HastCollectionCount):
+            collection=self.eval_value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return len(collection.items)
+        if isinstance(node,HastCollectionSelectNatural):
+            collection=self.eval_value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            pos=None if node.position is None else self.eval_number(node.position,state,occ,prov)
+            selected=self._select_collection(collection,node.mode,pos)
+            if type(selected) is not int:
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return selected
+        if isinstance(node,HastCollectionSelectValue):
+            collection=self.eval_value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            pos=None if node.position is None else self.eval_number(node.position,state,occ,prov)
+            return self._select_collection(collection,node.mode,pos)
+        if isinstance(node,HastCollectionOrder):
+            collection=self.eval_value(node.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return self._order_collection(collection,node.order_kind,node.symbol_domain_id)
         if isinstance(node, HastCurrentValue):
             return state.read(node.place)
         if isinstance(node, HastCurrentRoleValue):
@@ -246,6 +348,11 @@ class ReferenceEvaluator:
         raise _TermFault("INTERNAL_UNKNOWN_VALUE")
 
     def eval_number(self, node: HastNumber, state: SemanticState, occ: _Occurrence | None, prov: _Provenance | None) -> int:
+        if isinstance(node,(HastCollectionCount,HastCollectionSelectNatural)):
+            value=self.eval_value(node,state,occ,prov)
+            if type(value) is not int:
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return value
         if isinstance(node, HastExactNatural):
             return node.value
         if isinstance(node, HastCurrentFact):
@@ -277,6 +384,12 @@ class ReferenceEvaluator:
             left=self.eval_value(proposition.left,state,occ,prov); right=self.eval_value(proposition.right,state,occ,prov)
             if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _TermFault("INTERNAL_DOMAIN_GUARD")
             return symbol_identity_equal(left,right)
+        if isinstance(proposition,HastCollectionMembershipProposition):
+            collection=self.eval_value(proposition.collection,state,occ,prov)
+            if not isinstance(collection,CollectionValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            item=self._semantic_item(self.eval_value(proposition.item,state,occ,prov),proposition.element_domain)
+            return any(semantic_value_equal(item,x) for x in collection.items)
         raise _TermFault("INTERNAL_UNKNOWN_PROPOSITION")
 
     def execute(self, action: HastExecutable, state: SemanticState, occ: _Occurrence | None = None, prov: _Provenance | None = None):
@@ -486,6 +599,7 @@ def execute_reference(
 
 __all__ = [
     "ARITHMETIC_DOMAIN_ERROR", "RESULT_PROVENANCE_ERROR", "CORE_OUTPUT_CARDINALITY_ERROR",
+    "COLLECTION_POSITION_ERROR", "ORDER_RELATION_ERROR",
     "ROLE_VALUE_OUTSIDE_PERFORMANCE", "IMPLEMENTATION_RESOURCE_EXHAUSTION",
     "DEFAULT_MAX_ACTIVE_PERFORMANCES", "RuntimeErrorRecord", "SemanticState", "Product",
     "NormalOutcome", "ErrorOutcome", "DivergenceOutcome", "ResourceExhaustionOutcome", "Outcome",
