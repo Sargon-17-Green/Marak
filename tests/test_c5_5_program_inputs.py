@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from compiler.api import compile_source
+from compiler.api import compile_source, run_source
 from compiler.backend.portable import execute_ir
 from compiler.models.domains import ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.models.values import NaturalValue, SymbolValue
@@ -173,3 +173,34 @@ def test_no_input_program_keeps_zero_binding_execution_compatibility():
     assert not c.ir.program_input_domains
     obs=three(c,())
     assert dict(obs["facts"])[target]==2
+
+
+def test_run_source_is_a_production_binding_path_and_natural_has_no_host_width_ceiling():
+    role="קלט"; target="יעד"
+    src=" ".join([
+        input_nat(role),place_nat_value(target,input_nat_ref(role)),
+        "ועתה "+replace_nat(target,input_nat_ref(role)),
+    ])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    huge=10**200+12345
+    binding=(InputBinding(input_id(c,role),NaturalValue(huge)),)
+    result=run_source(src,bindings=binding)
+    assert result.compilation.valid
+    obs=backend_observable(result.outcome)
+    assert obs["outcome"]=="Normal"
+    assert dict(obs["facts"])[target]==huge
+
+
+def test_run_source_preserves_invalid_invocation_as_a_distinct_outcome():
+    role="קלט"; target="יעד"
+    src=" ".join([
+        input_nat(role),place_nat_value(target,input_nat_ref(role)),
+        "ועתה "+replace_nat(target,num(1)),
+    ])
+    result=run_source(src)
+    assert result.compilation.valid
+    assert isinstance(result.outcome,InvalidInvocation)
+    obs=backend_observable(result.outcome)
+    assert obs["outcome"]=="InvalidInvocation"
+    assert [x["code"] for x in obs["issues"]]==[MISSING_INPUT_BINDING]
