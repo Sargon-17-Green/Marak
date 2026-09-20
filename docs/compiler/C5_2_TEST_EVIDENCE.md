@@ -9,3 +9,5 @@ The current construction-registry JSON regenerates byte-identically with SHA-256
 Performance smoke uses no pass/fail threshold. On the measured Windows/Python 3.11 host, C5.2 Natural-only compile median is 78.11 ms versus C5.1 54.92 ms (+42.2%). Natural-only run median is 0.172 ms versus 0.160 ms (+7.1%). Representative compile medians: Symbol 146.54 ms; Index 101.20 ms; large-numeral 49.10 ms. The compile delta is recorded as a follow-up optimization signal, not hidden behind an arbitrary threshold.
 
 Machine-readable evidence is under `docs/compiler/evidence/`.
+
+CI evidence: Draft PR #12 passed core, C5.1 regression, tooling portability, and C5.2 production feature jobs on both Ubuntu and Windows. The committed cross-host artifact/registry hashes therefore matched on both supported CI hosts.

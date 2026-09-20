@@ -14,4 +14,4 @@ Scope exclusions are preserved: no Collection operations, no Program Input sourc
 
 Performance note: Natural-only compile smoke is slower than the C5.1 baseline on the measured Windows host; no arbitrary threshold was imposed. Treat this as a performance follow-up signal, not a semantic blocker.
 
-CI/PR status is filled after the Draft PR checks complete.
+Draft PR: `#12`. CI is green on the implementation commit: core, tooling portability, C5.1 domain regression, and the C5.2 Ubuntu/Windows matrix all PASS. The PR remains Draft and unmerged.
