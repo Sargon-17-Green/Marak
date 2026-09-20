@@ -1,56 +1,88 @@
 {
+  "schema": "marak-c5.2-test-results-v1",
   "baseline_sha": "974ea3c2ec9474e9d6c5c4897970e69ed66de692",
+  "pull_request": 12,
+  "implementation_commit": "51f302af95d0092e7a367b27af1d431090733f52",
+  "remediation": {
+    "finding": "C5.2-MR-001",
+    "status": "FIXED_PENDING_MASTER_RE_REVIEW",
+    "previous_blocked_head": "dc6e8f8b8c3e78eb18607694ef51bd3765f06967",
+    "encoding_negative_scan": {
+      "status": "PASS",
+      "c5_2_added_question_mark_runs": 0,
+      "u_fffd": 0,
+      "mojibake_markers": 0,
+      "utf8_decode_failures": 0,
+      "note": "Pre-existing question-mark fixture strings in tests/test_c5_1_domain_infrastructure.py are byte-identical to baseline and are outside the remediation finding."
+    }
+  },
   "ci": {
-    "jobs": {
-      "c5.1-domain-ubuntu": "PASS",
-      "c5.1-domain-windows": "PASS",
-      "c5.2-ubuntu": "PASS",
-      "c5.2-windows": "PASS",
-      "core": "PASS",
-      "tooling-portability-ubuntu": "PASS",
-      "tooling-portability-windows": "PASS"
-    },
-    "pull_request_run_id": 35503387864,
-    "push_run_id": 35503368000,
+    "workflow": "CI",
+    "pull_request_run_id": 35507259159,
+    "run_number": 80,
     "required_os": [
       "ubuntu-latest",
       "windows-latest"
     ],
     "status": "PASS",
-    "workflow": "CI"
+    "jobs": {
+      "core": {
+        "status": "PASS",
+        "job_id": 106069069216
+      },
+      "c5.1-domain-ubuntu": {
+        "status": "PASS",
+        "job_id": 106069069336
+      },
+      "c5.1-domain-windows": {
+        "status": "PASS",
+        "job_id": 106069069322
+      },
+      "c5.2-ubuntu": {
+        "status": "PASS",
+        "job_id": 106069069269
+      },
+      "c5.2-windows": {
+        "status": "PASS",
+        "job_id": 106069069325
+      },
+      "tooling-portability-ubuntu": {
+        "status": "PASS",
+        "job_id": 106069069290
+      },
+      "tooling-portability-windows": {
+        "status": "PASS",
+        "job_id": 106069069316
+      }
+    }
   },
-  "implementation_commit": "1678e6639af24e3b1146cfe91d60724eae20bde8",
-  "integration_findings": [],
-  "local": {
-    "c5_2_targeted": {
-      "status": "PASS",
-      "tests": 38
-    },
+  "verification": {
     "full_pytest": {
       "status": "PASS",
+      "tests": 331,
       "subtests": 126,
-      "tests": 329
+      "source": "CI core job"
+    },
+    "c5_2_targeted": {
+      "status": "PASS",
+      "tests": 40,
+      "ubuntu_job_id": 106069069269,
+      "windows_job_id": 106069069325
     },
     "proposal_regressions": {
       "A13": {
-        "checks": 289,
-        "status": "PASS"
-      },
-      "A15": {
-        "a13_numerals_checked": 9999,
-        "case_checks": 335280,
-        "large_random_samples": 75000,
-        "status": "PASS"
-      },
-      "A16": {
-        "checks": 2548,
-        "negative": 30,
-        "positive": 2518,
-        "status": "PASS"
+        "status": "PASS",
+        "checks": 289
       },
       "B12": {
         "status": "PASS",
         "tests": "14 B11 integrated + 14 intent + 33 B12 + RM grids"
+      },
+      "A15": {
+        "status": "PASS",
+        "a13_numerals_checked": 9999,
+        "case_checks": 335280,
+        "large_random_samples": 75000
       },
       "B13": {
         "status": "PASS",
@@ -60,16 +92,28 @@
         "status": "PASS",
         "tests": 22
       },
+      "A16": {
+        "status": "PASS",
+        "checks": 2548,
+        "positive": 2518,
+        "negative": 30
+      },
       "B15": {
         "status": "PASS",
         "tests": 29
       }
     },
+    "c5_1_artifact_ir_regression": {
+      "status": "PASS",
+      "required_os": [
+        "ubuntu-latest",
+        "windows-latest"
+      ]
+    },
     "registry_regeneration": {
-      "sha256": "2e1d5a8d685ca0f52c9a657cfd20a0594465c4cc5fa344bf55693a169c9a0483",
-      "status": "PASS"
+      "status": "PASS",
+      "sha256": "2e1d5a8d685ca0f52c9a657cfd20a0594465c4cc5fa344bf55693a169c9a0483"
     }
   },
-  "pull_request": 12,
-  "schema": "marak-c5.2-test-results-v1"
+  "integration_findings": []
 }
