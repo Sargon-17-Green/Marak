@@ -510,3 +510,25 @@ def test_nested_symbol_collection_semantics_ignore_source_renaming_and_internal_
     _,second=three(program("דרגותב","תחתוןב","עליוןב",shift_serials=True))
     assert dict(first["facts"])["ספרים"]==[["נמוך"],["גבוה"]]
     assert dict(second["facts"])["ספרים"]==dict(first["facts"])["ספרים"]
+
+
+def test_recursive_act_can_produce_collection_output_per_occurrence_under_fuel_harness():
+    a="פולט"
+    src=" ".join([
+        act(a),
+        body(a,output(nat_book(1,2))+" ואחרי כן "+f"עשה את המעשה אשר שמו {a}"),
+        f"ועתה עשה את המעשה אשר שמו {a}",
+    ])
+    c=compile_source(src)
+    assert c.valid,[d.to_dict() for d in c.diagnostics]
+    observed=[
+        reference_observable(execute_reference(c.hast,fuel=8)),
+        ir_reference_observable(execute_reference_ir(c.ir,fuel=8)),
+        backend_observable(execute_ir(c.ir,fuel=8)),
+    ]
+    assert observed[0]==observed[1]==observed[2]
+    assert observed[0]["outcome"]=="Divergence"
+    assert observed[0]["products"]
+    assert all(product[1]==[1,2] for product in observed[0]["products"])
+
+
