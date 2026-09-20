@@ -10,7 +10,7 @@ from compiler.models.domains import (
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.5-candidate-1"
+HAST_VERSION = "core-hast-0.6-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -137,6 +137,17 @@ class HastIndexSuccessor(HastValue):
 @dataclass(frozen=True, slots=True)
 class HastIndexPredecessor(HastValue):
     operand: HastValue
+
+
+@dataclass(frozen=True, slots=True)
+class HastProgramInputNumber(HastNumber):
+    input_id: ProgramInputId
+
+
+@dataclass(frozen=True, slots=True)
+class HastProgramInputValue(HastValue):
+    input_id: ProgramInputId
+    domain: Domain
 
 
 @dataclass(frozen=True, slots=True)

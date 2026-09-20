@@ -17,6 +17,7 @@ from compiler.lex.words import WordToken, lex_words
 from compiler.models.diagnostics import Diagnostic, Severity
 from compiler.models.hast import HastCoreProgram
 from compiler.models.ir import IRProgram
+from compiler.models.program_contract import ir_program_contract_id, reowner_program_inputs
 from compiler.morphology.api import MorphologyEngine
 from compiler.normalize.code import NormalizationResult, normalize_code
 from compiler.parse.current_registry import CURRENT_REGISTRY
@@ -30,6 +31,7 @@ from compiler.parse.grammar import ConstructionRegistry
 from compiler.parse.forest import AmbiguityStatus, ParseElement, ParseForest, ParseLeaf, ParseNode
 from compiler.parse.parser import ParseResult, Parser
 from compiler.runtime.reference import execute_reference
+from compiler.runtime.invocation import InputBinding, ValidatedInvocation
 from compiler.source.text import SourceText
 from compiler.source.unicode_policy import DEFAULT_WHITESPACE_POLICY, WhitespacePolicy
 
@@ -98,7 +100,7 @@ def _construction_ids(element:ParseElement)->set[str]:
     return out
 
 def _is_a13(registry:ConstructionRegistry)->bool:
-    return registry.registry_version.startswith(("a13-b12","c5.2-","c5.3-","c5.4-"))
+    return registry.registry_version.startswith(("a13-b12","c5.2-","c5.3-","c5.4-","c5.5-"))
 
 def _slice_parses_as(tokens, registry: ConstructionRegistry, lhs: str) -> bool:
     if not tokens:
@@ -209,6 +211,14 @@ def check(source: str | SourceText, *, file: str="<memory>", registry:Constructi
                     source_span=hast.source_span,
                     metadata={"semantic_code":exc.issue.code},
                 ))
+            if not diagnostics and hast.program_input_domains:
+                # Finalize source-resolved ProgramInputIds with a reusable,
+                # source-independent program contract that artifact validation
+                # can recompute.  The provisional owner is excluded from the
+                # fingerprint, so this is deterministic and non-circular.
+                provisional_ir=lower_validated_hast(hast)
+                owner=ir_program_contract_id(provisional_ir)
+                hast=reowner_program_inputs(hast,owner)
     return CheckResult(not diagnostics,tuple(diagnostics),n,tokens,forest,parsed,hast)
 
 def compile_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY)->CompilationResult:
@@ -220,21 +230,21 @@ def compile_source(source: str|SourceText, *, file:str="<memory>", registry:Cons
     verify_artifact(artifact)
     return CompilationResult(True,(),c.hast,ir,artifact,c)
 
-def run_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None)->RunResult:
+def run_source(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None, bindings:tuple[InputBinding,...]|ValidatedInvocation=())->RunResult:
     comp=compile_source(source,file=file,registry=registry,whitespace_policy=whitespace_policy)
     if not comp.valid or comp.artifact is None:return RunResult(comp,None)
     try:
         ir=verify_artifact(comp.artifact)
-        return RunResult(comp,execute_ir(ir,fuel=fuel))
+        return RunResult(comp,execute_ir(ir,fuel=fuel,bindings=bindings))
     except (KeyboardInterrupt, SystemExit):
         raise
     except Exception as exc:
         return RunResult(comp,ToolRuntimeFailure(host_exception_type=type(exc).__name__))
 
-def run_reference(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None):
+def run_reference(source: str|SourceText, *, file:str="<memory>", registry:ConstructionRegistry=CURRENT_REGISTRY, whitespace_policy:WhitespacePolicy=DEFAULT_WHITESPACE_POLICY, fuel:int|None=None, bindings:tuple[InputBinding,...]|ValidatedInvocation=()):
     c=check(source,file=file,registry=registry,whitespace_policy=whitespace_policy)
     if not c.valid or c.hast is None:return c,None
-    return c,execute_reference(c.hast,fuel=fuel)
+    return c,execute_reference(c.hast,fuel=fuel,bindings=bindings)
 
 def _span_dict(span):
     if span is None:return None

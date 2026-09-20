@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+import hashlib
+import json
 
 from compiler.models.hast import (
     HastActBody, HastActIntroduction, HastAddNatural, HastConditional,
@@ -16,13 +18,14 @@ from compiler.models.hast import (
     HastSymbolDomainDeclaration, HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
     HastCollectionValue, HastCollectionAppend, HastCollectionCount,
     HastCollectionSelectNatural, HastCollectionSelectValue, HastCollectionOrder,
-    HastCollectionMembershipProposition,
+    HastCollectionMembershipProposition, HastProgramInputDomain,
+    HastProgramInputNumber, HastProgramInputValue,
 )
-from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDomain, Domain, SymbolDomain, SymbolDomainId, SymbolMemberId
+from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDomain, Domain, ProgramInputId, SymbolDomain, SymbolDomainId, SymbolMemberId
 from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
-from compiler.parse.c5_4_registry import COUNT_AS_NUMBER_ORIGINS
+from compiler.parse.c5_5_registry import COUNT_AS_NUMBER_ORIGINS
 from compiler.source.source_map import OriginalSpan
 
 
@@ -53,6 +56,9 @@ class _Env:
         self.symbol_domains: dict[str, SymbolDomainId] = {}
         self.symbol_members: dict[tuple[int, str], tuple[SymbolMemberId, str]] = {}
         self.output_domains: dict[ActId, Domain | None] = {}
+        self.program_inputs: dict[str, ProgramInputId] = {}
+        self.program_input_domains: dict[ProgramInputId, Domain] = {}
+        self.program_contract: str = "abstract-program-contract"
 
     def serial(self) -> int:
         value = self.next_serial
@@ -83,11 +89,23 @@ def _body_env_snapshot(env: _Env) -> _Env:
     # deferred body learn a later-defined act's independently resolved contract
     # without gaining visibility of later source declarations.
     snap.output_domains = env.output_domains
+    snap.program_inputs = dict(env.program_inputs)
+    snap.program_input_domains = dict(env.program_input_domains)
+    snap.program_contract = env.program_contract
     return snap
 
 
 def _span(node: ParseNode | ParseLeaf) -> OriginalSpan | None:
     return node.original
+
+
+def _program_contract_id(root: ParseNode) -> str:
+    def obj(element: ParseElement):
+        if isinstance(element, ParseLeaf):
+            return ["leaf", element.terminal_role, element.text, element.numeric_value]
+        return ["node", element.production_id, element.symbol, [obj(c) for c in element.children]]
+    payload = json.dumps(obj(root), ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return "marak-program-sha256:" + hashlib.sha256(payload).hexdigest()
 
 
 def _issue(code: str, en: str, he: str, where: ParseNode | ParseLeaf | None, **metadata) -> A13ResolutionError:
@@ -169,6 +187,15 @@ def _resolve_act(name: str, env: _Env, where: ParseLeaf | ParseNode) -> ActId:
             "הפניה למעשה מופיעה לפני הצגתו.", where, kind="act", name=name,
         )
     return env.acts[name]
+
+
+def _resolve_program_input(name: str, env: _Env, where: ParseLeaf | ParseNode) -> ProgramInputId:
+    if name not in env.program_inputs:
+        raise _issue(
+            "REF0501", "Program Input reference occurs before its declaration.",
+            "הפניה לקלט התוכנית מופיעה לפני הצהרתו.", where, kind="program-input", name=name,
+        )
+    return env.program_inputs[name]
 
 
 def _resolve_symbol_domain(name: str, env: _Env, where: ParseLeaf | ParseNode) -> SymbolDomainId:
@@ -262,6 +289,12 @@ def _lower_number(
         if len(leaves) != 1:
             raise RuntimeError("literal numeral leaf contract")
         return HastExactNatural(span, leaves[0].numeric_value)  # type: ignore[arg-type]
+    if pid == "C55.INPUT.READ.NATURAL":
+        leaf = _direct_leaves(node, "ProgramInputRoleName")[0]
+        input_id = _resolve_program_input(leaf.text, env, leaf)
+        if env.program_input_domains.get(input_id) != NATURAL:
+            raise _issue("REF0503", "Natural Program Input head disagrees with the declared input domain.", "ראש מספרי של קלט התוכנית אינו מתאים לתחום הקלט המוצהר.", leaf, role=leaf.text)
+        return HastProgramInputNumber(span, input_id)
     if pid == "A10.PLACE.CURRENT_NUMBER":
         leaf = _direct_leaves(node, "PlaceName")[0]
         return HastCurrentFact(span, _resolve_place(leaf.text, env, leaf, self_name=pending_self_place))
@@ -366,6 +399,12 @@ def _lower_symbol(
         raise RuntimeError(f"SymbolValue lacks explicit domain head: {pid}")
     domain=_resolve_symbol_domain(domains[0].text,env,domains[0])
     expected=SymbolDomain(domain)
+    if pid=="C55.INPUT.READ.SYMBOL":
+        role_leaf=_direct_leaves(node,"ProgramInputRoleName")[0]
+        input_id=_resolve_program_input(role_leaf.text,env,role_leaf)
+        if env.program_input_domains.get(input_id)!=expected:
+            raise _issue("REF0503","Symbol Program Input head names a domain different from the declared input domain.","ראש משפחת השמות של קלט התוכנית מציין תחום שונה מתחום הקלט המוצהר.",domains[0],role=role_leaf.text,domain=domain.spelling)
+        return HastProgramInputValue(node.original,input_id,expected)
     if pid=="C52.SYMBOL.REF":
         member_leaf=_direct_leaves(node,"SymbolMemberName")[0]
         member,label=_resolve_symbol_member(domain,member_leaf.text,env,member_leaf)
@@ -424,6 +463,12 @@ def _lower_index(
                 raise RuntimeError("Collection ordinal position contract")
             position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
         return HastCollectionSelectValue(node.original,book,BIDIRECTIONAL_INDEX,position,mode)
+    if pid=="C55.INPUT.READ.INDEX":
+        leaf=_direct_leaves(node,"ProgramInputRoleName")[0]
+        input_id=_resolve_program_input(leaf.text,env,leaf)
+        if env.program_input_domains.get(input_id)!=BIDIRECTIONAL_INDEX:
+            raise _issue("REF0503","Year-index Program Input head disagrees with the declared input domain.","ראש מספר השנה של קלט התוכנית אינו מתאים לתחום הקלט המוצהר.",leaf,role=leaf.text)
+        return HastProgramInputValue(node.original,input_id,BIDIRECTIONAL_INDEX)
     if pid=="C52.INDEX.ZERO": return HastIndexValue(node.original,"zero",0)
     if pid=="C52.INDEX.BEFORE.ONE": return HastIndexValue(node.original,"before",1)
     if pid=="C52.INDEX.AFTER.ONE": return HastIndexValue(node.original,"after",1)
@@ -472,6 +517,13 @@ def _lower_collection(
     if node.original is None:
         raise RuntimeError("CollectionValue node lacks source span")
     pid=node.production_id
+    if pid=="C55.INPUT.READ.COLLECTION":
+        leaf=_direct_leaves(node,"ProgramInputRoleName")[0]
+        input_id=_resolve_program_input(leaf.text,env,leaf)
+        domain=env.program_input_domains.get(input_id)
+        if not isinstance(domain,CollectionDomain):
+            raise _issue("REF0503","Collection Program Input head requires a Collection input contract.","ראש ספר של קלט התוכנית דורש קלט שתחומו Collection.",leaf,role=leaf.text)
+        return HastProgramInputValue(node.original,input_id,domain)
     if pid.startswith("C53.EMPTY."):
         element_domain=_collection_kind_element_domain(node,env)
         return HastCollectionValue(node.original,element_domain,())
@@ -850,6 +902,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
     if root.original is None:
         raise RuntimeError("CoreProgram lacks source span")
     env = _Env()
+    env.program_contract = _program_contract_id(root)
     preparation_hast = []
     pending_bodies: list[dict[str, object]] = []
 
@@ -873,6 +926,28 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             "C52.PREP.SYMBOL.DOMAIN","C52.PREP.SYMBOL.MEMBER","C52.PREP.SYMBOL.ORDER",
         }
         inner = _single_parse_child(wrapper) if pid in unwrap_ids else wrapper
+
+        if pid in {"C55.INPUT.DECLARE.NATURAL","C55.INPUT.DECLARE.SYMBOL","C55.INPUT.DECLARE.INDEX","C55.INPUT.DECLARE.COLLECTION"}:
+            roles=_direct_leaves(wrapper,"ProgramInputRoleName")
+            if len(roles)!=2 or roles[0].text!=roles[1].text:
+                raise _issue("REF0502","Program Input declaration must explicitly repeat the same role identity.","הצהרת קלט התוכנית חייבת לחזור במפורש על אותו תפקיד.",roles[-1] if roles else wrapper)
+            name=roles[0].text
+            if name in env.program_inputs:
+                raise _issue("REF0502","Duplicate Program Input role declaration.","הצהרה כפולה של תפקיד קלט לתוכנית.",roles[0],role=name)
+            if pid.endswith("NATURAL"):
+                domain=NATURAL
+            elif pid.endswith("INDEX"):
+                domain=BIDIRECTIONAL_INDEX
+            elif pid.endswith("SYMBOL"):
+                dleaf=_direct_leaves(wrapper,"SymbolDomainName")[0]
+                domain=SymbolDomain(_resolve_symbol_domain(dleaf.text,env,dleaf))
+            else:
+                kind=_one_child(wrapper,"CollectionKind")
+                domain=CollectionDomain(_collection_kind_element_domain(kind,env))
+            input_id=ProgramInputId(env.serial(),name,env.program_contract)
+            env.program_inputs[name]=input_id
+            env.program_input_domains[input_id]=domain
+            continue
 
         if pid == "C52.PREP.SYMBOL.DOMAIN":
             leaf=_direct_leaves(inner,"SymbolDomainName")[0]
@@ -1136,7 +1211,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
         tuple(HastPlaceDomain(x, env.place_domains[x]) for x in places),
         tuple(HastRoleDomain(x, env.role_domains[x]) for x in roles),
         tuple(output_contracts),
-        (),
+        tuple(HastProgramInputDomain(x, env.program_input_domains[x]) for x in sorted(env.program_input_domains, key=lambda y: y.serial)),
     )
 
 

@@ -14,7 +14,7 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.5-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.6-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
@@ -23,6 +23,7 @@ _IR_CLASSES = (
     irm.IRCollectionAppend, irm.IRCollectionCount, irm.IRCollectionSelectNatural,
     irm.IRCollectionSelectValue, irm.IRCollectionOrder,
     irm.IRIndexSuccessor, irm.IRIndexPredecessor,
+    irm.IRReadProgramInputNumber, irm.IRReadProgramInputValue,
     irm.IRReadCurrentFact, irm.IRReadCurrentValue, irm.IRReadRoleNumber, irm.IRReadRoleValue,
     irm.IRRecentResult, irm.IRRecentTypedResult, irm.IRAddNatural, irm.IRCheckedSubtractNatural,
     irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRSymbolEqualProposition,

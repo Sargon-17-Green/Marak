@@ -14,10 +14,10 @@ from tests.test_c5_2_surface_pipeline import (
 ROOT=Path(__file__).resolve().parents[1]
 
 EXPECTED={
-    "symbol":"01105e78babda15784fee8da618e56aa0aa1972e3428785b6ae0c01ff983efa8",
-    "index":"3ff09c6d0c05ed43607b031f54a517206a9137c032ab507a375872bba53b9ef2",
-    "large":"8a8d30bbe7c25356871663a55c5e8dc614469d9d95529605e18ab90a5d7b2cf7",
-    "registry":"cef84d06ff6f3f1a9212e812ceb3a8326c3687f75d0c7da093ed782febdb28af",
+    "symbol":"20467465dd6498bff8b99386e7653302eed66219910a9e000cd7e328939746d1",
+    "index":"d598b9e95a170c54040f3e9f17e059ccbd18eea79e68f02cc55c7cbc7e1e817b",
+    "large":"2968266401d094ef44ac5833ba935eda106fd06b1da8dac6b2beb22fc8066d36",
+    "registry":"9e1c9aae709697b3a10f3b49f97cd38fa9374712cc6c2a26f95b1b41f237ff45",
 }
 
 

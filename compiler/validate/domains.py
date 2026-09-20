@@ -107,6 +107,8 @@ def hast_value_domain(node: h.HastValue) -> Domain:
         if hast_value_domain(node.collection) != CollectionDomain(node.element_domain):
             _fail("DOMAIN_COLLECTION_ORDER", "Collection order profile disagrees with the book element domain")
         return CollectionDomain(node.element_domain)
+    if isinstance(node, h.HastProgramInputValue):
+        return require_domain(node.domain)
     if isinstance(node, h.HastCurrentValue):
         return require_domain(node.domain)
     if isinstance(node, h.HastCurrentRoleValue):
@@ -125,6 +127,10 @@ def ir_value_domain(
 ) -> Domain:
     if isinstance(node, i.IRNatural):
         return NATURAL
+    if isinstance(node, i.IRReadProgramInputNumber):
+        return NATURAL
+    if isinstance(node, i.IRReadProgramInputValue):
+        return require_domain(node.domain)
     if isinstance(node, i.IRReadCurrentFact):
         actual = place_domains.get(node.place)
         if actual != NATURAL:
@@ -297,6 +303,10 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
     places = {x.place: require_domain(x.domain) for x in program.place_domains}
     roles = {x.role: require_domain(x.domain) for x in program.role_domains}
     outputs = {x.act: None if x.domain is None else require_domain(x.domain) for x in program.act_output_domains}
+    inputs = {x.input_id: require_domain(x.domain) for x in program.program_input_domains}
+
+    if len({x.program_contract for x in inputs}) > 1:
+        _fail("DOMAIN_PROGRAM_INPUT_OWNERSHIP", "Program Input contracts do not share one owning program contract")
 
     if set(places) != set(program.places):
         _fail("DOMAIN_PLACE_CONTRACT", "every place requires exactly one static domain contract")
@@ -305,6 +315,11 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
     if set(outputs) != set(program.acts):
         _fail("DOMAIN_OUTPUT_CONTRACT", "every act requires an explicit none-or-domain output contract")
     for x in program.program_input_domains:
+        if not x.input_id.program_contract:
+            _fail("DOMAIN_PROGRAM_INPUT_OWNERSHIP", "Program Input identity lacks owning program contract")
+        # C5.1's HAST contract layer is intentionally preparation-independent.
+        # Source resolution enforces declaration visibility; decoded canonical IR
+        # independently enforces that referenced Symbol domains are declared.
         require_domain(x.domain)
 
     def value(node: h.HastValue) -> Domain:
@@ -318,6 +333,12 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         elif isinstance(node, (h.HastIndexSuccessor, h.HastIndexPredecessor)):
             if value(node.operand) != BIDIRECTIONAL_INDEX:
                 _fail("DOMAIN_INDEX_OPERAND", "Index successor/predecessor requires BidirectionalIndex operand")
+        elif isinstance(node, h.HastProgramInputNumber):
+            if inputs.get(node.input_id) != NATURAL:
+                _fail("DOMAIN_PROGRAM_INPUT_READ", "numeric Program Input read requires a declared Natural input")
+        elif isinstance(node, h.HastProgramInputValue):
+            if inputs.get(node.input_id) != node.domain:
+                _fail("DOMAIN_PROGRAM_INPUT_READ", "typed Program Input read disagrees with its declared contract")
         elif isinstance(node, h.HastCurrentFact):
             if places.get(node.place) != NATURAL:
                 _fail("DOMAIN_TYPED_HEAD", "numeric current-fact reference requires a Natural place")

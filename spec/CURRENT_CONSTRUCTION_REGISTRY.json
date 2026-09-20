@@ -535,6 +535,28 @@
       ],
       "status": "normative",
       "summary": "RepeatExactly determines one Natural count once at entry and repeats exactly one atomic action; no iterator or implicit result collection exists."
+    },
+    {
+      "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_PROGRAM_INPUT_ROLES",
+        "B13_EXTERNAL_BINDING_MODEL",
+        "B15_DOMAIN_FLOW_SEMANTICS"
+      ],
+      "status": "normative",
+      "summary": "A required Program Input Role is top-level preparatory contract metadata, not an executable action or mutable place."
+    },
+    {
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "kind": "positive",
+      "spec_ids": [
+        "A15_PROGRAM_INPUT_ROLES",
+        "B13_EXTERNAL_BINDING_MODEL",
+        "B15_DOMAIN_FLOW_SEMANTICS"
+      ],
+      "status": "normative",
+      "summary": "Program Input reads resolve by semantic identity and independently declared domain; no positional, spelling-based, transport, optional, or default convention exists."
     }
   ],
   "language_edition": "core-0.1-integration-candidate-a13-b12",
@@ -5998,9 +6020,651 @@
       ],
       "root": false,
       "semantic_id": "C54.REPEAT_EXACTLY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "CountAsNumber",
+      "production_id": "C55.INPUT.COUNT_AS.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C55.INPUT.DECLARE.COLLECTION",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובטרם"
+        },
+        {
+          "kind": "word",
+          "text": "תחל"
+        },
+        {
+          "kind": "word",
+          "text": "המלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "CollectionKind"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_DECLARATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C55.INPUT.DECLARE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובטרם"
+        },
+        {
+          "kind": "word",
+          "text": "תחל"
+        },
+        {
+          "kind": "word",
+          "text": "המלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "שנה"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_DECLARATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C55.INPUT.DECLARE.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובטרם"
+        },
+        {
+          "kind": "word",
+          "text": "תחל"
+        },
+        {
+          "kind": "word",
+          "text": "המלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_DECLARATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C55.INPUT.DECLARE.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובטרם"
+        },
+        {
+          "kind": "word",
+          "text": "תחל"
+        },
+        {
+          "kind": "word",
+          "text": "המלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "יעמד"
+        },
+        {
+          "kind": "word",
+          "text": "שם"
+        },
+        {
+          "kind": "word",
+          "text": "ממשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_DECLARATION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "CollectionValue",
+      "production_id": "C55.INPUT.READ.COLLECTION",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "הספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_READ_COLLECTION"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "IndexValue",
+      "production_id": "C55.INPUT.READ.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מספר"
+        },
+        {
+          "kind": "word",
+          "text": "השנה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_READ_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "NumberValue",
+      "production_id": "C55.INPUT.READ.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_READ_NATURAL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "SymbolValue",
+      "production_id": "C55.INPUT.READ.SYMBOL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "השם"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במשפחת"
+        },
+        {
+          "kind": "word",
+          "text": "השמות"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמה"
+        },
+        {
+          "kind": "name",
+          "role": "SymbolDomainName"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C55.PROGRAM_INPUT_READ_SYMBOL"
     }
   ],
-  "registry_version": "c5.4-a15-b13.1",
+  "registry_version": "c5.5-a15-b13.1",
   "semantic_gates": [
     {
       "construction_id": "A10.NAMED_ACT_PERFORMANCE",
@@ -6066,5 +6730,5 @@
       "status": "ready"
     }
   ],
-  "source_snapshot": "C5.3+A15 counted recurrence+B13 RepeatExactly production integration"
+  "source_snapshot": "C5.4+A15 Program Input Roles+B13 external binding+B15 domain-flow production integration"
 }

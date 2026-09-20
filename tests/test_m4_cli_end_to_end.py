@@ -20,7 +20,7 @@ class M4CliEndToEndTests(unittest.TestCase):
         out=io.StringIO()
         with redirect_stdout(out): rc=main(["version"])
         self.assertEqual(rc,0); obj=json.loads(out.getvalue())
-        self.assertEqual(obj["construction_registry_version"],"c5.4-a15-b13.1")
+        self.assertEqual(obj["construction_registry_version"],"c5.5-a15-b13.1")
         self.assertEqual(obj["hast_contract_version"],HAST_VERSION)
         self.assertEqual(obj["ir_version"],IR_VERSION)
         self.assertEqual(obj["ir_reference_version"],IR_REFERENCE_VERSION)

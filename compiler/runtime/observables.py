@@ -6,6 +6,7 @@ from compiler.backend.portable import VMErrorOutcome, VMDivergence, VMNormal
 from compiler.runtime.reference import DivergenceOutcome, ErrorOutcome, NormalOutcome
 from compiler.runtime.ir_reference import IRReferenceDivergence, IRReferenceErrorOutcome, IRReferenceNormal
 from compiler.models.values import observable_value
+from compiler.runtime.invocation import InvalidInvocation
 
 
 def _language_value(value):
@@ -16,12 +17,24 @@ def _name_map(pairs) -> dict[int, str]:
     return dict(pairs)
 
 
+def _invalid_invocation(outcome: InvalidInvocation) -> dict[str, Any]:
+    return {
+        "outcome": "InvalidInvocation",
+        "issues": [
+            {"code": x.code, "input": x.input_id.spelling, "program_contract": x.input_id.program_contract}
+            for x in outcome.issues
+        ],
+    }
+
+
 def reference_observable(outcome: object) -> dict[str, Any]:
     """B12 language-observation quotient for HAST reference execution.
 
     Implementation allocation serials and occurrence counters are deliberately
     erased.  Source-semantic identity is retained by typed source spelling.
     """
+    if isinstance(outcome, InvalidInvocation):
+        return _invalid_invocation(outcome)
     if isinstance(outcome, NormalOutcome):
         return {
             "outcome": "Normal",
@@ -50,6 +63,8 @@ def reference_observable(outcome: object) -> dict[str, Any]:
 
 def backend_observable(outcome: object) -> dict[str, Any]:
     """B12 language-observation quotient for portable backend execution."""
+    if isinstance(outcome, InvalidInvocation):
+        return _invalid_invocation(outcome)
     place = _name_map(getattr(outcome, "place_names", ()))
     act = _name_map(getattr(outcome, "act_names", ()))
     if isinstance(outcome, VMNormal):
@@ -80,6 +95,8 @@ def backend_observable(outcome: object) -> dict[str, Any]:
 
 def ir_reference_observable(outcome: object) -> dict[str, Any]:
     """B12 language-observation quotient for canonical-IR reference execution."""
+    if isinstance(outcome, InvalidInvocation):
+        return _invalid_invocation(outcome)
     place = _name_map(getattr(outcome, "place_names", ()))
     act = _name_map(getattr(outcome, "act_names", ()))
     if isinstance(outcome, IRReferenceNormal):
