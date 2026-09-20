@@ -1,0 +1,53 @@
+{
+  "schema": "marak-b15-a16-semantic-remediation-results-v1",
+  "status": "B15 REMEDIATION COMPLETE — READY FOR MASTER POST-M2 LANGUAGE GATE",
+  "a16_baseline_head": "bb7b5da71e34eeaab4dfe2a735f1025ae87c1ec0",
+  "branch": "workstream-b/b15-a16-semantic-remediation",
+  "gap_verdicts": {
+    "GAP-001": "SEMANTICALLY_CLOSED",
+    "GAP-002": "SEMANTICALLY_CLOSED",
+    "GAP-003": "SEMANTICALLY_CLOSED",
+    "GAP-004": "SEMANTICALLY_CLOSED",
+    "GAP-005": "SEMANTICALLY_CLOSED"
+  },
+  "composition_verdict": "DOMAIN_FLOW_COMPLETE",
+  "output_domain_and_provenance": "CLOSED_B12_COMPATIBLE",
+  "recursive_non_natural_role": "PASS",
+  "index_dynamic_progression": "PASS_NO_NATURAL_TO_INDEX_REQUIRED",
+  "symbol_equality": "PASS_ACCEPTABLE_SAME_DOMAIN_SURFACE_NARROWING",
+  "d_request_adequacy": {
+    "001": "EXECUTABLE_AFTER_INTEGRATION",
+    "002": "EXECUTABLE_AFTER_INTEGRATION",
+    "003": "EXECUTABLE_AFTER_INTEGRATION",
+    "004": "EXECUTABLE_AFTER_INTEGRATION",
+    "005": "EXECUTABLE_AFTER_INTEGRATION",
+    "006": "EXECUTABLE_AFTER_INTEGRATION",
+    "007": "EXECUTABLE_AFTER_INTEGRATION"
+  },
+  "normative_clarification": {
+    "static_domain_contracts": "Domain is resolved from source before initializer/association/output execution; runtime value inspection is non-normative evidence only."
+  },
+  "a17_requirements": [],
+  "semantic_reopenings": [],
+  "master_clarifications": [],
+  "tests": {
+    "b15_independent": {"status": "PASS", "tests": 29},
+    "a16_surface": {"status": "PASS", "checks": 2548, "positive": 2518, "negative": 30},
+    "b14_integration": {"status": "PASS", "tests": 22},
+    "b13_reference": {"status": "PASS", "tests": 28},
+    "a15_surface": {"status": "PASS", "checks": 335280},
+    "b12_run_all": {
+      "status": "PASS",
+      "b11_original_tests": 14,
+      "b11_rm_grid_cases": 324,
+      "b11_intent_tests": 14,
+      "b12_semantic_tests": 33,
+      "rm_countdown_cases": 128,
+      "rm_underflow_guard_cases": 65
+    },
+    "a13_selftest": {"status": "PASS", "checks": 289},
+    "full_repository_pytest": {"status": "PASS", "tests_passed": 265, "subtests_passed": 126, "seconds": 22.16}
+  },
+  "compiler_handoff_semantics_ready": true,
+  "m3_declared": false
+}
