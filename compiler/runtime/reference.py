@@ -303,11 +303,22 @@ class ReferenceEvaluator:
                     items.append(v)
             return CollectionValue(node.element_domain,tuple(items))
         if isinstance(node,HastCollectionAppend):
-            collection=self.eval_value(node.collection,state,occ,prov)
+            # Collapse a left-associated pure append chain so immutable tuple
+            # materialization is linear rather than repeatedly copying every prefix.
+            chain=[]
+            current=node
+            while isinstance(current,HastCollectionAppend):
+                chain.append(current)
+                current=current.collection
+            collection=self.eval_value(current,state,occ,prov)
             if not isinstance(collection,CollectionValue):
                 raise _TermFault("INTERNAL_DOMAIN_GUARD")
-            item=self._semantic_item(self.eval_value(node.item,state,occ,prov),node.element_domain)
-            return CollectionValue(node.element_domain,collection.items+(item,))
+            items=list(collection.items)
+            for append in reversed(chain):
+                if collection.element_domain!=append.element_domain:
+                    raise _TermFault("INTERNAL_DOMAIN_GUARD")
+                items.append(self._semantic_item(self.eval_value(append.item,state,occ,prov),append.element_domain))
+            return CollectionValue(node.element_domain,tuple(items))
         if isinstance(node,HastCollectionCount):
             collection=self.eval_value(node.collection,state,occ,prov)
             if not isinstance(collection,CollectionValue):
