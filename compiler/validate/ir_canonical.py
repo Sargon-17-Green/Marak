@@ -150,6 +150,8 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             _fail(code,str(exc))
         if isinstance(domain,SymbolDomain) and domain.identity not in declared_symbol_domains:
             _fail(code,"Symbol domain contract references undeclared domain identity")
+        if isinstance(domain,CollectionDomain):
+            ensure_declared_domain(domain.element_domain,code)
 
     for d in place_domains.values(): ensure_declared_domain(d,"IR_PLACE_DOMAIN_CONTRACT")
     for d in role_domains.values(): ensure_declared_domain(d,"IR_ROLE_DOMAIN_CONTRACT")
@@ -212,11 +214,13 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             value(node.source, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context=context)
             _constant_natural(node)
         elif isinstance(node, i.IRCollectionValue):
+            ensure_declared_domain(node.element_domain,"IR_COLLECTION_ELEMENT_DOMAIN")
             for item in node.items:
                 child_domain=value(item, visible_places=visible_places, current_act=current_act, recent_act=recent_act, context=context)
                 if child_domain!=node.element_domain:
                     _fail("IR_DOMAIN_COLLECTION_ELEMENT","serialized Collection member has the wrong domain")
         elif isinstance(node,i.IRCollectionAppend):
+            ensure_declared_domain(node.element_domain,"IR_COLLECTION_ELEMENT_DOMAIN")
             source=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
             item=value(node.item,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
             if source!=CollectionDomain(node.element_domain) or item!=node.element_domain:
@@ -226,6 +230,8 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             if not isinstance(actual,CollectionDomain):
                 _fail("IR_DOMAIN_COLLECTION_COUNT","Collection count operand is not a Collection")
         elif isinstance(node,(i.IRCollectionSelectNatural,i.IRCollectionSelectValue)):
+            if isinstance(node,i.IRCollectionSelectValue):
+                ensure_declared_domain(node.element_domain,"IR_COLLECTION_ELEMENT_DOMAIN")
             actual=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
             if node.mode not in {"first","last","ordinal"}:
                 _fail("IR_COLLECTION_POSITION_MODE","unknown Collection selection mode")
@@ -241,6 +247,7 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             elif actual!=CollectionDomain(node.element_domain):
                 _fail("IR_DOMAIN_COLLECTION_SELECT","typed Collection selection head disagrees with element domain")
         elif isinstance(node,i.IRCollectionOrder):
+            ensure_declared_domain(node.element_domain,"IR_COLLECTION_ELEMENT_DOMAIN")
             actual=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context=context)
             if actual!=CollectionDomain(node.element_domain):
                 _fail("IR_DOMAIN_COLLECTION_ORDER","Collection order metadata disagrees with source book domain")
@@ -285,6 +292,7 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
                 _fail("IR_SYMBOL_EQUALITY_DOMAIN","Symbol equality operands must belong to one exact declared domain")
             return
         if isinstance(node,i.IRCollectionMembershipProposition):
+            ensure_declared_domain(node.element_domain,"IR_COLLECTION_ELEMENT_DOMAIN")
             item=value(node.item,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
             collection=value(node.collection,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
             if item!=node.element_domain or collection!=CollectionDomain(node.element_domain):
