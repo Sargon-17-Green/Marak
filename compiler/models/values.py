@@ -76,6 +76,24 @@ def symbol_identity_equal(left: SymbolValue, right: SymbolValue) -> bool:
     return left.domain_id == right.domain_id and left.member_id == right.member_id
 
 
+def semantic_value_equal(left: SemanticValue, right: SemanticValue) -> bool:
+    if type(left) is not type(right):
+        return False
+    if isinstance(left, NaturalValue):
+        return left.value == right.value
+    if isinstance(left, SymbolValue):
+        return symbol_identity_equal(left, right)
+    if isinstance(left, BidirectionalIndexValue):
+        return left.side == right.side and left.magnitude == right.magnitude
+    if isinstance(left, CollectionValue):
+        return (
+            left.element_domain == right.element_domain
+            and len(left.items) == len(right.items)
+            and all(semantic_value_equal(a, b) for a, b in zip(left.items, right.items))
+        )
+    raise TypeError(type(left).__name__)
+
+
 def index_successor(value: BidirectionalIndexValue) -> BidirectionalIndexValue:
     if value.side == "before":
         if value.magnitude == 1:
@@ -115,6 +133,6 @@ def observable_value(value: SemanticValue):
 
 __all__ = [
     "NaturalValue", "SymbolValue", "BidirectionalIndexValue", "CollectionValue",
-    "SemanticValue", "value_domain", "symbol_identity_equal",
+    "SemanticValue", "value_domain", "symbol_identity_equal", "semantic_value_equal",
     "index_successor", "index_predecessor", "observable_value",
 ]

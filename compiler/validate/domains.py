@@ -78,6 +78,35 @@ def hast_value_domain(node: h.HastValue) -> Domain:
             if hast_value_domain(item) != node.element_domain:
                 _fail("DOMAIN_COLLECTION_ELEMENT", "collection literal element has incompatible domain")
         return CollectionDomain(node.element_domain)
+    if isinstance(node, h.HastCollectionAppend):
+        require_domain(node.element_domain)
+        if hast_value_domain(node.collection) != CollectionDomain(node.element_domain):
+            _fail("DOMAIN_COLLECTION_APPEND", "append source book has a different element domain")
+        if hast_value_domain(node.item) != node.element_domain:
+            _fail("DOMAIN_COLLECTION_ELEMENT", "append item has a different element domain")
+        return CollectionDomain(node.element_domain)
+    if isinstance(node, h.HastCollectionCount):
+        if not isinstance(hast_value_domain(node.collection), CollectionDomain):
+            _fail("DOMAIN_COLLECTION_COUNT", "count operand is not a Collection")
+        return NATURAL
+    if isinstance(node, h.HastCollectionSelectNatural):
+        if hast_value_domain(node.collection) != CollectionDomain(NATURAL):
+            _fail("DOMAIN_COLLECTION_SELECT", "Natural element head requires Collection<Natural>")
+        if node.position is not None and hast_value_domain(node.position) != NATURAL:
+            _fail("DOMAIN_COLLECTION_POSITION", "Collection position must independently be Natural")
+        return NATURAL
+    if isinstance(node, h.HastCollectionSelectValue):
+        require_domain(node.element_domain)
+        if hast_value_domain(node.collection) != CollectionDomain(node.element_domain):
+            _fail("DOMAIN_COLLECTION_SELECT", "typed element head disagrees with the book element domain")
+        if node.position is not None and hast_value_domain(node.position) != NATURAL:
+            _fail("DOMAIN_COLLECTION_POSITION", "Collection position must independently be Natural")
+        return node.element_domain
+    if isinstance(node, h.HastCollectionOrder):
+        require_domain(node.element_domain)
+        if hast_value_domain(node.collection) != CollectionDomain(node.element_domain):
+            _fail("DOMAIN_COLLECTION_ORDER", "Collection order profile disagrees with the book element domain")
+        return CollectionDomain(node.element_domain)
     if isinstance(node, h.HastCurrentValue):
         return require_domain(node.domain)
     if isinstance(node, h.HastCurrentRoleValue):
@@ -139,6 +168,35 @@ def ir_value_domain(
         for item in node.items:
             if ir_value_domain(item, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != node.element_domain:
                 _fail("IR_DOMAIN_COLLECTION_ELEMENT", "collection element metadata is incompatible with its value domain")
+        return CollectionDomain(node.element_domain)
+    if isinstance(node, i.IRCollectionAppend):
+        require_domain(node.element_domain)
+        if ir_value_domain(node.collection, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != CollectionDomain(node.element_domain):
+            _fail("IR_DOMAIN_COLLECTION_APPEND", "append source book has a different element domain")
+        if ir_value_domain(node.item, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != node.element_domain:
+            _fail("IR_DOMAIN_COLLECTION_ELEMENT", "append item has a different element domain")
+        return CollectionDomain(node.element_domain)
+    if isinstance(node, i.IRCollectionCount):
+        if not isinstance(ir_value_domain(node.collection, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains), CollectionDomain):
+            _fail("IR_DOMAIN_COLLECTION_COUNT", "count operand is not a Collection")
+        return NATURAL
+    if isinstance(node, i.IRCollectionSelectNatural):
+        if ir_value_domain(node.collection, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != CollectionDomain(NATURAL):
+            _fail("IR_DOMAIN_COLLECTION_SELECT", "Natural element head requires Collection<Natural>")
+        if node.position is not None and ir_value_domain(node.position, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != NATURAL:
+            _fail("IR_DOMAIN_COLLECTION_POSITION", "Collection position must be Natural")
+        return NATURAL
+    if isinstance(node, i.IRCollectionSelectValue):
+        require_domain(node.element_domain)
+        if ir_value_domain(node.collection, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != CollectionDomain(node.element_domain):
+            _fail("IR_DOMAIN_COLLECTION_SELECT", "typed element head disagrees with the book element domain")
+        if node.position is not None and ir_value_domain(node.position, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != NATURAL:
+            _fail("IR_DOMAIN_COLLECTION_POSITION", "Collection position must be Natural")
+        return node.element_domain
+    if isinstance(node, i.IRCollectionOrder):
+        require_domain(node.element_domain)
+        if ir_value_domain(node.collection, place_domains=place_domains, role_domains=role_domains, output_domains=output_domains) != CollectionDomain(node.element_domain):
+            _fail("IR_DOMAIN_COLLECTION_ORDER", "Collection order profile disagrees with the book element domain")
         return CollectionDomain(node.element_domain)
     if isinstance(node, i.IRReadCurrentValue):
         actual = place_domains.get(node.place)
@@ -209,6 +267,7 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         if x.before_member_id == x.after_member_id:
             _fail("DOMAIN_SYMBOL_ORDER", "Symbol order self edge")
         edges_by_domain.setdefault(x.domain_id, []).append((x.before_member_id, x.after_member_id))
+    complete_order_domains=set()
     for domain_id, edges in edges_by_domain.items():
         if len(edges) != len(set(edges)):
             _fail("DOMAIN_SYMBOL_ORDER", "duplicate Symbol adjacency fact")
@@ -233,6 +292,7 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             cur=outgoing[cur]
         if seen != members:
             _fail("DOMAIN_SYMBOL_ORDER", "Symbol order is cyclic or disconnected")
+        complete_order_domains.add(domain_id)
 
     places = {x.place: require_domain(x.domain) for x in program.place_domains}
     roles = {x.role: require_domain(x.domain) for x in program.role_domains}
@@ -286,6 +346,38 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
         if isinstance(node, h.HastCollectionValue):
             for item in node.items:
                 value(item)
+        if isinstance(node, h.HastCollectionAppend):
+            value(node.collection)
+            value(node.item)
+        if isinstance(node, h.HastCollectionCount):
+            value(node.collection)
+        if isinstance(node, (h.HastCollectionSelectNatural, h.HastCollectionSelectValue)):
+            value(node.collection)
+            if node.position is not None:
+                value(node.position)
+        if isinstance(node, h.HastCollectionOrder):
+            value(node.collection)
+            if node.order_kind=="natural":
+                if node.element_domain!=NATURAL or node.symbol_domain_id is not None:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Natural Collection order has invalid profile metadata")
+            elif node.order_kind=="lex-natural":
+                if node.element_domain!=CollectionDomain(NATURAL) or node.symbol_domain_id is not None:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Natural Collection order has invalid profile metadata")
+            elif node.order_kind=="symbol":
+                if not isinstance(node.element_domain,SymbolDomain) or node.symbol_domain_id!=node.element_domain.identity:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Symbol Collection order domain/profile mismatch")
+                if node.symbol_domain_id not in complete_order_domains:
+                    _fail("DOMAIN_COLLECTION_ORDER", "Symbol Collection order requires an explicit complete Symbol order profile")
+            elif node.order_kind=="lex-symbol":
+                if not isinstance(node.element_domain,CollectionDomain) or not isinstance(node.element_domain.element_domain,SymbolDomain):
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order requires Collection<Symbol> elements")
+                expected=node.element_domain.element_domain.identity
+                if node.symbol_domain_id!=expected:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order domain/profile mismatch")
+                if expected not in complete_order_domains:
+                    _fail("DOMAIN_COLLECTION_ORDER", "lexicographic Symbol Collection order requires an explicit complete Symbol order profile")
+            else:
+                _fail("DOMAIN_COLLECTION_ORDER", "unknown Collection order profile")
         return d
 
     def action(node: h.HastExecutable, current_act=None) -> None:
@@ -319,6 +411,12 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
                 expected=SymbolDomain(node.proposition.domain_id)
                 if left_domain != expected or right_domain != expected:
                     _fail("DOMAIN_SYMBOL_EQUALITY", "Symbol equality operands must belong to the same declared Symbol domain")
+            elif isinstance(node.proposition, h.HastCollectionMembershipProposition):
+                collection_domain=value(node.proposition.collection)
+                item_domain=value(node.proposition.item)
+                expected=CollectionDomain(node.proposition.element_domain)
+                if collection_domain != expected or item_domain != node.proposition.element_domain:
+                    _fail("DOMAIN_COLLECTION_MEMBERSHIP", "membership operands do not share the book element domain")
             else:
                 _fail("DOMAIN_PROPOSITION", f"unsupported proposition {type(node.proposition).__name__}")
             action(node.if_holds, current_act)

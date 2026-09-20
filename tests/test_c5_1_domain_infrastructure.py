@@ -206,7 +206,7 @@ def test_artifact_rejects_collection_element_domain_metadata_mismatch():
     # Give the place a Collection<other> contract so only element-domain inconsistency is under test.
     place=ir.place_domains[0].place
     coll=CollectionDomain(SymbolDomain(other))
-    bad=dataclasses.replace(ir,initial_facts=(I.IRInitialFact(sp(),place,invalid),),place_domains=(I.IRPlaceDomain(sp(),place,coll),),principal=I.IRReplaceCurrentFact(sp(),place,invalid),acts=(),act_output_domains=(),symbols=tuple(x for x in ir.symbols if x.kind=="place"),role_domains=())
+    bad=dataclasses.replace(ir,initial_facts=(I.IRInitialFact(sp(),place,invalid),),place_domains=(I.IRPlaceDomain(sp(),place,coll),),principal=I.IRReplaceCurrentFact(sp(),place,invalid),acts=(),act_output_domains=(),symbols=tuple(x for x in ir.symbols if x.kind=="place"),role_domains=(),symbol_domains=ir.symbol_domains+(I.IRSymbolDomainDeclaration(sp(),other),))
     with pytest.raises(ArtifactVerificationError,match="COLLECTION_ELEMENT"):
         verify_artifact(_artifact_bytes(bad))
 

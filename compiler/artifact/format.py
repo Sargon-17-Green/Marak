@@ -14,16 +14,19 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.3-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.4-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
     irm.IRPlaceDomain, irm.IRRoleDomain, irm.IRActOutputDomain, irm.IRProgramInputDomain,
     irm.IRNatural, irm.IRSymbolValue, irm.IRIndexValue, irm.IRCollectionValue,
+    irm.IRCollectionAppend, irm.IRCollectionCount, irm.IRCollectionSelectNatural,
+    irm.IRCollectionSelectValue, irm.IRCollectionOrder,
     irm.IRIndexSuccessor, irm.IRIndexPredecessor,
     irm.IRReadCurrentFact, irm.IRReadCurrentValue, irm.IRReadRoleNumber, irm.IRReadRoleValue,
     irm.IRRecentResult, irm.IRRecentTypedResult, irm.IRAddNatural, irm.IRCheckedSubtractNatural,
     irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRSymbolEqualProposition,
+    irm.IRCollectionMembershipProposition,
     irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
     irm.IRPerformAct, irm.IRProduceResult, irm.IRThen, irm.IRConditional,
     irm.IRFixedRecurrence, irm.IRPostActionRecurrence,
@@ -179,6 +182,30 @@ def verify_ir(program: irm.IRProgram) -> None:
             raise ArtifactVerificationError("Symbol value lacks canonical external label")
         if isinstance(n, irm.IRCollectionValue) and not all(isinstance(x, irm.IRValue) for x in n.items):
             raise ArtifactVerificationError("collection contains non-value IR node")
+        if isinstance(n, irm.IRCollectionAppend):
+            if not isinstance(n.collection,irm.IRValue) or not isinstance(n.item,irm.IRValue):
+                raise ArtifactVerificationError("invalid Collection append operands")
+        if isinstance(n, irm.IRCollectionCount) and not isinstance(n.collection,irm.IRValue):
+            raise ArtifactVerificationError("invalid Collection count operand")
+        if isinstance(n,(irm.IRCollectionSelectNatural,irm.IRCollectionSelectValue)):
+            if n.mode not in {"first","last","ordinal"}:
+                raise ArtifactVerificationError("invalid Collection selection mode")
+            if not isinstance(n.collection,irm.IRValue):
+                raise ArtifactVerificationError("invalid Collection selection operand")
+            if (n.mode=="ordinal") != (n.position is not None):
+                raise ArtifactVerificationError("invalid Collection selection position shape")
+            if n.position is not None and not isinstance(n.position,irm.IRNumber):
+                raise ArtifactVerificationError("invalid Collection position operand")
+        if isinstance(n,irm.IRCollectionOrder):
+            if n.order_kind not in {"natural","symbol","lex-natural","lex-symbol"}:
+                raise ArtifactVerificationError("unknown Collection order tag")
+            if not isinstance(n.collection,irm.IRValue):
+                raise ArtifactVerificationError("invalid Collection order operand")
+            if (n.order_kind in {"symbol","lex-symbol"}) != (n.symbol_domain_id is not None):
+                raise ArtifactVerificationError("invalid Collection order profile metadata")
+        if isinstance(n,irm.IRCollectionMembershipProposition):
+            if not isinstance(n.item,irm.IRValue) or not isinstance(n.collection,irm.IRValue):
+                raise ArtifactVerificationError("invalid Collection membership operands")
         if isinstance(n, irm.IRRoleAssociation) and not isinstance(n.value, irm.IRValue):
             raise ArtifactVerificationError("invalid role value kind")
         if isinstance(n, irm.IRReplaceCurrentFact) and not isinstance(n.value, irm.IRValue):
