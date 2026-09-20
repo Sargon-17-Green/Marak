@@ -6023,6 +6023,56 @@
     },
     {
       "admitted": true,
+      "construction_id": "C55.PROGRAM_INPUT_REFERENCE",
+      "lhs": "CountAsNumber",
+      "production_id": "C55.INPUT.COUNT_AS.NATURAL",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "כמספר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומד"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C54.COUNT_AS_NUMBER"
+    },
+    {
+      "admitted": true,
       "construction_id": "C55.PROGRAM_INPUT_DECLARATION",
       "lhs": "PreparatoryUnit",
       "production_id": "C55.INPUT.DECLARE.COLLECTION",
