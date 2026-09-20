@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from compiler.api import compile_source
+from compiler.api import compile_source, parse
 from compiler.backend.portable import execute_ir
 from compiler.models.domains import NATURAL
 from compiler.models.values import BidirectionalIndexValue, NaturalValue
@@ -248,3 +248,44 @@ def test_d4_does_not_invent_day_input_surface_or_transport_syntax():
     assert "ובטרם תחל המלאכה הזאת יעמד מספר יום" not in text
     assert "stdin" not in text.lower()
     assert "argv" not in text.lower()
+
+
+def test_request_001_negative_raw_visible_label_is_not_a_symbol_value():
+    assert not parse("טין", start_lhs="SymbolValue").forest.alternatives
+
+
+def test_request_002_negative_historical_year_alias_is_not_index_value():
+    assert not parse("שנת חמשת אלפים", start_lhs="IndexValue").forest.alternatives
+    assert parse("חמשת אלפים שנים אחרי שנת אין", start_lhs="IndexValue").forest.alternatives
+
+
+def test_request_003_negative_bare_untyped_book_is_not_collection_value():
+    assert not parse("ספר", start_lhs="CollectionValue").forest.alternatives
+
+
+def test_request_004_negative_historical_less_wording_is_not_natural_gt_surface():
+    bad = " ".join([
+        place_nat("דגל", 1),
+        "ועתה אם " + num(3) + " ימעט מן " + num(7)
+        + " " + replace_nat("דגל", num(2))
+        + " ואם לא " + replace_nat("דגל", num(1)),
+    ])
+    assert not compile_source(bad).valid
+
+
+def test_request_005_negative_historical_125_spelling_is_not_direct_canonical_natural():
+    bad = " ".join([
+        "יהי מקום ושמו מנין ובמקום אשר שמו מנין יהי המספר אשר הוא חמש ועשרים ומאה לבדו",
+        "ועתה " + replace_nat("מנין", num(1)),
+    ])
+    assert not compile_source(bad).valid
+    assert format_natural(125) == "מאה ועשרים וחמש"
+
+
+def test_request_006_negative_postposed_dynamic_recurrence_is_not_canonical_surface():
+    bad_action = increment("מונה")
+    bad = " ".join([
+        place_nat("מונה", 3),
+        "ועתה " + bad_action + " פעמים כמספר אשר במקום אשר שמו מונה",
+    ])
+    assert not compile_source(bad).valid
