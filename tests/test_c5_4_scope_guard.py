@@ -63,7 +63,7 @@ def test_repeat_exactly_runtime_has_no_semantic_iteration_cap_or_host_recursion(
     for path in paths:
         tree=ast.parse(path.read_text(encoding="utf-8"),filename=str(path))
         recursive_calls=[]
-        for fn in (n for n in ast.walk(tree) if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef))):
+        for fn in (n for n in ast.walk(tree) if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in {"execute","action"}):
             for call in ast.walk(fn):
                 if (
                     isinstance(call,ast.Call) and isinstance(call.func,ast.Attribute)
@@ -71,8 +71,8 @@ def test_repeat_exactly_runtime_has_no_semantic_iteration_cap_or_host_recursion(
                     and call.func.attr==fn.name
                 ):
                     recursive_calls.append((fn.name,call.lineno))
-        # Calls such as run()->self.action() are ordinary dispatch.  What C5.4
-        # forbids is host recursion of action()/execute() by recurrence depth.
+        # Value-expression recursion is unrelated to the recurrence cardinality.
+        # C5.4's finite N must not consume Python stack through execute/action.
         assert not recursive_calls
 
 
