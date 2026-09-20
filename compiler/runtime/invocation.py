@@ -1,18 +1,14 @@
-"""Abstract Program Input invocation contract.
+"""Program Input invocation contract.
 
-Bindings carry compiler semantic Values, never transport/host values.  In
-particular a Natural input is represented here as ``NaturalValue(n)``; the
-Python ``int`` used by some execution internals is not an invocation-boundary
-representation.  Transport adapters may construct these Values later, but
-that conversion is outside Marak language semantics.
+Bindings carry Marak semantic Values, never transport/host values. Validation
+is contextual to the target program contract and precedes every Preparation.
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 
 from compiler.models.domains import ProgramInputId
-from compiler.models.ir import IRProgram
-from compiler.models.values import SemanticValue, value_domain
+from compiler.models.values import NaturalValue, SemanticValue, value_domain
 
 MISSING_INPUT_BINDING = "MISSING_INPUT_BINDING"
 EXTRA_INPUT_BINDING = "EXTRA_INPUT_BINDING"
@@ -36,9 +32,20 @@ class InvocationIssue:
 @dataclass(frozen=True, slots=True)
 class ValidatedInvocation:
     bindings: tuple[InputBinding, ...]
+    program_contract: str | None = None
 
 
-def validate_invocation(program: IRProgram, bindings: tuple[InputBinding, ...]) -> ValidatedInvocation | tuple[InvocationIssue, ...]:
+@dataclass(frozen=True, slots=True)
+class InvalidInvocation:
+    issues: tuple[InvocationIssue, ...]
+
+
+def _contract_owner(program) -> str | None:
+    owners = {x.input_id.program_contract for x in program.program_input_domains}
+    return next(iter(owners), None) if len(owners) <= 1 else None
+
+
+def validate_invocation(program, bindings: tuple[InputBinding, ...]) -> ValidatedInvocation | tuple[InvocationIssue, ...]:
     contracts = {x.input_id: x.domain for x in program.program_input_domains}
     seen: dict[ProgramInputId, SemanticValue] = {}
     issues: list[InvocationIssue] = []
@@ -50,7 +57,7 @@ def validate_invocation(program: IRProgram, bindings: tuple[InputBinding, ...]) 
         seen[binding.input_id] = binding.value
         expected = contracts.get(binding.input_id)
         if expected is None:
-            issues.append(InvocationIssue(EXTRA_INPUT_BINDING, binding.input_id, "Program Input is not declared by this program"))
+            issues.append(InvocationIssue(EXTRA_INPUT_BINDING, binding.input_id, "Program Input is not declared by this program contract"))
             continue
         try:
             actual = value_domain(binding.value)
@@ -66,11 +73,29 @@ def validate_invocation(program: IRProgram, bindings: tuple[InputBinding, ...]) 
 
     if issues:
         return tuple(issues)
-    return ValidatedInvocation(tuple(sorted(bindings, key=lambda x: x.input_id.serial)))
+    return ValidatedInvocation(
+        tuple(sorted(bindings, key=lambda x: (x.input_id.serial, x.input_id.spelling, x.input_id.program_contract))),
+        _contract_owner(program),
+    )
+
+
+def prepare_invocation(program, supplied: tuple[InputBinding, ...] | ValidatedInvocation = ()) -> ValidatedInvocation | InvalidInvocation:
+    # ValidatedInvocation is not a context-free bearer token. Revalidate its
+    # immutable semantic bindings against the target program every time.
+    raw = supplied.bindings if isinstance(supplied, ValidatedInvocation) else supplied
+    result = validate_invocation(program, tuple(raw))
+    return result if isinstance(result, ValidatedInvocation) else InvalidInvocation(result)
+
+
+def runtime_input_values(validated: ValidatedInvocation) -> dict[ProgramInputId, object]:
+    return {
+        b.input_id: (b.value.value if isinstance(b.value, NaturalValue) else b.value)
+        for b in validated.bindings
+    }
 
 
 __all__ = [
     "MISSING_INPUT_BINDING", "EXTRA_INPUT_BINDING", "DUPLICATE_INPUT_BINDING",
     "INPUT_DOMAIN_MISMATCH", "InputBinding", "InvocationIssue", "ValidatedInvocation",
-    "validate_invocation",
+    "InvalidInvocation", "validate_invocation", "prepare_invocation", "runtime_input_values",
 ]

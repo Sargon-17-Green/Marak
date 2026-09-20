@@ -28,6 +28,10 @@ def value(n: h.HastValue) -> i.IRValue:
         return i.IRIndexSuccessor(n.source_span, value(n.operand))
     if isinstance(n, h.HastIndexPredecessor):
         return i.IRIndexPredecessor(n.source_span, value(n.operand))
+    if isinstance(n, h.HastProgramInputNumber):
+        return i.IRReadProgramInputNumber(n.source_span, n.input_id)
+    if isinstance(n, h.HastProgramInputValue):
+        return i.IRReadProgramInputValue(n.source_span, n.input_id, n.domain)
     if isinstance(n, h.HastCurrentFact):
         return i.IRReadCurrentFact(n.source_span, n.place.serial)
     if isinstance(n, h.HastCurrentValue):
