@@ -10,7 +10,7 @@ from compiler.models.domains import (
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.4-candidate-1"
+HAST_VERSION = "core-hast-0.5-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -261,6 +261,13 @@ class HastFixedRecurrence(HastExecutable):
     def __post_init__(self) -> None:
         if type(self.count) is not int or self.count < 0:
             raise ValueError("fixed recurrence count must be a Natural")
+
+
+@dataclass(frozen=True, slots=True)
+class HastRepeatExactly(HastExecutable):
+    """General exact recurrence; count is evaluated exactly once at entry."""
+    count: HastNumber
+    action: HastExecutable
 
 
 @dataclass(frozen=True, slots=True)
