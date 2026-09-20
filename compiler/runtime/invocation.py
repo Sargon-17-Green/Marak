@@ -7,8 +7,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from compiler.models.domains import ProgramInputId
-from compiler.models.values import NaturalValue, SemanticValue, value_domain
+from compiler.models.domains import (
+    BidirectionalIndexDomain, CollectionDomain, NaturalDomain, ProgramInputId,
+    SymbolDomain,
+)
+from compiler.models.values import (
+    BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue,
+    SymbolValue, value_domain,
+)
 
 MISSING_INPUT_BINDING = "MISSING_INPUT_BINDING"
 EXTRA_INPUT_BINDING = "EXTRA_INPUT_BINDING"
@@ -49,6 +55,64 @@ def _contract_owner(program) -> str | None:
     return next(iter(owners), None) if len(owners) <= 1 else None
 
 
+def _canonical_symbol_members(program) -> dict[tuple[object, object], str]:
+    """Return canonical Symbol member metadata for this HAST or IR program."""
+    declarations = getattr(program, "symbol_members", None)
+    if declarations is None:
+        declarations = tuple(
+            item for item in getattr(program, "preparation", ())
+            if (
+                hasattr(item, "domain_id")
+                and hasattr(item, "member_id")
+                and hasattr(item, "external_label")
+            )
+        )
+    return {
+        (item.domain_id, item.member_id): item.external_label
+        for item in declarations
+    }
+
+
+def _bound_value_is_valid(program, declared_domain, value: object) -> bool:
+    """Validate a caller Value against this program's canonical semantics."""
+    if isinstance(declared_domain, NaturalDomain):
+        return (
+            isinstance(value, NaturalValue)
+            and type(value.value) is int
+            and value.value >= 0
+        )
+
+    if isinstance(declared_domain, BidirectionalIndexDomain):
+        if not isinstance(value, BidirectionalIndexValue):
+            return False
+        if value.side not in {"before", "zero", "after"}:
+            return False
+        if type(value.magnitude) is not int or value.magnitude < 0:
+            return False
+        return value.magnitude == 0 if value.side == "zero" else value.magnitude > 0
+
+    if isinstance(declared_domain, SymbolDomain):
+        if not isinstance(value, SymbolValue):
+            return False
+        if value.domain_id != declared_domain.identity:
+            return False
+        canonical_label = _canonical_symbol_members(program).get(
+            (value.domain_id, value.member_id)
+        )
+        return canonical_label is not None and value.external_label == canonical_label
+
+    if isinstance(declared_domain, CollectionDomain):
+        if not isinstance(value, CollectionValue):
+            return False
+        if value.element_domain != declared_domain.element_domain:
+            return False
+        return all(
+            _bound_value_is_valid(program, declared_domain.element_domain, item)
+            for item in value.items
+        )
+
+    return False
+
 def validate_invocation(program, bindings: tuple[InputBinding, ...]) -> ValidatedInvocation | tuple[InvocationIssue, ...]:
     contracts = {x.input_id: x.domain for x in program.program_input_domains}
     seen: dict[ProgramInputId, SemanticValue] = {}
@@ -68,8 +132,12 @@ def validate_invocation(program, bindings: tuple[InputBinding, ...]) -> Validate
         except TypeError:
             issues.append(InvocationIssue(INPUT_DOMAIN_MISMATCH, binding.input_id, "Program Input binding is not a Marak semantic Value"))
             continue
-        if actual != expected:
-            issues.append(InvocationIssue(INPUT_DOMAIN_MISMATCH, binding.input_id, "Program Input Value domain does not equal its declared domain"))
+        if actual != expected or not _bound_value_is_valid(program, expected, binding.value):
+            issues.append(InvocationIssue(
+                INPUT_DOMAIN_MISMATCH,
+                binding.input_id,
+                "Program Input Value is not a canonical semantic Value of its declared domain for this program",
+            ))
 
     for input_id in contracts:
         if input_id not in seen:
