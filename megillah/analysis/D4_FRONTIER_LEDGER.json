@@ -42,5 +42,6 @@
       "evidence": "Tablets relation/offset/heading externalized after occurrence-level dependency audit."
     }
   ],
-  "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation"
+  "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
+  "t02_ci_trigger": "contents-api trigger for Tablets tranche measurement"
 }
