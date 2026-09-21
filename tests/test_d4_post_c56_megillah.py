@@ -327,7 +327,7 @@ def _d4_luach6_preparation() -> str:
     big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
     next_section = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
     fast_start = next(i for i, line in enumerate(lines) if line.startswith("זה דבר המעשה אשר שמו נותרמהר "))
-    luach7 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    luach7 = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרטיפה"))
     selected = lines[0:6] + lines[big_start:next_section] + lines[fast_start:luach7]
     return " ".join(
         line for line in selected
@@ -407,7 +407,7 @@ def test_d4_post_c56_luach6_uses_safe_post_action_remainder_not_underflow_contro
 def _d4_luach6_wrapped_subtraction_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
-    luach7 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    luach7 = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרטיפה"))
     selected = lines[0:6] + lines[big_start:luach7]
     return " ".join(
         line for line in selected
@@ -523,7 +523,7 @@ def test_d4_post_c56_luach6_fast_remainder_handles_large_natural_by_doubling():
 def test_d4_post_c56_luach6_fast_remainder_is_recursive_doubling_greedy_not_linear_subtraction():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("זה דבר המעשה אשר שמו נותרמהר "))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרטיפה"))
     text = " ".join(lines[start:end])
     assert "עשה את המעשה אשר שמו חיבור" in text
     assert text.count("שמו מחלק תחת הדבר אשר במעשה אשר שמו חיבור") >= 2
