@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from compiler.models.hast import (
     HastActBody, HastAddNatural, HastConditional, HastCoreProgram, HastCurrentFact,
     HastCurrentRoleNumber, HastEqualProposition, HastExactNatural, HastExecutable,
-    HastFixedRecurrence, HastRepeatExactly, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
+    HastFixedRecurrence, HastRepeatExactly, HastNumber, HastValue, HastSymbolValue, HastIndexValue, HastCollectionValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult, HastIndexSuccessor, HastIndexPredecessor, HastNaturalGTProposition, HastIndexLTProposition, HastSymbolEqualProposition, HastPerformAct, HastPlaceIntroduction,
     HastPostActionRecurrence, HastProduceResult, HastProposition, HastRecentResult,
     HastReplaceCurrentFact, HastSubtractNatural, HastThen,
     HastCollectionAppend, HastCollectionCount, HastCollectionSelectNatural,
@@ -15,7 +15,7 @@ from compiler.models.hast import (
 )
 from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
 from compiler.models.domains import NATURAL, CollectionDomain, Domain
-from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, symbol_identity_equal, semantic_value_equal, value_domain
+from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, index_lt, symbol_identity_equal, semantic_value_equal, value_domain
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
@@ -416,6 +416,12 @@ class ReferenceEvaluator:
             return self.eval_number(proposition.left, state, occ, prov) == self.eval_number(proposition.right, state, occ, prov)
         if isinstance(proposition,HastNaturalGTProposition):
             return self.eval_number(proposition.left,state,occ,prov) > self.eval_number(proposition.right,state,occ,prov)
+        if isinstance(proposition,HastIndexLTProposition):
+            left=self.eval_value(proposition.left,state,occ,prov)
+            right=self.eval_value(proposition.right,state,occ,prov)
+            if not isinstance(left,BidirectionalIndexValue) or not isinstance(right,BidirectionalIndexValue):
+                raise _TermFault("INTERNAL_DOMAIN_GUARD")
+            return index_lt(left,right)
         if isinstance(proposition,HastSymbolEqualProposition):
             left=self.eval_value(proposition.left,state,occ,prov); right=self.eval_value(proposition.right,state,occ,prov)
             if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _TermFault("INTERNAL_DOMAIN_GUARD")
