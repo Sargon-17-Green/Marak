@@ -26,5 +26,6 @@
       "next_blocker": null,
       "evidence": "Candidate SHA observed by CI integrity failure before frozen-test adaptation; frontier measurement pending rerun."
     }
-  ]
+  ],
+  "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation"
 }
