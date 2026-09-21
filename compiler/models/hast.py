@@ -10,7 +10,7 @@ from compiler.models.domains import (
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.source.source_map import OriginalSpan
 
-HAST_VERSION = "core-hast-0.6-candidate-1"
+HAST_VERSION = "core-hast-0.7-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -205,6 +205,12 @@ class HastEqualProposition(HastProposition):
 class HastNaturalGTProposition(HastProposition):
     left: HastNumber
     right: HastNumber
+
+
+@dataclass(frozen=True, slots=True)
+class HastIndexLTProposition(HastProposition):
+    left: HastValue
+    right: HastValue
 
 
 @dataclass(frozen=True, slots=True)
