@@ -54,6 +54,10 @@ def test_c56_has_only_one_new_semantic_operation_family():
     # Generic literals and carrier heads must reuse existing Value/carrier nodes.
     assert hasattr(H, "HastIndexLTProposition")
     assert hasattr(I, "IRIndexLTProposition")
+    assert issubclass(H.HastIndexLTProposition, H.HastProposition)
+    assert not issubclass(H.HastIndexLTProposition, H.HastValue)
+    assert issubclass(I.IRIndexLTProposition, I.IRProposition)
+    assert not issubclass(I.IRIndexLTProposition, I.IRValue)
     assert callable(V.index_lt)
 
     forbidden_class_fragments = (
