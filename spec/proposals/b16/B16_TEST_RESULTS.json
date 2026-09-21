@@ -1,0 +1,16 @@
+{
+  "schema": "marak-b16-test-results-v1",
+  "status": "PENDING_GITHUB_CI",
+  "baseline": "0f269e53ea55b185628e1bc12e2be85426144a1f",
+  "expected_regressions": {
+    "b13_reference_tests": 28,
+    "b15_reference_tests": 29,
+    "a16_reference_checks": 2548,
+    "a17_proposal_checks": 4415
+  },
+  "b16_reference_tests": "PENDING",
+  "b16_regression_gate_tests": 4,
+  "full_pytest": "PENDING",
+  "ci": "PENDING",
+  "failures": []
+}
