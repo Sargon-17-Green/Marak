@@ -257,6 +257,7 @@ jobs:
           python spec/semantics/run_all.py
           python spec/proposals/a15/tools/run_a15_surface_tests.py
           python spec/proposals/b13/reference/run_reference_tests.py
+          python spec/proposals/b14/reference/run_b14_integration_tests.py
           python spec/proposals/a16/reference/run_a16_surface_tests.py
           python spec/proposals/a17/reference/run_a17_surface_tests.py
           python spec/proposals/b15/reference/run_b15_tests.py
