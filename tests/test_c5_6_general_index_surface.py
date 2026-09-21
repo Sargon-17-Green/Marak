@@ -15,6 +15,7 @@ from compiler.runtime.reference import execute_reference
 from tests.test_c5_2_surface_pipeline import (
     act,
     body,
+    current,
     idx_place,
     idx_recent,
     idx_role,
@@ -285,3 +286,84 @@ def test_same_position_classification_uses_two_strict_order_tests_and_named_act(
     for a, b, expected in [(-2, 5, 1), (5, -2, 2), (4, 4, 3)]:
         _, obs = three(source(a, b))
         assert dict(obs["facts"])["דגל"] == expected
+
+
+def test_existing_year_oriented_index_collection_accepts_general_index_value_items():
+    from tests.test_c5_3_collections import append_idx, empty_idx, place_book
+    src = " ".join([
+        place_book("ספר", append_idx(empty_idx(), general_index(6))),
+        "ועתה " + replace_nat("דגל", num(1)),
+    ])
+    # Add an ordinary Natural place only so Principal has a visible harmless action.
+    src = place_nat("דגל", 0 + 1) + " " + src
+    _, obs = three(src)
+    assert dict(obs["facts"])["ספר"] == [{"index": "AfterZero", "magnitude": 6}]
+
+
+def _zero_natural() -> str:
+    return f"המספר הנחשב בגרע את {num(1)} מן {num(1)}"
+
+
+def _increment_natural(place: str) -> str:
+    return (
+        f"המספר הנחשב בהוסיף את {num(1)} על {current(place)}"
+    )
+
+
+def distance_source(start: int, target_value: int) -> str:
+    cursor, target, counter = "סמן", "יעד", "מונה"
+    decide, decide_back = "הכרע", "הכרעאחור"
+    forward, backward = "קדימה", "אחורה"
+    forward_step, backward_step, done = "צעדקדימה", "צעדאחורה", "סיום"
+
+    forward_test = index_lt(general_place(cursor), idx_place(target))
+    backward_test = index_lt(idx_place(target), general_place(cursor))
+
+    decide_body = (
+        f"אם {forward_test} {perform(forward)} ואם לא {perform(decide_back)}"
+    )
+    decide_back_body = (
+        f"אם {backward_test} {perform(backward)} ואם לא {perform(done)}"
+    )
+    forward_body = (
+        f"אם {forward_test} {perform(forward_step)} ואם לא {perform(done)}"
+    )
+    backward_body = (
+        f"אם {backward_test} {perform(backward_step)} ואם לא {perform(done)}"
+    )
+    forward_step_body = " ואחרי כן ".join([
+        replace_general(cursor, general_succ(general_place(cursor))),
+        replace_nat(counter, _increment_natural(counter)),
+        perform(forward),
+    ])
+    backward_step_body = " ואחרי כן ".join([
+        replace_idx(cursor, general_pred(idx_place(cursor))),
+        replace_nat(counter, _increment_natural(counter)),
+        perform(backward),
+    ])
+
+    counter_intro = (
+        f"יהי מקום ושמו {counter} ובמקום אשר שמו {counter} "
+        f"יהי {_zero_natural()} לבדו"
+    )
+    return " ".join([
+        place_typed(cursor, general_index(start)),
+        place_typed(target, year_index(target_value)),
+        counter_intro,
+        act(decide), act(decide_back), act(forward), act(backward),
+        act(forward_step), act(backward_step), act(done),
+        body(decide, decide_body),
+        body(decide_back, decide_back_body),
+        body(forward, forward_body),
+        body(backward, backward_body),
+        body(forward_step, forward_step_body),
+        body(backward_step, backward_step_body),
+        body(done, replace_nat(counter, current(counter))),
+        "ועתה " + perform(decide),
+    ])
+
+
+def test_constructive_distance_is_composed_without_distance_or_index_equality_surface():
+    for start, target, expected in [(-2, 2, 4), (2, -2, 4), (3, 3, 0)]:
+        _, obs = three(distance_source(start, target))
+        assert dict(obs["facts"])["מונה"] == expected
