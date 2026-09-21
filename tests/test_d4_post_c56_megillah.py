@@ -271,3 +271,84 @@ def test_d4_post_c56_luach5_uses_exact_canonical_127_count_and_persistent_place(
     assert "שש ועשרים ומאה פעמים" not in text
     assert "שמנה ועשרים ומאה פעמים" not in text
     assert "יהי מקום ושמו מספרגדול" in text
+
+def _d4_luach6_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    next_heading = next(i for i, line in enumerate(lines) if line.startswith("## לקחת מספר מאחיו"))
+    selected = lines[0:6] + lines[big_start:next_heading]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def _d4_remainder_call(value: str, divisor: str) -> str:
+    return (
+        "עשה את המעשה אשר שמו נותר "
+        f"בהיות {value} תחת הדבר אשר במעשה אשר שמו נותר שמו מספר "
+        f"ובהיות {divisor} תחת הדבר אשר במעשה אשר שמו נותר שמו מחלק"
+    )
+
+
+def _d4_keep_call(value: str) -> str:
+    return (
+        "עשה את המעשה אשר שמו שמור "
+        f"בהיות {value} תחת הדבר אשר במעשה אשר שמו שמור שמו מספר"
+    )
+
+
+def test_d4_post_c56_luach6_plain_remainder_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    cases = [
+        ("המספר אשר הוא עשרים ושלשה", "המספר אשר הוא שבעה", 2),
+        ("המספר אשר הוא עשרים ואחד", "המספר אשר הוא שבעה", 0),
+        ("המספר אשר הוא חמשה", "המספר אשר הוא שבעה", 5),
+    ]
+    prep = _d4_luach6_preparation()
+    for value, divisor, want in cases:
+        source = prep + " ועתה " + _d4_remainder_call(value, divisor)
+        _, obs = three(source)
+        assert obs["products"][-1] == ["נותר", want]
+        assert dict(obs["facts"])["נותרעבודה"] == want
+
+
+def test_d4_post_c56_luach6_keep_maps_zero_remainder_to_big_number():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_preparation()
+    source = (
+        prep
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן "
+        + _d4_keep_call("המספר אשר במקום אשר שמו מספרגדול")
+    )
+    _, obs = three(source)
+    want = (1 << 127) - 1
+    assert obs["products"][-1] == ["שמור", want]
+    assert dict(obs["facts"])["שמורעבודה"] == want
+
+
+def test_d4_post_c56_luach6_keep_preserves_nonzero_remainder():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_preparation()
+    source = (
+        prep
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן "
+        + _d4_keep_call("המספר אשר הוא שבעה")
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["שמור", 7]
+    assert dict(obs["facts"])["שמורעבודה"] == 7
+
+
+def test_d4_post_c56_luach6_uses_safe_post_action_remainder_not_underflow_control():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נותרעבודה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("## לקחת מספר מאחיו"))
+    text = " ".join(lines[start:end])
+    assert "וכן תעשה עד אשר המספר אשר במקום אשר שמו נותרמחלק רב מן המספר אשר במקום אשר שמו נותרעבודה" in text
+    assert "אם המספר אשר במקום אשר שמו נותרמחלק רב מן המספר אשר במקום אשר שמו נותרעבודה" in text
+    assert "יהי מעשה ושמו נותר" in text
+    assert "יהי מעשה ושמו שמור" in text
+

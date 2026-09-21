@@ -226,3 +226,18 @@ One new language-surface need is established:
 `D4-LANG-001`.
 
 D can continue independent analysis, but it cannot honestly move the production candidate through the current first frontier until Master routes that finding.
+
+## Post-C5.6 continuation — T07 / Luach Five
+
+GitHub Actions run `35607304124` verified the Luach Five repair on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **47 passed** on Ubuntu; Windows dedicated D4 job also PASS.
+- candidate SHA-256: `c150be620c995b517429805e9871c8d0418755932a90224a204b1e03e7e6fbc6`
+- normalized tokens: **10,476**
+- frontier token: **2,313**
+- candidate line: **173**
+- mapped original line: **197**
+- next source blocker: `# לוח שש: הנותר ודבר שמור`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+The full workflow is not a D4 gate: core/C5.6 still hit the frozen `D4-CONF-001` candidate receipt, and one Windows proposal-regression job also failed outside the dedicated D4 signal. Neither is repaired from Workstream D.

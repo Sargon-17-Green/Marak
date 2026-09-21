@@ -100,6 +100,20 @@
     },
     {
       "tranche_id": "D4-C56-T07-LUACH5",
+      "candidate_sha256": "c150be620c995b517429805e9871c8d0418755932a90224a204b1e03e7e6fbc6",
+      "normalized_token_frontier": 2313,
+      "candidate_line": 173,
+      "original_line": 197,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SIX",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-007",
+      "next_blocker": "# לוח שש: הנותר ודבר שמור",
+      "evidence": "GitHub Actions run 35607304124: D4 Ubuntu/Windows 47 targeted tests PASS; frontier token 2313",
+      "normalized_token_count": 10476
+    },
+    {
+      "tranche_id": "D4-C56-T08-LUACH6-REMAINDER",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -107,9 +121,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-007",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-008",
       "next_blocker": null,
-      "evidence": "Explicit persistent 2^127-1 construction."
+      "evidence": "Plain Natural remainder plus kept cyclic remainder (zero maps to מספרגדול), using safe Natural subtraction and admitted post-action recurrence."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -118,5 +132,6 @@
   "t04_ci_trigger": "contents-api trigger for Luach Two verification",
   "t05_ci_trigger": "contents-api trigger for Luach Three exact-count verification",
   "t06_ci_trigger": "contents-api trigger for Luach Four square verification",
-  "t07_ci_trigger": "contents-api trigger for Luach Five big-number verification"
+  "t07_ci_trigger": "contents-api trigger for Luach Five big-number verification",
+  "t08_ci_trigger": "pending after Luach Six remainder repair"
 }

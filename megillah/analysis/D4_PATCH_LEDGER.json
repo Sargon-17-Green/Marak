@@ -223,6 +223,35 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-008",
+      "original_span": {
+        "start_line": 197,
+        "end_line": 227
+      },
+      "previous_candidate_span": {
+        "start_line": 173,
+        "end_line": 204
+      },
+      "replacement": "named acts נותר and שמור with explicit Natural work places, safe subtract recurrence, and distinct zero handling",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Plain remainder repeatedly subtracts a positive divisor until subtraction is no longer possible and represents no remainder as אין; שמור performs the same reduction modulo מספרגדול but maps no remainder to מספרגדול, yielding 1..מספרגדול.",
+      "semantic_after": "נותר copies dividend/divisor into Natural work places, enters a post-action subtraction recurrence only when divisor is not greater than the current work value, and returns 0..divisor-1. שמור calls נותר with divisor מספרגדול and maps returned zero to מספרגדול before returning.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 197-227",
+        "A15 strict Natural ordering",
+        "A10/A13 admitted post-action recurrence",
+        "B12 Natural subtraction domain semantics",
+        "focused remainder/kept-remainder three-runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

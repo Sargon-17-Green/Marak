@@ -77,3 +77,11 @@ Original lines 167–193 construct a retained constant by starting at one, doubl
 The candidate now has persistent Naturals `גדולעבודה` and `מספרגדול`, an atomic doubling act `כפלגדול`, and initializer `חשבגדול`. The initializer resets the work value to one, performs `כפלגדול` exactly `מאה ועשרים ושבע פעמים`, stores `2^127-1`, and returns it.
 
 The source's “write once / do not remake every time” rule is represented without hidden setup: final principal assembly must invoke `חשבגדול` once before any dependent operation.
+
+## D4-PATCH-008 — Luach Six / remainder and kept remainder
+
+Original lines 197–227 define two deliberately distinct reductions. `נותר` is ordinary Natural remainder: repeated subtraction of the divisor, with “אין” meaning zero remainder. `שמור` reduces by `מספרגדול` but represents the zero residue by `מספרגדול`, so its result lies in 1..`מספרגדול`.
+
+The repaired candidate defines Natural work places and named acts `נותר`, `נותרגרע`, `נותרלולאה`, and `שמור`. Before entering the post-action subtraction recurrence, `נותר` checks whether the divisor is already greater than the dividend; therefore B12 Natural underflow is never used as loop control. Exact multiples safely subtract to zero and terminate on the next proposition check.
+
+`שמור` calls `נותר` with `מספרגדול` as divisor, then maps only zero to `מספרגדול`. The two operations remain semantically distinct exactly as required by the source.

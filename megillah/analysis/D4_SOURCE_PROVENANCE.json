@@ -192,14 +192,51 @@
         "C5.4 RepeatExactly",
         "focused exact-value three-runtime test"
       ]
+    },
+    {
+      "id": "D4-PATCH-008",
+      "candidate_start_line": 175,
+      "candidate_end_line": 188,
+      "original_lines": [
+        197,
+        199,
+        201,
+        203,
+        205,
+        207,
+        209,
+        211,
+        213,
+        215,
+        217,
+        219,
+        221,
+        223,
+        225,
+        227
+      ],
+      "original_text": "לוח שש: שמור repeatedly reduces by המספר הגדול and maps no remainder to המספר הגדול; ordinary הנותר repeatedly reduces by an arbitrary divisor and represents no remainder as אין; the two must not be confused.",
+      "replacement": "Named Natural acts נותר/שמור with explicit work state, guarded post-action subtraction recurrence, zero as ordinary remainder, and zero->מספרגדול only for שמור.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "The repair preserves both source residue conventions without adding a remainder primitive or treating Natural subtraction failure as control flow. The divisor>work guard makes every subtraction defined; exact multiples reach Natural zero; שמור alone remaps that zero to the retained modulus.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 197-227",
+        "A15 Natural strict order",
+        "A10/A13 post-action recurrence",
+        "B12 subtraction failure boundary",
+        "focused 23 mod 7, 21 mod 7, 5 mod 7, and שמור regressions"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-007 maps Luach Five הגדול construction. Lifecycle/off-by-one prose is externally mapped and constrains final principal assembly.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-008 maps Luach Six ordinary remainder and kept cyclic remainder while preserving their zero-handling distinction.",
   "blocked_future_derivation": {
-    "source_span": "original line 197 onward",
-    "requirement": "Luach Six remainder, שמור, wrapped subtraction",
+    "source_span": "original line 229 onward",
+    "requirement": "Luach Six wrapped subtraction: taking a number from its brother with repeated מספרגדול augmentation when needed",
     "blocker": null,
-    "note": "Measure frontier before next repair."
+    "note": "Measure T08 frontier before repairing the next subsection."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
