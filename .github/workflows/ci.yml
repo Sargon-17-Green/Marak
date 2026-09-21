@@ -235,6 +235,9 @@ jobs:
 
   c5-6:
     name: C5.6 General BidirectionalIndex Surface (${{ matrix.os }})
+    env:
+      PYTHONPATH: .
+      PYTHONUTF8: "1"
     strategy:
       fail-fast: false
       matrix:
