@@ -87,7 +87,10 @@ def test_artifact_and_ir_06_are_stale_not_silently_reinterpreted():
     ("extra_field", "wrong fields"),
     ("missing_field", "wrong fields"),
     ("node_substitution", "IR_NATURAL_GT_DOMAIN"),
-    ("malformed_span", "malformed artifact payload"),
+    ("malformed_span", "source point"),
+    ("span_extra_field", "source point fields"),
+    ("span_wrong_type", "source point line"),
+    ("span_reversed", "source span is reversed"),
 ])
 def test_index_lt_artifact_forgery_is_rejected(mutation, needle):
     c = order_program()
@@ -101,8 +104,17 @@ def test_index_lt_artifact_forgery_is_rejected(mutation, needle):
         del node["right"]
     elif mutation == "node_substitution":
         node["tag"] = "IRNaturalGTProposition"
-    else:
+    elif mutation == "malformed_span":
         del node["source_span"]["$span"]["start"]["line"]
+    elif mutation == "span_extra_field":
+        node["source_span"]["$span"]["start"]["profile"] = "general"
+    elif mutation == "span_wrong_type":
+        node["source_span"]["$span"]["start"]["line"] = "1"
+    else:
+        start = node["source_span"]["$span"]["start"]
+        end = node["source_span"]["$span"]["end"]
+        start["char_offset"], end["char_offset"] = end["char_offset"] + 1, start["char_offset"]
+        start["byte_offset"], end["byte_offset"] = end["byte_offset"] + 1, start["byte_offset"]
     with pytest.raises(ArtifactVerificationError, match=needle):
         verify_artifact(_resign(obj))
 
