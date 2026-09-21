@@ -14,7 +14,7 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.6-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.7-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
@@ -26,7 +26,7 @@ _IR_CLASSES = (
     irm.IRReadProgramInputNumber, irm.IRReadProgramInputValue,
     irm.IRReadCurrentFact, irm.IRReadCurrentValue, irm.IRReadRoleNumber, irm.IRReadRoleValue,
     irm.IRRecentResult, irm.IRRecentTypedResult, irm.IRAddNatural, irm.IRCheckedSubtractNatural,
-    irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRSymbolEqualProposition,
+    irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRIndexLTProposition, irm.IRSymbolEqualProposition,
     irm.IRCollectionMembershipProposition,
     irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
     irm.IRPerformAct, irm.IRProduceResult, irm.IRThen, irm.IRConditional,
@@ -207,6 +207,9 @@ def verify_ir(program: irm.IRProgram) -> None:
         if isinstance(n,irm.IRCollectionMembershipProposition):
             if not isinstance(n.item,irm.IRValue) or not isinstance(n.collection,irm.IRValue):
                 raise ArtifactVerificationError("invalid Collection membership operands")
+        if isinstance(n,irm.IRIndexLTProposition):
+            if not isinstance(n.left,irm.IRValue) or not isinstance(n.right,irm.IRValue):
+                raise ArtifactVerificationError("invalid BidirectionalIndex strict-order operands")
         if isinstance(n, irm.IRRoleAssociation) and not isinstance(n.value, irm.IRValue):
             raise ArtifactVerificationError("invalid role value kind")
         if isinstance(n, irm.IRReplaceCurrentFact) and not isinstance(n.value, irm.IRValue):

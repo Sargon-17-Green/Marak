@@ -14,7 +14,7 @@ from compiler.models.hast import (
     HastPlaceDomain, HastRoleDomain, HastActOutputDomain, HastRepeatExactly,
     HastSymbolValue, HastCurrentValue, HastCurrentRoleValue, HastRecentTypedResult,
     HastIndexValue, HastIndexSuccessor, HastIndexPredecessor,
-    HastNaturalGTProposition, HastSymbolEqualProposition,
+    HastNaturalGTProposition, HastIndexLTProposition, HastSymbolEqualProposition,
     HastSymbolDomainDeclaration, HastSymbolMemberDeclaration, HastSymbolOrderAdjacent,
     HastCollectionValue, HastCollectionAppend, HastCollectionCount,
     HastCollectionSelectNatural, HastCollectionSelectValue, HastCollectionOrder,
@@ -25,7 +25,7 @@ from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDoma
 from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
-from compiler.parse.c5_5_registry import COUNT_AS_NUMBER_ORIGINS
+from compiler.parse.c5_6_registry import COUNT_AS_NUMBER_ORIGINS
 from compiler.source.source_map import OriginalSpan
 
 
@@ -463,28 +463,28 @@ def _lower_index(
                 raise RuntimeError("Collection ordinal position contract")
             position=_lower_number(nums[0],env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
         return HastCollectionSelectValue(node.original,book,BIDIRECTIONAL_INDEX,position,mode)
-    if pid=="C55.INPUT.READ.INDEX":
+    if pid in {"C55.INPUT.READ.INDEX","C56.INPUT.READ.INDEX"}:
         leaf=_direct_leaves(node,"ProgramInputRoleName")[0]
         input_id=_resolve_program_input(leaf.text,env,leaf)
         if env.program_input_domains.get(input_id)!=BIDIRECTIONAL_INDEX:
             raise _issue("REF0503","Year-index Program Input head disagrees with the declared input domain.","ראש מספר השנה של קלט התוכנית אינו מתאים לתחום הקלט המוצהר.",leaf,role=leaf.text)
         return HastProgramInputValue(node.original,input_id,BIDIRECTIONAL_INDEX)
-    if pid=="C52.INDEX.ZERO": return HastIndexValue(node.original,"zero",0)
-    if pid=="C52.INDEX.BEFORE.ONE": return HastIndexValue(node.original,"before",1)
-    if pid=="C52.INDEX.AFTER.ONE": return HastIndexValue(node.original,"after",1)
-    if pid=="C52.INDEX.BEFORE.TWO": return HastIndexValue(node.original,"before",2)
-    if pid=="C52.INDEX.AFTER.TWO": return HastIndexValue(node.original,"after",2)
-    if pid in {"C52.INDEX.BEFORE.MANY","C52.INDEX.AFTER.MANY"}:
+    if pid in {"C52.INDEX.ZERO","C56.INDEX.GENERAL.ZERO"}: return HastIndexValue(node.original,"zero",0)
+    if pid in {"C52.INDEX.BEFORE.ONE","C56.INDEX.GENERAL.BEFORE.ONE"}: return HastIndexValue(node.original,"before",1)
+    if pid in {"C52.INDEX.AFTER.ONE","C56.INDEX.GENERAL.AFTER.ONE"}: return HastIndexValue(node.original,"after",1)
+    if pid in {"C52.INDEX.BEFORE.TWO","C56.INDEX.GENERAL.BEFORE.TWO"}: return HastIndexValue(node.original,"before",2)
+    if pid in {"C52.INDEX.AFTER.TWO","C56.INDEX.GENERAL.AFTER.TWO"}: return HastIndexValue(node.original,"after",2)
+    if pid in {"C52.INDEX.BEFORE.MANY","C52.INDEX.AFTER.MANY","C56.INDEX.GENERAL.BEFORE.MANY","C56.INDEX.GENERAL.AFTER.MANY"}:
         leaves=tuple(x for x in _all_leaves(node,"Numeral:a15-feminine-count-3-99999999") if x.numeric_value is not None)
         if len(leaves)!=1: raise RuntimeError("Index distance numeral contract")
         return HastIndexValue(node.original,"before" if "BEFORE" in pid else "after",leaves[0].numeric_value)
-    if pid=="C52.INDEX.CURRENT.PLACE":
+    if pid in {"C52.INDEX.CURRENT.PLACE","C56.INDEX.GENERAL.CURRENT.PLACE"}:
         leaf=_direct_leaves(node,"PlaceName")[0]
         place=_resolve_place(leaf.text,env,leaf,self_name=pending_self_place)
         if env.place_domains.get(place)!=BIDIRECTIONAL_INDEX:
             raise _issue("REF0210","Index current-place reference requires a BidirectionalIndex place.","הפניית אינדקס לערך הנוכחי במקום מחייבת מקום שתחומו BidirectionalIndex.",leaf,place=place.spelling)
         return HastCurrentValue(node.original,place,BIDIRECTIONAL_INDEX)
-    if pid=="C52.INDEX.CURRENT.ROLE":
+    if pid in {"C52.INDEX.CURRENT.ROLE","C56.INDEX.GENERAL.CURRENT.ROLE"}:
         owner_leaf=_direct_leaves(node,"RoleOwnerActionName")[0]
         role_leaf=_direct_leaves(node,"AssociatedRoleName")[0]
         owner=_resolve_act(owner_leaf.text,env,owner_leaf); role=_resolve_role(owner,role_leaf.text,env,role_leaf)
@@ -493,14 +493,14 @@ def _lower_index(
         if env.role_domains.get(role)!=BIDIRECTIONAL_INDEX:
             raise _issue("REF0211","Index current-role reference requires a BidirectionalIndex role.","הפניית אינדקס לערך הנוכחי בתפקיד מחייבת תפקיד שתחומו BidirectionalIndex.",role_leaf,role=role.spelling)
         return HastCurrentRoleValue(node.original,role,BIDIRECTIONAL_INDEX)
-    if pid=="C52.INDEX.IMMEDIATE":
+    if pid in {"C52.INDEX.IMMEDIATE","C56.INDEX.GENERAL.IMMEDIATE"}:
         leaf=_direct_leaves(node,"ResultActionName")[0]; act=_resolve_act(leaf.text,env,leaf)
         if recent_act is None:
             raise _issue("REF0112","Immediate result reference has no structurally immediate preceding performance.","להפניית התוצאה המיידית אין ביצוע קודם הצמוד לה מבחינה מבנית.",leaf,act=act.spelling)
         if recent_act!=act:
             raise _issue("REF0113","Immediate result reference names a different act from the directly preceding performance.","הפניית התוצאה המיידית נוקבת במעשה שונה מן הביצוע הקודם הישיר.",leaf,expected=recent_act.spelling,actual=act.spelling)
         return HastRecentTypedResult(node.original,act,BIDIRECTIONAL_INDEX)
-    if pid in {"C52.INDEX.SUCC","C52.INDEX.PRED"}:
+    if pid in {"C52.INDEX.SUCC","C52.INDEX.PRED","C56.INDEX.GENERAL.SUCC","C56.INDEX.GENERAL.PRED"}:
         operand=_lower_index(_one_child(node,"IndexValue"),env,current_act=current_act,recent_act=recent_act,pending_self_place=pending_self_place)
         return HastIndexSuccessor(node.original,operand) if pid.endswith("SUCC") else HastIndexPredecessor(node.original,operand)
     raise RuntimeError(f"unsupported admitted IndexValue production {pid}")
@@ -656,6 +656,23 @@ def _lower_proposition(node: ParseNode, env: _Env, *, current_act: ActId | None,
         return HastNaturalGTProposition(node.original,
             _lower_number(nums[0],env,current_act=current_act,recent_act=recent_act),
             _lower_number(nums[1],env,current_act=current_act,recent_act=recent_act))
+    if node.production_id == "C56.PROP.INDEX.LT":
+        vals=_child_nodes(node,"IndexValue")
+        if len(vals)!=2:
+            raise RuntimeError("Index strict-order arity")
+        left=_lower_index(vals[0],env,current_act=current_act,recent_act=recent_act)
+        right=_lower_index(vals[1],env,current_act=current_act,recent_act=recent_act)
+        ld=hast_value_domain(left); rd=hast_value_domain(right)
+        if ld!=BIDIRECTIONAL_INDEX or rd!=BIDIRECTIONAL_INDEX:
+            raise _issue(
+                "SEM0501",
+                "Index strict-order operands must independently resolve to BidirectionalIndex.",
+                "אופרנדי סדר אינדקס קפדני חייבים להיפתר בנפרד לתחום BidirectionalIndex.",
+                node,
+                left_domain=repr(ld),
+                right_domain=repr(rd),
+            )
+        return HastIndexLTProposition(node.original,left,right)
     if node.production_id == "C52.PROP.SYMBOL.EQ":
         vals=_child_nodes(node,"SymbolValue")
         assert len(vals)==2
@@ -766,7 +783,7 @@ def _lower_action(
             raise _issue("SEM0302","Typed replacement value domain does not equal the place's fixed domain.","תחום ערך ההחלפה בעל הטיפוס אינו שווה לתחום הקבוע של המקום.",node,place=place.spelling,expected=repr(expected),actual=repr(actual))
         return HastReplaceCurrentFact(span,place,value)
 
-    if pid in {"C52.PLACE.REPLACE.SYMBOL","C52.PLACE.REPLACE.INDEX"}:
+    if pid in {"C52.PLACE.REPLACE.SYMBOL","C52.PLACE.REPLACE.INDEX","C56.PLACE.REPLACE.INDEX"}:
         names=_direct_leaves(node,"PlaceName")
         if len(names)!=2 or names[0].text!=names[1].text:
             raise _issue("REF0001","Typed replacement destination and displaced current-value description must name the same place.","יעד ההחלפה בעל הטיפוס ותיאור הערך הנוכחי המוחלף חייבים לנקוב באותו מקום.",names[-1] if names else node)
@@ -927,7 +944,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
         }
         inner = _single_parse_child(wrapper) if pid in unwrap_ids else wrapper
 
-        if pid in {"C55.INPUT.DECLARE.NATURAL","C55.INPUT.DECLARE.SYMBOL","C55.INPUT.DECLARE.INDEX","C55.INPUT.DECLARE.COLLECTION"}:
+        if pid in {"C55.INPUT.DECLARE.NATURAL","C55.INPUT.DECLARE.SYMBOL","C55.INPUT.DECLARE.INDEX","C55.INPUT.DECLARE.COLLECTION","C56.INPUT.DECLARE.INDEX"}:
             roles=_direct_leaves(wrapper,"ProgramInputRoleName")
             if len(roles)!=2 or roles[0].text!=roles[1].text:
                 raise _issue("REF0502","Program Input declaration must explicitly repeat the same role identity.","הצהרת קלט התוכנית חייבת לחזור במפורש על אותו תפקיד.",roles[-1] if roles else wrapper)
@@ -1039,7 +1056,7 @@ def resolve_a13_program(root: ParseNode) -> HastCoreProgram:
             preparation_hast.append(HastRoleDeclaration(wrapper.original or root.original,role))
             continue
 
-        if pid in {"C52.ROLE.DECLARE.SYMBOL","C52.ROLE.DECLARE.INDEX"}:
+        if pid in {"C52.ROLE.DECLARE.SYMBOL","C52.ROLE.DECLARE.INDEX","C56.ROLE.DECLARE.INDEX"}:
             owners=_direct_leaves(wrapper,"RoleOwnerActionName"); roles=_direct_leaves(wrapper,"DeclaredRoleName")
             if len(owners)!=3 or len({x.text for x in owners})!=1 or len(roles)!=2 or len({x.text for x in roles})!=1:
                 raise _issue("REF0001","Typed role declaration repeated descriptions must co-refer explicitly.","התיאורים החוזרים בהצהרת תפקיד חייבים להתייחס במפורש לאותם שמות.",wrapper)
