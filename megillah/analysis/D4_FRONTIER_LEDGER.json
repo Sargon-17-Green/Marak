@@ -17,14 +17,16 @@
     {
       "tranche_id": "D4-C56-T01-FOUNDATION",
       "candidate_sha256": "80ae1a934db93c1add91ebf69b74aead9dd0b31f038f21f37d3a74bbaac3b3d4",
-      "normalized_token_frontier": null,
-      "candidate_line": null,
-      "original_line": null,
-      "diagnostic": null,
-      "classification": "PENDING_MEASUREMENT",
+      "normalized_token_frontier": 117,
+      "candidate_line": 15,
+      "original_line": 39,
+      "diagnostic": "PARSE0002",
+      "classification": "SOURCE_REPAIR_NEXT_TABLETS_RELATION",
       "repair_that_unlocked_previous_frontier": "D4-PATCH-001",
-      "next_blocker": null,
-      "evidence": "Candidate SHA observed by CI integrity failure before frozen-test adaptation; frontier measurement pending rerun."
+      "next_blocker": "יום הינתן הלוחות אחרי יום היסוד.",
+      "evidence": "GitHub Actions run 35596560192, D4 Ubuntu frontier probe",
+      "normalized_token_count": 9013,
+      "diagnostic_phase": "parse"
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation"
