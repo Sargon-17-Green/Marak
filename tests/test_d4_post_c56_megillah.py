@@ -737,3 +737,40 @@ def test_d4_post_c56_luach9_predecessor_offsets_and_eleven_rounds_are_explicit()
         line for line in lines if line.startswith("זה דבר המעשה אשר שמו בנהטיפות ")
     )
 
+def _d4_luach10_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    luach11 = next(i for i, line in enumerate(lines) if line.startswith("# לוח עשתי עשר: מערכות שש הקערות"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach11]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def test_d4_post_c56_luach10_initial_six_bowl_fills_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach10_preparation()
+        + " ועתה "
+        + _d4_set_luach8_counters()
+        + " ואחרי כן עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו אתחלקערות"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    assert facts["מלאקערות"] == [92417, 143643, 302503, 748229, 976149, 1957207]
+    assert obs["products"][-1] == ["אתחלקערות", [92417, 143643, 302503, 748229, 976149, 1957207]]
+
+
+def test_d4_post_c56_luach10_six_fixed_bowl_identities_and_primes_are_explicit():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו אתחלקערות "))
+    for numeral in ["אחד","שנים","שלשה","ארבעה","חמשה","ששה"]:
+        assert f"המספר אשר הוא {numeral}" in body
+    for prime in ["שבעה עשר","תשעה עשר","עשרים ושלשה","עשרים ותשעה","שלשים ואחד","שלשים ושבעה"]:
+        assert f"המספר אשר הוא {prime}" in body
+    assert body.count("עשה את המעשה אשר שמו חשבמלאקערה") == 6
+

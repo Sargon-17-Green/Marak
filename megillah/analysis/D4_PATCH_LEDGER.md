@@ -131,3 +131,9 @@ The repair stores the seven final values both in named places and in `טיפות
 The source defines one chronological predecessor chain containing hidden7..hidden1 followed by visible drops 1..46. For each visible drop, the first, third and seventh predecessors are taken without skipping, exactly as illustrated for drops 1–4.
 
 `ראשיתטיפה` retains the five stone×counter contributions, predecessor weights 1/3/5, visible-drop number and final `שמור`. `טחןטיפה` spells all eleven coefficient tuples and their stone sequence explicitly. `עשהטיפהגלויה` selects predecessor positions from the retained history, and `בנהטיפות` performs exactly 46 complete drops, appending a drop only after all eleven rounds finish.
+
+## D4-PATCH-015 — Luach Ten / six bowls and initial fills
+
+The six bowl identities are retained by their source-assigned Natural numbers 1..6. Their current fills are stored in `מלאקערות` in bowl-identity order; later arrangements can reorder identities without changing the fills attached to those identities.
+
+`חשבמלאקערה` implements the shared initial-fill formula. `אתחלקערות` supplies the exact six bowl-number/prime pairs 1/17, 2/19, 3/23, 4/29, 5/31 and 6/37 and builds the six-element fill book.

@@ -309,3 +309,15 @@ GitHub Actions run `35615232527` verified Luach Eight on both dedicated D4 jobs.
 - candidate line: **282**
 - mapped original line: **465**
 - next blocker: `# לוח תשעה: עשיית שש וארבעים הטיפות`.
+
+## Post-C5.6 continuation — T13 / Luach Nine visible drops
+
+GitHub Actions run `35615872737` verified Luach Nine on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **68 passed**.
+- candidate SHA-256: `955654dc6a57dfb9a358c57e76013afcc1c38bd09f64bacb450920e08b75dead`
+- normalized tokens: **21,267**
+- frontier token: **14,819**
+- candidate line: **323**
+- mapped original line: **595**
+- next blocker: `# לוח עשרה: שש הקערות`.

@@ -421,6 +421,31 @@
         "exact sample/full 46-drop regression"
       ],
       "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-015",
+      "original_span": {
+        "start_line": 595,
+        "end_line": 637
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Ten prose"
+      },
+      "replacement": "Natural book of six bowl fills in fixed bowl-number order plus generic exact initial-fill act",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Six bowls have fixed identities/numbers 1..6. Before drops, each bowl receives a fill from the five counters, question×bowl-number, a bowl-specific squared prime, a square of the accumulated sum, bowl number, and שמור.",
+      "semantic_after": "מלאקערות stores fills in immutable bowl-identity order. חשבמלאקערה implements the common formula from explicit bowl number and prime roles; אתחלקערות calls it exactly six times with the six source pairs.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 595-637",
+        "exact six-fill three-runtime regression"
+      ],
+      "confidence": "HIGH",
       "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"
