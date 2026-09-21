@@ -45,3 +45,10 @@ The candidate now defines `מספריום` over a general BidirectionalIndex rol
 - returns one for the Foundation coordinate.
 
 No direct Index distance, equality, Natural↔Index conversion, signed arithmetic, or Day domain is introduced.
+
+
+## D4-PATCH-004 — Luach Two / Program Input and derived numbers
+
+Original lines 77–117 are converted to two named immutable general-BidirectionalIndex Program Inputs plus retained Natural places for `מספרמעשה`, `מספרשאלה`, `מספרמרחק`, `מספרחיבור`, and `מספרדרך`.
+
+`שמותמספרים` invokes the repaired `מספריום` twice, counts inclusive distance by one-step Index traversal starting from one, invokes the existing `חיבור` act for the connection number, and classifies way using two strict Index-order tests. No direct distance, equality, Date/Day, positional input, or transport syntax is introduced.

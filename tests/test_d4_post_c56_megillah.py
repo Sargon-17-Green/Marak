@@ -115,3 +115,66 @@ def test_d4_post_c56_day_number_repair_uses_index_order_steps_and_existing_addit
     assert "המעלה אשר לפני" in source
     assert "מרחק" not in source
     assert "רב מן" not in source
+
+
+def _d4_luach2_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    selected = lines[0:6] + [lines[10]] + lines[22:44] + lines[52:81]
+    return " ".join(x for x in selected if x.strip())
+
+
+def _d4_index_value(z: int):
+    from compiler.models.values import BidirectionalIndexValue
+    if z < 0:
+        return BidirectionalIndexValue("before", abs(z))
+    if z == 0:
+        return BidirectionalIndexValue("zero", 0)
+    return BidirectionalIndexValue("after", z)
+
+
+def test_d4_post_c56_luach2_two_inputs_and_derived_numbers_three_runtimes():
+    from compiler.api import compile_source
+    from compiler.runtime.invocation import InputBinding
+    from tests.test_c5_6_general_index_surface import input_id, three
+    source = _d4_luach2_preparation() + " ועתה עשה את המעשה אשר שמו שמותמספרים"
+    compiled = compile_source(source)
+    assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+    a = input_id(compiled, "יוםמעשה")
+    b = input_id(compiled, "יוםשאלה")
+    cases = [
+        (-2, -2, 4, 4, 1, 8, 2),
+        (-2, -1, 4, 2, 2, 6, 3),
+        (3, -4, 7, 8, 8, 15, 1),
+    ]
+    for ca, qu, nca, nqu, dist, conn, way in cases:
+        _, obs = three(source, (
+            InputBinding(a, _d4_index_value(ca)),
+            InputBinding(b, _d4_index_value(qu)),
+        ))
+        facts = dict(obs["facts"])
+        assert facts["מספרמעשה"] == nca
+        assert facts["מספרשאלה"] == nqu
+        assert facts["מספרמרחק"] == dist
+        assert facts["מספרחיבור"] == conn
+        assert facts["מספרדרך"] == way
+
+
+def test_d4_post_c56_luach2_has_named_nonpositional_general_index_inputs():
+    text = CANDIDATE.read_text(encoding="utf-8")
+    assert "ובטרם תחל המלאכה הזאת תעמד מעלה תחת הדבר אשר למלאכה הזאת שמו יוםמעשה" in text
+    assert "ובטרם תחל המלאכה הזאת תעמד מעלה תחת הדבר אשר למלאכה הזאת שמו יוםשאלה" in text
+    assert "stdin" not in text.lower()
+    assert "argv" not in text.lower()
+
+
+def test_d4_post_c56_luach2_distance_examples_and_referent_distinction():
+    import json
+    p = ROOT / "megillah" / "analysis" / "D4_SOURCE_PROVENANCE.json"
+    data = json.loads(p.read_text(encoding="utf-8"))
+    by_id = {x["id"]: x for x in data["externalized_spans"]}
+    assert by_id["D4-DOC-008"]["classification"] == "EXAMPLE_OR_PROOF"
+    assert "same=1" in by_id["D4-DOC-008"]["retained_requirement"]
+    assert by_id["D4-DOC-009"]["classification"] == "DOCUMENTATION"
+    text = CANDIDATE.read_text(encoding="utf-8")
+    assert "יהי מקום ושמו מספרמרחק" in text
+    assert "יהי מקום ושמו מספרדרך" in text

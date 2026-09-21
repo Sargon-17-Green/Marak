@@ -44,6 +44,20 @@
     },
     {
       "tranche_id": "D4-C56-T03-DAY-NUMBER",
+      "candidate_sha256": "32fbb1fa6ecaacda935cf1c681725a81ad58492780310f715b8e7e47f6a62d1a",
+      "normalized_token_frontier": 849,
+      "candidate_line": 53,
+      "original_line": 77,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_TWO",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-003",
+      "next_blocker": "# לוח שני: שמות המספרים אשר למלאכה",
+      "evidence": "GitHub Actions run 35600630677: D4 Ubuntu/Windows 38 targeted tests PASS; frontier token 849",
+      "normalized_token_count": 9570
+    },
+    {
+      "tranche_id": "D4-C56-T04-LUACH2",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -51,9 +65,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-003",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-004",
       "next_blocker": null,
-      "evidence": "Focused algorithm repair plus exact historical examples."
+      "evidence": "Two general Index Program Inputs + derived-number computation."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",

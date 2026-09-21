@@ -115,6 +115,33 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-004",
+      "original_span": {
+        "start_line": 77,
+        "end_line": 117
+      },
+      "previous_candidate_span": {
+        "start_line": 53,
+        "end_line": 93
+      },
+      "replacement": "general Index Program Inputs + named Luach Two computation",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Two input days determine their Natural day numbers, inclusive distance, sum, and relative-way code.",
+      "semantic_after": "Two immutable named general-Index Program Inputs feed repaired מספריום; distance is counted inclusively by Index steps; connection uses חיבור; way uses strict-order trichotomy.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 77-117",
+        "D4_POST_C56_LUACH2_AUDIT.md",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

@@ -57,14 +57,55 @@
         "C5.6 general Index production surface",
         "focused runtime examples -3..+3"
       ]
+    },
+    {
+      "id": "D4-PATCH-004",
+      "candidate_start_line": 53,
+      "candidate_end_line": 81,
+      "original_lines": [
+        77,
+        79,
+        81,
+        83,
+        85,
+        87,
+        89,
+        91,
+        93,
+        95,
+        97,
+        99,
+        101,
+        103,
+        105,
+        107,
+        109,
+        111,
+        113,
+        115
+      ],
+      "original_text": "לוח שני: two input days; day numbers; inclusive distance; connection; way classification.",
+      "replacement": "Two general BidirectionalIndex Program Inputs plus retained Natural result places and named acts שמותמספרים/מרחק*/דרךהכרע.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Expresses the source-defined program contract and derived numbers using C5.6 general Index inputs, repaired מספריום, constructive inclusive distance, existing חיבור, and strict-order trichotomy.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 77-115",
+        "C5.5 named immutable Program Inputs",
+        "C5.6 general Index surface",
+        "B16 constructive distance boundary",
+        "D4 Luach Two audit"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except D4 overrides. Candidate line 11 maps to original 35/37; lines 23-44 map to executable original 47-59; examples/laws original 61-73 are explicitly externalized; no orphan D4 source.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-001 maps Foundation; D4-PATCH-003 maps day-number algorithm; D4-PATCH-004 maps Luach Two program-input and derived-number computation. All externalized examples/invariants are separately mapped.",
   "blocked_future_derivation": {
-    "source_span": "original lines 77 onward",
-    "requirement": "Program Input contract and subsequent reusable computations",
+    "source_span": "original line 119 onward",
+    "requirement": "Luach Three repeated multiplication/counting computation",
     "blocker": null,
-    "note": "D4-LANG-001 closed. Next frontier must be measured before further repair."
+    "note": "Measure frontier before next repair."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -127,6 +168,36 @@
       "reason": "Semantic law/invariant explaining injectivity and the deliberate separation between Natural day number and chronological Index order. The repaired algorithm enforces chronology via Index strict order, never Natural comparison.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "Day coordinate and day number remain distinct; chronology is never derived from Natural day-number ordering."
+    },
+    {
+      "id": "D4-DOC-007",
+      "original_start_line": 77,
+      "original_end_line": 77,
+      "original_text": "## לוח שני: שמות המספרים אשר למלאכה",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_LUACH2_AUDIT.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-008",
+      "original_start_line": 97,
+      "original_end_line": 101,
+      "original_text": "אם יום אחד הם כתוב אחד. אם שני ימים הם ואין יום ביניהם כתוב שניים. אם ששה ימים ביניהם כתוב שמונה.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked inclusive-distance examples; retained as runtime regression cases.",
+      "destination": "tests/test_d4_post_c56_megillah.py",
+      "retained_requirement": "same=1, adjacent=2, six-between=8"
+    },
+    {
+      "id": "D4-DOC-009",
+      "original_start_line": 117,
+      "original_end_line": 117,
+      "original_text": "את מספר המרחק תחת מספר הדרך לא תשים ...",
+      "classification": "DOCUMENTATION",
+      "reason": "Semantic invariant explaining the distinction between distance and way. Repaired state keeps distinct places and algorithms.",
+      "destination": "megillah/analysis/D4_POST_C56_LUACH2_AUDIT.md",
+      "retained_requirement": "מספרמרחק and מספרדרך are distinct Natural referents with different meanings."
     }
   ]
 }
