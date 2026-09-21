@@ -42,10 +42,25 @@
         "C56": "production implementation complete",
         "proof": "C5.6 general origin/place/input/role/output/succ/pred/order production tests"
       }
+    },
+    {
+      "id": "D4-CONF-001",
+      "severity": "NONSEMANTIC_CI_BLOCKER",
+      "classification": "CONFORMANCE_RECEIPT_STALE_AFTER_AUTHORIZED_D4_SOURCE_REPAIR",
+      "source_span": null,
+      "normative_expectation": "C5.6 regression evidence must continue proving C5.6 semantics without forbidding the explicitly authorized downstream D4 candidate evolution.",
+      "actual_behavior": "tests/test_c5_6_negative_scope.py::test_c56_preserves_frozen_d4_candidate_hash_and_frontier hard-codes the pre-repair D4 candidate SHA/frontier. Any legitimate D4 continuation changes the candidate and therefore fails this frozen receipt even when C5.6 semantics remain unchanged.",
+      "reproducer": "Run full pytest after D4-PATCH-001. Only the frozen C5.6 candidate-receipt assertion fails in core/C5.x full-pytest jobs; focused D4 frontier measurement advances to token 117.",
+      "routing": "MASTER -> C/conformance maintenance. D4 does not edit C5.6 tests.",
+      "semantic_compiler_defect": false,
+      "d_can_continue_safely": true
     }
   ],
   "new_source_findings": [],
   "new_compiler_findings": [],
   "new_spec_findings": [],
-  "previous_baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831"
+  "previous_baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
+  "new_conformance_findings": [
+    "D4-CONF-001"
+  ]
 }
