@@ -57,5 +57,6 @@
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
-  "t02_ci_trigger": "contents-api trigger for Tablets tranche measurement"
+  "t02_ci_trigger": "contents-api trigger for Tablets tranche measurement",
+  "t03_ci_trigger": "contents-api trigger for day-number structural repair verification"
 }
