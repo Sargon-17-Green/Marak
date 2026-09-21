@@ -63,6 +63,8 @@ def prop(p: h.HastProposition) -> i.IRProposition:
         return i.IREqualProposition(p.source_span, num(p.left), num(p.right))
     if isinstance(p, h.HastNaturalGTProposition):
         return i.IRNaturalGTProposition(p.source_span, num(p.left), num(p.right))
+    if isinstance(p, h.HastIndexLTProposition):
+        return i.IRIndexLTProposition(p.source_span, value(p.left), value(p.right))
     if isinstance(p, h.HastSymbolEqualProposition):
         return i.IRSymbolEqualProposition(p.source_span, value(p.left), value(p.right), p.domain_id)
     if isinstance(p, h.HastCollectionMembershipProposition):
