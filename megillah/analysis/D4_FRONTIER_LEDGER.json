@@ -212,6 +212,20 @@
     },
     {
       "tranche_id": "D4-C56-T14-LUACH10-BOWL-INITIALIZATION",
+      "candidate_sha256": "cb69ee3c354344a75e3f641e6e8272cd04428af272084d6a7b175481522ebdbd",
+      "normalized_token_frontier": 16012,
+      "candidate_line": 335,
+      "original_line": 641,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_ELEVEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-015",
+      "next_blocker": "# לוח עשתי עשר: מערכות שש הקערות",
+      "evidence": "GitHub Actions run 35616748974: D4 Ubuntu/Windows 70 targeted tests PASS; frontier token 16012",
+      "normalized_token_count": 22277
+    },
+    {
+      "tranche_id": "D4-C56-T15-LUACH11-ARRANGEMENTS",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -219,9 +233,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-015",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-016",
       "next_blocker": null,
-      "evidence": "Six fixed bowl identities 1..6 and exact initial fill formula with bowl-specific squared constants."
+      "evidence": "720 lexicographic bowl permutations by source block decomposition; arrangement number modulo 720; bowl position distinct from bowl identity."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -238,5 +252,6 @@
   "t11_ci_trigger": "GitHub Actions run 35613420964",
   "t12_ci_trigger": "GitHub Actions run 35615232527",
   "t13_ci_trigger": "GitHub Actions run 35615872737",
-  "t14_ci_trigger": "pending after Luach Ten verification"
+  "t14_ci_trigger": "GitHub Actions run 35616748974",
+  "t15_ci_trigger": "pending after Luach Eleven verification"
 }

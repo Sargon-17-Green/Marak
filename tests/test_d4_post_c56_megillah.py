@@ -774,3 +774,66 @@ def test_d4_post_c56_luach10_six_fixed_bowl_identities_and_primes_are_explicit()
         assert f"המספר אשר הוא {prime}" in body
     assert body.count("עשה את המעשה אשר שמו חשבמלאקערה") == 6
 
+def _d4_luach11_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    luach12 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שנים עשר: צוק הטיפה אל הקערות"))
+    selected = lines[0:6] + lines[core_start:luach12]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def _d4_find_arrangement_call(n: int) -> str:
+    from compiler.parse.a15_numerals import format_natural
+    return (
+        "עשה את המעשה אשר שמו מצאמערכה "
+        f"בהיות המספר אשר הוא {format_natural(n)} תחת הדבר אשר במעשה אשר שמו מצאמערכה שמו מספר"
+    )
+
+
+def test_d4_post_c56_luach11_factoradic_boundaries_and_middle_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach11_preparation()
+    cases = {
+        1: [1,2,3,4,5,6],
+        100: [1,6,2,4,5,3],
+        720: [6,5,4,3,2,1],
+    }
+    for n, want in cases.items():
+        _, obs = three(prep + " ועתה " + _d4_find_arrangement_call(n))
+        assert obs["products"][-1] == ["מצאמערכה", want]
+
+
+def test_d4_post_c56_luach11_arrangement_number_wraps_721_to_one():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach11_preparation()
+        + " ועתה עשה את המעשה אשר שמו בחרמערכה "
+        + "בהיות המספר אשר הוא שבע מאות ועשרים ואחד תחת הדבר אשר במעשה אשר שמו בחרמערכה שמו מספר"
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["בחרמערכה", [1,2,3,4,5,6]]
+    assert dict(obs["facts"])["מערכהנוכחית"] == [1,2,3,4,5,6]
+
+
+def test_d4_post_c56_luach11_bowl_position_is_distinct_from_identity():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach11_preparation()
+        + " ועתה " + _d4_find_arrangement_call(100)
+        + " ואחרי כן עשה את המעשה אשר שמו מקוםקערה "
+        + "בהיות המספר אשר הוא ששה תחת הדבר אשר במעשה אשר שמו מקוםקערה שמו קערה "
+        + "ובהיות הספר אשר יצא עתה מן המעשה אשר שמו מצאמערכה תחת הדבר אשר במעשה אשר שמו מקוםקערה שמו מערכה"
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["מקוםקערה", 2]
+
+
+def test_d4_post_c56_luach11_factor_blocks_are_exact_source_short_way():
+    text = CANDIDATE.read_text(encoding="utf-8")
+    for n in ["מאה ועשרים","עשרים וארבעה","ששה","שנים","אחד"]:
+        assert f"בהיות המספר אשר הוא {n} תחת הדבר אשר במעשה אשר שמו חלק שמו מחלק" in text
+    assert "שבע מאות ועשרים" in text
+

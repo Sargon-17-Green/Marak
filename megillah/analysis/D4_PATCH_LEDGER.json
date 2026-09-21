@@ -446,6 +446,33 @@
         "exact six-fill three-runtime regression"
       ],
       "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-016",
+      "original_span": {
+        "start_line": 641,
+        "end_line": 733
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Eleven prose"
+      },
+      "replacement": "safe Natural quotient/remainder helper, source block/factoradic arrangement selection, modulo-720 arrangement number, and explicit bowl-position lookup",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "All 720 six-bowl permutations are ordered lexicographically by fixed bowl number. Arrangement number is ((drop-1) mod 720)+1. The source's short way partitions by 120,24,6,2 blocks and position is distinct from identity.",
+      "semantic_after": "מצאמערכה performs the equivalent factoradic/block selection with divisors 120,24,6,2,1 and a remaining bowl. מספרמערכה performs the exact 1..720 wrap. מקוםקערה scans the selected arrangement and returns position independently from bowl identity.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 641-733",
+        "arrangements 1,100,720 exact tests",
+        "721 wrap test",
+        "position-vs-identity test"
+      ],
+      "confidence": "HIGH",
       "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"

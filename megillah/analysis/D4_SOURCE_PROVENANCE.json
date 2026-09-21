@@ -580,14 +580,79 @@
         "original 595-637",
         "six-fill runtime regression"
       ]
+    },
+    {
+      "id": "D4-PATCH-016",
+      "candidate_start_line": 337,
+      "candidate_end_line": 388,
+      "original_lines": [
+        641,
+        643,
+        645,
+        647,
+        649,
+        651,
+        653,
+        655,
+        657,
+        659,
+        661,
+        663,
+        665,
+        667,
+        669,
+        671,
+        673,
+        675,
+        677,
+        679,
+        681,
+        683,
+        685,
+        687,
+        689,
+        691,
+        693,
+        695,
+        697,
+        699,
+        701,
+        703,
+        705,
+        707,
+        709,
+        711,
+        713,
+        715,
+        717,
+        719,
+        721,
+        723,
+        725,
+        727,
+        729,
+        731,
+        733
+      ],
+      "original_text": "Luach Eleven: 720 lexicographic bowl permutations, modulo-720 arrangement number, short block-selection method, and bowl position distinct from identity.",
+      "replacement": "Factoradic/block selection actions plus arrangement-number and position actions.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Factoradic divisors are exactly the source's stated block sizes; tests cover first, middle and last permutations and wraparound.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 641-733",
+        "factoradic boundary tests"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-015, drop generation and six initial bowl fills are executable.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-016, bowl initialization, arrangement selection and bowl-position semantics are executable.",
   "blocked_future_derivation": {
-    "source_span": "original line 641 onward",
-    "requirement": "Luach Eleven / lexicographic 720 bowl arrangements, arrangement number and bowl position",
+    "source_span": "original line 737 onward",
+    "requirement": "Luach Twelve / pour three values into the first three arrangement positions",
     "blocker": null,
-    "note": "Measure T14 frontier before Luach Eleven."
+    "note": "Measure T15 frontier before Luach Twelve."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -850,6 +915,16 @@
       "reason": "Identity/order invariant. Candidate keys fills by permanent bowl number and keeps arrangement as a separate book.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "Bowl identity is fixed; arrangement position is distinct."
+    },
+    {
+      "id": "D4-DOC-027",
+      "original_start_line": 641,
+      "original_end_line": 641,
+      "original_text": "# לוח עשתי עשר: מערכות שש הקערות",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
     }
   ]
 }

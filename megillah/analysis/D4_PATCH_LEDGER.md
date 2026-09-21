@@ -137,3 +137,9 @@ The source defines one chronological predecessor chain containing hidden7..hidde
 The six bowl identities are retained by their source-assigned Natural numbers 1..6. Their current fills are stored in `מלאקערות` in bowl-identity order; later arrangements can reorder identities without changing the fills attached to those identities.
 
 `חשבמלאקערה` implements the shared initial-fill formula. `אתחלקערות` supplies the exact six bowl-number/prime pairs 1/17, 2/19, 3/23, 4/29, 5/31 and 6/37 and builds the six-element fill book.
+
+## D4-PATCH-016 — Luach Eleven / 720 bowl arrangements
+
+The source's lexicographic order over the six permanent bowl numbers is exactly the block decomposition 120, 24, 6, 2, 1. The candidate implements this directly rather than materializing 720 books.
+
+`חלק` supplies safe Natural quotient/remainder, `בחרקערה` selects the ordinal unused bowl, and `מצאמערכה` applies the five source block sizes then appends the remaining bowl. `מספרמערכה` implements `((n-1) mod 720)+1`. `מקוםקערה` returns arrangement position separately from permanent bowl identity.

@@ -321,3 +321,7 @@ GitHub Actions run `35615872737` verified Luach Nine on both dedicated D4 jobs.
 - candidate line: **323**
 - mapped original line: **595**
 - next blocker: `# לוח עשרה: שש הקערות`.
+
+## Post-C5.6 continuation — T14 / Luach Ten bowl initialization
+
+GitHub Actions run `35616748974`: dedicated D4 Ubuntu+Windows PASS, **70 targeted tests**. Candidate SHA `cb69ee3c354344a75e3f641e6e8272cd04428af272084d6a7b175481522ebdbd`; normalized tokens 22,277; frontier token 16,012; candidate line 335; mapped original line 641.
