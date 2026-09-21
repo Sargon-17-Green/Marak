@@ -196,6 +196,33 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-007",
+      "original_span": {
+        "start_line": 167,
+        "end_line": 193
+      },
+      "previous_candidate_span": {
+        "start_line": 143,
+        "end_line": 171
+      },
+      "replacement": "persistent גדול places + explicit 127-doubling initializer act",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Start at 1, double exactly 127 times, subtract 1, retain the resulting גדול constant and do not recompute it for each task.",
+      "semantic_after": "חשבגדול explicitly resets work to 1, RepeatExactly(127) doubles through חיבור, subtracts 1, stores/returns מספרגדול; later source reads the persistent place.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 167-193",
+        "A15/C5.4",
+        "focused exact-value runtime regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

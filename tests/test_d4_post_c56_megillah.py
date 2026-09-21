@@ -247,3 +247,27 @@ def test_d4_post_c56_luach4_repeated_square_uses_previous_result_explicitly():
     source = _d4_square_preparation() + " ועתה " + first + " ואחרי כן " + second
     _, obs = three(source)
     assert obs["products"][-1] == ["רבוע", 2401]
+
+
+def _d4_big_number_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    selected = lines[0:6] + lines[142:148]
+    return " ".join(x for x in selected if x.strip())
+
+
+def test_d4_post_c56_luach5_big_number_exact_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    source = _d4_big_number_preparation() + " ועתה עשה את המעשה אשר שמו חשבגדול"
+    _, obs = three(source)
+    want = (1 << 127) - 1
+    assert obs["products"][-1] == ["חשבגדול", want]
+    assert dict(obs["facts"])["מספרגדול"] == want
+    assert dict(obs["facts"])["גדולעבודה"] == (1 << 127)
+
+
+def test_d4_post_c56_luach5_uses_exact_canonical_127_count_and_persistent_place():
+    text = " ".join(CANDIDATE.read_text(encoding="utf-8").splitlines()[142:148])
+    assert "מאה ועשרים ושבע פעמים עשה את המעשה אשר שמו כפלגדול" in text
+    assert "שש ועשרים ומאה פעמים" not in text
+    assert "שמנה ועשרים ומאה פעמים" not in text
+    assert "יהי מקום ושמו מספרגדול" in text

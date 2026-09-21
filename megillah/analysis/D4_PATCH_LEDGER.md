@@ -68,3 +68,12 @@ The 3×7 example and 13-count decomposition are retained as evidence. The histor
 Original lines 145–163 define `רבוע`: take the supplied number exactly that many times and add the copies. A later square consumes the prior square result rather than returning to the first input.
 
 The repaired candidate defines one Natural role and invokes `לקחתפעמים` with the same Natural as both value and count. No hidden accumulator or remembered “original” number is added to `רבוע`; repeated squaring is ordinary explicit composition.
+
+
+## D4-PATCH-007 — Luach Five / המספר הגדול
+
+Original lines 167–193 construct a retained constant by starting at one, doubling exactly 127 times, and subtracting one.
+
+The candidate now has persistent Naturals `גדולעבודה` and `מספרגדול`, an atomic doubling act `כפלגדול`, and initializer `חשבגדול`. The initializer resets the work value to one, performs `כפלגדול` exactly `מאה ועשרים ושבע פעמים`, stores `2^127-1`, and returns it.
+
+The source's “write once / do not remake every time” rule is represented without hidden setup: final principal assembly must invoke `חשבגדול` once before any dependent operation.

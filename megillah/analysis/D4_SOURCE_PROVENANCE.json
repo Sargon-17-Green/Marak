@@ -158,12 +158,46 @@
         "D4-PATCH-005 exact repeated addition",
         "focused 7->49 and 49->2401 three-runtime tests"
       ]
+    },
+    {
+      "id": "D4-PATCH-007",
+      "candidate_start_line": 143,
+      "candidate_end_line": 148,
+      "original_lines": [
+        167,
+        169,
+        171,
+        173,
+        175,
+        177,
+        179,
+        181,
+        183,
+        185,
+        187,
+        189,
+        191,
+        193
+      ],
+      "original_text": "לוח חמש: construct המספר הגדול by starting at one, doubling exactly 127 times, then subtracting one; retain it for later use.",
+      "replacement": "Persistent Natural places מספרגדול/גדולעבודה plus named acts חשבגדול/כפלגדול; חשבגדול resets work to 1, performs כפלגדול exactly 127 times, stores 2^127-1 in מספרגדול, and returns it.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Preserves the exact 127-doubling construction and one subtraction. It exposes initialization as an explicit named act so final principal execution can invoke it once before downstream uses, rather than introducing hidden setup or mid-document execution.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 167-193",
+        "A15 canonical feminine count for 127",
+        "C5.4 RepeatExactly",
+        "focused exact-value three-runtime test"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-006 maps Luach Four square computation; example and repeated-square law are externally mapped.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-007 maps Luach Five הגדול construction. Lifecycle/off-by-one prose is externally mapped and constrains final principal assembly.",
   "blocked_future_derivation": {
-    "source_span": "original line 167 onward",
-    "requirement": "Luach Five הגדול constant/construction",
+    "source_span": "original line 197 onward",
+    "requirement": "Luach Six remainder, שמור, wrapped subtraction",
     "blocker": null,
     "note": "Measure frontier before next repair."
   },
@@ -318,6 +352,36 @@
       "reason": "Call-composition law rather than a distinct runtime action. Repeated invocation of רבוע with the previous result preserves it directly.",
       "destination": "tests/test_d4_post_c56_megillah.py",
       "retained_requirement": "square(square(7))=2401 and no implicit reset to 7."
+    },
+    {
+      "id": "D4-DOC-016",
+      "original_start_line": 167,
+      "original_end_line": 167,
+      "original_text": "# לוח חמש: המספר הגדול",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-017",
+      "original_start_line": 173,
+      "original_end_line": 179,
+      "original_text": "First two doublings shown as 1->2->4, then 125 more; total 127.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked decomposition of the exact 127 iterations. Production source uses the equivalent canonical exact count directly.",
+      "destination": "tests/test_d4_post_c56_megillah.py",
+      "retained_requirement": "Exactly 127 doublings, neither 126 nor 128."
+    },
+    {
+      "id": "D4-DOC-018",
+      "original_start_line": 185,
+      "original_end_line": 193,
+      "original_text": "Write המספר הגדול once, keep it, do not remake it each task; count exactly 127.",
+      "classification": "DOCUMENTATION",
+      "reason": "Lifecycle and off-by-one invariant. Candidate exposes a persistent place and an explicit initializer act; final principal must invoke it once before dependent work.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "Single explicit initialization; persistent later reads; exact 127 count."
     }
   ]
 }
