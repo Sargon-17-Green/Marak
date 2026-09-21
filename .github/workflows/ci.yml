@@ -29,6 +29,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -79,6 +81,12 @@ jobs:
           python spec/proposals/b14/reference/run_b14_integration_tests.py
           python spec/proposals/a16/reference/run_a16_surface_tests.py
           python spec/proposals/b15/reference/run_b15_tests.py
+          python spec/proposals/a17/reference/run_a17_surface_tests.py
+          python tools/run_c5_6_b16_semantic_regressions.py
+          python -m pytest -q spec/proposals/b16/reference/test_b16_required_regressions.py
+          python spec/proposals/a17/reference/run_a17_surface_tests.py
+          python tools/run_c5_6_b16_semantic_regressions.py
+          python -m pytest -q spec/proposals/b16/reference/test_b16_required_regressions.py
       - run: python tools/dump_current_registry.py
       - run: git diff --exit-code -- spec/CURRENT_CONSTRUCTION_REGISTRY.json
 
@@ -267,7 +275,7 @@ jobs:
           python tools/run_c5_6_b16_semantic_regressions.py
           python -m pytest -q spec/proposals/b16/reference/test_b16_required_regressions.py
       - name: Run frozen Megillah regressions
-        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py
+        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py tests/test_d4_post_c56_megillah.py
       - name: Regenerate C5.6 canonical bytes
         if: always()
         run: |
@@ -314,7 +322,7 @@ jobs:
           print(got)
           assert got == expected
       - name: Run D3 and D4 Megillah tests
-        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py
+        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py tests/test_d4_post_c56_megillah.py
       - name: Measure current Megillah compiler frontier
         run: python tools/d4_frontier_probe.py
       - name: Run post-M2 proposal regressions

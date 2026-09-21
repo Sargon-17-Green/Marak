@@ -226,3 +226,110 @@ One new language-surface need is established:
 `D4-LANG-001`.
 
 D can continue independent analysis, but it cannot honestly move the production candidate through the current first frontier until Master routes that finding.
+
+## Post-C5.6 continuation — T07 / Luach Five
+
+GitHub Actions run `35607304124` verified the Luach Five repair on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **47 passed** on Ubuntu; Windows dedicated D4 job also PASS.
+- candidate SHA-256: `c150be620c995b517429805e9871c8d0418755932a90224a204b1e03e7e6fbc6`
+- normalized tokens: **10,476**
+- frontier token: **2,313**
+- candidate line: **173**
+- mapped original line: **197**
+- next source blocker: `# לוח שש: הנותר ודבר שמור`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+The full workflow is not a D4 gate: core/C5.6 still hit the frozen `D4-CONF-001` candidate receipt, and one Windows proposal-regression job also failed outside the dedicated D4 signal. Neither is repaired from Workstream D.
+
+## Post-C5.6 continuation — T08 / Luach Six remainder
+
+GitHub Actions run `35608830982` verified ordinary remainder and `שמור` on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **51 passed** on Ubuntu; Windows dedicated D4 job also PASS.
+- candidate SHA-256: `33f6956df02374db4a88465063d9e29ffb11c1f1a42130ec932638de3e6cf0ff`
+- normalized tokens: **10,808**
+- frontier token: **2,820**
+- candidate line: **191**
+- mapped original line: **229**
+- next blocker: `## לקחת מספר מאחיו`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+## Post-C5.6 continuation — T09 / Luach Six wrapped subtraction
+
+GitHub Actions run `35609691265` verified wrapped sibling subtraction on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **55 passed**.
+- candidate SHA-256: `afe50064bf02d22969283fa0587264f87e0104d430c2f396239740512f232233`
+- normalized tokens: **11,088**
+- frontier token: **3,197**
+- candidate line: **205**
+- mapped original line: **243**
+- next blocker: `## אם רב המספר מאד`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+## Post-C5.6 continuation — T10A / Luach Three fast multiplication remediation
+
+GitHub Actions run `35612611456` verified D4-PATCH-011 on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **60 passed**.
+- candidate SHA-256: `51b620c645c256fca805c16367e472bc0f5d5406bf6a7012bbaf7e2658013c09`
+- normalized tokens: **12,087**
+- frontier token: **4,311**
+- candidate line: **216**
+- mapped original line: **269**
+- next blocker remained Luach Seven.
+- the finite-fuel `2^127-1` multiplication regression completed normally on all three runtimes.
+
+This closes `D4-SRC-001` without a compiler, runtime, language-surface, A17/B16, or C5.6 change.
+
+## Post-C5.6 continuation — T11 / Luach Seven five stones
+
+GitHub Actions run `35613420964` verified the complete five-stone table on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **63 passed**.
+- candidate SHA-256: `5cfc545b2203815b82054b745e5bdbeacd928a2e8f0d025ca892ad2eecba10be`
+- normalized tokens: **13,209**
+- frontier token: **5,723**
+- candidate line: **243**
+- mapped original line: **323**
+- next blocker: `# לוח שמונה: שבע הטיפות הנסתרות`
+- full 46-row × 5-stone table regression: PASS on HAST reference, IR reference and portable backend.
+- exact last visible drop stones:
+  `[73799454308499791987382386781055001470, 147925408106533232424672641008220632365, 94499522601819303005579577099149028685, 108473647672201258090947028490673028834, 137131922036975206684616468948804344042]`.
+
+## Post-C5.6 continuation — T12 / Luach Eight hidden drops
+
+GitHub Actions run `35615232527` verified Luach Eight on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **66 passed**.
+- candidate SHA-256: `e9550217dbd0dc6fbe949d51a9333eee6d7322cc373620f6190b82f3088888e8`
+- normalized tokens: **16,458**
+- frontier token: **9,473**
+- candidate line: **282**
+- mapped original line: **465**
+- next blocker: `# לוח תשעה: עשיית שש וארבעים הטיפות`.
+
+## Post-C5.6 continuation — T13 / Luach Nine visible drops
+
+GitHub Actions run `35615872737` verified Luach Nine on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **68 passed**.
+- candidate SHA-256: `955654dc6a57dfb9a358c57e76013afcc1c38bd09f64bacb450920e08b75dead`
+- normalized tokens: **21,267**
+- frontier token: **14,819**
+- candidate line: **323**
+- mapped original line: **595**
+- next blocker: `# לוח עשרה: שש הקערות`.
+
+## Post-C5.6 continuation — T14 / Luach Ten bowl initialization
+
+GitHub Actions run `35616748974`: dedicated D4 Ubuntu+Windows PASS, **70 targeted tests**. Candidate SHA `cb69ee3c354344a75e3f641e6e8272cd04428af272084d6a7b175481522ebdbd`; normalized tokens 22,277; frontier token 16,012; candidate line 335; mapped original line 641.
+
+## Post-C5.6 continuation — T15 / Luach Eleven arrangements
+
+GitHub Actions run `35619093303`: dedicated D4 Ubuntu+Windows PASS, **74 targeted tests**. Candidate SHA `d3a3e99e6d4e8f40fc288e7b495ec7457d64f3cf0626210c2060bf9ee64c8985`; normalized tokens 24,666; frontier token 18,889; candidate line 392.
+
+## Post-C5.6 continuation — T16 / Luach Twelve pours
+
+GitHub Actions run `35620151386`: dedicated D4 Ubuntu+Windows PASS, **76 targeted tests**. Candidate SHA `6c6eb53613f9fc21c4428bb5f7883aabb1c968de88c7b170e4731359ed21a7c3`; normalized tokens 25,826; frontier token 20,196; candidate line 414.

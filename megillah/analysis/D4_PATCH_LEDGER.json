@@ -1,5 +1,5 @@
 {
-  "schema": "marak-workstream-d4-patch-ledger-v1",
+  "schema": "marak-workstream-d4-patch-ledger-v2",
   "baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
   "starting_candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
   "inherited_repairs": [
@@ -30,7 +30,508 @@
       "preservation": "STRUCTURAL_EXPLICITNESS"
     }
   ],
-  "d4_patches": [],
-  "candidate_source_changed_in_d4": false,
-  "reason_no_new_patch": "The first production-source frontier remains blocked by D4-LANG-001. Independent later sections were re-audited, but D4 does not apply downstream structural rewrites that cannot yet be reached and verified in whole-candidate compilation."
+  "d4_patches": [
+    {
+      "id": "D4-PATCH-001",
+      "original_span": {
+        "start_line": 35,
+        "end_line": 37
+      },
+      "previous_candidate_span": {
+        "start_line": 11,
+        "end_line": 13
+      },
+      "replacement": "יהי מקום ושמו יסוד ובמקום אשר שמו יסוד יהי מעלת היתד לבדו",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "A distinguished Foundation day is chosen/named; days exist on both sides and are measured relative to it.",
+      "semantic_after": "Named place יסוד retains the general BidirectionalIndex origin מעלת היתד (ZeroIndex).",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "A17",
+        "B16",
+        "C5.6",
+        "focused D4 post-C5.6 test"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-002",
+      "original_span": {
+        "start_line": 39,
+        "end_line": 45
+      },
+      "previous_candidate_spans": [
+        {
+          "start_line": 15,
+          "end_line": 21
+        }
+      ],
+      "replacement": "[externalized with provenance; executable candidate lines left blank]",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "semantic_before": "Historical Tablets anchor assertion, worked offset derivation, and organizational heading precede the day-number algorithm.",
+      "semantic_after": "No runtime action; historical relation/proof retained in analysis provenance because no later executable source depends on it.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "repository-wide occurrence audit: יום הינתן הלוחות appears only at original line 39",
+        "מספר כל הימים label/value not referenced later",
+        "D4 user directive permits documentary externalization after occurrence-level audit"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-003",
+      "original_span": {
+        "start_line": 47,
+        "end_line": 73
+      },
+      "previous_candidate_span": {
+        "start_line": 23,
+        "end_line": 49
+      },
+      "replacement": "named act מספריום plus helper acts/state; examples/laws externalized to tests/docs",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Foundation maps to Natural 1; before day at distance d maps to 2d; after day at distance d maps to 2d+1; distance is counted from day coordinates; chronology is not inferred from Natural day numbers.",
+      "semantic_after": "Same mapping computed from BidirectionalIndex strict order and one-step traversal; Natural count is doubled/offset using existing חיבור act; same-position uses trichotomy without equality.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 47-73",
+        "B16 constructive distance boundary",
+        "C5.6 generic Index surface",
+        "runtime regression examples"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-004",
+      "original_span": {
+        "start_line": 77,
+        "end_line": 117
+      },
+      "previous_candidate_span": {
+        "start_line": 53,
+        "end_line": 93
+      },
+      "replacement": "general Index Program Inputs + named Luach Two computation",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Two input days determine their Natural day numbers, inclusive distance, sum, and relative-way code.",
+      "semantic_after": "Two immutable named general-Index Program Inputs feed repaired מספריום; distance is counted inclusively by Index steps; connection uses חיבור; way uses strict-order trichotomy.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 77-117",
+        "D4_POST_C56_LUACH2_AUDIT.md",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-005",
+      "original_span": {
+        "start_line": 121,
+        "end_line": 141
+      },
+      "previous_candidate_span": {
+        "start_line": 97,
+        "end_line": 119
+      },
+      "replacement": "named act לקחתפעמים using dynamic RepeatExactly and helper הוסףלקיחה",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take a Natural number exactly N times and add all copies; source supplies worked 3x7 and an acceleration by doubling/decomposition.",
+      "semantic_after": "Zero accumulator; execute one atomic addition helper exactly N times with count observed once; return accumulator.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "A15/C5.4",
+        "original 121-141",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false,
+      "superseded_by": "D4-PATCH-011"
+    },
+    {
+      "id": "D4-PATCH-006",
+      "original_span": {
+        "start_line": 145,
+        "end_line": 163
+      },
+      "previous_candidate_span": {
+        "start_line": 121,
+        "end_line": 139
+      },
+      "replacement": "named act רבוע delegating to לקחתפעמים(number, number)",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take a Natural number exactly as many times as its own value and add the copies; repeated square starts from the preceding square result.",
+      "semantic_after": "One-role square act delegates to exact repeated addition with identical value/count and returns the resulting Natural.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 145-163",
+        "D4-PATCH-005",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-007",
+      "original_span": {
+        "start_line": 167,
+        "end_line": 193
+      },
+      "previous_candidate_span": {
+        "start_line": 143,
+        "end_line": 171
+      },
+      "replacement": "persistent גדול places + explicit 127-doubling initializer act",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Start at 1, double exactly 127 times, subtract 1, retain the resulting גדול constant and do not recompute it for each task.",
+      "semantic_after": "חשבגדול explicitly resets work to 1, RepeatExactly(127) doubles through חיבור, subtracts 1, stores/returns מספרגדול; later source reads the persistent place.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 167-193",
+        "A15/C5.4",
+        "focused exact-value runtime regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-008",
+      "original_span": {
+        "start_line": 197,
+        "end_line": 227
+      },
+      "previous_candidate_span": {
+        "start_line": 173,
+        "end_line": 204
+      },
+      "replacement": "named acts נותר and שמור with explicit Natural work places, safe subtract recurrence, and distinct zero handling",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Plain remainder repeatedly subtracts a positive divisor until subtraction is no longer possible and represents no remainder as אין; שמור performs the same reduction modulo מספרגדול but maps no remainder to מספרגדול, yielding 1..מספרגדול.",
+      "semantic_after": "נותר copies dividend/divisor into Natural work places, enters a post-action subtraction recurrence only when divisor is not greater than the current work value, and returns 0..divisor-1. שמור calls נותר with divisor מספרגדול and maps returned zero to מספרגדול before returning.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 197-227",
+        "A15 strict Natural ordering",
+        "A10/A13 admitted post-action recurrence",
+        "B12 Natural subtraction domain semantics",
+        "focused remainder/kept-remainder three-runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-009",
+      "original_span": {
+        "start_line": 229,
+        "end_line": 241
+      },
+      "previous_candidate_span": {
+        "start_line": 191,
+        "end_line": 204
+      },
+      "replacement": "named wrapped-subtraction act taking מחסר from אחמספר, recursively adding מספרגדול only while needed, then subtracting safely and applying שמור",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take one number from its sibling; when the subtrahend is too large, add מספרגדול to the sibling repeatedly until subtraction is possible; after subtraction apply שמור.",
+      "semantic_after": "לקחתמאחיו retains explicit Natural work/subtrahend places. אחבדוק tests only whether subtraction is currently impossible; אחהוסף adds מספרגדול and recurs. Once possible, one B12-safe subtraction is performed and the result is normalized through שמור.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 229-241",
+        "A15 Natural strict ordering",
+        "B12 Natural subtraction domain",
+        "D4-PATCH-008 שמור",
+        "focused direct/wrap/equality/multi-wrap three-runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-010",
+      "original_span": {
+        "start_line": 243,
+        "end_line": 263
+      },
+      "previous_candidate_span": {
+        "start_line": 205,
+        "end_line": 225
+      },
+      "replacement": "source-level recursive doubling/descending-greedy act נותרמהר; שמור uses it as the semantically equivalent short route",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "For very large repeated subtraction, write the divisor and successive doublings until one exceeds the dividend, then traverse the written values from largest to smallest and subtract each one that still fits; the result must equal the long repeated-subtraction route.",
+      "semantic_after": "נותרמהר recursively doubles the divisor through existing חיבור until it exceeds the dividend; nested occurrence roles retain the same doubling sequence, and unwind performs the source's largest-to-smallest greedy safe subtractions into מהירתוצאה. שמור uses this exact equivalent route without an invented threshold.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 243-263",
+        "source explicitly states short route result equals long route",
+        "A13 recursive named-act occurrences with occurrence-local roles",
+        "B12 safe Natural subtraction",
+        "focused small-equivalence and 99,999,999 mod 97 three-runtime tests"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-011",
+      "original_span": {
+        "start_line": 121,
+        "end_line": 141
+      },
+      "previous_candidate_span": {
+        "description": "D4-PATCH-005 linear RepeatExactly implementation"
+      },
+      "replacement": "recursive doubling/decomposition implementation of לקחתפעמים with logarithmic depth and descending greedy selection",
+      "classification": "SOURCE_REPAIR_CORRECTION",
+      "semantic_before": "Original source explicitly gives a doubling/decomposition short route when the repetition count is large and states the result is unchanged.",
+      "semantic_after": "לקחתפעמים retains the Natural input/output contract but realizes multiplication through powers-of-two doubling, descending selection, and safe remaining-count subtraction; רבוע continues to delegate to לקחתפעמים.",
+      "preservation_class": "ALGORITHM_RESTORATION",
+      "evidence": [
+        "original 121-141",
+        "original 145-163",
+        "Luach Seven 289-307",
+        "production RepeatExactly executes one action per count",
+        "drop 5 reaches 147018724953112136513405003837173",
+        "finite-fuel 2^127-scale multiplication regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": true,
+      "supersedes": "D4-PATCH-005 implementation strategy"
+    },
+    {
+      "id": "D4-PATCH-012",
+      "original_span": {
+        "start_line": 269,
+        "end_line": 319
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Seven prose"
+      },
+      "replacement": "persistent 46x5 nested Natural stone table plus generic חשבאבן, snapshot-safe טיפההבאה, and exact 45-step בנהאבנים",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Five named stones start at [17,29,43,71,101]. For each next visible drop, compute all five new stones only from the five old stones and the new drop number using square + weighted old stone + extra, then שמור; after all five exist they jointly become the next drop. Continue through drop 46.",
+      "semantic_after": "Initial old-stone places and a nested Natural table hold drop 1. חשבאבן implements the common formula. טיפההבאה increments the drop number, computes all five new places before copying any into old state, appends one five-Natural book, then commits the snapshot. בנהאבנים repeats this exactly 45 times.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 269-319",
+        "C5.3 nested Natural Collections",
+        "D4-PATCH-011 fast multiplication",
+        "D4-PATCH-006 square",
+        "D4-PATCH-008/010 שמור",
+        "focused drop-2 and full 46-drop three-runtime tests"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-013",
+      "original_span": {
+        "start_line": 323,
+        "end_line": 461
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Eight prose"
+      },
+      "replacement": "seven hidden Natural places, exact coefficient initialization, generic grind acts, and chronological hidden-drop book",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Seven hidden drops precede visible drop 1. Each receives the five counter contributions with its own coefficients plus the five stones of visible drop k, is kept, then ground seven times using stone sequence wheat/barley/salt/bitter/red/wheat/barley and round number 1..7.",
+      "semantic_after": "חשבנסתרת computes the exact initial formula from four coefficient roles and a five-stone row; טחןפעם/טחןנסתרת perform the seven explicit rounds; בנהנסתרות does all seven and stores them chronologically as hidden7..hidden1 for later predecessor lookup.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 323-461",
+        "T11 46x5 stone table",
+        "D4-PATCH-011 fast multiplication",
+        "D4-PATCH-006 square",
+        "D4-PATCH-010 keep",
+        "focused exact seven-hidden-drop three-runtime regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-014",
+      "original_span": {
+        "start_line": 465,
+        "end_line": 591
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Nine prose"
+      },
+      "replacement": "chronological hidden+visible history; exact first/third/seventh predecessor selection; generic initial-drop and eleven-round grinding acts; exact 46-step builder",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Each visible drop uses the immediately preceding, third-preceding and seventh-preceding drops, treating hidden drops as predecessors before visible drop 1. Its initial value combines five stone/counter products, predecessor terms 1/3/5, and drop number; then eleven specified grinding rounds produce the drop.",
+      "semantic_after": "כלטיפות begins with hidden7..hidden1 and appends each completed visible drop. עשהטיפהגלויה derives predecessor offsets from collection length, computes ראשיתטיפה, runs all eleven explicit coefficient/stone rounds, and appends one result. בנהטיפות repeats exactly 46 times.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 465-591",
+        "T12 hidden chronology",
+        "T11 stone table",
+        "exact sample/full 46-drop regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-015",
+      "original_span": {
+        "start_line": 595,
+        "end_line": 637
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Ten prose"
+      },
+      "replacement": "Natural book of six bowl fills in fixed bowl-number order plus generic exact initial-fill act",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Six bowls have fixed identities/numbers 1..6. Before drops, each bowl receives a fill from the five counters, question×bowl-number, a bowl-specific squared prime, a square of the accumulated sum, bowl number, and שמור.",
+      "semantic_after": "מלאקערות stores fills in immutable bowl-identity order. חשבמלאקערה implements the common formula from explicit bowl number and prime roles; אתחלקערות calls it exactly six times with the six source pairs.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 595-637",
+        "exact six-fill three-runtime regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-016",
+      "original_span": {
+        "start_line": 641,
+        "end_line": 733
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Eleven prose"
+      },
+      "replacement": "safe Natural quotient/remainder helper, source block/factoradic arrangement selection, modulo-720 arrangement number, and explicit bowl-position lookup",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "All 720 six-bowl permutations are ordered lexicographically by fixed bowl number. Arrangement number is ((drop-1) mod 720)+1. The source's short way partitions by 120,24,6,2 blocks and position is distinct from identity.",
+      "semantic_after": "מצאמערכה performs the equivalent factoradic/block selection with divisors 120,24,6,2,1 and a remaining bowl. מספרמערכה performs the exact 1..720 wrap. מקוםקערה scans the selected arrangement and returns position independently from bowl identity.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 641-733",
+        "arrangements 1,100,720 exact tests",
+        "721 wrap test",
+        "position-vs-identity test"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-017",
+      "original_span": {
+        "start_line": 733,
+        "end_line": 765
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Twelve prose"
+      },
+      "replacement": "generic exact pour calculation plus three-value pour book keyed by arrangement positions 1..3",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "After selecting the drop's arrangement, positions 1/2/3 alone receive pours: drop squared + wheat/barley/salt times the current fill of the bowl occupying that position + drop number times 3/5/7, then שמור.",
+      "semantic_after": "חשבציקה performs the exact formula from drop, ordinal, stone, coefficient and permanent bowl identity. צוקטיפה selects bowl identities from arrangement positions 1..3 and returns exactly three retained pour values; positions 4..6 receive no pour.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 733-765",
+        "sample arrangement 10 exact pour regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-018",
+      "original_span": {
+        "start_line": 769,
+        "end_line": 817
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Thirteen prose"
+      },
+      "replacement": "snapshot book of old identity-keyed bowl fills, six exact per-position calculations, temporary identity/value pairs sorted before simultaneous commit, and exact 46-drop driver",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "For every drop, all six new bowl values use only pre-drop bowl fills. Arrangement is circular. Positions 1..3 add their pours; all positions add the drop and a position stone. After six results exist they replace all six fills together. Repeat for 46 drops.",
+      "semantic_after": "מלאישן freezes the old state. חשבקערהאחרי implements the complete per-bowl formula. ערבבטיפה computes six identity/value pairs from that snapshot and commits only after all six exist. קערותטיפההבאה/ערבבכלטיפות run exactly 46 drops and retain the last drop arrangement separately.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 769-817",
+        "synthetic exact three-runtime mix regression",
+        "snapshot-before-commit structural regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    }
+  ],
+  "candidate_source_changed_in_d4": true,
+  "reason_no_new_patch": null,
+  "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3"
 }
