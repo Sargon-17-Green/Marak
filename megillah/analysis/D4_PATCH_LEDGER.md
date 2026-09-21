@@ -125,3 +125,9 @@ Original lines 323–461 define seven hidden drops before visible drop 1. Each h
 Each hidden drop is then ground exactly seven times. Every round uses the pre-square value, its square, three copies of the pre-square value, one stone, the round number, and `שמור`. The stone sequence is explicitly retained as wheat, barley, salt, bitter, red, wheat, barley.
 
 The repair stores the seven final values both in named places and in `טיפותנסתרות`, ordered hidden7 through hidden1 so later predecessor selection can append visible drops and count backward without an inverted convention.
+
+## D4-PATCH-014 — Luach Nine / 46 visible drops
+
+The source defines one chronological predecessor chain containing hidden7..hidden1 followed by visible drops 1..46. For each visible drop, the first, third and seventh predecessors are taken without skipping, exactly as illustrated for drops 1–4.
+
+`ראשיתטיפה` retains the five stone×counter contributions, predecessor weights 1/3/5, visible-drop number and final `שמור`. `טחןטיפה` spells all eleven coefficient tuples and their stone sequence explicitly. `עשהטיפהגלויה` selects predecessor positions from the retained history, and `בנהטיפות` performs exactly 46 complete drops, appending a drop only after all eleven rounds finish.

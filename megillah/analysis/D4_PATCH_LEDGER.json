@@ -394,6 +394,33 @@
         "focused exact seven-hidden-drop three-runtime regression"
       ],
       "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-014",
+      "original_span": {
+        "start_line": 465,
+        "end_line": 591
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Nine prose"
+      },
+      "replacement": "chronological hidden+visible history; exact first/third/seventh predecessor selection; generic initial-drop and eleven-round grinding acts; exact 46-step builder",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Each visible drop uses the immediately preceding, third-preceding and seventh-preceding drops, treating hidden drops as predecessors before visible drop 1. Its initial value combines five stone/counter products, predecessor terms 1/3/5, and drop number; then eleven specified grinding rounds produce the drop.",
+      "semantic_after": "כלטיפות begins with hidden7..hidden1 and appends each completed visible drop. עשהטיפהגלויה derives predecessor offsets from collection length, computes ראשיתטיפה, runs all eleven explicit coefficient/stone rounds, and appends one result. בנהטיפות repeats exactly 46 times.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 465-591",
+        "T12 hidden chronology",
+        "T11 stone table",
+        "exact sample/full 46-drop regression"
+      ],
+      "confidence": "HIGH",
       "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"

@@ -300,4 +300,12 @@ GitHub Actions run `35613420964` verified the complete five-stone table on both 
 
 ## Post-C5.6 continuation — T12 / Luach Eight hidden drops
 
-Pending dedicated D4 verification. Candidate includes all seven coefficient rows, all five visible-stone additions per hidden drop, explicit seven-round grinding, and hidden chronology `7..1`.
+GitHub Actions run `35615232527` verified Luach Eight on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **66 passed**.
+- candidate SHA-256: `e9550217dbd0dc6fbe949d51a9333eee6d7322cc373620f6190b82f3088888e8`
+- normalized tokens: **16,458**
+- frontier token: **9,473**
+- candidate line: **282**
+- mapped original line: **465**
+- next blocker: `# לוח תשעה: עשיית שש וארבעים הטיפות`.

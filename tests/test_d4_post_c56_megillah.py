@@ -685,3 +685,55 @@ def test_d4_post_c56_luach8_hidden_order_is_seven_to_one_for_predecessor_history
     for name in order:
         cursor = body.index(f"המספר אשר במקום אשר שמו {name}", cursor + 1)
 
+def _d4_luach9_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    luach10 = next(i for i, line in enumerate(lines) if line.startswith("# לוח עשרה: שש הקערות"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach10]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def test_d4_post_c56_luach9_builds_exact_46_visible_drops_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach9_preparation()
+        + " ועתה "
+        + _d4_set_luach8_counters()
+        + " ואחרי כן עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו בנהאבנים"
+        + " ואחרי כן עשה את המעשה אשר שמו בנהנסתרות"
+        + " ואחרי כן עשה את המעשה אשר שמו בנהטיפות"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    expected_first = [
+        123334831551511603687649975447681761062,
+        156673085926334718073075063360231111300,
+        154047674952282304836724395515854998098,
+        63342935234911242715034474012998539443,
+    ]
+    assert facts["מספרטיפהגלויה"] == 46
+    assert len(facts["טיפותגלויות"]) == 46
+    assert facts["טיפותגלויות"][:4] == expected_first
+    assert facts["טיפותגלויות"][-1] == 45970703249572047980738520652128782598
+    assert len(facts["כלטיפות"]) == 53
+    assert facts["כלטיפות"][-46:] == facts["טיפותגלויות"]
+
+
+def test_d4_post_c56_luach9_predecessor_offsets_and_eleven_rounds_are_explicit():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    step = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו עשהטיפהגלויה "))
+    assert "המספר האחרון אשר בתוך הספר אשר במקום אשר שמו כלטיפות" in step
+    assert "בגרע את המספר אשר הוא שנים מן מספר הדברים אשר בתוך הספר אשר במקום אשר שמו כלטיפות" in step
+    assert "בגרע את המספר אשר הוא ששה מן מספר הדברים אשר בתוך הספר אשר במקום אשר שמו כלטיפות" in step
+    grind = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו טחןטיפה "))
+    assert grind.count("עשה את המעשה אשר שמו טחןטיפהפעם") == 11
+    assert "ארבעים ושש פעמים עשה את המעשה אשר שמו עשהטיפהגלויה" in next(
+        line for line in lines if line.startswith("זה דבר המעשה אשר שמו בנהטיפות ")
+    )
+
