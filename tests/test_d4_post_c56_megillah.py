@@ -876,7 +876,7 @@ def test_d4_post_c56_luach12_only_first_three_positions_receive_pours():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו צוקטיפה "))
     assert body.count("עשה את המעשה אשר שמו חשבציקה") == 3
-    assert "המספר אשר הוא ארבעה" not in body
-    assert "המספר אשר הוא חמשה" not in body
-    assert "המספר אשר הוא ששה" not in body
+    assert "שמו מערכה הוא המספר אשר הוא ארבעה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
+    assert "שמו מערכה הוא המספר אשר הוא חמשה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
+    assert "שמו מערכה הוא המספר אשר הוא ששה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
 
