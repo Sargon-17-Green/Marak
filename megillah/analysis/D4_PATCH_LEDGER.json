@@ -370,6 +370,35 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-013",
+      "original_span": {
+        "start_line": 323,
+        "end_line": 461
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Eight prose"
+      },
+      "replacement": "seven hidden Natural places, exact coefficient initialization, generic grind acts, and chronological hidden-drop book",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Seven hidden drops precede visible drop 1. Each receives the five counter contributions with its own coefficients plus the five stones of visible drop k, is kept, then ground seven times using stone sequence wheat/barley/salt/bitter/red/wheat/barley and round number 1..7.",
+      "semantic_after": "חשבנסתרת computes the exact initial formula from four coefficient roles and a five-stone row; טחןפעם/טחןנסתרת perform the seven explicit rounds; בנהנסתרות does all seven and stores them chronologically as hidden7..hidden1 for later predecessor lookup.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 323-461",
+        "T11 46x5 stone table",
+        "D4-PATCH-011 fast multiplication",
+        "D4-PATCH-006 square",
+        "D4-PATCH-010 keep",
+        "focused exact seven-hidden-drop three-runtime regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

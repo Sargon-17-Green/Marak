@@ -117,3 +117,11 @@ Original lines 269–319 define a deterministic table of 46 visible drops, each 
 The candidate retains five old-state places, five new-state places, the current drop number, and `אבניטיפות` as a nested Natural Collection. Generic `חשבאבן` implements the common formula `שמור(square(base) + count*weighted + extra)`. `טיפההבאה` computes all five new places before any old place is replaced, appends one five-element book, then commits the new snapshot. `בנהאבנים` performs exactly 45 transitions after the initial row, reaching visible drop 46.
 
 The source's permission to precompute the table once is retained as a lifecycle/documentation invariant; no day-dependent input is used in this table.
+
+## D4-PATCH-013 — Luach Eight / seven hidden drops
+
+Original lines 323–461 define seven hidden drops before visible drop 1. Each hidden drop has its own four coefficients over the question/distance/connection/way counters, also receives the action counter and all five stones from the visible drop with the same ordinal, then passes through `שמור`.
+
+Each hidden drop is then ground exactly seven times. Every round uses the pre-square value, its square, three copies of the pre-square value, one stone, the round number, and `שמור`. The stone sequence is explicitly retained as wheat, barley, salt, bitter, red, wheat, barley.
+
+The repair stores the seven final values both in named places and in `טיפותנסתרות`, ordered hidden7 through hidden1 so later predecessor selection can append visible drops and count backward without an inverted convention.

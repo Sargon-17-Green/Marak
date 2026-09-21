@@ -297,3 +297,7 @@ GitHub Actions run `35613420964` verified the complete five-stone table on both 
 - full 46-row × 5-stone table regression: PASS on HAST reference, IR reference and portable backend.
 - exact last visible drop stones:
   `[73799454308499791987382386781055001470, 147925408106533232424672641008220632365, 94499522601819303005579577099149028685, 108473647672201258090947028490673028834, 137131922036975206684616468948804344042]`.
+
+## Post-C5.6 continuation — T12 / Luach Eight hidden drops
+
+Pending dedicated D4 verification. Candidate includes all seven coefficient rows, all five visible-stone additions per hidden drop, explicit seven-round grinding, and hidden chronology `7..1`.

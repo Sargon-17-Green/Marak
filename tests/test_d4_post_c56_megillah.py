@@ -612,3 +612,76 @@ def test_d4_post_c56_luach7_canonical_count_and_snapshot_copy_order():
     assert body.index("שמו אדומהחדשה") < body.index("שמו חיטהישנה את המספר אשר במקום אשר שמו חיטהחדשה")
     assert "ספר ספרי מספרים" in text
 
+def _d4_luach8_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    luach9 = next(i for i, line in enumerate(lines) if line.startswith("# לוח תשעה: עשיית שש וארבעים הטיפות"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach9]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def _d4_set_luach8_counters() -> str:
+    return " ואחרי כן ".join([
+        "שים במקום אשר שמו מספרמעשה את המספר אשר הוא שנים תחת המספר אשר במקום אשר שמו מספרמעשה",
+        "שים במקום אשר שמו מספרשאלה את המספר אשר הוא שלשה תחת המספר אשר במקום אשר שמו מספרשאלה",
+        "שים במקום אשר שמו מספרמרחק את המספר אשר הוא ארבעה תחת המספר אשר במקום אשר שמו מספרמרחק",
+        "שים במקום אשר שמו מספרחיבור את המספר אשר הוא חמשה תחת המספר אשר במקום אשר שמו מספרחיבור",
+        "שים במקום אשר שמו מספרדרך את המספר אשר הוא אחד תחת המספר אשר במקום אשר שמו מספרדרך",
+    ])
+
+
+def test_d4_post_c56_luach8_seven_hidden_drops_exact_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach8_preparation()
+        + " ועתה "
+        + _d4_set_luach8_counters()
+        + " ואחרי כן עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן שש פעמים עשה את המעשה אשר שמו טיפההבאה"
+        + " ואחרי כן עשה את המעשה אשר שמו בנהנסתרות"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    expected = [
+        11444032270830949316106214743872497511,
+        28452868261542307484545760903286527681,
+        112739049138818416587726524909828373299,
+        152668047685990206548249493436880013083,
+        150701631999741008562130578980114868144,
+        70454981221026737591078108330515014309,
+        119123926606937080003165916448677215346,
+    ]
+    names = ["נסתרתאחת","נסתרתשנית","נסתרתשלישית","נסתרתרביעית","נסתרתחמישית","נסתרתששית","נסתרתשביעית"]
+    assert [facts[x] for x in names] == expected
+    assert facts["טיפותנסתרות"] == list(reversed(expected))
+    assert obs["products"][-1] == ["בנהנסתרות", list(reversed(expected))]
+
+
+def test_d4_post_c56_luach8_grind_stone_sequence_is_explicit_seven_steps():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו טחןנסתרת "))
+    assert body.count("עשה את המעשה אשר שמו טחןפעם") == 7
+    positions = [
+        "המספר אשר הוא אחד", "המספר אשר הוא שנים", "המספר אשר הוא שלשה",
+        "המספר אשר הוא ארבעה", "המספר אשר הוא חמשה",
+        "המספר אשר הוא אחד", "המספר אשר הוא שנים",
+    ]
+    cursor = -1
+    for position in positions:
+        cursor = body.index(position, cursor + 1)
+    assert "שבעה פעמים עשה את המעשה אשר שמו טחןפעם" not in body
+
+
+def test_d4_post_c56_luach8_hidden_order_is_seven_to_one_for_predecessor_history():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו בנהנסתרות "))
+    order = ["נסתרתשביעית","נסתרתששית","נסתרתחמישית","נסתרתרביעית","נסתרתשלישית","נסתרתשנית","נסתרתאחת"]
+    cursor = body.index("ספר מספרים אשר אין בו מספר")
+    for name in order:
+        cursor = body.index(f"המספר אשר במקום אשר שמו {name}", cursor + 1)
+
