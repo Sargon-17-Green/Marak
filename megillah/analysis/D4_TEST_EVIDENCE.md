@@ -241,3 +241,16 @@ GitHub Actions run `35607304124` verified the Luach Five repair on both dedicate
 - original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
 
 The full workflow is not a D4 gate: core/C5.6 still hit the frozen `D4-CONF-001` candidate receipt, and one Windows proposal-regression job also failed outside the dedicated D4 signal. Neither is repaired from Workstream D.
+
+## Post-C5.6 continuation — T08 / Luach Six remainder
+
+GitHub Actions run `35608830982` verified ordinary remainder and `שמור` on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **51 passed** on Ubuntu; Windows dedicated D4 job also PASS.
+- candidate SHA-256: `33f6956df02374db4a88465063d9e29ffb11c1f1a42130ec932638de3e6cf0ff`
+- normalized tokens: **10,808**
+- frontier token: **2,820**
+- candidate line: **191**
+- mapped original line: **229**
+- next blocker: `## לקחת מספר מאחיו`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.

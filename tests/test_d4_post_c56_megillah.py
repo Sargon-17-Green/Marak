@@ -352,3 +352,86 @@ def test_d4_post_c56_luach6_uses_safe_post_action_remainder_not_underflow_contro
     assert "יהי מעשה ושמו נותר" in text
     assert "יהי מעשה ושמו שמור" in text
 
+def _d4_luach6_wrapped_subtraction_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    next_heading = next(i for i, line in enumerate(lines) if line.startswith("## אם רב המספר מאד"))
+    selected = lines[0:6] + lines[big_start:next_heading]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def _d4_wrapped_subtraction_call(subtrahend: str, sibling: str) -> str:
+    return (
+        "עשה את המעשה אשר שמו לקחתמאחיו "
+        f"בהיות {subtrahend} תחת הדבר אשר במעשה אשר שמו לקחתמאחיו שמו מחסר "
+        f"ובהיות {sibling} תחת הדבר אשר במעשה אשר שמו לקחתמאחיו שמו אחמספר"
+    )
+
+
+def test_d4_post_c56_luach6_wrapped_subtraction_direct_and_wrap_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_wrapped_subtraction_preparation()
+    cases = [
+        ("המספר אשר הוא חמשה", "המספר אשר הוא שמונה", 3),
+        ("המספר אשר הוא שמונה", "המספר אשר הוא חמשה", (1 << 127) - 4),
+    ]
+    for subtrahend, sibling, want in cases:
+        source = (
+            prep
+            + " ועתה עשה את המעשה אשר שמו חשבגדול"
+            + " ואחרי כן "
+            + _d4_wrapped_subtraction_call(subtrahend, sibling)
+        )
+        _, obs = three(source)
+        assert obs["products"][-1] == ["לקחתמאחיו", want]
+
+
+def test_d4_post_c56_luach6_wrapped_subtraction_equal_maps_through_keep():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_wrapped_subtraction_preparation()
+    source = (
+        prep
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן "
+        + _d4_wrapped_subtraction_call("המספר אשר הוא שבעה", "המספר אשר הוא שבעה")
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["לקחתמאחיו", (1 << 127) - 1]
+
+
+def test_d4_post_c56_luach6_wrapped_subtraction_repeats_modulus_addition_as_needed():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_wrapped_subtraction_preparation()
+    add_two_moduli = (
+        "עשה את המעשה אשר שמו חיבור "
+        "בהיות המספר אשר במקום אשר שמו מספרגדול תחת הדבר אשר במעשה אשר שמו חיבור שמו ראשון "
+        "ובהיות המספר אשר במקום אשר שמו מספרגדול תחת הדבר אשר במעשה אשר שמו חיבור שמו שני"
+    )
+    source = (
+        prep
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן "
+        + add_two_moduli
+        + " ואחרי כן "
+        + _d4_wrapped_subtraction_call(
+            "המספר אשר יצא עתה מן המעשה אשר שמו חיבור",
+            "המספר אשר הוא אחד",
+        )
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["לקחתמאחיו", 1]
+
+
+def test_d4_post_c56_luach6_wrapped_subtraction_never_uses_underflow_as_control():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("## אם רב המספר מאד"))
+    text = " ".join(lines[start:end])
+    assert "אחמחסר רב מן המספר אשר במקום אשר שמו אחעבודה" in text
+    assert "עשה את המעשה אשר שמו אחהוסף" in text
+    assert "המספר הנחשב בגרע את המספר אשר במקום אשר שמו אחמחסר מן המספר אשר במקום אשר שמו אחעבודה" in text
+    assert "עשה את המעשה אשר שמו שמור" in text
+

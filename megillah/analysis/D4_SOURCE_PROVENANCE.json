@@ -229,14 +229,42 @@
         "B12 subtraction failure boundary",
         "focused 23 mod 7, 21 mod 7, 5 mod 7, and שמור regressions"
       ]
+    },
+    {
+      "id": "D4-PATCH-009",
+      "candidate_start_line": 193,
+      "candidate_end_line": 202,
+      "original_lines": [
+        229,
+        231,
+        233,
+        235,
+        237,
+        239,
+        241
+      ],
+      "original_text": "לקחת מספר מאחיו: compare the amount to the sibling; if necessary add מספרגדול repeatedly until subtraction is possible; subtract; apply שמור.",
+      "replacement": "Named act לקחתמאחיו with Natural roles/state, recursive modulus augmentation guarded by strict Natural order, one safe subtraction, and final שמור.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "The source's operational criterion is whether subtraction is possible. B12 defines equality as a valid subtraction case, so only strict subtrahend>minuend requires augmentation; no hidden equality convention or underflow control is introduced.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 229-241",
+        "B12 A<=B subtraction success",
+        "A15 strict Natural order",
+        "D4-PATCH-008 kept remainder",
+        "focused three-runtime tests"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-008 maps Luach Six ordinary remainder and kept cyclic remainder while preserving their zero-handling distinction.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-009 maps Luach Six wrapped sibling subtraction including repeated modulus augmentation and final kept-residue normalization.",
   "blocked_future_derivation": {
-    "source_span": "original line 229 onward",
-    "requirement": "Luach Six wrapped subtraction: taking a number from its brother with repeated מספרגדול augmentation when needed",
+    "source_span": "original line 243 onward",
+    "requirement": "Luach Six large-number repeated-subtraction acceleration",
     "blocker": null,
-    "note": "Measure T08 frontier before repairing the next subsection."
+    "note": "Measure T09 frontier before repairing the optimization subsection."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [

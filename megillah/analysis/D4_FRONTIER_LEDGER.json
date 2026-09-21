@@ -114,6 +114,20 @@
     },
     {
       "tranche_id": "D4-C56-T08-LUACH6-REMAINDER",
+      "candidate_sha256": "33f6956df02374db4a88465063d9e29ffb11c1f1a42130ec932638de3e6cf0ff",
+      "normalized_token_frontier": 2820,
+      "candidate_line": 191,
+      "original_line": 229,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SIX_WRAPPED_SUBTRACTION",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-008",
+      "next_blocker": "## לקחת מספר מאחיו",
+      "evidence": "GitHub Actions run 35608830982: D4 Ubuntu/Windows 51 targeted tests PASS; frontier token 2820",
+      "normalized_token_count": 10808
+    },
+    {
+      "tranche_id": "D4-C56-T09-LUACH6-WRAPPED-SUBTRACTION",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -121,9 +135,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-008",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-009",
       "next_blocker": null,
-      "evidence": "Plain Natural remainder plus kept cyclic remainder (zero maps to מספרגדול), using safe Natural subtraction and admitted post-action recurrence."
+      "evidence": "Wrapped Natural subtraction with explicit repeated מספרגדול augmentation and final שמור normalization."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -133,5 +147,6 @@
   "t05_ci_trigger": "contents-api trigger for Luach Three exact-count verification",
   "t06_ci_trigger": "contents-api trigger for Luach Four square verification",
   "t07_ci_trigger": "contents-api trigger for Luach Five big-number verification",
-  "t08_ci_trigger": "pending after Luach Six remainder repair"
+  "t08_ci_trigger": "GitHub Actions run 35608830982",
+  "t09_ci_trigger": "pending after wrapped-subtraction repair"
 }

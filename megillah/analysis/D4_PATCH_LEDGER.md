@@ -85,3 +85,11 @@ Original lines 197–227 define two deliberately distinct reductions. `נותר`
 The repaired candidate defines Natural work places and named acts `נותר`, `נותרגרע`, `נותרלולאה`, and `שמור`. Before entering the post-action subtraction recurrence, `נותר` checks whether the divisor is already greater than the dividend; therefore B12 Natural underflow is never used as loop control. Exact multiples safely subtract to zero and terminate on the next proposition check.
 
 `שמור` calls `נותר` with `מספרגדול` as divisor, then maps only zero to `מספרגדול`. The two operations remain semantically distinct exactly as required by the source.
+
+## D4-PATCH-009 — Luach Six / wrapped sibling subtraction
+
+Original lines 229–241 define subtraction in the cyclic `מספרגדול` space: subtract directly when possible; otherwise add `מספרגדול` to the sibling as many times as needed, then subtract and apply `שמור`.
+
+The repair introduces `לקחתמאחיו` with Natural roles `מחסר` and `אחמספר`, plus explicit work state and two helper acts. `אחבדוק` asks exactly whether the subtrahend is still greater than the current work value; only then does `אחהוסף` add `מספרגדול` and recurse. Therefore the eventual B12 subtraction is always in-domain.
+
+Equality needs no invented third arithmetic case: subtraction is already defined when the values are equal, yields Natural zero, and the source-mandated final `שמור` maps that residue to `מספרגדול`.

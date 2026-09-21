@@ -252,6 +252,35 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-009",
+      "original_span": {
+        "start_line": 229,
+        "end_line": 241
+      },
+      "previous_candidate_span": {
+        "start_line": 191,
+        "end_line": 204
+      },
+      "replacement": "named wrapped-subtraction act taking מחסר from אחמספר, recursively adding מספרגדול only while needed, then subtracting safely and applying שמור",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take one number from its sibling; when the subtrahend is too large, add מספרגדול to the sibling repeatedly until subtraction is possible; after subtraction apply שמור.",
+      "semantic_after": "לקחתמאחיו retains explicit Natural work/subtrahend places. אחבדוק tests only whether subtraction is currently impossible; אחהוסף adds מספרגדול and recurs. Once possible, one B12-safe subtraction is performed and the result is normalized through שמור.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 229-241",
+        "A15 Natural strict ordering",
+        "B12 Natural subtraction domain",
+        "D4-PATCH-008 שמור",
+        "focused direct/wrap/equality/multi-wrap three-runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,
