@@ -66,10 +66,51 @@ def _encode(x):
 
 
 def _decode_span(obj):
-    def p(d):
-        return OriginalPoint(d["file"], d["char_offset"], d["byte_offset"], d["line"], d["column"])
+    if not isinstance(obj, dict) or set(obj) != {"$span"}:
+        raise ArtifactVerificationError("malformed source span wrapper")
     d = obj["$span"]
-    return OriginalSpan(p(d["start"]), p(d["end"]))
+    if not isinstance(d, dict) or set(d) != {"start", "end"}:
+        raise ArtifactVerificationError("malformed source span fields")
+
+    point_fields = {"file", "char_offset", "byte_offset", "line", "column"}
+
+    def p(value):
+        if not isinstance(value, dict) or set(value) != point_fields:
+            raise ArtifactVerificationError("malformed source point fields")
+        if type(value["file"]) is not str:
+            raise ArtifactVerificationError("malformed source point file")
+        for name in ("char_offset", "byte_offset", "line", "column"):
+            if type(value[name]) is not int:
+                raise ArtifactVerificationError(f"malformed source point {name}")
+        if value["char_offset"] < 0 or value["byte_offset"] < 0:
+            raise ArtifactVerificationError("malformed source point offset")
+        if value["line"] < 1 or value["column"] < 1:
+            raise ArtifactVerificationError("malformed source point line/column")
+        if value["byte_offset"] < value["char_offset"]:
+            raise ArtifactVerificationError("malformed source point byte offset")
+        return OriginalPoint(
+            value["file"],
+            value["char_offset"],
+            value["byte_offset"],
+            value["line"],
+            value["column"],
+        )
+
+    start = p(d["start"])
+    end = p(d["end"])
+    if start.file != end.file:
+        raise ArtifactVerificationError("malformed source span crosses files")
+    if start.char_offset > end.char_offset or start.byte_offset > end.byte_offset:
+        raise ArtifactVerificationError("malformed source span is reversed")
+    if start.line > end.line or (start.line == end.line and start.column > end.column):
+        raise ArtifactVerificationError("malformed source span line/column order")
+    if start.char_offset == end.char_offset and (
+        start.byte_offset != end.byte_offset
+        or start.line != end.line
+        or start.column != end.column
+    ):
+        raise ArtifactVerificationError("malformed zero-width source span")
+    return OriginalSpan(start, end)
 
 
 def _decode(x):
