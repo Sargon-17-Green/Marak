@@ -218,3 +218,32 @@ def test_d4_post_c56_luach3_uses_repeat_exactly_not_manual_expansion():
     assert "עשה את המעשה אשר שמו הוסףלקיחה" in text
     assert "שלשה ושלשה ושלשה" not in text
     assert "שמונה פעמים" not in text
+
+
+def _d4_square_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    selected = lines[96:104] + lines[120:123]
+    return " ".join(x for x in selected if x.strip())
+
+
+def _d4_square_call(value: str) -> str:
+    return (
+        "עשה את המעשה אשר שמו רבוע "
+        f"בהיות {value} תחת הדבר אשר במעשה אשר שמו רבוע שמו מספר"
+    )
+
+
+def test_d4_post_c56_luach4_square_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    source = _d4_square_preparation() + " ועתה " + _d4_square_call("המספר אשר הוא שבעה")
+    _, obs = three(source)
+    assert obs["products"][-1] == ["רבוע", 49]
+
+
+def test_d4_post_c56_luach4_repeated_square_uses_previous_result_explicitly():
+    from tests.test_c5_6_general_index_surface import three
+    first = _d4_square_call("המספר אשר הוא שבעה")
+    second = _d4_square_call("המספר אשר יצא עתה מן המעשה אשר שמו רבוע")
+    source = _d4_square_preparation() + " ועתה " + first + " ואחרי כן " + second
+    _, obs = three(source)
+    assert obs["products"][-1] == ["רבוע", 2401]

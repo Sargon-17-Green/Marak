@@ -169,6 +169,33 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-006",
+      "original_span": {
+        "start_line": 145,
+        "end_line": 163
+      },
+      "previous_candidate_span": {
+        "start_line": 121,
+        "end_line": 139
+      },
+      "replacement": "named act רבוע delegating to לקחתפעמים(number, number)",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take a Natural number exactly as many times as its own value and add the copies; repeated square starts from the preceding square result.",
+      "semantic_after": "One-role square act delegates to exact repeated addition with identical value/count and returns the resulting Natural.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 145-163",
+        "D4-PATCH-005",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

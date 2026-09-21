@@ -72,6 +72,20 @@
     },
     {
       "tranche_id": "D4-C56-T05-LUACH3",
+      "candidate_sha256": "4afb2e8995d4ad57617caec7c57233a51acd864217b7d59abc78e242904ce805",
+      "normalized_token_frontier": 2005,
+      "candidate_line": 121,
+      "original_line": 145,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_FOUR",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-005",
+      "next_blocker": "# לוח ארבע: דבר הרבוע",
+      "evidence": "GitHub Actions run 35605553567: D4 Ubuntu/Windows 43 targeted tests PASS; frontier token 2005",
+      "normalized_token_count": 10402
+    },
+    {
+      "tranche_id": "D4-C56-T06-LUACH4",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -79,9 +93,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-005",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-006",
       "next_blocker": null,
-      "evidence": "Named exact repeated-addition act using C5.4 RepeatExactly."
+      "evidence": "Named square act delegates to exact repeated addition."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
