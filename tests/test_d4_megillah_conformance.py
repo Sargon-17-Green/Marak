@@ -181,9 +181,24 @@ def test_day_domain_audit_current_surface_has_year_index_but_no_day_index_head()
 
 
 def test_day_natural_number_alone_is_explicitly_insufficient_in_source_evidence():
-    text = CANDIDATE.read_text(encoding="utf-8")
-    assert "ומן המספרים לבדם לא תדע אי זה יום לפני ואי זה יום אחרי" in text
-    assert "אם יום אחד לפני חברו או אחריו מן הימים תדע ולא ממספריהם" in text
+    original = ORIGINAL.read_text(encoding="utf-8")
+    candidate = CANDIDATE.read_text(encoding="utf-8")
+    provenance = json.loads(
+        (ROOT / "megillah" / "analysis" / "D4_SOURCE_PROVENANCE.json").read_text(encoding="utf-8")
+    )
+
+    law_a = "ומן המספרים לבדם לא תדע אי זה יום לפני ואי זה יום אחרי"
+    law_b = "אם יום אחד לפני חברו או אחריו מן הימים תדע ולא ממספריהם"
+
+    assert law_a in original
+    assert law_b in original
+    assert law_a not in candidate
+    assert law_b not in candidate
+
+    entry = next(x for x in provenance["externalized_spans"] if x["id"] == "D4-DOC-006")
+    assert entry["classification"] == "DOCUMENTATION"
+    assert "chronological Index order" in entry["reason"]
+    assert "Natural day-number ordering" in entry["retained_requirement"]
 
 
 def test_five_result_fields_need_no_generic_tuple_value():
