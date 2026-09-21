@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from compiler.models.domains import Domain, ProgramInputId, SymbolDomainId, SymbolMemberId
 from compiler.source.source_map import OriginalSpan
 
-IR_VERSION = "core-ir-0.6-candidate-1"
+IR_VERSION = "core-ir-0.7-candidate-1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -173,6 +173,12 @@ class IREqualProposition(IRProposition):
 class IRNaturalGTProposition(IRProposition):
     left: IRNumber
     right: IRNumber
+
+
+@dataclass(frozen=True, slots=True)
+class IRIndexLTProposition(IRProposition):
+    left: IRValue
+    right: IRValue
 
 
 @dataclass(frozen=True, slots=True)
