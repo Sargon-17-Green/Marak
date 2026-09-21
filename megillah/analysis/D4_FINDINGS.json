@@ -79,8 +79,15 @@
       "semantic_compiler_defect": false,
       "language_surface_defect": false,
       "routing": "D4 local remediation only; restore source doubling/decomposition in לקחתפעמים.",
-      "status": "REMEDIATED_PENDING_CI_BY_D4_PATCH_011",
-      "d_can_continue_safely": "After dedicated D4 Ubuntu/Windows validation."
+      "status": "CLOSED_BY_D4_PATCH_011",
+      "d_can_continue_safely": "Yes.",
+      "closure": {
+        "commit": "23db1aa4bed1ce32f627b594e8c0ea6854250b02",
+        "ci_run": 35612611456,
+        "dedicated_d4": "Ubuntu+Windows PASS",
+        "targeted_tests": 60,
+        "candidate_sha256": "51b620c645c256fca805c16367e472bc0f5d5406bf6a7012bbaf7e2658013c09"
+      }
     }
   ],
   "new_source_findings": [

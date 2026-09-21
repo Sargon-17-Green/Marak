@@ -156,6 +156,20 @@
     },
     {
       "tranche_id": "D4-C56-T10A-LUACH3-FAST-MULTIPLICATION-REMEDIATION",
+      "candidate_sha256": "51b620c645c256fca805c16367e472bc0f5d5406bf6a7012bbaf7e2658013c09",
+      "normalized_token_frontier": 4311,
+      "candidate_line": 216,
+      "original_line": 269,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SEVEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-011",
+      "next_blocker": "# לוח שבע: חמש האבנים",
+      "evidence": "GitHub Actions run 35612611456: D4 Ubuntu/Windows 60 targeted tests PASS; 2^127-scale multiplication completes under finite fuel",
+      "normalized_token_count": 12087
+    },
+    {
+      "tranche_id": "D4-C56-T11-LUACH7-FIVE-STONES",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -163,9 +177,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-011",
-      "next_blocker": "# לוח שבע: חמש האבנים",
-      "evidence": "Luach Seven proves linear RepeatExactly multiplication is not executable at required magnitudes; restore source doubling/decomposition without language/compiler change."
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-012",
+      "next_blocker": null,
+      "evidence": "46x5 stone table: initial row, old/new snapshot recurrence, exact 45 transitions, nested Natural Collection retention."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -178,5 +192,6 @@
   "t08_ci_trigger": "GitHub Actions run 35608830982",
   "t09_ci_trigger": "GitHub Actions run 35609691265",
   "t10_ci_trigger": "GitHub Actions run 35610464147",
-  "t10a_ci_trigger": "pending after Luach Three fast-multiplication remediation"
+  "t10a_ci_trigger": "GitHub Actions run 35612611456",
+  "t11_ci_trigger": "pending after Luach Seven verification"
 }

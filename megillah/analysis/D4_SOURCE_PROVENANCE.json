@@ -128,12 +128,13 @@
         "A15 exact counted recurrence",
         "C5.4 RepeatExactly semantics",
         "focused 3x7/13x5/zero three-runtime tests"
-      ]
+      ],
+      "superseded_by": "D4-PATCH-011"
     },
     {
       "id": "D4-PATCH-006",
-      "candidate_start_line": 121,
-      "candidate_end_line": 123,
+      "candidate_start_line": 117,
+      "candidate_end_line": 119,
       "original_lines": [
         145,
         147,
@@ -161,8 +162,8 @@
     },
     {
       "id": "D4-PATCH-007",
-      "candidate_start_line": 143,
-      "candidate_end_line": 148,
+      "candidate_start_line": 139,
+      "candidate_end_line": 144,
       "original_lines": [
         167,
         169,
@@ -195,8 +196,8 @@
     },
     {
       "id": "D4-PATCH-008",
-      "candidate_start_line": 175,
-      "candidate_end_line": 195,
+      "candidate_start_line": 171,
+      "candidate_end_line": 191,
       "original_lines": [
         197,
         199,
@@ -232,8 +233,8 @@
     },
     {
       "id": "D4-PATCH-009",
-      "candidate_start_line": 200,
-      "candidate_end_line": 209,
+      "candidate_start_line": 196,
+      "candidate_end_line": 205,
       "original_lines": [
         229,
         231,
@@ -260,8 +261,8 @@
     },
     {
       "id": "D4-PATCH-010",
-      "candidate_start_line": 214,
-      "candidate_end_line": 215,
+      "candidate_start_line": 210,
+      "candidate_end_line": 211,
       "original_lines": [
         243,
         245,
@@ -321,14 +322,60 @@
         "runtime RepeatExactly implementation",
         "finite-fuel 2^127-scale multiplication regression"
       ]
+    },
+    {
+      "id": "D4-PATCH-012",
+      "candidate_start_line": 218,
+      "candidate_end_line": 240,
+      "original_lines": [
+        269,
+        271,
+        273,
+        275,
+        277,
+        279,
+        281,
+        283,
+        285,
+        287,
+        289,
+        291,
+        293,
+        295,
+        297,
+        299,
+        301,
+        303,
+        305,
+        307,
+        309,
+        311,
+        313,
+        315,
+        317,
+        319
+      ],
+      "original_text": "Luach Seven: five named stones per visible drop; fixed initial five values; each new row computed wholly from the old row; iterate through drop 46; table is day-invariant and may be precomputed.",
+      "replacement": "Five old/new Natural places + generic stone formula act + exact next-drop act + nested 46x5 Natural Collection builder.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "The table shape and snapshot boundary are represented directly. Every formula uses only old-state places; commit occurs only after all five new values are retained. 45 transitions after drop 1 give exactly 46 rows.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 269-319",
+        "C5.3 nested collections",
+        "full 46-row three-runtime regression",
+        "drop-2 snapshot regression"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-011 supersedes only the implementation strategy of D4-PATCH-005 by restoring Luach Three's source-required fast doubling/decomposition path.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-011 restores fast multiplication; D4-PATCH-012 maps Luach Seven's complete deterministic 46x5 stone table and snapshot recurrence.",
   "blocked_future_derivation": {
-    "source_span": "original line 269 onward",
-    "requirement": "Luach Seven / five-stone state and initial values",
-    "blocker": "D4-SRC-001 remediation must pass dedicated D4 CI before Luach Seven production repair.",
-    "note": "No language/compiler change requested."
+    "source_span": "original line 323 onward",
+    "requirement": "Luach Eight / seven hidden drops and their ordering/initialization",
+    "blocker": null,
+    "note": "Measure T11 frontier before Luach Eight."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -447,10 +494,10 @@
       "original_start_line": 129,
       "original_end_line": 141,
       "original_text": "Historical doubling table and 13 = 8+4+1 decomposition.",
-      "classification": "EXAMPLE_OR_PROOF",
-      "reason": "Algorithmic optimization/worked method for avoiding thousands of manual additions. C5.4 now provides the general exact-count operation directly; retaining the doubling prose as production source would be an unnecessary emulation layer.",
-      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
-      "retained_requirement": "Exact repeated-addition result is independent of the historical acceleration method; 13-count example retained in tests."
+      "classification": "SUPERSEDED_BY_D4_PATCH_011",
+      "reason": "Downstream Luach Seven proved the doubling/decomposition method operationally required. It is now executable source via D4-PATCH-011 rather than documentary externalization.",
+      "destination": "megillah/candidates/Megilat_HaItim_Marak_Candidate.md + tests/test_d4_post_c56_megillah.py",
+      "retained_requirement": "Powers-of-two doubling/decomposition must be used for large repeated addition while preserving the exact product."
     },
     {
       "id": "D4-DOC-013",
@@ -511,6 +558,26 @@
       "reason": "Lifecycle and off-by-one invariant. Candidate exposes a persistent place and an explicit initializer act; final principal must invoke it once before dependent work.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "Single explicit initialization; persistent later reads; exact 127 count."
+    },
+    {
+      "id": "D4-DOC-019",
+      "original_start_line": 269,
+      "original_end_line": 269,
+      "original_text": "# לוח שבע: חמש האבנים",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-020",
+      "original_start_line": 317,
+      "original_end_line": 319,
+      "original_text": "את האבנים האלה יוכל החכם לעשות פעם אחת... האבנים האלה לא תשתנינה מיום ליום.",
+      "classification": "DOCUMENTATION",
+      "reason": "Lifecycle/determinism statement. The executable table is independent of day inputs and retained in persistent collection state; final principal need only build it once before downstream use.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "The 46x5 table is deterministic and day-invariant; one explicit build suffices."
     }
   ]
 }

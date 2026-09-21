@@ -538,3 +538,77 @@ def test_d4_post_c56_luach6_keep_uses_fast_remainder_without_hidden_threshold():
     assert "עשה את המעשה אשר שמו נותרמהר" in keep
     assert "עשה את המעשה אשר שמו נותר " not in keep
 
+def _d4_luach7_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שמונה: שבע הטיפות הנסתרות"))
+    selected = lines[0:6] + lines[start:end]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def test_d4_post_c56_luach7_first_transition_uses_only_old_stone_snapshot():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach7_preparation()
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו טיפההבאה"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    expected = [378, 1073, 2375, 6195, 10493]
+    assert facts["מספרטיפה"] == 2
+    assert [facts[x] for x in ["חיטהישנה","שעורהישנה","מלחישנה","מרהישנה","אדומהישנה"]] == expected
+    assert [facts[x] for x in ["חיטהחדשה","שעורהחדשה","מלחחדשה","מרהחדשה","אדומהחדשה"]] == expected
+    assert facts["אבניטיפות"] == [[17,29,43,71,101], expected]
+
+
+def test_d4_post_c56_luach7_builds_exact_46_drop_table_three_runtimes_with_fuel():
+    from compiler.api import compile_source
+    from compiler.backend.portable import execute_ir
+    from compiler.runtime.ir_reference import execute_reference_ir
+    from compiler.runtime.observables import backend_observable, ir_reference_observable, reference_observable
+    from compiler.runtime.reference import execute_reference
+
+    source = (
+        _d4_luach7_preparation()
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו בנהאבנים"
+    )
+    compiled = compile_source(source)
+    assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+    observed = [
+        reference_observable(execute_reference(compiled.hast, fuel=1_000_000)),
+        ir_reference_observable(execute_reference_ir(compiled.ir, fuel=1_000_000)),
+        backend_observable(execute_ir(compiled.ir, fuel=1_000_000)),
+    ]
+    assert observed[0] == observed[1] == observed[2]
+    assert observed[0]["outcome"] == "Normal"
+    facts = dict(observed[0]["facts"])
+    table = facts["אבניטיפות"]
+    assert facts["מספרטיפה"] == 46
+    assert len(table) == 46
+    assert table[0] == [17,29,43,71,101]
+    assert table[1] == [378,1073,2375,6195,10493]
+    assert table[-1] == [
+        73799454308499791987382386781055001470,
+        147925408106533232424672641008220632365,
+        94499522601819303005579577099149028685,
+        108473647672201258090947028490673028834,
+        137131922036975206684616468948804344042,
+    ]
+
+
+def test_d4_post_c56_luach7_canonical_count_and_snapshot_copy_order():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרטיפה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שמונה: שבע הטיפות הנסתרות"))
+    text = " ".join(lines[start:end])
+    assert "ארבעים וחמש פעמים עשה את המעשה אשר שמו טיפההבאה" in text
+    assert "שש וארבעים" not in text
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו טיפההבאה "))
+    assert body.index("שמו אדומהחדשה") < body.index("שמו חיטהישנה את המספר אשר במקום אשר שמו חיטהחדשה")
+    assert "ספר ספרי מספרים" in text
+

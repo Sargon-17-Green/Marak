@@ -109,3 +109,11 @@ Luach Seven supplies new concrete evidence against the earlier D4-PATCH-005 impl
 The previous repair used C5.4 RepeatExactly for every count. Production RepeatExactly executes one occurrence per count. By visible drop 5, a Luach Seven stone reaches `147018724953112136513405003837173`; squaring through the previous route would therefore require on the order of 10^32 performances.
 
 The repaired `לקחתפעמים` restores the source algorithm. `כפלרד` builds doubled value/count pairs recursively and unwind visits them largest-to-smallest; `כפלבחר`/`כפלהוסף` greedily consume the remaining count. The public act contract and Luach Four `רבוע` remain unchanged. This is a D4 source-repair correction, not a compiler/language change.
+
+## D4-PATCH-012 — Luach Seven / five stones
+
+Original lines 269–319 define a deterministic table of 46 visible drops, each with five Natural stones. Drop 1 is `[17,29,43,71,101]`. Every later row is computed from a complete snapshot of the preceding five stones; no newly computed stone may feed another stone in the same row.
+
+The candidate retains five old-state places, five new-state places, the current drop number, and `אבניטיפות` as a nested Natural Collection. Generic `חשבאבן` implements the common formula `שמור(square(base) + count*weighted + extra)`. `טיפההבאה` computes all five new places before any old place is replaced, appends one five-element book, then commits the new snapshot. `בנהאבנים` performs exactly 45 transitions after the initial row, reaching visible drop 46.
+
+The source's permission to precompute the table once is retained as a lifecycle/documentation invariant; no day-dependent input is used in this table.

@@ -32,12 +32,19 @@ Measured frontier:
 - after: token 117 / candidate line 15 / original line 39;
 - diagnostic remains `PARSE0002`.
 
-## Next source span
+## D4-SRC-001 — Luach Three fast path
 
-Original line 39:
-`יום הינתן הלוחות אחרי יום היסוד.`
+Status: **CLOSED_BY_D4_PATCH_011**.
 
-This occurrence is being audited separately from the following 14,777,149 arithmetic proof. No built-in Tablets primitive will be introduced.
+At the Luach Seven frontier, downstream values proved that the earlier linear `RepeatExactly` realization of Luach Three was not executable for the Megillah's own inputs. Production `RepeatExactly` executes one occurrence per count, while the original source explicitly supplies powers-of-two doubling/decomposition for large counts.
+
+D4-PATCH-011 restores that source algorithm inside `לקחתפעמים`; it does not modify Marak, C5.4, the compiler, or runtime semantics. GitHub Actions run `35612611456` passed the dedicated D4 jobs on Ubuntu and Windows with 60 targeted tests, including a finite-fuel multiplication whose count is `2^127-1`.
+
+Accordingly, historical `D4-DOC-012` is superseded as an externalization: the doubling/decomposition material is again executable production source.
+
+## Luach Seven lifecycle note
+
+Original lines 317–319 state that the five-stone table may be computed once and does not vary by day. D4-PATCH-012 retains this as a deterministic nested Natural table with one explicit builder; no day-dependent input participates in its construction.
 
 ## D4-CONF-001
 
