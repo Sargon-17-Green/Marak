@@ -1,0 +1,90 @@
+{
+  "schema": "marak-b16-test-results-v1",
+  "status": "PASS",
+  "baseline": "0f269e53ea55b185628e1bc12e2be85426144a1f",
+  "a17_reviewed_head": "50155cbf86c1cdc1111dde45464e7a9a1605f9df",
+  "semantic_candidate_head": "aab6d5d2d10fe72d24faa42c29f540da29c70d30",
+  "pr": 18,
+  "tests": {
+    "b16_semantic_reference": {
+      "status": "PASS",
+      "tests": 30
+    },
+    "b16_required_regression_gate": {
+      "status": "PASS",
+      "tests": 4
+    },
+    "b13_reference": {
+      "status": "PASS",
+      "tests": 28
+    },
+    "b15_reference": {
+      "status": "PASS",
+      "tests": 29
+    },
+    "a16_reference": {
+      "status": "PASS",
+      "checks": 2548,
+      "positive": 2518,
+      "negative": 30
+    },
+    "a17_proposal": {
+      "status": "PASS",
+      "checks": 4415,
+      "positive": 4388,
+      "negative": 27
+    },
+    "full_pytest": {
+      "status": "PASS",
+      "tests": 478,
+      "subtests": 126,
+      "seconds": 14.83
+    },
+    "a13_selftest": {
+      "status": "PASS",
+      "checks": 289
+    },
+    "b12_run_all": {
+      "status": "PASS",
+      "b11_original_tests": 14,
+      "b11_rm_grid_cases": 324,
+      "b11_intent_tests": 14,
+      "b12_semantic_tests": 33,
+      "rm_countdown_cases": 128,
+      "rm_underflow_guard_cases": 65
+    }
+  },
+  "ci": {
+    "run_id": 35579729051,
+    "run_number": 326,
+    "semantic_candidate_head": "aab6d5d2d10fe72d24faa42c29f540da29c70d30",
+    "status": "PASS",
+    "jobs_total": 15,
+    "jobs_success": 15,
+    "matrix": [
+      "core",
+      "Tooling portability (ubuntu-latest)",
+      "Tooling portability (windows-latest)",
+      "C5.1 domain infrastructure (ubuntu-latest)",
+      "C5.1 domain infrastructure (windows-latest)",
+      "C5.2 Symbol/Index/Ordering (ubuntu-latest)",
+      "C5.2 Symbol/Index/Ordering (windows-latest)",
+      "C5.3 Finite Ordered Collections (ubuntu-latest)",
+      "C5.3 Finite Ordered Collections (windows-latest)",
+      "C5.4 Exact Counted Recurrence (ubuntu-latest)",
+      "C5.4 Exact Counted Recurrence (windows-latest)",
+      "C5.5 Program Input Binding (ubuntu-latest)",
+      "C5.5 Program Input Binding (windows-latest)",
+      "D4 Megillah conformance (ubuntu-latest)",
+      "D4 Megillah conformance (windows-latest)"
+    ]
+  },
+  "findings": [],
+  "blocking_findings": [],
+  "a17_remediation_required": false,
+  "user_decision_required": false,
+  "c5_6_requirements_produced": true,
+  "production_files_changed": [],
+  "megillah_changed": false,
+  "final": "B16 A17 SEMANTIC INTEGRATION READY FOR MASTER REVIEW"
+}

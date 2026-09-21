@@ -1,0 +1,23 @@
+{
+  "schema": "marak-b16-findings-v1",
+  "baseline": "0f269e53ea55b185628e1bc12e2be85426144a1f",
+  "a17_reviewed_head": "50155cbf86c1cdc1111dde45464e7a9a1605f9df",
+  "semantic_domain": "BidirectionalIndex",
+  "new_semantic_domains": [],
+  "blocking_findings": [],
+  "findings": [],
+  "a17_remediation_required": false,
+  "user_decision_required": false,
+  "review_decisions": {
+    "profile_identity": "SOURCE_LEVEL_ONLY",
+    "cross_profile_flow": "ADMITTED",
+    "strict_index_order": "ACCEPTED",
+    "succ": "ACCEPTED",
+    "pred": "ACCEPTED",
+    "direct_distance_surface": "REJECTED_REMAINS_ALGORITHMIC",
+    "index_equality_surface": "NOT_REQUIRED",
+    "natural_to_index_surface": "NOT_ADDED",
+    "index_to_natural_surface": "NOT_ADDED",
+    "signed_arithmetic_widening": "NONE"
+  }
+}
