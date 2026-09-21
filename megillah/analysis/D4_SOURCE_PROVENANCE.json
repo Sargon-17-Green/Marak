@@ -375,7 +375,7 @@
     "source_span": "original line 323 onward",
     "requirement": "Luach Eight / seven hidden drops and their ordering/initialization",
     "blocker": null,
-    "note": "Measure T11 frontier before Luach Eight."
+    "note": "T11 verified by GitHub Actions run 35613420964; proceed from Luach Eight."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [

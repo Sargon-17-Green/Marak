@@ -170,16 +170,17 @@
     },
     {
       "tranche_id": "D4-C56-T11-LUACH7-FIVE-STONES",
-      "candidate_sha256": null,
-      "normalized_token_frontier": null,
-      "candidate_line": null,
-      "original_line": null,
-      "diagnostic": null,
-      "diagnostic_phase": null,
-      "classification": "PENDING_MEASUREMENT",
+      "candidate_sha256": "5cfc545b2203815b82054b745e5bdbeacd928a2e8f0d025ca892ad2eecba10be",
+      "normalized_token_frontier": 5723,
+      "candidate_line": 243,
+      "original_line": 323,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_EIGHT",
       "repair_that_unlocked_previous_frontier": "D4-PATCH-012",
-      "next_blocker": null,
-      "evidence": "46x5 stone table: initial row, old/new snapshot recurrence, exact 45 transitions, nested Natural Collection retention."
+      "next_blocker": "# לוח שמונה: שבע הטיפות הנסתרות",
+      "evidence": "GitHub Actions run 35613420964: D4 Ubuntu/Windows 63 targeted tests PASS; full 46-drop table regression PASS; frontier token 5723",
+      "normalized_token_count": 13209
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -193,5 +194,5 @@
   "t09_ci_trigger": "GitHub Actions run 35609691265",
   "t10_ci_trigger": "GitHub Actions run 35610464147",
   "t10a_ci_trigger": "GitHub Actions run 35612611456",
-  "t11_ci_trigger": "pending after Luach Seven verification"
+  "t11_ci_trigger": "GitHub Actions run 35613420964"
 }

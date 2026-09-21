@@ -365,7 +365,7 @@
         "focused drop-2 and full 46-drop three-runtime tests"
       ],
       "confidence": "HIGH",
-      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"
       ],

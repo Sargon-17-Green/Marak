@@ -267,3 +267,33 @@ GitHub Actions run `35609691265` verified wrapped sibling subtraction on both de
 - mapped original line: **243**
 - next blocker: `## אם רב המספר מאד`
 - original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+## Post-C5.6 continuation — T10A / Luach Three fast multiplication remediation
+
+GitHub Actions run `35612611456` verified D4-PATCH-011 on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **60 passed**.
+- candidate SHA-256: `51b620c645c256fca805c16367e472bc0f5d5406bf6a7012bbaf7e2658013c09`
+- normalized tokens: **12,087**
+- frontier token: **4,311**
+- candidate line: **216**
+- mapped original line: **269**
+- next blocker remained Luach Seven.
+- the finite-fuel `2^127-1` multiplication regression completed normally on all three runtimes.
+
+This closes `D4-SRC-001` without a compiler, runtime, language-surface, A17/B16, or C5.6 change.
+
+## Post-C5.6 continuation — T11 / Luach Seven five stones
+
+GitHub Actions run `35613420964` verified the complete five-stone table on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **63 passed**.
+- candidate SHA-256: `5cfc545b2203815b82054b745e5bdbeacd928a2e8f0d025ca892ad2eecba10be`
+- normalized tokens: **13,209**
+- frontier token: **5,723**
+- candidate line: **243**
+- mapped original line: **323**
+- next blocker: `# לוח שמונה: שבע הטיפות הנסתרות`
+- full 46-row × 5-stone table regression: PASS on HAST reference, IR reference and portable backend.
+- exact last visible drop stones:
+  `[73799454308499791987382386781055001470, 147925408106533232424672641008220632365, 94499522601819303005579577099149028685, 108473647672201258090947028490673028834, 137131922036975206684616468948804344042]`.
