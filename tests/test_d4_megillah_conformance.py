@@ -279,7 +279,7 @@ def test_request_005_negative_historical_125_spelling_is_not_direct_canonical_na
         "ועתה " + replace_nat("מנין", num(1)),
     ])
     assert not compile_source(bad).valid
-    assert format_natural(125) == "מאה ועשרים וחמש"
+    assert format_natural(125) == "מאה ועשרים וחמשה"
 
 
 def test_request_006_negative_postposed_dynamic_recurrence_is_not_canonical_surface():
