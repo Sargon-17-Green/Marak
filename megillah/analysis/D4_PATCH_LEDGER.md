@@ -101,3 +101,11 @@ Original lines 243–263 prescribe the short route for large repeated subtractio
 The repaired candidate defines `נותרמהר` and `מהיררד`. Recursive performance occurrences retain the successive doubled divisors as explicit role values; unwind is therefore the source's descending greedy pass. Every subtraction is guarded by strict Natural order and remains within the B12 domain.
 
 No numeric threshold is invented for the documentary word “מאד”. Because the source itself declares exact result equivalence, `שמור` uses the short act directly for its modulo-`מספרגדול` reduction. The separate linear `נותר` operation remains available and unchanged.
+
+## D4-PATCH-011 — Luach Three fast multiplication remediation
+
+Luach Seven supplies new concrete evidence against the earlier D4-PATCH-005 implementation strategy. The original Luach Three explicitly instructs powers-of-two doubling/decomposition when the repetition count is large and states that the shorter route gives the same number.
+
+The previous repair used C5.4 RepeatExactly for every count. Production RepeatExactly executes one occurrence per count. By visible drop 5, a Luach Seven stone reaches `147018724953112136513405003837173`; squaring through the previous route would therefore require on the order of 10^32 performances.
+
+The repaired `לקחתפעמים` restores the source algorithm. `כפלרד` builds doubled value/count pairs recursively and unwind visits them largest-to-smallest; `כפלבחר`/`כפלהוסף` greedily consume the remaining count. The public act contract and Luach Four `רבוע` remain unchanged. This is a D4 source-repair correction, not a compiler/language change.

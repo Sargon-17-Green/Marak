@@ -142,6 +142,20 @@
     },
     {
       "tranche_id": "D4-C56-T10-LUACH6-FAST-SUBTRACTION",
+      "candidate_sha256": "79e091d1e9b4878cbb9af35d97ba03aae158f88e773e171b3aaef3a9988a7a99",
+      "normalized_token_frontier": 3670,
+      "candidate_line": 220,
+      "original_line": 269,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SEVEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-010",
+      "next_blocker": "# לוח שבע: חמש האבנים",
+      "evidence": "GitHub Actions run 35610464147: D4 Ubuntu/Windows 59 targeted tests PASS; frontier token 3670",
+      "normalized_token_count": 11446
+    },
+    {
+      "tranche_id": "D4-C56-T10A-LUACH3-FAST-MULTIPLICATION-REMEDIATION",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -149,9 +163,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-010",
-      "next_blocker": null,
-      "evidence": "Recursive source-level doubling/descending-greedy remainder equivalent to the source's written doubling list; שמור routed through the fast act without inventing a numeric 'very large' threshold."
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-011",
+      "next_blocker": "# לוח שבע: חמש האבנים",
+      "evidence": "Luach Seven proves linear RepeatExactly multiplication is not executable at required magnitudes; restore source doubling/decomposition without language/compiler change."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -163,5 +177,6 @@
   "t07_ci_trigger": "contents-api trigger for Luach Five big-number verification",
   "t08_ci_trigger": "GitHub Actions run 35608830982",
   "t09_ci_trigger": "GitHub Actions run 35609691265",
-  "t10_ci_trigger": "pending after fast-subtraction repair"
+  "t10_ci_trigger": "GitHub Actions run 35610464147",
+  "t10a_ci_trigger": "pending after Luach Three fast-multiplication remediation"
 }

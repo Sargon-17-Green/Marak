@@ -310,6 +310,36 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-011",
+      "original_span": {
+        "start_line": 121,
+        "end_line": 141
+      },
+      "previous_candidate_span": {
+        "description": "D4-PATCH-005 linear RepeatExactly implementation"
+      },
+      "replacement": "recursive doubling/decomposition implementation of לקחתפעמים with logarithmic depth and descending greedy selection",
+      "classification": "SOURCE_REPAIR_CORRECTION",
+      "semantic_before": "Original source explicitly gives a doubling/decomposition short route when the repetition count is large and states the result is unchanged.",
+      "semantic_after": "לקחתפעמים retains the Natural input/output contract but realizes multiplication through powers-of-two doubling, descending selection, and safe remaining-count subtraction; רבוע continues to delegate to לקחתפעמים.",
+      "preservation_class": "ALGORITHM_RESTORATION",
+      "evidence": [
+        "original 121-141",
+        "original 145-163",
+        "Luach Seven 289-307",
+        "production RepeatExactly executes one action per count",
+        "drop 5 reaches 147018724953112136513405003837173",
+        "finite-fuel 2^127-scale multiplication regression"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": true,
+      "supersedes": "D4-PATCH-005 implementation strategy"
     }
   ],
   "candidate_source_changed_in_d4": true,

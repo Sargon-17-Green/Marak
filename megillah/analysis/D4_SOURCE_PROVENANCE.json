@@ -289,14 +289,46 @@
         "B12 subtraction domain",
         "focused parity/large-value tests"
       ]
+    },
+    {
+      "id": "D4-PATCH-011",
+      "candidate_start_line": 97,
+      "candidate_end_line": 114,
+      "original_lines": [
+        121,
+        123,
+        125,
+        127,
+        129,
+        131,
+        133,
+        135,
+        137,
+        139,
+        141
+      ],
+      "original_text": "Luach Three: for large repetition counts, successively double the number and combine required powers; the short way gives the same number.",
+      "replacement": "לקחתפעמים implemented by recursive doubling plus descending greedy decomposition of the Natural count.",
+      "classification": "SOURCE_REPAIR_CORRECTION",
+      "semantic_justification": "Downstream Luach Seven makes the source fast path operationally necessary. Production RepeatExactly is linear in the count; the restored algorithm is logarithmic in doubling depth and preserves exact repeated addition.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "supersedes": "D4-PATCH-005 implementation strategy",
+      "evidence": [
+        "original 121-141",
+        "Luach Seven 289-307",
+        "runtime RepeatExactly implementation",
+        "finite-fuel 2^127-scale multiplication regression"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-010 maps the complete Luach Six fast repeated-subtraction algorithm and routes kept remainder through the source-authorized short path.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-011 supersedes only the implementation strategy of D4-PATCH-005 by restoring Luach Three's source-required fast doubling/decomposition path.",
   "blocked_future_derivation": {
-    "source_span": "original line 267 onward",
+    "source_span": "original line 269 onward",
     "requirement": "Luach Seven / five-stone state and initial values",
-    "blocker": null,
-    "note": "Measure T10 frontier before beginning Luach Seven."
+    "blocker": "D4-SRC-001 remediation must pass dedicated D4 CI before Luach Seven production repair.",
+    "note": "No language/compiler change requested."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [

@@ -182,8 +182,10 @@ def test_d4_post_c56_luach2_distance_examples_and_referent_distinction():
 
 def _d4_repeat_add_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
-    selected = lines[96:104]
-    return " ".join(x for x in selected if x.strip())
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מעשה ושמו רבוע"))
+    selected = lines[0:6] + lines[start:end]
+    return " ".join(x for x in selected if x.strip() and x.strip() != "---")
 
 
 def _d4_zero_natural() -> str:
@@ -212,18 +214,61 @@ def test_d4_post_c56_luach3_exact_repeated_addition_three_runtimes():
         assert dict(obs["facts"])["מכפלה"] == want
 
 
-def test_d4_post_c56_luach3_uses_repeat_exactly_not_manual_expansion():
-    text = " ".join(CANDIDATE.read_text(encoding="utf-8").splitlines()[96:104])
-    assert "פעמים כמספר אשר במעשה הזה עומד" in text
-    assert "עשה את המעשה אשר שמו הוסףלקיחה" in text
+def test_d4_post_c56_luach3_uses_source_doubling_decomposition_not_linear_repeat_exactly():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מעשה ושמו רבוע"))
+    text = " ".join(lines[start:end])
+    assert "יהי מעשה ושמו כפלרד" in text
+    assert "יהי מעשה ושמו כפלבחר" in text
+    assert "עשה את המעשה אשר שמו כפלרד" in text
+    assert "פעמים כמספר אשר במעשה הזה עומד" not in text
     assert "שלשה ושלשה ושלשה" not in text
-    assert "שמונה פעמים" not in text
+
+
+
+
+def test_d4_post_c56_luach3_large_count_completes_with_logarithmic_doubling_path():
+    from compiler.api import compile_source
+    from compiler.backend.portable import execute_ir
+    from compiler.runtime.ir_reference import execute_reference_ir
+    from compiler.runtime.observables import backend_observable, ir_reference_observable, reference_observable
+    from compiler.runtime.reference import execute_reference
+
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    mul_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    square_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מעשה ושמו רבוע"))
+    big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    rem_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נותרעבודה"))
+    preparation = " ".join(
+        line for line in lines[0:6] + lines[mul_start:square_start] + lines[big_start:rem_start]
+        if line.strip() and line.strip() != "---"
+    )
+    source = (
+        preparation
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו לקחתפעמים "
+        + "בהיות המספר אשר הוא שלשה תחת הדבר אשר במעשה אשר שמו לקחתפעמים שמו מספר "
+        + "ובהיות המספר אשר במקום אשר שמו מספרגדול תחת הדבר אשר במעשה אשר שמו לקחתפעמים שמו מנין"
+    )
+    compiled = compile_source(source)
+    assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+    observed = [
+        reference_observable(execute_reference(compiled.hast, fuel=20000)),
+        ir_reference_observable(execute_reference_ir(compiled.ir, fuel=20000)),
+        backend_observable(execute_ir(compiled.ir, fuel=20000)),
+    ]
+    assert observed[0] == observed[1] == observed[2]
+    assert observed[0]["outcome"] == "Normal"
+    assert observed[0]["products"][-1] == ["לקחתפעמים", 3 * ((1 << 127) - 1)]
 
 
 def _d4_square_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
-    selected = lines[96:104] + lines[120:123]
-    return " ".join(x for x in selected if x.strip())
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    selected = lines[0:6] + lines[start:end]
+    return " ".join(x for x in selected if x.strip() and x.strip() != "---")
 
 
 def _d4_square_call(value: str) -> str:
@@ -251,8 +296,10 @@ def test_d4_post_c56_luach4_repeated_square_uses_previous_result_explicitly():
 
 def _d4_big_number_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
-    selected = lines[0:6] + lines[142:148]
-    return " ".join(x for x in selected if x.strip())
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נותרעבודה"))
+    selected = lines[0:6] + lines[start:end]
+    return " ".join(x for x in selected if x.strip() and x.strip() != "---")
 
 
 def test_d4_post_c56_luach5_big_number_exact_three_runtimes():
@@ -266,7 +313,10 @@ def test_d4_post_c56_luach5_big_number_exact_three_runtimes():
 
 
 def test_d4_post_c56_luach5_uses_exact_canonical_127_count_and_persistent_place():
-    text = " ".join(CANDIDATE.read_text(encoding="utf-8").splitlines()[142:148])
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נותרעבודה"))
+    text = " ".join(lines[start:end])
     assert "מאה ועשרים ושבע פעמים עשה את המעשה אשר שמו כפלגדול" in text
     assert "שש ועשרים ומאה פעמים" not in text
     assert "שמנה ועשרים ומאה פעמים" not in text
