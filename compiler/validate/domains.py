@@ -426,6 +426,9 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             elif isinstance(node.proposition, h.HastNaturalGTProposition):
                 if value(node.proposition.left) != NATURAL or value(node.proposition.right) != NATURAL:
                     _fail("DOMAIN_NATURAL_GT", "Natural strict ordering requires two independently Natural operands")
+            elif isinstance(node.proposition, h.HastIndexLTProposition):
+                if value(node.proposition.left) != BIDIRECTIONAL_INDEX or value(node.proposition.right) != BIDIRECTIONAL_INDEX:
+                    _fail("DOMAIN_INDEX_LT", "BidirectionalIndex strict ordering requires two independently BidirectionalIndex operands")
             elif isinstance(node.proposition, h.HastSymbolEqualProposition):
                 left_domain=value(node.proposition.left)
                 right_domain=value(node.proposition.right)
