@@ -1,18 +1,53 @@
 {
-  "schema": "marak-workstream-d4-source-provenance-v1",
+  "schema": "marak-workstream-d4-source-provenance-v2",
   "candidate_path": "megillah/candidates/Megilat_HaItim_Marak_Candidate.md",
   "starting_candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
-  "d4_candidate_source_changed": false,
+  "d4_candidate_source_changed": true,
   "inherits": {
     "path": "megillah/analysis/D3_SOURCE_PROVENANCE.json",
-    "meaning": "All candidate-line provenance remains exactly the accepted D3 mapping because D4 makes no candidate source edit."
+    "meaning": "D3 mapping remains authoritative except where D4 post-C5.6 override entries explicitly replace it."
   },
-  "d4_new_source_spans": [],
-  "provenance_coverage": "100% inherited D3 candidate coverage; no D4 orphan source introduced",
+  "d4_new_source_spans": [
+    {
+      "id": "D4-PATCH-001",
+      "candidate_start_line": 11,
+      "candidate_end_line": 11,
+      "original_lines": [
+        35,
+        37
+      ],
+      "original_text": "ותבחר מפלצת הספגטי המעופפת יום אחד ותקרא את שמו יום היסוד.\\nלא נאמר כי לא היו ימים טרם יום היסוד ולא נאמר כי ממנו ראשית מספר הימים. יום היסוד יתד הוא וממנו ימדדו הימים אשר לפניו ואשר אחריו.",
+      "replacement": "יהי מקום ושמו יסוד ובמקום אשר שמו יסוד יהי מעלת היתד לבדו",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Preserve the historical Foundation-day identity as a named computational referent whose value is the accepted general BidirectionalIndex origin ZeroIndex.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "A17 general origin מעלת היתד",
+        "B16 one-domain/profile-neutral semantics",
+        "C5.6 typed Index place accepts the general profile"
+      ]
+    }
+  ],
+  "provenance_coverage": "D3 mapping inherited for all candidate lines except explicit D4 overrides; candidate line 11 is mapped to original 35/37; removed prose at original 37 is externally mapped; no orphan D4 source introduced.",
   "blocked_future_derivation": {
-    "source_span": "original lines 17 and 35-73",
-    "requirement": "two source-described days and their before/after relation",
-    "blocker": "D4-LANG-001",
-    "note": "No Program Input declaration is inserted until a faithful source domain/profile exists."
-  }
+    "source_span": "original lines 39-73",
+    "requirement": "Tablets relation and the executable day-coordinate -> Natural day-number algorithm",
+    "blocker": null,
+    "note": "D4-LANG-001 is closed by A17/B16/C5.6. Continue occurrence-by-occurrence; no direct distance/equality/conversion primitive."
+  },
+  "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
+  "externalized_spans": [
+    {
+      "id": "D4-DOC-001",
+      "original_start_line": 37,
+      "original_end_line": 37,
+      "original_text": "לא נאמר כי לא היו ימים טרם יום היסוד ולא נאמר כי ממנו ראשית מספר הימים. יום היסוד יתד הוא וממנו ימדדו הימים אשר לפניו ואשר אחריו.",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "The executable semantic requirement is fully retained by the Foundation referent at ZeroIndex. The remaining sentences deny a beginning-of-time/day-number claim and explain the two-sided coordinate model; they do not command a runtime action.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "Foundation is a distinguished coordinate origin, not the beginning of days or Natural day numbering."
+    }
+  ]
 }

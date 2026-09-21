@@ -1,17 +1,24 @@
 # D4 Patch Ledger
 
-D4 preserves all accepted D3 repairs and applies **no new source patch** in this tranche.
+D4 post-C5.6 preserves every accepted D3 repair and now resumes candidate repair.
 
-| ID | D4 state | Preservation |
-|---|---|---|
-| D-PATCH-0001 | PRESERVED_FROM_D3 / Master-approved | ALGORITHM_CHANGE |
-| D-PATCH-0002 | PRESERVED_FROM_D3 | DISAMBIGUATION_ONLY |
-| D-PATCH-0003 | PRESERVED_FROM_D3 | DISAMBIGUATION_ONLY |
-| D-PATCH-0004 | PRESERVED_FROM_D3 | SEMANTIC_EQUIVALENT |
-| D3-STRUCT-0001 | PRESERVED_FROM_D3 | STRUCTURAL_EXPLICITNESS |
+| ID | State | Classification | Preservation |
+|---|---|---|---|
+| D-PATCH-0001 | PRESERVED_FROM_D3 / Master-approved | SOURCE_PROGRAMMING_BUG | ALGORITHM_CHANGE |
+| D-PATCH-0002 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | DISAMBIGUATION_ONLY |
+| D-PATCH-0003 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | DISAMBIGUATION_ONLY |
+| D-PATCH-0004 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | SEMANTIC_EQUIVALENT |
+| D3-STRUCT-0001 | PRESERVED_FROM_D3 | STRUCTURAL_EXPLICITNESS | SEMANTIC_EQUIVALENT |
+| D4-PATCH-001 | APPLIED_TO_CANDIDATE_POST_C56 | STRUCTURAL_EXPLICITNESS | SEMANTIC_EQUIVALENT |
 
-## New D4 patches
+## D4-PATCH-001 — Foundation referent
 
-None.
+Original lines 35–37 introduce and explain `יום היסוד` as the distinguished day coordinate from which days on both sides are measured.
 
-The absence of a D4 source patch is deliberate. The unchanged first frontier has a genuine language-surface blocker (`D4-LANG-001`). D4 does not insert a Natural-only day encoding, misuse year-typed Index syntax, or perform downstream wholesale rewrites merely to move the parser.
+Candidate replacement:
+
+`יהי מקום ושמו יסוד ובמקום אשר שמו יסוד יהי מעלת היתד לבדו`
+
+This uses the A17/B16/C5.6 general profile of the existing `BidirectionalIndex` domain. It does not create a Day domain, profile tag, Natural conversion, direct distance, or equality primitive.
+
+The explanatory remainder of original line 37 is externalized as `D4-DOC-001` with provenance; the semantic origin requirement remains executable.

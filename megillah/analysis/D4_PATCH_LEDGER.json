@@ -1,5 +1,5 @@
 {
-  "schema": "marak-workstream-d4-patch-ledger-v1",
+  "schema": "marak-workstream-d4-patch-ledger-v2",
   "baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
   "starting_candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
   "inherited_repairs": [
@@ -30,7 +30,37 @@
       "preservation": "STRUCTURAL_EXPLICITNESS"
     }
   ],
-  "d4_patches": [],
-  "candidate_source_changed_in_d4": false,
-  "reason_no_new_patch": "The first production-source frontier remains blocked by D4-LANG-001. Independent later sections were re-audited, but D4 does not apply downstream structural rewrites that cannot yet be reached and verified in whole-candidate compilation."
+  "d4_patches": [
+    {
+      "id": "D4-PATCH-001",
+      "original_span": {
+        "start_line": 35,
+        "end_line": 37
+      },
+      "previous_candidate_span": {
+        "start_line": 11,
+        "end_line": 13
+      },
+      "replacement": "יהי מקום ושמו יסוד ובמקום אשר שמו יסוד יהי מעלת היתד לבדו",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "A distinguished Foundation day is chosen/named; days exist on both sides and are measured relative to it.",
+      "semantic_after": "Named place יסוד retains the general BidirectionalIndex origin מעלת היתד (ZeroIndex).",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "A17",
+        "B16",
+        "C5.6",
+        "focused D4 post-C5.6 test"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    }
+  ],
+  "candidate_source_changed_in_d4": true,
+  "reason_no_new_patch": null,
+  "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3"
 }
