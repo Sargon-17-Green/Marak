@@ -143,3 +143,7 @@ The six bowl identities are retained by their source-assigned Natural numbers 1.
 The source's lexicographic order over the six permanent bowl numbers is exactly the block decomposition 120, 24, 6, 2, 1. The candidate implements this directly rather than materializing 720 books.
 
 `חלק` supplies safe Natural quotient/remainder, `בחרקערה` selects the ordinal unused bowl, and `מצאמערכה` applies the five source block sizes then appends the remaining bowl. `מספרמערכה` implements `((n-1) mod 720)+1`. `מקוםקערה` returns arrangement position separately from permanent bowl identity.
+
+## D4-PATCH-017 — Luach Twelve / pour the drop
+
+Only arrangement positions 1–3 receive the three pour values. Bowl fill is looked up by the permanent bowl identity currently occupying that position, not by position index itself. The candidate returns the pours as a three-Natural book ordered by arrangement position.

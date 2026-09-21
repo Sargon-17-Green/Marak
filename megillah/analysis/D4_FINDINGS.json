@@ -88,10 +88,25 @@
         "targeted_tests": 60,
         "candidate_sha256": "51b620c645c256fca805c16367e472bc0f5d5406bf6a7012bbaf7e2658013c09"
       }
+    },
+    {
+      "id": "D4-LANG-002",
+      "severity": "MAJOR_SURFACE_CONFORMANCE_BLOCKER",
+      "classification": "MULTI_WORD_DECLARED_NAMES_NOT_REPRESENTABLE",
+      "source_context": "D4 production repairs currently require glued identifier spellings such as מספרטיפהגלויה, which are machine-parseable but are not acceptable Judean prose names.",
+      "observed_gap": "The current grammar treats declared/source reference names as one Name token and does not provide a normative unambiguous surface for names consisting of several words.",
+      "required_capability": "Support multi-word names consistently across places, acts, roles, program inputs, symbol domains/members and all corresponding references, with an explicit recoverable boundary rule. A terminator such as the next construction marker may be considered, but D4 does not prescribe the grammar design.",
+      "semantic_compiler_defect": false,
+      "language_surface_defect": true,
+      "routing": "MASTER -> new language-surface workstream, semantic review, production integration; do not reopen A17/B16/C5.6 except by explicit Master disposition.",
+      "status": "ROUTE_TO_MASTER",
+      "d4_continuation": "Algorithmic/source repair may continue using temporary glued identifiers as implementation scaffolding. Final D4 surface conformance/acceptance is blocked until this finding is resolved or explicitly dispositioned by Master.",
+      "user_reported_example": "יהי מקום ושמו מספרטיפהגלויה should instead be able to express a proper multi-word Judean name."
     }
   ],
   "new_source_findings": [
-    "D4-SRC-001"
+    "D4-SRC-001",
+    "D4-LANG-002"
   ],
   "new_compiler_findings": [],
   "new_spec_findings": [],

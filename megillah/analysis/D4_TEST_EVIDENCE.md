@@ -325,3 +325,7 @@ GitHub Actions run `35615872737` verified Luach Nine on both dedicated D4 jobs.
 ## Post-C5.6 continuation — T14 / Luach Ten bowl initialization
 
 GitHub Actions run `35616748974`: dedicated D4 Ubuntu+Windows PASS, **70 targeted tests**. Candidate SHA `cb69ee3c354344a75e3f641e6e8272cd04428af272084d6a7b175481522ebdbd`; normalized tokens 22,277; frontier token 16,012; candidate line 335; mapped original line 641.
+
+## Post-C5.6 continuation — T15 / Luach Eleven arrangements
+
+GitHub Actions run `35619093303`: dedicated D4 Ubuntu+Windows PASS, **74 targeted tests**. Candidate SHA `d3a3e99e6d4e8f40fc288e7b495ec7457d64f3cf0626210c2060bf9ee64c8985`; normalized tokens 24,666; frontier token 18,889; candidate line 392.

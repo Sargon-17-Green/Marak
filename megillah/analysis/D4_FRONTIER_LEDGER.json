@@ -226,6 +226,20 @@
     },
     {
       "tranche_id": "D4-C56-T15-LUACH11-ARRANGEMENTS",
+      "candidate_sha256": "d3a3e99e6d4e8f40fc288e7b495ec7457d64f3cf0626210c2060bf9ee64c8985",
+      "normalized_token_frontier": 18889,
+      "candidate_line": 392,
+      "original_line": 729,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_TWELVE",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-016",
+      "next_blocker": "# לוח שנים עשר: צוק הטיפה אל הקערות",
+      "evidence": "GitHub Actions run 35619093303: D4 Ubuntu/Windows 74 targeted tests PASS; arrangements 1/100/720, wrap 721->1, position-vs-identity PASS; frontier token 18889",
+      "normalized_token_count": 24666
+    },
+    {
+      "tranche_id": "D4-C56-T16-LUACH12-POURS",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -233,9 +247,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-016",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-017",
       "next_blocker": null,
-      "evidence": "720 lexicographic bowl permutations by source block decomposition; arrangement number modulo 720; bowl position distinct from bowl identity."
+      "evidence": "Three pour values for arrangement positions 1..3 using current identity-keyed bowl fills, wheat/barley/salt stones, drop-number multipliers 3/5/7."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -253,5 +267,6 @@
   "t12_ci_trigger": "GitHub Actions run 35615232527",
   "t13_ci_trigger": "GitHub Actions run 35615872737",
   "t14_ci_trigger": "GitHub Actions run 35616748974",
-  "t15_ci_trigger": "pending after Luach Eleven verification"
+  "t15_ci_trigger": "GitHub Actions run 35619093303",
+  "t16_ci_trigger": "pending after Luach Twelve verification"
 }

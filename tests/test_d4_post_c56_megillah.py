@@ -779,7 +779,7 @@ def _d4_luach11_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    luach12 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שנים עשר: צוק הטיפה אל הקערות"))
+    luach12 = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו ציקהעבודה"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach12]
     return " ".join(
         line for line in selected
@@ -838,4 +838,45 @@ def test_d4_post_c56_luach11_factor_blocks_are_exact_source_short_way():
     for n in ["מאה ועשרים","עשרים וארבעה","ששה","שנים","אחד"]:
         assert f"בהיות המספר אשר הוא {n} תחת הדבר אשר במעשה אשר שמו חלק שמו מחלק" in text
     assert "שבע מאות ועשרים" in text
+
+def _d4_luach12_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def test_d4_post_c56_luach12_three_pours_follow_arrangement_positions():
+    from tests.test_c5_6_general_index_surface import three
+    source = (
+        _d4_luach12_preparation()
+        + " ועתה "
+        + _d4_set_luach8_counters()
+        + " ואחרי כן עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו אתחלקערות"
+        + " ואחרי כן עשה את המעשה אשר שמו מצאמערכה "
+        + "בהיות המספר אשר הוא עשרה תחת הדבר אשר במעשה אשר שמו מצאמערכה שמו מספר"
+        + " ואחרי כן עשה את המעשה אשר שמו צוקטיפה "
+        + "בהיות המספר אשר הוא עשרה תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו טיפה "
+        + "ובהיות המספר אשר הוא אחד תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו מספרטיפה "
+        + "ובהיות ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר אין בו מספר כסדרו ואחר כלם המספר אשר הוא שבעה עשר כסדרו ואחר כלם המספר אשר הוא עשרים ותשעה כסדרו ואחר כלם המספר אשר הוא ארבעים ושלשה כסדרו ואחר כלם המספר אשר הוא שבעים ואחד כסדרו ואחר כלם המספר אשר הוא מאה ואחד תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו אבנים "
+        + "ובהיות הספר אשר יצא עתה מן המעשה אשר שמו מצאמערכה תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו מערכה"
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["צוקטיפה", [1571192, 4165752, 32173954]]
+
+
+def test_d4_post_c56_luach12_only_first_three_positions_receive_pours():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו צוקטיפה "))
+    assert body.count("עשה את המעשה אשר שמו חשבציקה") == 3
+    assert "המספר אשר הוא ארבעה" not in body
+    assert "המספר אשר הוא חמשה" not in body
+    assert "המספר אשר הוא ששה" not in body
 

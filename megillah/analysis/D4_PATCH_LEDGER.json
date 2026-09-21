@@ -473,6 +473,31 @@
         "position-vs-identity test"
       ],
       "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-017",
+      "original_span": {
+        "start_line": 733,
+        "end_line": 765
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Twelve prose"
+      },
+      "replacement": "generic exact pour calculation plus three-value pour book keyed by arrangement positions 1..3",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "After selecting the drop's arrangement, positions 1/2/3 alone receive pours: drop squared + wheat/barley/salt times the current fill of the bowl occupying that position + drop number times 3/5/7, then שמור.",
+      "semantic_after": "חשבציקה performs the exact formula from drop, ordinal, stone, coefficient and permanent bowl identity. צוקטיפה selects bowl identities from arrangement positions 1..3 and returns exactly three retained pour values; positions 4..6 receive no pour.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 733-765",
+        "sample arrangement 10 exact pour regression"
+      ],
+      "confidence": "HIGH",
       "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"
