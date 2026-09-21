@@ -10,6 +10,7 @@ from compiler.models import ir as I
 from compiler.models.domains import BIDIRECTIONAL_INDEX
 from compiler.parse.current_registry import CURRENT_REGISTRY
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
+from compiler.validate.domains import DomainValidationError, validate_hast_domains
 from tests.test_c5_2_surface_pipeline import (
     act, body, num, output, perform_one, place_nat, place_typed, replace_nat,
 )
@@ -156,3 +157,41 @@ def test_scope_has_no_profile_semantic_field_or_generic_index_collection_kind():
     assert [f.name for f in dataclasses.fields(I.IRIndexValue)] == [
         "source_span", "side", "magnitude"
     ]
+
+
+def test_malformed_generic_program_input_reference_is_not_rescued_by_declared_index_domain():
+    src = " ".join([
+        input_general("קלט"),
+        place_nat("דגל", 1),
+        # Missing ROLE after שמו: expected Index context must not complete it.
+        "יהי מקום ושמו יעד ובמקום אשר שמו יעד יהי "
+        "המעלה אשר עומדת תחת הדבר אשר למלאכה הזאת שמו לבדו",
+        "ועתה " + replace_nat("דגל", num(1)),
+    ])
+    _codes(src)
+
+
+def test_hast_domain_validation_rejects_wrong_index_lt_operand_even_if_forged_directly():
+    src = " ".join([
+        place_nat("דגל", 2),
+        "ועתה אם " + index_lt(general_index(-1), general_index(1)) +
+        " " + replace_nat("דגל", num(1)) +
+        " ואם לא " + replace_nat("דגל", num(2)),
+    ])
+    c = compile_source(src)
+    assert c.valid, [d.to_dict() for d in c.diagnostics]
+    assert isinstance(c.hast.principal, H.HastConditional)
+    prop = c.hast.principal.proposition
+    assert isinstance(prop, H.HastIndexLTProposition)
+    forged = dataclasses.replace(
+        c.hast,
+        principal=dataclasses.replace(
+            c.hast.principal,
+            proposition=dataclasses.replace(
+                prop,
+                left=H.HastExactNatural(prop.source_span, 1),
+            ),
+        ),
+    )
+    with pytest.raises(DomainValidationError, match="DOMAIN_INDEX_LT"):
+        validate_hast_domains(forged)
