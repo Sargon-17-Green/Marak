@@ -391,3 +391,50 @@ def test_before_token_ambiguity_resolves_full_left_index_then_order_separator():
     ])
     _, obs = three(src)
     assert dict(obs["facts"])["דגל"] == 1
+
+
+def test_all_four_output_immediate_result_profile_combinations():
+    act_name, target = "פלט", "יעד"
+    cases = (
+        (year_index(-2), idx_recent(act_name), replace_idx),
+        (general_index(-2), general_recent(act_name), replace_general),
+        (general_index(-2), idx_recent(act_name), replace_idx),
+        (year_index(-2), general_recent(act_name), replace_general),
+    )
+    for produced, recent, replacer in cases:
+        src = " ".join([
+            place_typed(target, general_index(0)),
+            act(act_name), body(act_name, output(produced)),
+            "ועתה " + perform(act_name) + " ואחרי כן " +
+            replacer(target, recent),
+        ])
+        _, obs = three(src)
+        assert dict(obs["facts"])[target] == {"index": "BeforeZero", "magnitude": 2}
+
+
+def test_general_productive_count_reaches_a15_admitted_frontier_without_a17_fixture_cap():
+    far = 99_999_999
+    src = " ".join([
+        place_typed("יעד", general_index(far)),
+        "ועתה " + replace_general("יעד", general_place("יעד")),
+    ])
+    _, obs = three(src)
+    assert dict(obs["facts"])["יעד"] == {"index": "AfterZero", "magnitude": far}
+
+
+def test_strict_order_far_magnitudes_and_origin_crossing():
+    far = 99_999_999
+    for a, b, expected in (
+        (-far, -1, 1),
+        (-1, -far, 2),
+        (-far, far, 1),
+        (far, far, 2),
+    ):
+        src = " ".join([
+            place_nat("דגל", 2),
+            "ועתה אם " + index_lt(general_index(a), general_index(b)) +
+            " " + replace_nat("דגל", num(1)) +
+            " ואם לא " + replace_nat("דגל", num(2)),
+        ])
+        _, obs = three(src)
+        assert dict(obs["facts"])["דגל"] == expected
