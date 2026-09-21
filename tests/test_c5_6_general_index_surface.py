@@ -438,3 +438,15 @@ def test_strict_order_far_magnitudes_and_origin_crossing():
         ])
         _, obs = three(src)
         assert dict(obs["facts"])["דגל"] == expected
+
+
+def test_strict_index_order_is_valid_in_post_action_recurrence_context():
+    cursor = "סמן"
+    step = replace_general(cursor, general_succ(general_place(cursor)))
+    predicate = index_lt(general_index(0), general_place(cursor))
+    src = " ".join([
+        place_typed(cursor, general_index(-1)),
+        "ועתה " + step + " וכן תעשה עד אשר " + predicate,
+    ])
+    _, obs = three(src)
+    assert dict(obs["facts"])[cursor] == {"index": "AfterZero", "magnitude": 1}
