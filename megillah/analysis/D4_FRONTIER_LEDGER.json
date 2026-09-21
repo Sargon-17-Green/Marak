@@ -58,6 +58,20 @@
     },
     {
       "tranche_id": "D4-C56-T04-LUACH2",
+      "candidate_sha256": "615f67a21aa7ec354755584f67679ef113864d591a60922b4ba9d041060521e1",
+      "normalized_token_frontier": 1749,
+      "candidate_line": 97,
+      "original_line": 121,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_THREE",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-004",
+      "next_blocker": "# לוח שלישי: לקחת מספר פעמים",
+      "evidence": "GitHub Actions run 35603940210: D4 Ubuntu/Windows 41 targeted tests PASS; frontier token 1749",
+      "normalized_token_count": 10269
+    },
+    {
+      "tranche_id": "D4-C56-T05-LUACH3",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -65,9 +79,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-004",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-005",
       "next_blocker": null,
-      "evidence": "Two general Index Program Inputs + derived-number computation."
+      "evidence": "Named exact repeated-addition act using C5.4 RepeatExactly."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",

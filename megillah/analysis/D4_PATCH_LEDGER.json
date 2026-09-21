@@ -142,6 +142,33 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-005",
+      "original_span": {
+        "start_line": 121,
+        "end_line": 141
+      },
+      "previous_candidate_span": {
+        "start_line": 97,
+        "end_line": 119
+      },
+      "replacement": "named act לקחתפעמים using dynamic RepeatExactly and helper הוסףלקיחה",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Take a Natural number exactly N times and add all copies; source supplies worked 3x7 and an acceleration by doubling/decomposition.",
+      "semantic_after": "Zero accumulator; execute one atomic addition helper exactly N times with count observed once; return accumulator.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "A15/C5.4",
+        "original 121-141",
+        "focused runtime regressions"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

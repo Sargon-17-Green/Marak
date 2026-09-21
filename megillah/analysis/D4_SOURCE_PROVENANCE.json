@@ -98,14 +98,45 @@
         "B16 constructive distance boundary",
         "D4 Luach Two audit"
       ]
+    },
+    {
+      "id": "D4-PATCH-005",
+      "candidate_start_line": 97,
+      "candidate_end_line": 104,
+      "original_lines": [
+        121,
+        123,
+        125,
+        127,
+        129,
+        131,
+        133,
+        135,
+        137,
+        139,
+        141
+      ],
+      "original_text": "לוח שלישי: source-defined operation for taking a number an exact Natural count of times, with worked 3x7 and doubling/decomposition strategy.",
+      "replacement": "Named act לקחתפעמים with Natural roles מספר/מנין, zeroed accumulator, dynamic RepeatExactly, atomic helper הוסףלקיחה, and one Natural result.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Preserves the general computational need (exact repeated addition) using the production C5.4 RepeatExactly construct rather than retaining a manual doubling workaround that was only needed before general counted recurrence existed.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 121-141",
+        "A15 exact counted recurrence",
+        "C5.4 RepeatExactly semantics",
+        "focused 3x7/13x5/zero three-runtime tests"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-001 maps Foundation; D4-PATCH-003 maps day-number algorithm; D4-PATCH-004 maps Luach Two program-input and derived-number computation. All externalized examples/invariants are separately mapped.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-005 maps original Luach Three computational need to a named RepeatExactly-based act; historical acceleration examples are externally mapped.",
   "blocked_future_derivation": {
-    "source_span": "original line 119 onward",
-    "requirement": "Luach Three repeated multiplication/counting computation",
+    "source_span": "original line 145 onward",
+    "requirement": "Luach Four square operation",
     "blocker": null,
-    "note": "Measure frontier before next repair."
+    "note": "Measure frontier before repair."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -198,6 +229,36 @@
       "reason": "Semantic invariant explaining the distinction between distance and way. Repaired state keeps distinct places and algorithms.",
       "destination": "megillah/analysis/D4_POST_C56_LUACH2_AUDIT.md",
       "retained_requirement": "מספרמרחק and מספרדרך are distinct Natural referents with different meanings."
+    },
+    {
+      "id": "D4-DOC-010",
+      "original_start_line": 121,
+      "original_end_line": 121,
+      "original_text": "# לוח שלישי: לקחת מספר פעמים",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-011",
+      "original_start_line": 125,
+      "original_end_line": 127,
+      "original_text": "אם יצוה לקחת שלשה שבע פעמים... והיו אחד ועשרים.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked exact-count example retained as runtime regression.",
+      "destination": "tests/test_d4_post_c56_megillah.py",
+      "retained_requirement": "3 taken 7 times = 21."
+    },
+    {
+      "id": "D4-DOC-012",
+      "original_start_line": 129,
+      "original_end_line": 141,
+      "original_text": "Historical doubling table and 13 = 8+4+1 decomposition.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Algorithmic optimization/worked method for avoiding thousands of manual additions. C5.4 now provides the general exact-count operation directly; retaining the doubling prose as production source would be an unnecessary emulation layer.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "Exact repeated-addition result is independent of the historical acceleration method; 13-count example retained in tests."
     }
   ]
 }

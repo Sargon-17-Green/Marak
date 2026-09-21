@@ -178,3 +178,43 @@ def test_d4_post_c56_luach2_distance_examples_and_referent_distinction():
     text = CANDIDATE.read_text(encoding="utf-8")
     assert "יהי מקום ושמו מספרמרחק" in text
     assert "יהי מקום ושמו מספרדרך" in text
+
+
+def _d4_repeat_add_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    selected = lines[96:104]
+    return " ".join(x for x in selected if x.strip())
+
+
+def _d4_zero_natural() -> str:
+    return "המספר הנחשב בגרע את המספר אשר הוא אחד מן המספר אשר הוא אחד"
+
+
+def _d4_repeat_add_call(value: str, count: str) -> str:
+    return (
+        "ועתה עשה את המעשה אשר שמו לקחתפעמים "
+        f"בהיות {value} תחת הדבר אשר במעשה אשר שמו לקחתפעמים שמו מספר "
+        f"ובהיות {count} תחת הדבר אשר במעשה אשר שמו לקחתפעמים שמו מנין"
+    )
+
+
+def test_d4_post_c56_luach3_exact_repeated_addition_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    cases = [
+        ("המספר אשר הוא שלשה", "המספר אשר הוא שבעה", 21),
+        ("המספר אשר הוא חמשה", "המספר אשר הוא שלשה עשר", 65),
+        ("המספר אשר הוא תשעה", _d4_zero_natural(), 0),
+    ]
+    for value, count, want in cases:
+        source = _d4_repeat_add_preparation() + " " + _d4_repeat_add_call(value, count)
+        _, obs = three(source)
+        assert obs["products"][-1] == ["לקחתפעמים", want]
+        assert dict(obs["facts"])["מכפלה"] == want
+
+
+def test_d4_post_c56_luach3_uses_repeat_exactly_not_manual_expansion():
+    text = " ".join(CANDIDATE.read_text(encoding="utf-8").splitlines()[96:104])
+    assert "פעמים כמספר אשר במעשה הזה עומד" in text
+    assert "עשה את המעשה אשר שמו הוסףלקיחה" in text
+    assert "שלשה ושלשה ושלשה" not in text
+    assert "שמונה פעמים" not in text

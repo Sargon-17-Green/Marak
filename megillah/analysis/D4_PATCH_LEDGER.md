@@ -52,3 +52,12 @@ No direct Index distance, equality, Natural↔Index conversion, signed arithmeti
 Original lines 77–117 are converted to two named immutable general-BidirectionalIndex Program Inputs plus retained Natural places for `מספרמעשה`, `מספרשאלה`, `מספרמרחק`, `מספרחיבור`, and `מספרדרך`.
 
 `שמותמספרים` invokes the repaired `מספריום` twice, counts inclusive distance by one-step Index traversal starting from one, invokes the existing `חיבור` act for the connection number, and classifies way using two strict Index-order tests. No direct distance, equality, Date/Day, positional input, or transport syntax is introduced.
+
+
+## D4-PATCH-005 — Luach Three exact repeated addition
+
+Original lines 121–141 define the reusable operation “take a number N times,” with examples and a historical doubling/decomposition acceleration.
+
+The candidate now defines `לקחתפעמים` with Natural roles `מספר` and `מנין`. It clears a Natural accumulator and uses C5.4 dynamic `RepeatExactly` to perform one atomic helper act exactly `מנין` times, adding `מספר` on each iteration, then returns the accumulator.
+
+The 3×7 example and 13-count decomposition are retained as evidence. The historical doubling workaround is not kept as production emulation because general exact counted recurrence now exists.
