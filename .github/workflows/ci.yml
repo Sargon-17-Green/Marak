@@ -264,7 +264,8 @@ jobs:
           python spec/proposals/a16/reference/run_a16_surface_tests.py
           python spec/proposals/a17/reference/run_a17_surface_tests.py
           python spec/proposals/b15/reference/run_b15_tests.py
-          python spec/proposals/b16/reference/run_b16_reference_tests.py
+          python tools/run_c5_6_b16_semantic_regressions.py
+          python -m pytest -q spec/proposals/b16/reference/test_b16_required_regressions.py
       - name: Run frozen Megillah regressions
         run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py
       - name: Regenerate C5.6 canonical bytes
