@@ -71,3 +71,47 @@ def test_d4_post_c56_tablets_offset_is_externalized_as_unused_historical_proof()
     assert by_id["D4-DOC-002"]["classification"] == "EXAMPLE_OR_PROOF"
     assert by_id["D4-DOC-003"]["classification"] == "EXAMPLE_OR_PROOF"
     assert by_id["D4-DOC-004"]["classification"] == "DOCUMENTARY_EXTERNALIZATION"
+
+
+def _d4_day_number_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    selected = lines[0:6] + [lines[10]] + lines[22:44]
+    return " ".join(x for x in selected if x.strip())
+
+
+def _d4_day_number_call(z: int) -> str:
+    from tests.test_c5_6_general_index_surface import general_index
+    return (
+        "ועתה עשה את המעשה אשר שמו מספריום "
+        f"בהיות {general_index(z)} תחת הדבר אשר במעשה אשר שמו מספריום שמו יום"
+    )
+
+
+def test_d4_post_c56_day_number_algorithm_matches_historical_examples_and_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    expected = {-3: 6, -2: 4, -1: 2, 0: 1, 1: 3, 2: 5, 3: 7}
+    for z, want in expected.items():
+        source = _d4_day_number_preparation() + " " + _d4_day_number_call(z)
+        _, observed = three(source)
+        facts = dict(observed["facts"])
+        assert facts["מענהיום"] == want
+
+
+def test_d4_post_c56_day_number_algorithm_keeps_coordinate_and_number_domains_separate():
+    from tests.test_c5_6_general_index_surface import three
+    source = _d4_day_number_preparation() + " " + _d4_day_number_call(-2)
+    _, observed = three(source)
+    facts = dict(observed["facts"])
+    assert facts["סמן"] == {"index": "Zero"}
+    assert facts["מענהיום"] == 4
+    assert isinstance(facts["מענהיום"], int)
+
+
+def test_d4_post_c56_day_number_repair_uses_index_order_steps_and_existing_addition_act():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()[22:44]
+    source = " ".join(lines)
+    assert "עשה את המעשה אשר שמו חיבור" in source
+    assert "המעלה אשר אחר" in source
+    assert "המעלה אשר לפני" in source
+    assert "מרחק" not in source
+    assert "רב מן" not in source

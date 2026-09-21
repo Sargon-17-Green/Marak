@@ -87,6 +87,34 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-003",
+      "original_span": {
+        "start_line": 47,
+        "end_line": 73
+      },
+      "previous_candidate_span": {
+        "start_line": 23,
+        "end_line": 49
+      },
+      "replacement": "named act מספריום plus helper acts/state; examples/laws externalized to tests/docs",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Foundation maps to Natural 1; before day at distance d maps to 2d; after day at distance d maps to 2d+1; distance is counted from day coordinates; chronology is not inferred from Natural day numbers.",
+      "semantic_after": "Same mapping computed from BidirectionalIndex strict order and one-step traversal; Natural count is doubled/offset using existing חיבור act; same-position uses trichotomy without equality.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 47-73",
+        "B16 constructive distance boundary",
+        "C5.6 generic Index surface",
+        "runtime regression examples"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

@@ -30,6 +30,20 @@
     },
     {
       "tranche_id": "D4-C56-T02-TABLETS",
+      "candidate_sha256": "c8dda3e687c6bcafdaeaa2b4bd709cecefad38aabf2e6e6085502427b607c3c0",
+      "normalized_token_frontier": 117,
+      "candidate_line": 23,
+      "original_line": 47,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_DAY_NUMBER_ALGORITHM",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-002",
+      "next_blocker": "מספר יום היסוד אחד.",
+      "evidence": "GitHub Actions run 35597139282, D4 Ubuntu frontier probe",
+      "normalized_token_count": 8967
+    },
+    {
+      "tranche_id": "D4-C56-T03-DAY-NUMBER",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -37,9 +51,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-002",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-003",
       "next_blocker": null,
-      "evidence": "Tablets relation/offset/heading externalized after occurrence-level dependency audit."
+      "evidence": "Focused algorithm repair plus exact historical examples."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",

@@ -28,14 +28,43 @@
         "B16 one-domain/profile-neutral semantics",
         "C5.6 typed Index place accepts the general profile"
       ]
+    },
+    {
+      "id": "D4-PATCH-003",
+      "candidate_start_line": 23,
+      "candidate_end_line": 44,
+      "original_lines": [
+        47,
+        49,
+        51,
+        52,
+        53,
+        55,
+        57,
+        58,
+        59
+      ],
+      "original_text": "מספר יום היסוד אחד. / after/before Foundation counting, doubling, and +1 rule.",
+      "replacement": "Explicit named-act implementation מספריום with Index role, cursor, Natural counter, strict-order trichotomy, succ/pred stepping, and D3 חיבור calls.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "Implements the source-defined day-coordinate -> Natural day-number algorithm without a conversion primitive. Direction comes only from Index order; distance is counted one step at a time; source 'חבר' operations call the existing named חיבור act.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 47-59",
+        "B16 distance/equality adequacy",
+        "C5.6 general Index production surface",
+        "focused runtime examples -3..+3"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4-PATCH-001 override; original 37,39,41-45 externalizations are mapped; no orphan executable source introduced.",
+  "provenance_coverage": "D3 mapping inherited except D4 overrides. Candidate line 11 maps to original 35/37; lines 23-44 map to executable original 47-59; examples/laws original 61-73 are explicitly externalized; no orphan D4 source.",
   "blocked_future_derivation": {
-    "source_span": "original lines 47-73",
-    "requirement": "Executable mapping from day coordinate BidirectionalIndex to Natural day number, including source examples and the no-conflation law.",
+    "source_span": "original lines 77 onward",
+    "requirement": "Program Input contract and subsequent reusable computations",
     "blocker": null,
-    "note": "Next tranche must preserve the source algorithm using strict Index order, succ/pred, Natural counter and named acts; no direct conversion/distance/equality."
+    "note": "D4-LANG-001 closed. Next frontier must be measured before further repair."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -78,6 +107,26 @@
       "reason": "Markdown heading text is organizational, not a computational construction. The following day-number algorithm is retained and repaired separately.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "None; heading does not define runtime semantics."
+    },
+    {
+      "id": "D4-DOC-005",
+      "original_start_line": 61,
+      "original_end_line": 69,
+      "original_text": "ואלה מספרי הימים: ... third before through third after examples.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked examples of the executable mapping. Preserved as exact runtime regression cases (-3..+3) rather than production actions.",
+      "destination": "tests/test_d4_post_c56_megillah.py",
+      "retained_requirement": "-3->6,-2->4,-1->2,0->1,+1->3,+2->5,+3->7"
+    },
+    {
+      "id": "D4-DOC-006",
+      "original_start_line": 71,
+      "original_end_line": 73,
+      "original_text": "לכל יום מספרו... ומן המספרים לבדם לא תדע אי זה יום לפני ואי זה יום אחרי...",
+      "classification": "DOCUMENTATION",
+      "reason": "Semantic law/invariant explaining injectivity and the deliberate separation between Natural day number and chronological Index order. The repaired algorithm enforces chronology via Index strict order, never Natural comparison.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "Day coordinate and day number remain distinct; chronology is never derived from Natural day-number ordering."
     }
   ]
 }
