@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 import dataclasses
+import hashlib
+from pathlib import Path
 
 import pytest
 
 from compiler.api import compile_source
 from compiler.models import hast as H
 from compiler.models import ir as I
-from compiler.models.domains import BIDIRECTIONAL_INDEX
+from compiler.models.domains import BIDIRECTIONAL_INDEX, ProgramInputId, BidirectionalIndexDomain
 from compiler.parse.current_registry import CURRENT_REGISTRY
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 from compiler.validate.domains import DomainValidationError, validate_hast_domains
@@ -195,3 +197,30 @@ def test_hast_domain_validation_rejects_wrong_index_lt_operand_even_if_forged_di
     )
     with pytest.raises(DomainValidationError, match="DOMAIN_INDEX_LT"):
         validate_hast_domains(forged)
+
+
+def test_profile_is_absent_from_program_input_and_domain_semantic_identity():
+    assert [f.name for f in dataclasses.fields(ProgramInputId)] == [
+        "serial", "spelling", "program_contract"
+    ]
+    assert [f.name for f in dataclasses.fields(BidirectionalIndexDomain)] == []
+
+
+def test_c56_preserves_frozen_d4_candidate_hash_and_frontier():
+    root = Path(__file__).resolve().parents[1]
+    candidate = root / "megillah" / "candidates" / "Megilat_HaItim_Marak_Candidate.md"
+    expected_sha = "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643"
+    assert hashlib.sha256(candidate.read_bytes()).hexdigest() == expected_sha
+    compiled = compile_source(candidate.read_text(encoding="utf-8"), file=candidate.as_posix())
+    assert not compiled.valid
+    frontier = max(
+        (
+            d for d in compiled.diagnostics
+            if isinstance((d.metadata or {}).get("furthest_token"), int)
+        ),
+        key=lambda d: d.metadata["furthest_token"],
+    )
+    assert frontier.code == "PARSE0002"
+    assert frontier.metadata["furthest_token"] == 105
+    assert frontier.source_span is not None
+    assert frontier.source_span.start.line == 11
