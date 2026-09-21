@@ -690,7 +690,7 @@ def _d4_luach9_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    luach10 = next(i for i, line in enumerate(lines) if line.startswith("# לוח עשרה: שש הקערות"))
+    luach10 = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מלאעבודה"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach10]
     return " ".join(
         line for line in selected
