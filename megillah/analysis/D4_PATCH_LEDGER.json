@@ -498,6 +498,32 @@
         "sample arrangement 10 exact pour regression"
       ],
       "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-018",
+      "original_span": {
+        "start_line": 769,
+        "end_line": 817
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Thirteen prose"
+      },
+      "replacement": "snapshot book of old identity-keyed bowl fills, six exact per-position calculations, temporary identity/value pairs sorted before simultaneous commit, and exact 46-drop driver",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "For every drop, all six new bowl values use only pre-drop bowl fills. Arrangement is circular. Positions 1..3 add their pours; all positions add the drop and a position stone. After six results exist they replace all six fills together. Repeat for 46 drops.",
+      "semantic_after": "מלאישן freezes the old state. חשבקערהאחרי implements the complete per-bowl formula. ערבבטיפה computes six identity/value pairs from that snapshot and commits only after all six exist. קערותטיפההבאה/ערבבכלטיפות run exactly 46 drops and retain the last drop arrangement separately.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 769-817",
+        "synthetic exact three-runtime mix regression",
+        "snapshot-before-commit structural regression"
+      ],
+      "confidence": "HIGH",
       "approval_state": "APPLIED_TO_CANDIDATE_POST_C56_PENDING_CI",
       "tests": [
         "tests/test_d4_post_c56_megillah.py"

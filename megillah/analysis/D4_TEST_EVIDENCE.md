@@ -329,3 +329,7 @@ GitHub Actions run `35616748974`: dedicated D4 Ubuntu+Windows PASS, **70 targete
 ## Post-C5.6 continuation — T15 / Luach Eleven arrangements
 
 GitHub Actions run `35619093303`: dedicated D4 Ubuntu+Windows PASS, **74 targeted tests**. Candidate SHA `d3a3e99e6d4e8f40fc288e7b495ec7457d64f3cf0626210c2060bf9ee64c8985`; normalized tokens 24,666; frontier token 18,889; candidate line 392.
+
+## Post-C5.6 continuation — T16 / Luach Twelve pours
+
+GitHub Actions run `35620151386`: dedicated D4 Ubuntu+Windows PASS, **76 targeted tests**. Candidate SHA `6c6eb53613f9fc21c4428bb5f7883aabb1c968de88c7b170e4731359ed21a7c3`; normalized tokens 25,826; frontier token 20,196; candidate line 414.

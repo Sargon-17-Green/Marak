@@ -240,6 +240,20 @@
     },
     {
       "tranche_id": "D4-C56-T16-LUACH12-POURS",
+      "candidate_sha256": "6c6eb53613f9fc21c4428bb5f7883aabb1c968de88c7b170e4731359ed21a7c3",
+      "normalized_token_frontier": 20196,
+      "candidate_line": 414,
+      "original_line": 769,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_THIRTEEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-017",
+      "next_blocker": "# לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה",
+      "evidence": "GitHub Actions run 35620151386: D4 Ubuntu/Windows 76 targeted tests PASS; exact position-1..3 pour regression PASS; frontier token 20196",
+      "normalized_token_count": 25826
+    },
+    {
+      "tranche_id": "D4-C56-T17-LUACH13-BOWL-MIX",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -247,9 +261,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-017",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-018",
       "next_blocker": null,
-      "evidence": "Three pour values for arrangement positions 1..3 using current identity-keyed bowl fills, wheat/barley/salt stones, drop-number multipliers 3/5/7."
+      "evidence": "Snapshot-safe six-bowl update after each of 46 drops; circular arrangement neighbors; pours only positions 1..3; identity-keyed simultaneous commit; preserve final drop arrangement."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -268,5 +282,6 @@
   "t13_ci_trigger": "GitHub Actions run 35615872737",
   "t14_ci_trigger": "GitHub Actions run 35616748974",
   "t15_ci_trigger": "GitHub Actions run 35619093303",
-  "t16_ci_trigger": "pending after Luach Twelve verification"
+  "t16_ci_trigger": "GitHub Actions run 35620151386",
+  "t17_ci_trigger": "pending after Luach Thirteen verification"
 }

@@ -680,14 +680,57 @@
         "original 733-765",
         "exact pour regression"
       ]
+    },
+    {
+      "id": "D4-PATCH-018",
+      "candidate_start_line": 416,
+      "candidate_end_line": 444,
+      "original_lines": [
+        769,
+        771,
+        773,
+        775,
+        777,
+        779,
+        781,
+        783,
+        785,
+        787,
+        789,
+        791,
+        793,
+        795,
+        797,
+        799,
+        801,
+        803,
+        805,
+        807,
+        809,
+        811,
+        813,
+        815,
+        817
+      ],
+      "original_text": "Luach Thirteen: snapshot six bowl fills, circular arrangement neighbors, exact per-position formula, simultaneous six-bowl commit, repeat for all 46 drops.",
+      "replacement": "Snapshot-safe six-position mix actions plus 46-drop driver and retained final-drop arrangement.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "No newly computed bowl fill can feed a sister bowl in the same drop; identity/value pair staging makes the source snapshot law explicit.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 769-817",
+        "snapshot regression"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-017, bowl arrangement and exact per-drop pour semantics are executable.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-018, each visible drop can be poured and mixed into six bowls with source-mandated snapshot semantics.",
   "blocked_future_derivation": {
-    "source_span": "original line 769 onward",
-    "requirement": "Luach Thirteen / snapshot-safe six-bowl mixing after each drop",
+    "source_span": "original line 821 onward",
+    "requirement": "Luach Fourteen / twelve post-drop bowl blends",
     "blocker": null,
-    "note": "Measure T16 frontier before Luach Thirteen."
+    "note": "Measure T17 frontier before Luach Fourteen."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -966,6 +1009,16 @@
       "original_start_line": 731,
       "original_end_line": 731,
       "original_text": "# לוח שנים עשר: צוק הטיפה אל הקערות",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-029",
+      "original_start_line": 767,
+      "original_end_line": 767,
+      "original_text": "# לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה",
       "classification": "DOCUMENTARY_EXTERNALIZATION",
       "reason": "Organizational heading only.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",

@@ -844,7 +844,7 @@ def _d4_luach12_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מלאישן"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
     return " ".join(
         line for line in selected
@@ -879,4 +879,57 @@ def test_d4_post_c56_luach12_only_first_three_positions_receive_pours():
     assert "שמו מערכה הוא המספר אשר הוא ארבעה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
     assert "שמו מערכה הוא המספר אשר הוא חמשה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
     assert "שמו מערכה הוא המספר אשר הוא ששה תחת הדבר אשר במעשה אשר שמו חשבציקה שמו קערה" not in body
+
+def _d4_luach13_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def test_d4_post_c56_luach13_one_synthetic_drop_snapshot_mix_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    stones = "ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר אין בו מספר כסדרו ואחר כלם המספר אשר הוא שבעה עשר כסדרו ואחר כלם המספר אשר הוא עשרים ותשעה כסדרו ואחר כלם המספר אשר הוא ארבעים ושלשה כסדרו ואחר כלם המספר אשר הוא שבעים ואחד כסדרו ואחר כלם המספר אשר הוא מאה ואחד"
+    arrangement = "ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר בו כל אשר ב ספר מספרים אשר אין בו מספר כסדרו ואחר כלם המספר אשר הוא אחד כסדרו ואחר כלם המספר אשר הוא שנים כסדרו ואחר כלם המספר אשר הוא ארבעה כסדרו ואחר כלם המספר אשר הוא חמשה כסדרו ואחר כלם המספר אשר הוא ששה כסדרו ואחר כלם המספר אשר הוא שלשה"
+    source = (
+        _d4_luach13_preparation()
+        + " ועתה "
+        + _d4_set_luach8_counters()
+        + " ואחרי כן עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן עשה את המעשה אשר שמו אתחלקערות"
+        + " ואחרי כן עשה את המעשה אשר שמו צוקטיפה "
+        + "בהיות המספר אשר הוא עשרה תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו טיפה "
+        + "ובהיות המספר אשר הוא אחד תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו מספרטיפה "
+        + f"ובהיות {stones} תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו אבנים "
+        + f"ובהיות {arrangement} תחת הדבר אשר במעשה אשר שמו צוקטיפה שמו מערכה"
+        + " ואחרי כן עשה את המעשה אשר שמו ערבבטיפה "
+        + "בהיות המספר אשר הוא עשרה תחת הדבר אשר במעשה אשר שמו ערבבטיפה שמו טיפה "
+        + "ובהיות המספר אשר הוא אחד תחת הדבר אשר במעשה אשר שמו ערבבטיפה שמו מספרטיפה "
+        + f"ובהיות {stones} תחת הדבר אשר במעשה אשר שמו ערבבטיפה שמו אבנים "
+        + f"ובהיות {arrangement} תחת הדבר אשר במעשה אשר שמו ערבבטיפה שמו מערכה "
+        + "ובהיות הספר אשר יצא עתה מן המעשה אשר שמו צוקטיפה תחת הדבר אשר במעשה אשר שמו ערבבטיפה שמו ציקות"
+    )
+    _, obs = three(source)
+    assert obs["products"][-1] == ["ערבבטיפה", [
+        7504945776187, 45759259889492, 21102184694626,
+        1306653888298999, 76949687869500, 24681133270365,
+    ]]
+
+
+def test_d4_post_c56_luach13_snapshot_then_commit_and_exact_46_driver():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    body = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו ערבבטיפה "))
+    assert body.index("שמו מלאישן את הספר אשר במקום אשר שמו מלאקערות") < body.index("עשה את המעשה אשר שמו חשבקערהאחרי")
+    assert body.count("עשה את המעשה אשר שמו חשבקערהאחרי") == 6
+    assert body.rindex("שמו מלאקערות") > body.rindex("עשה את המעשה אשר שמו חשבקערהאחרי")
+    driver = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו ערבבכלטיפות "))
+    assert "ארבעים ושש פעמים עשה את המעשה אשר שמו קערותטיפההבאה" in driver
+    step = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו קערותטיפההבאה "))
+    assert "שמו מערכתטיפהאחרונה את הספר אשר במקום אשר שמו מערכהנוכחית" in step
 

@@ -147,3 +147,9 @@ The source's lexicographic order over the six permanent bowl numbers is exactly 
 ## D4-PATCH-017 — Luach Twelve / pour the drop
 
 Only arrangement positions 1–3 receive the three pour values. Bowl fill is looked up by the permanent bowl identity currently occupying that position, not by position index itself. The candidate returns the pours as a three-Natural book ordered by arrangement position.
+
+## D4-PATCH-018 — Luach Thirteen / mix six bowls after each drop
+
+`מלאישן` freezes all six identity-keyed fills before any new value is calculated. Six calculations walk the selected arrangement circularly; every one reads only that snapshot. Temporary `[bowl identity, new fill]` books are sorted by permanent identity and only then committed to `מלאקערות` together.
+
+The 46-drop driver also retains `מערכתטיפהאחרונה` separately. This is required by Luach Fifteen: the successor bowl for later questions comes from the arrangement chosen by visible drop 46, not from an arrangement used by the twelve post-drop blends.
