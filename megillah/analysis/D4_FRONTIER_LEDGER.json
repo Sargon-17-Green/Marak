@@ -102,5 +102,6 @@
   "t02_ci_trigger": "contents-api trigger for Tablets tranche measurement",
   "t03_ci_trigger": "contents-api trigger for day-number structural repair verification",
   "t04_ci_trigger": "contents-api trigger for Luach Two verification",
-  "t05_ci_trigger": "contents-api trigger for Luach Three exact-count verification"
+  "t05_ci_trigger": "contents-api trigger for Luach Three exact-count verification",
+  "t06_ci_trigger": "contents-api trigger for Luach Four square verification"
 }
