@@ -541,7 +541,7 @@ def test_d4_post_c56_luach6_keep_uses_fast_remainder_without_hidden_threshold():
 def _d4_luach7_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שמונה: שבע הטיפות הנסתרות"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נסתרתאחת"))
     selected = lines[0:6] + lines[start:end]
     return " ".join(
         line for line in selected
@@ -604,7 +604,7 @@ def test_d4_post_c56_luach7_builds_exact_46_drop_table_three_runtimes_with_fuel(
 def test_d4_post_c56_luach7_canonical_count_and_snapshot_copy_order():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרטיפה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שמונה: שבע הטיפות הנסתרות"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נסתרתאחת"))
     text = " ".join(lines[start:end])
     assert "ארבעים וחמש פעמים עשה את המעשה אשר שמו טיפההבאה" in text
     assert "שש וארבעים" not in text
