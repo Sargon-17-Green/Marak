@@ -114,6 +114,19 @@ def index_predecessor(value: BidirectionalIndexValue) -> BidirectionalIndexValue
     return BidirectionalIndexValue("before", value.magnitude + 1)
 
 
+def index_lt(left: BidirectionalIndexValue, right: BidirectionalIndexValue) -> bool:
+    """Strict B13 total order without exposing a signed host representation."""
+    side_rank = {"before": 0, "zero": 1, "after": 2}
+    if left.side != right.side:
+        return side_rank[left.side] < side_rank[right.side]
+    if left.side == "before":
+        # BeforeZero(7) is earlier/smaller than BeforeZero(2).
+        return left.magnitude > right.magnitude
+    if left.side == "after":
+        return left.magnitude < right.magnitude
+    return False
+
+
 def observable_value(value: SemanticValue):
     if isinstance(value, NaturalValue):
         return value.value
@@ -134,5 +147,5 @@ def observable_value(value: SemanticValue):
 __all__ = [
     "NaturalValue", "SymbolValue", "BidirectionalIndexValue", "CollectionValue",
     "SemanticValue", "value_domain", "symbol_identity_equal", "semantic_value_equal",
-    "index_successor", "index_predecessor", "observable_value",
+    "index_successor", "index_predecessor", "index_lt", "observable_value",
 ]
