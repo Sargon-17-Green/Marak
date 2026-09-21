@@ -7,10 +7,14 @@ branch:
 `workstream-b/b16-a17-semantic-integration`
 
 PR:
-PENDING
+#18 — Draft, open, unmerged
+https://github.com/Sargon-17-Green/Marak/pull/18
 
 HEAD:
-PENDING FINAL HANDOFF COMMIT
+This file is part of the final handoff commit and therefore cannot contain its own self-referential
+commit SHA. Use the Draft PR #18 head reported by GitHub at Master review time. The semantic/reference
+candidate independently validated before this handoff metadata update is:
+`aab6d5d2d10fe72d24faa42c29f540da29c70d30`.
 
 A17 reviewed baseline:
 `50155cbf86c1cdc1111dde45464e7a9a1605f9df`
@@ -34,7 +38,8 @@ cross-profile flow:
 ADMITTED
 
 input:
-ADMITTED, existing ProgramInputId/domain semantics unchanged
+ADMITTED; ProgramInputId identity, named binding, immutability, pre-Preparation validation and
+transport independence remain unchanged
 
 place:
 ADMITTED
@@ -49,11 +54,11 @@ immediate result:
 ADMITTED
 
 profile coherence rule:
-each source phrase must be internally valid in one profile; after resolution to BidirectionalIndex,
-profile imposes no carrier restriction
+each source expression must be internally well-formed in one admitted profile; after independent
+resolution to BidirectionalIndex, profile does not constrain a later BidirectionalIndex carrier
 
 generic literal semantics:
-exact B13 Zero/Before/After values
+exact B13 ZeroIndex / BeforeZero(N) / AfterZero(N)
 
 origin semantics:
 `מעלת היתד` -> ZeroIndex
@@ -62,8 +67,8 @@ strict Index order:
 ACCEPTED
 
 reason:
-inherent strict-total-order relation of B13 Index, independently required to choose chronology;
-does not compute the Megillah's distance algorithm
+it exposes the inherent B13 strict-total-order relation needed to choose chronology, but does not
+perform the Megillah's counting algorithm
 
 succ:
 ACCEPTED
@@ -72,22 +77,24 @@ pred:
 ACCEPTED
 
 reason:
-existing total B13 one-step adjacency, already accepted for year profile; preserves rather than
-collapses source counting
+they are existing total B13 one-step adjacency operations, already accepted through the year profile,
+and they preserve rather than replace source-level counting
 
 direct distance surface:
 REJECTED / REMAINS ALGORITHMIC
 
 reason:
-Megillah explicitly describes counting; strict order + succ/pred + Natural counter + existing
-conditionals/recurrence are sufficient
+the Megillah explicitly describes counting. Exact distance is constructively expressible using
+strict order + succ/pred + Natural retained count + existing binary alternatives and post-action
+recurrence.
 
 Index equality surface:
 NOT REQUIRED
 
 same-day discrimination proof:
-if A<B => before; else perform a named decision act: if B<A => after; else => same.
-Strict-total-order trichotomy proves the final branch.
+test A לפני B; if true choose BEFORE. Otherwise perform a named decision act whose binary alternative
+tests B לפני A; if true choose AFTER, otherwise choose SAME. Strict-total-order trichotomy proves the
+final branch. No Boolean Value or equality primitive is required.
 
 Natural→Index surface:
 NOT ADDED
@@ -111,30 +118,33 @@ succ/pred:
 ACCEPT
 
 distance:
-REJECT DIRECT SURFACE; SOURCE ALGORITHM
+REJECT DIRECT SURFACE; KEEP SOURCE ALGORITHM
 
 carriers:
 ACCEPT
 
 addition precedent analysis:
-compiler magic is rejected where source defines an algorithm; direct distance follows that precedent.
-Order and one-step adjacency differ because they are primitive structure of the accepted Index domain,
-not procedures defined by the Megillah.
+the `חיבור` precedent rejects compiler magic where the source itself defines an algorithm. Direct
+distance falls on that side because the Megillah says to count. Order and one-step adjacency differ:
+they are primitive structure of the accepted Index domain and the minimal mechanics with which source
+can perform that count.
 
 canonicality:
-semantic Value canonicality is distinct from source-family canonicality
+one canonical semantic Value may have multiple well-defined source constructions in different
+linguistic profiles; canonical semantic identity is not unique source spelling
 
 source-preserving formatting:
-preserve resolved source profile
+preserve the resolved source profile as non-semantic tooling provenance
 
 value-only source synthesis:
-requires explicit target profile
+requires an explicit target profile; a bare semantic Index does not infer year/general
 
 backward compatibility:
 PASS
 
 observable behavior:
-profile-neutral B13/B15 observables only
+B12/B13/B15 semantic Values, state/output/outcomes and proposition control effects only; source
+profile/runtime tag/parser node/sign encoding are not observable
 
 new findings:
 NONE
@@ -152,25 +162,28 @@ C5.6 requirements produced:
 YES
 
 B13 tests:
-PENDING CI
+28/28 PASS
 
 B15 tests:
-PENDING CI
+29/29 PASS
 
 A16 tests:
-PENDING CI
+2,548/2,548 checks PASS (2,518 positive; 30 negative)
 
 A17 tests:
-PENDING CI
+4,415/4,415 checks PASS (4,388 positive; 27 negative)
 
 B16 tests:
-PENDING CI
+30/30 semantic reference tests PASS
+4/4 required regression-gate tests PASS
 
 full pytest:
-PENDING CI
+478 tests + 126 subtests PASS in 14.83s
 
 CI:
-PENDING
+GitHub Actions run 35579729051 / #326 — 15/15 jobs SUCCESS on semantic candidate HEAD
+`aab6d5d2d10fe72d24faa42c29f540da29c70d30`.
+The final handoff-only metadata commit must also remain green before delivery.
 
 production files changed:
 NONE
