@@ -275,8 +275,8 @@ def test_d4_post_c56_luach5_uses_exact_canonical_127_count_and_persistent_place(
 def _d4_luach6_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
-    next_heading = next(i for i, line in enumerate(lines) if line.startswith("## לקחת מספר מאחיו"))
-    selected = lines[0:6] + lines[big_start:next_heading]
+    next_section = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
+    selected = lines[0:6] + lines[big_start:next_section]
     return " ".join(
         line for line in selected
         if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
@@ -345,7 +345,7 @@ def test_d4_post_c56_luach6_keep_preserves_nonzero_remainder():
 def test_d4_post_c56_luach6_uses_safe_post_action_remainder_not_underflow_control():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו נותרעבודה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("## לקחת מספר מאחיו"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
     text = " ".join(lines[start:end])
     assert "וכן תעשה עד אשר המספר אשר במקום אשר שמו נותרמחלק רב מן המספר אשר במקום אשר שמו נותרעבודה" in text
     assert "אם המספר אשר במקום אשר שמו נותרמחלק רב מן המספר אשר במקום אשר שמו נותרעבודה" in text
@@ -375,8 +375,8 @@ def test_d4_post_c56_luach6_wrapped_subtraction_direct_and_wrap_three_runtimes()
     from tests.test_c5_6_general_index_surface import three
     prep = _d4_luach6_wrapped_subtraction_preparation()
     cases = [
-        ("המספר אשר הוא חמשה", "המספר אשר הוא שמונה", 3),
-        ("המספר אשר הוא שמונה", "המספר אשר הוא חמשה", (1 << 127) - 4),
+        ("המספר אשר הוא חמשה", "המספר אשר הוא שמנה", 3),
+        ("המספר אשר הוא שמנה", "המספר אשר הוא חמשה", (1 << 127) - 4),
     ]
     for subtrahend, sibling, want in cases:
         source = (
