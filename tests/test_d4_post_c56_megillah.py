@@ -58,3 +58,16 @@ def test_d4_post_c56_addition_precedent_remains_explicit_named_act():
     assert lines[3] == "זה דבר המעשה אשר שמו חיבור"
     assert "הוצא מן המעשה הזה את המספר הנחשב בהוסיף את" in lines[4]
     assert lines[5] == "עד הנה דבר המעשה אשר שמו חיבור"
+
+
+def test_d4_post_c56_tablets_offset_is_externalized_as_unused_historical_proof():
+    text = CANDIDATE.read_text(encoding="utf-8")
+    assert "יום הינתן הלוחות אחרי יום היסוד" not in text
+    assert "ארבעה עשר אלף אלפים ימים" not in text
+    import json
+    p = ROOT / "megillah" / "analysis" / "D4_SOURCE_PROVENANCE.json"
+    data = json.loads(p.read_text(encoding="utf-8"))
+    by_id = {x["id"]: x for x in data["externalized_spans"]}
+    assert by_id["D4-DOC-002"]["classification"] == "EXAMPLE_OR_PROOF"
+    assert by_id["D4-DOC-003"]["classification"] == "EXAMPLE_OR_PROOF"
+    assert by_id["D4-DOC-004"]["classification"] == "DOCUMENTARY_EXTERNALIZATION"

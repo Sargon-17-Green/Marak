@@ -30,12 +30,12 @@
       ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited for all candidate lines except explicit D4 overrides; candidate line 11 is mapped to original 35/37; removed prose at original 37 is externally mapped; no orphan D4 source introduced.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4-PATCH-001 override; original 37,39,41-45 externalizations are mapped; no orphan executable source introduced.",
   "blocked_future_derivation": {
-    "source_span": "original lines 39-73",
-    "requirement": "Tablets relation and the executable day-coordinate -> Natural day-number algorithm",
+    "source_span": "original lines 47-73",
+    "requirement": "Executable mapping from day coordinate BidirectionalIndex to Natural day number, including source examples and the no-conflation law.",
     "blocker": null,
-    "note": "D4-LANG-001 is closed by A17/B16/C5.6. Continue occurrence-by-occurrence; no direct distance/equality/conversion primitive."
+    "note": "Next tranche must preserve the source algorithm using strict Index order, succ/pred, Natural counter and named acts; no direct conversion/distance/equality."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -48,6 +48,36 @@
       "reason": "The executable semantic requirement is fully retained by the Foundation referent at ZeroIndex. The remaining sentences deny a beginning-of-time/day-number claim and explain the two-sided coordinate model; they do not command a runtime action.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "Foundation is a distinguished coordinate origin, not the beginning of days or Natural day numbering."
+    },
+    {
+      "id": "D4-DOC-002",
+      "original_start_line": 39,
+      "original_end_line": 39,
+      "original_text": "יום הינתן הלוחות אחרי יום היסוד.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Historical anchor assertion. Repository-wide source audit finds no later computational reference to יום הינתן הלוחות; the runtime calendar algorithm does not consume this identity.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "Historical Tablets anchor remains documented; no built-in Tablets-day primitive is introduced."
+    },
+    {
+      "id": "D4-DOC-003",
+      "original_start_line": 41,
+      "original_end_line": 43,
+      "original_text": "חבר תשעה וארבעים ומאה ימים אל שבעה ושבעים ושבע מאות אלף ימים ואל ארבעה עשר אלף אלפים ימים.\\nמספר כל הימים תשעה וארבעים ומאה ושבעת אלפים ושבע רבבות ושבעים רבבה וארבע מאות רבבה ואלף רבבה.",
+      "classification": "EXAMPLE_OR_PROOF",
+      "reason": "Worked historical derivation of the Tablets/Foundation offset. The derived value and label are not referenced by later executable calendar computation; preserving it as runtime work would add dead computation rather than source-required behavior.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "The historical derivation remains evidence/documentation; D4 does not replace it by a precomputed compiler primitive."
+    },
+    {
+      "id": "D4-DOC-004",
+      "original_start_line": 45,
+      "original_end_line": 45,
+      "original_text": "## יום היסוד והימים לפניו ואחריו",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Markdown heading text is organizational, not a computational construction. The following day-number algorithm is retained and repaired separately.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None; heading does not define runtime semantics."
     }
   ]
 }

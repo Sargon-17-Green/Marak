@@ -58,6 +58,35 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-002",
+      "original_span": {
+        "start_line": 39,
+        "end_line": 45
+      },
+      "previous_candidate_spans": [
+        {
+          "start_line": 15,
+          "end_line": 21
+        }
+      ],
+      "replacement": "[externalized with provenance; executable candidate lines left blank]",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "semantic_before": "Historical Tablets anchor assertion, worked offset derivation, and organizational heading precede the day-number algorithm.",
+      "semantic_after": "No runtime action; historical relation/proof retained in analysis provenance because no later executable source depends on it.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "repository-wide occurrence audit: יום הינתן הלוחות appears only at original line 39",
+        "מספר כל הימים label/value not referenced later",
+        "D4 user directive permits documentary externalization after occurrence-level audit"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

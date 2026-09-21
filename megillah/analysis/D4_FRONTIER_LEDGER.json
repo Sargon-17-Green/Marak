@@ -27,6 +27,19 @@
       "evidence": "GitHub Actions run 35596560192, D4 Ubuntu frontier probe",
       "normalized_token_count": 9013,
       "diagnostic_phase": "parse"
+    },
+    {
+      "tranche_id": "D4-C56-T02-TABLETS",
+      "candidate_sha256": null,
+      "normalized_token_frontier": null,
+      "candidate_line": null,
+      "original_line": null,
+      "diagnostic": null,
+      "diagnostic_phase": null,
+      "classification": "PENDING_MEASUREMENT",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-002",
+      "next_blocker": null,
+      "evidence": "Tablets relation/offset/heading externalized after occurrence-level dependency audit."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation"
