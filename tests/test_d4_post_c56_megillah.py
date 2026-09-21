@@ -742,7 +742,7 @@ def _d4_luach10_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    luach11 = next(i for i, line in enumerate(lines) if line.startswith("# לוח עשתי עשר: מערכות שש הקערות"))
+    luach11 = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו חלקעבודה"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach11]
     return " ".join(
         line for line in selected
@@ -776,9 +776,11 @@ def test_d4_post_c56_luach10_six_fixed_bowl_identities_and_primes_are_explicit()
 
 def _d4_luach11_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
     luach12 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שנים עשר: צוק הטיפה אל הקערות"))
-    selected = lines[0:6] + lines[core_start:luach12]
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:luach12]
     return " ".join(
         line for line in selected
         if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
