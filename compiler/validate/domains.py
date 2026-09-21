@@ -401,6 +401,35 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
                 _fail("DOMAIN_COLLECTION_ORDER", "unknown Collection order profile")
         return d
 
+    def proposition(node: h.HastProposition) -> None:
+        if isinstance(node, h.HastEqualProposition):
+            if value(node.left) != NATURAL or value(node.right) != NATURAL:
+                _fail("DOMAIN_EQUALITY", "Core numeric equality remains Natural-specialized")
+            return
+        if isinstance(node, h.HastNaturalGTProposition):
+            if value(node.left) != NATURAL or value(node.right) != NATURAL:
+                _fail("DOMAIN_NATURAL_GT", "Natural strict ordering requires two independently Natural operands")
+            return
+        if isinstance(node, h.HastIndexLTProposition):
+            if value(node.left) != BIDIRECTIONAL_INDEX or value(node.right) != BIDIRECTIONAL_INDEX:
+                _fail("DOMAIN_INDEX_LT", "BidirectionalIndex strict ordering requires two independently BidirectionalIndex operands")
+            return
+        if isinstance(node, h.HastSymbolEqualProposition):
+            left_domain=value(node.left)
+            right_domain=value(node.right)
+            expected=SymbolDomain(node.domain_id)
+            if left_domain != expected or right_domain != expected:
+                _fail("DOMAIN_SYMBOL_EQUALITY", "Symbol equality operands must belong to the same declared Symbol domain")
+            return
+        if isinstance(node, h.HastCollectionMembershipProposition):
+            collection_domain=value(node.collection)
+            item_domain=value(node.item)
+            expected=CollectionDomain(node.element_domain)
+            if collection_domain != expected or item_domain != node.element_domain:
+                _fail("DOMAIN_COLLECTION_MEMBERSHIP", "membership operands do not share the book element domain")
+            return
+        _fail("DOMAIN_PROPOSITION", f"unsupported proposition {type(node).__name__}")
+
     def action(node: h.HastExecutable, current_act=None) -> None:
         if isinstance(node, h.HastReplaceCurrentFact):
             actual = value(node.value)
@@ -420,29 +449,7 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             for x in node.actions:
                 action(x, current_act)
         elif isinstance(node, h.HastConditional):
-            if isinstance(node.proposition, h.HastEqualProposition):
-                if value(node.proposition.left) != NATURAL or value(node.proposition.right) != NATURAL:
-                    _fail("DOMAIN_EQUALITY", "Core numeric equality remains Natural-specialized")
-            elif isinstance(node.proposition, h.HastNaturalGTProposition):
-                if value(node.proposition.left) != NATURAL or value(node.proposition.right) != NATURAL:
-                    _fail("DOMAIN_NATURAL_GT", "Natural strict ordering requires two independently Natural operands")
-            elif isinstance(node.proposition, h.HastIndexLTProposition):
-                if value(node.proposition.left) != BIDIRECTIONAL_INDEX or value(node.proposition.right) != BIDIRECTIONAL_INDEX:
-                    _fail("DOMAIN_INDEX_LT", "BidirectionalIndex strict ordering requires two independently BidirectionalIndex operands")
-            elif isinstance(node.proposition, h.HastSymbolEqualProposition):
-                left_domain=value(node.proposition.left)
-                right_domain=value(node.proposition.right)
-                expected=SymbolDomain(node.proposition.domain_id)
-                if left_domain != expected or right_domain != expected:
-                    _fail("DOMAIN_SYMBOL_EQUALITY", "Symbol equality operands must belong to the same declared Symbol domain")
-            elif isinstance(node.proposition, h.HastCollectionMembershipProposition):
-                collection_domain=value(node.proposition.collection)
-                item_domain=value(node.proposition.item)
-                expected=CollectionDomain(node.proposition.element_domain)
-                if collection_domain != expected or item_domain != node.proposition.element_domain:
-                    _fail("DOMAIN_COLLECTION_MEMBERSHIP", "membership operands do not share the book element domain")
-            else:
-                _fail("DOMAIN_PROPOSITION", f"unsupported proposition {type(node.proposition).__name__}")
+            proposition(node.proposition)
             action(node.if_holds, current_act)
             action(node.if_not, current_act)
         elif isinstance(node, h.HastRepeatExactly):
@@ -451,8 +458,11 @@ def validate_hast_domains(program: h.HastCoreProgram) -> None:
             if not isinstance(node.action, (h.HastReplaceCurrentFact, h.HastPerformAct, h.HastProduceResult)):
                 _fail("DOMAIN_RECURRENCE_BODY", "RepeatExactly must contain exactly one atomic action")
             action(node.action, current_act)
-        elif isinstance(node, (h.HastFixedRecurrence, h.HastPostActionRecurrence)):
+        elif isinstance(node, h.HastFixedRecurrence):
             action(node.action, current_act)
+        elif isinstance(node, h.HastPostActionRecurrence):
+            action(node.action, current_act)
+            proposition(node.proposition)
 
     for prep in program.preparation:
         if isinstance(prep, h.HastPlaceIntroduction):
