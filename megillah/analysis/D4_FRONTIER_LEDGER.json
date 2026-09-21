@@ -1,0 +1,30 @@
+{
+  "schema": "marak-workstream-d4-frontier-ledger-v1",
+  "baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
+  "entries": [
+    {
+      "tranche_id": "D4-C56-BASELINE",
+      "candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+      "normalized_token_frontier": 105,
+      "candidate_line": 11,
+      "original_line": 35,
+      "diagnostic": "PARSE0002",
+      "classification": "CLOSED_LANGUAGE_BLOCKER_D4_LANG_001_PRE_REPAIR",
+      "repair_that_unlocked_previous_frontier": null,
+      "next_blocker": "Foundation/day-coordinate historical wording",
+      "evidence": "Frozen D4 baseline under C5.6"
+    },
+    {
+      "tranche_id": "D4-C56-T01-FOUNDATION",
+      "candidate_sha256": "80ae1a934db93c1add91ebf69b74aead9dd0b31f038f21f37d3a74bbaac3b3d4",
+      "normalized_token_frontier": null,
+      "candidate_line": null,
+      "original_line": null,
+      "diagnostic": null,
+      "classification": "PENDING_MEASUREMENT",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-001",
+      "next_blocker": null,
+      "evidence": "Candidate SHA observed by CI integrity failure before frozen-test adaptation; frontier measurement pending rerun."
+    }
+  ]
+}

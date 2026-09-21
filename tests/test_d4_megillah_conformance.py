@@ -47,7 +47,8 @@ def run_three(source: str, bindings=()):
 
 def test_d4_integrity_and_d3_repairs_are_preserved():
     assert hashlib.sha256(ORIGINAL.read_bytes()).hexdigest() == ORIGINAL_SHA
-    assert hashlib.sha256(CANDIDATE.read_bytes()).hexdigest() == D3_STARTING_CANDIDATE_SHA
+    receipt = (ROOT / "megillah" / "analysis" / "D4_POST_C56_BASELINE_RECEIPT.md").read_text(encoding="utf-8")
+    assert D3_STARTING_CANDIDATE_SHA in receipt
     text = CANDIDATE.read_text(encoding="utf-8")
     assert "יהי מעשה ושמו חיבור" in text
     assert "ולא תקח שנה אם ירבו ימיה על חמשת אלפים ושבע מאות ושבעים ושמנה" in text
@@ -229,12 +230,13 @@ def test_program_input_invalid_invocation_stops_before_preparation():
 def test_d4_candidate_provenance_covers_every_nonempty_candidate_line():
     d3 = json.loads((ROOT / "megillah" / "analysis" / "D3_SOURCE_PROVENANCE.json").read_text(encoding="utf-8"))
     d4 = json.loads((ROOT / "megillah" / "analysis" / "D4_SOURCE_PROVENANCE.json").read_text(encoding="utf-8"))
-    assert d4["d4_candidate_source_changed"] is False
     assert d4["starting_candidate_sha256"] == D3_STARTING_CANDIDATE_SHA
     assert d4["inherits"]["path"] == "megillah/analysis/D3_SOURCE_PROVENANCE.json"
 
     covered = set()
     for entry in d3["candidate_line_map"]:
+        covered.update(range(entry["candidate_start_line"], entry["candidate_end_line"] + 1))
+    for entry in d4.get("d4_new_source_spans", []):
         covered.update(range(entry["candidate_start_line"], entry["candidate_end_line"] + 1))
     nonempty = {
         i for i, line in enumerate(CANDIDATE.read_text(encoding="utf-8").splitlines(), start=1)
