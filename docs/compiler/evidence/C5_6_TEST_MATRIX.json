@@ -1,0 +1,41 @@
+{
+  "status": "CI_PENDING",
+  "current_head_at_creation": "d3d890f290ca66ca990e8b8aead6f8d38031bd0f",
+  "pr": 19,
+  "current_pr_run_at_creation": {
+    "run_number": 383,
+    "run_id": 35585002102,
+    "status": "queued"
+  },
+  "positive": [
+    "literal identity",
+    "cross-profile Program Input",
+    "cross-profile place",
+    "cross-profile role",
+    "all output/immediate-result profile combinations",
+    "generic successor/predecessor",
+    "strict-order grid",
+    "far magnitude",
+    "same-position proof",
+    "constructive distance composition",
+    "existing Collection<BidirectionalIndex> operation",
+    "before-token ambiguity",
+    "post-action recurrence proposition"
+  ],
+  "adversarial": [
+    "negative grammar",
+    "expected-type rescue",
+    "HAST wrong-domain IndexLT",
+    "IR wrong-domain IndexLT",
+    "artifact stale/unknown/wrong fields/node substitution/span"
+  ],
+  "runtimes": [
+    "HAST reference",
+    "IR reference",
+    "portable backend"
+  ],
+  "ci_os": [
+    "ubuntu-latest",
+    "windows-latest"
+  ]
+}

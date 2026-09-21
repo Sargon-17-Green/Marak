@@ -1,0 +1,23 @@
+{
+  "workstream": "C5.6",
+  "semantic_domain": "BidirectionalIndex",
+  "profile_runtime_tag": "NONE",
+  "direct_distance_surface": "ABSENT",
+  "index_equality_surface": "ABSENT",
+  "natural_to_index_source_conversion": "ABSENT",
+  "index_to_natural_source_conversion": "ABSENT",
+  "signed_arithmetic_widening": "NONE",
+  "generic_index_collection_kind": "ABSENT",
+  "day_date_time_timestamp": "ABSENT",
+  "megillah_original_changed": false,
+  "megillah_candidate_changed": false,
+  "a17_edited": false,
+  "b16_edited": false,
+  "candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+  "expected_frontier": {
+    "normalized_token": 105,
+    "candidate_line": 11,
+    "original_line": 35,
+    "diagnostic": "PARSE0002"
+  }
+}

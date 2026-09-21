@@ -1,0 +1,13 @@
+{
+  "workstream": "C5.6",
+  "baseline": "f7c1be2e913d73c4722f92d8c27c8c7e6dd26a91",
+  "package": "0.5.6a1",
+  "compiler": "0.5.6-alpha.1",
+  "language_edition": "core-0.1-integration-candidate-a13-b12",
+  "registry": "c5.6-a17-b16.1",
+  "hast": "core-hast-0.7-candidate-1",
+  "ir": "core-ir-0.7-candidate-1",
+  "artifact": "core-artifact-0.7-candidate-1",
+  "ir_reference": "core-ir-reference-0.7-candidate-1",
+  "portable_backend": "portable-ir-vm-0.7-candidate-1"
+}
