@@ -93,3 +93,11 @@ Original lines 229–241 define subtraction in the cyclic `מספרגדול` spa
 The repair introduces `לקחתמאחיו` with Natural roles `מחסר` and `אחמספר`, plus explicit work state and two helper acts. `אחבדוק` asks exactly whether the subtrahend is still greater than the current work value; only then does `אחהוסף` add `מספרגדול` and recurse. Therefore the eventual B12 subtraction is always in-domain.
 
 Equality needs no invented third arithmetic case: subtraction is already defined when the values are equal, yields Natural zero, and the source-mandated final `שמור` maps that residue to `מספרגדול`.
+
+## D4-PATCH-010 — Luach Six / fast repeated subtraction
+
+Original lines 243–263 prescribe the short route for large repeated subtraction: double the divisor until passing the dividend, then traverse those doublings from largest to smallest and subtract each value that still fits. The source explicitly states that the short route yields the same number as the long route.
+
+The repaired candidate defines `נותרמהר` and `מהיררד`. Recursive performance occurrences retain the successive doubled divisors as explicit role values; unwind is therefore the source's descending greedy pass. Every subtraction is guarded by strict Natural order and remains within the B12 domain.
+
+No numeric threshold is invented for the documentary word “מאד”. Because the source itself declares exact result equivalence, `שמור` uses the short act directly for its modulo-`מספרגדול` reduction. The separate linear `נותר` operation remains available and unchanged.

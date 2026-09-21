@@ -254,3 +254,16 @@ GitHub Actions run `35608830982` verified ordinary remainder and `שמור` on b
 - mapped original line: **229**
 - next blocker: `## לקחת מספר מאחיו`
 - original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+## Post-C5.6 continuation — T09 / Luach Six wrapped subtraction
+
+GitHub Actions run `35609691265` verified wrapped sibling subtraction on both dedicated D4 jobs.
+
+- D3+D4 targeted suite: **55 passed**.
+- candidate SHA-256: `afe50064bf02d22969283fa0587264f87e0104d430c2f396239740512f232233`
+- normalized tokens: **11,088**
+- frontier token: **3,197**
+- candidate line: **205**
+- mapped original line: **243**
+- next blocker: `## אם רב המספר מאד`
+- original immutable SHA remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.

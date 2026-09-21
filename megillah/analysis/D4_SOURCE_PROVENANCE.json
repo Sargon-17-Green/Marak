@@ -196,7 +196,7 @@
     {
       "id": "D4-PATCH-008",
       "candidate_start_line": 175,
-      "candidate_end_line": 188,
+      "candidate_end_line": 195,
       "original_lines": [
         197,
         199,
@@ -232,8 +232,8 @@
     },
     {
       "id": "D4-PATCH-009",
-      "candidate_start_line": 193,
-      "candidate_end_line": 202,
+      "candidate_start_line": 200,
+      "candidate_end_line": 209,
       "original_lines": [
         229,
         231,
@@ -257,14 +257,46 @@
         "D4-PATCH-008 kept remainder",
         "focused three-runtime tests"
       ]
+    },
+    {
+      "id": "D4-PATCH-010",
+      "candidate_start_line": 214,
+      "candidate_end_line": 215,
+      "original_lines": [
+        243,
+        245,
+        247,
+        249,
+        251,
+        253,
+        255,
+        257,
+        259,
+        261,
+        263
+      ],
+      "original_text": "If the number is very large, avoid long repeated subtraction: write the divisor and successive doubles until exceeding the dividend, then greedily subtract usable doubles from largest to first; the short way returns exactly the long-way result.",
+      "replacement": "Named acts נותרמהר/מהיררד use explicit Natural roles, existing חיבור doubling, recursive occurrence-local retention of the doubling sequence, and guarded descending greedy subtraction.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "The recursive role chain is the source-level structural equivalent of the temporary written doubling list. Unwind order is largest-to-smallest, and the source itself proves result equivalence to long repeated subtraction. No threshold or remainder primitive is introduced.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 243-263",
+        "source equivalence sentence",
+        "A13 recursive role semantics",
+        "B12 subtraction domain",
+        "focused parity/large-value tests"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-009 maps Luach Six wrapped sibling subtraction including repeated modulus augmentation and final kept-residue normalization.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. D4-PATCH-010 maps the complete Luach Six fast repeated-subtraction algorithm and routes kept remainder through the source-authorized short path.",
   "blocked_future_derivation": {
-    "source_span": "original line 243 onward",
-    "requirement": "Luach Six large-number repeated-subtraction acceleration",
+    "source_span": "original line 267 onward",
+    "requirement": "Luach Seven / five-stone state and initial values",
     "blocker": null,
-    "note": "Measure T09 frontier before repairing the optimization subsection."
+    "note": "Measure T10 frontier before beginning Luach Seven."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [

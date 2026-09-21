@@ -276,7 +276,9 @@ def _d4_luach6_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
     next_section = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
-    selected = lines[0:6] + lines[big_start:next_section]
+    fast_start = next(i for i, line in enumerate(lines) if line.startswith("זה דבר המעשה אשר שמו נותרמהר "))
+    luach7 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    selected = lines[0:6] + lines[big_start:next_section] + lines[fast_start:luach7]
     return " ".join(
         line for line in selected
         if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
@@ -355,8 +357,8 @@ def test_d4_post_c56_luach6_uses_safe_post_action_remainder_not_underflow_contro
 def _d4_luach6_wrapped_subtraction_preparation() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     big_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרגדול"))
-    next_heading = next(i for i, line in enumerate(lines) if line.startswith("## אם רב המספר מאד"))
-    selected = lines[0:6] + lines[big_start:next_heading]
+    luach7 = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    selected = lines[0:6] + lines[big_start:luach7]
     return " ".join(
         line for line in selected
         if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
@@ -428,10 +430,61 @@ def test_d4_post_c56_luach6_wrapped_subtraction_repeats_modulus_addition_as_need
 def test_d4_post_c56_luach6_wrapped_subtraction_never_uses_underflow_as_control():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו אחעבודה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("## אם רב המספר מאד"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("זה דבר המעשה אשר שמו נותרמהר "))
     text = " ".join(lines[start:end])
     assert "אחמחסר רב מן המספר אשר במקום אשר שמו אחעבודה" in text
     assert "עשה את המעשה אשר שמו אחהוסף" in text
     assert "המספר הנחשב בגרע את המספר אשר במקום אשר שמו אחמחסר מן המספר אשר במקום אשר שמו אחעבודה" in text
     assert "עשה את המעשה אשר שמו שמור" in text
+
+def _d4_fast_remainder_call(value: str, divisor: str) -> str:
+    return (
+        "עשה את המעשה אשר שמו נותרמהר "
+        f"בהיות {value} תחת הדבר אשר במעשה אשר שמו נותרמהר שמו מספר "
+        f"ובהיות {divisor} תחת הדבר אשר במעשה אשר שמו נותרמהר שמו מחלק"
+    )
+
+
+def test_d4_post_c56_luach6_fast_remainder_matches_long_way_three_runtimes():
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_wrapped_subtraction_preparation()
+    cases = [
+        ("המספר אשר הוא עשרים ושלשה", "המספר אשר הוא שבעה", 2),
+        ("המספר אשר הוא עשרים ואחד", "המספר אשר הוא שבעה", 0),
+        ("המספר אשר הוא חמשה", "המספר אשר הוא שבעה", 5),
+    ]
+    for value, divisor, want in cases:
+        source = prep + " ועתה " + _d4_fast_remainder_call(value, divisor)
+        _, obs = three(source)
+        assert obs["products"][-1] == ["נותרמהר", want]
+
+
+def test_d4_post_c56_luach6_fast_remainder_handles_large_natural_by_doubling():
+    from compiler.parse.a15_numerals import format_natural
+    from tests.test_c5_6_general_index_surface import three
+    prep = _d4_luach6_wrapped_subtraction_preparation()
+    value = f"המספר אשר הוא {format_natural(99_999_999)}"
+    divisor = f"המספר אשר הוא {format_natural(97)}"
+    source = prep + " ועתה " + _d4_fast_remainder_call(value, divisor)
+    _, obs = three(source)
+    assert obs["products"][-1] == ["נותרמהר", 80]
+
+
+def test_d4_post_c56_luach6_fast_remainder_is_recursive_doubling_greedy_not_linear_subtraction():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("זה דבר המעשה אשר שמו נותרמהר "))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבע: חמש האבנים"))
+    text = " ".join(lines[start:end])
+    assert "עשה את המעשה אשר שמו חיבור" in text
+    assert text.count("שמו מחלק תחת הדבר אשר במעשה אשר שמו חיבור") >= 2
+    assert "עשה את המעשה אשר שמו נותרמהר" in text
+    assert "המספר הנחשב בגרע" in text
+    assert "עשה את המעשה אשר שמו נותרגרע" not in text
+
+
+def test_d4_post_c56_luach6_keep_uses_fast_remainder_without_hidden_threshold():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    keep = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו שמור "))
+    assert "עשה את המעשה אשר שמו נותרמהר" in keep
+    assert "עשה את המעשה אשר שמו נותר " not in keep
 

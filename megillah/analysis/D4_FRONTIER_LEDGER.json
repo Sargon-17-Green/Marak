@@ -128,6 +128,20 @@
     },
     {
       "tranche_id": "D4-C56-T09-LUACH6-WRAPPED-SUBTRACTION",
+      "candidate_sha256": "afe50064bf02d22969283fa0587264f87e0104d430c2f396239740512f232233",
+      "normalized_token_frontier": 3197,
+      "candidate_line": 205,
+      "original_line": 243,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SIX_FAST_SUBTRACTION",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-009",
+      "next_blocker": "## אם רב המספר מאד",
+      "evidence": "GitHub Actions run 35609691265: D4 Ubuntu/Windows 55 targeted tests PASS; frontier token 3197",
+      "normalized_token_count": 11088
+    },
+    {
+      "tranche_id": "D4-C56-T10-LUACH6-FAST-SUBTRACTION",
       "candidate_sha256": null,
       "normalized_token_frontier": null,
       "candidate_line": null,
@@ -135,9 +149,9 @@
       "diagnostic": null,
       "diagnostic_phase": null,
       "classification": "PENDING_MEASUREMENT",
-      "repair_that_unlocked_previous_frontier": "D4-PATCH-009",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-010",
       "next_blocker": null,
-      "evidence": "Wrapped Natural subtraction with explicit repeated מספרגדול augmentation and final שמור normalization."
+      "evidence": "Recursive source-level doubling/descending-greedy remainder equivalent to the source's written doubling list; שמור routed through the fast act without inventing a numeric 'very large' threshold."
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -148,5 +162,6 @@
   "t06_ci_trigger": "contents-api trigger for Luach Four square verification",
   "t07_ci_trigger": "contents-api trigger for Luach Five big-number verification",
   "t08_ci_trigger": "GitHub Actions run 35608830982",
-  "t09_ci_trigger": "pending after wrapped-subtraction repair"
+  "t09_ci_trigger": "GitHub Actions run 35609691265",
+  "t10_ci_trigger": "pending after fast-subtraction repair"
 }

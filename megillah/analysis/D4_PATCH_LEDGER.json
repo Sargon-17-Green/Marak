@@ -281,6 +281,35 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-010",
+      "original_span": {
+        "start_line": 243,
+        "end_line": 263
+      },
+      "previous_candidate_span": {
+        "start_line": 205,
+        "end_line": 225
+      },
+      "replacement": "source-level recursive doubling/descending-greedy act נותרמהר; שמור uses it as the semantically equivalent short route",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "For very large repeated subtraction, write the divisor and successive doublings until one exceeds the dividend, then traverse the written values from largest to smallest and subtract each one that still fits; the result must equal the long repeated-subtraction route.",
+      "semantic_after": "נותרמהר recursively doubles the divisor through existing חיבור until it exceeds the dividend; nested occurrence roles retain the same doubling sequence, and unwind performs the source's largest-to-smallest greedy safe subtractions into מהירתוצאה. שמור uses this exact equivalent route without an invented threshold.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 243-263",
+        "source explicitly states short route result equals long route",
+        "A13 recursive named-act occurrences with occurrence-local roles",
+        "B12 safe Natural subtraction",
+        "focused small-equivalence and 99,999,999 mod 97 three-runtime tests"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "APPLIED_TO_CANDIDATE_POST_C56",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,
