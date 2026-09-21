@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from compiler.api import compile_source
+from compiler.api import compile_source, parse
 from compiler.backend.portable import execute_ir
 from compiler.models.values import BidirectionalIndexValue
 from compiler.parse.a15_numerals import format_feminine_count
@@ -367,3 +367,27 @@ def test_constructive_distance_is_composed_without_distance_or_index_equality_su
     for start, target, expected in [(-2, 2, 4), (2, -2, 4), (3, 3, 0)]:
         _, obs = three(distance_source(start, target))
         assert dict(obs["facts"])["מונה"] == expected
+
+
+def test_before_token_ambiguity_resolves_full_left_index_then_order_separator():
+    phrase = "מעלה אחת לפני מעלת היתד לפני מעלת היתד"
+    parsed = parse(phrase, start_lhs="Proposition")
+    assert parsed.forest.alternatives
+    assert len(parsed.forest.alternatives) == 1
+    root = parsed.forest.alternatives[0].root
+    assert root.production_id == "C56.PROP.INDEX.LT"
+    index_children = [
+        child for child in root.children
+        if getattr(child, "symbol", None) == "IndexValue"
+    ]
+    assert len(index_children) == 2
+    assert index_children[0].production_id == "C56.INDEX.GENERAL.BEFORE.ONE"
+    assert index_children[1].production_id == "C56.INDEX.GENERAL.ZERO"
+
+    src = " ".join([
+        place_nat("דגל", 2),
+        "ועתה אם " + phrase + " " + replace_nat("דגל", num(1)) +
+        " ואם לא " + replace_nat("דגל", num(2)),
+    ])
+    _, obs = three(src)
+    assert dict(obs["facts"])["דגל"] == 1
