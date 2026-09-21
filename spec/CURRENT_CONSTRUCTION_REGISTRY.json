@@ -557,6 +557,36 @@
       ],
       "status": "normative",
       "summary": "Program Input reads resolve by semantic identity and independently declared domain; no positional, spelling-based, transport, optional, or default convention exists."
+    },
+    {
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "kind": "positive",
+      "spec_ids": [
+        "A17_BIDIRECTIONAL_INDEX_SURFACE",
+        "B16_PROFILE_FLOW_MATRIX"
+      ],
+      "status": "normative",
+      "summary": "General-profile Program Input/place/role/result carrier heads over the existing BidirectionalIndex domain."
+    },
+    {
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "kind": "positive",
+      "spec_ids": [
+        "A17_BIDIRECTIONAL_INDEX_SURFACE",
+        "B16_PROFILE_IDENTITY_SEMANTICS"
+      ],
+      "status": "normative",
+      "summary": "General/non-year source profile for the existing BidirectionalIndex domain; no profile subtype or runtime tag."
+    },
+    {
+      "construction_id": "C56.INDEX_STRICT_ORDER",
+      "kind": "positive",
+      "spec_ids": [
+        "A17_BIDIRECTIONAL_INDEX_SURFACE",
+        "B16_INDEX_ORDER_SEMANTICS"
+      ],
+      "status": "normative",
+      "summary": "Strict BidirectionalIndex order proposition A before B; proposition satisfaction only."
     }
   ],
   "language_edition": "core-0.1-integration-candidate-a13-b12",
@@ -6662,9 +6692,739 @@
       ],
       "root": false,
       "semantic_id": "C55.PROGRAM_INPUT_READ_SYMBOL"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.AFTER.MANY",
+      "rhs": [
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-feminine-count-3-99999999"
+        },
+        {
+          "kind": "word",
+          "text": "מעלות"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_AFTER_MANY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.AFTER.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אחת"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_AFTER_ONE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.AFTER.TWO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שתי"
+        },
+        {
+          "kind": "word",
+          "text": "מעלות"
+        },
+        {
+          "kind": "word",
+          "text": "אחרי"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_AFTER_TWO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.BEFORE.MANY",
+      "rhs": [
+        {
+          "kind": "numeral",
+          "lexicon_id": "a15-feminine-count-3-99999999"
+        },
+        {
+          "kind": "word",
+          "text": "מעלות"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_BEFORE_MANY"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.BEFORE.ONE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אחת"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_BEFORE_ONE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.BEFORE.TWO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שתי"
+        },
+        {
+          "kind": "word",
+          "text": "מעלות"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_BEFORE_TWO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.CURRENT.PLACE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_CURRENT_PLACE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.CURRENT.ROLE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "הזה"
+        },
+        {
+          "kind": "word",
+          "text": "עומדת"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "AssociatedRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_CURRENT_ROLE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.IMMEDIATE",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "יצאה"
+        },
+        {
+          "kind": "word",
+          "text": "עתה"
+        },
+        {
+          "kind": "word",
+          "text": "מן"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ResultActionName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_IMMEDIATE"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.PRED",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_PREDECESSOR"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.SUCC",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "אחר"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_SUCCESSOR"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_VALUE",
+      "lhs": "IndexValue",
+      "production_id": "C56.INDEX.GENERAL.ZERO",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "מעלת"
+        },
+        {
+          "kind": "word",
+          "text": "היתד"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_GENERAL_ZERO"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C56.INPUT.DECLARE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובטרם"
+        },
+        {
+          "kind": "word",
+          "text": "תחל"
+        },
+        {
+          "kind": "word",
+          "text": "המלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "תעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מעלה"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.PROGRAM_INPUT_DECLARE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "IndexValue",
+      "production_id": "C56.INPUT.READ.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "עומדת"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "למלאכה"
+        },
+        {
+          "kind": "word",
+          "text": "הזאת"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "ProgramInputRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.PROGRAM_INPUT_READ_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "AtomicAction",
+      "production_id": "C56.PLACE.REPLACE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "שים"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "המעלה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במקום"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "PlaceName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.REPLACE_INDEX"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.INDEX_STRICT_ORDER",
+      "lhs": "Proposition",
+      "production_id": "C56.PROP.INDEX.LT",
+      "rhs": [
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        },
+        {
+          "kind": "word",
+          "text": "לפני"
+        },
+        {
+          "kind": "nonterminal",
+          "name": "IndexValue"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.INDEX_LT"
+    },
+    {
+      "admitted": true,
+      "construction_id": "C56.GENERAL_INDEX_CARRIER",
+      "lhs": "PreparatoryUnit",
+      "production_id": "C56.ROLE.DECLARE.INDEX",
+      "rhs": [
+        {
+          "kind": "word",
+          "text": "יהי"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "דבר"
+        },
+        {
+          "kind": "word",
+          "text": "ושמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        },
+        {
+          "kind": "word",
+          "text": "ובעשות"
+        },
+        {
+          "kind": "word",
+          "text": "את"
+        },
+        {
+          "kind": "word",
+          "text": "המעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "תעמד"
+        },
+        {
+          "kind": "word",
+          "text": "מעלה"
+        },
+        {
+          "kind": "word",
+          "text": "תחת"
+        },
+        {
+          "kind": "word",
+          "text": "הדבר"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "במעשה"
+        },
+        {
+          "kind": "word",
+          "text": "אשר"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "RoleOwnerActionName"
+        },
+        {
+          "kind": "word",
+          "text": "שמו"
+        },
+        {
+          "kind": "name",
+          "role": "DeclaredRoleName"
+        }
+      ],
+      "root": false,
+      "semantic_id": "C56.ROLE_INDEX"
     }
   ],
-  "registry_version": "c5.5-a15-b13.1",
+  "registry_version": "c5.6-a17-b16.1",
   "semantic_gates": [
     {
       "construction_id": "A10.NAMED_ACT_PERFORMANCE",
@@ -6730,5 +7490,5 @@
       "status": "ready"
     }
   ],
-  "source_snapshot": "C5.4+A15 Program Input Roles+B13 external binding+B15 domain-flow production integration"
+  "source_snapshot": "C5.5+A17 general BidirectionalIndex surface+B16 semantic integration"
 }

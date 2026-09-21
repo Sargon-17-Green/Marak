@@ -14,7 +14,7 @@ from compiler.source.source_map import OriginalPoint, OriginalSpan
 from compiler.version import LANGUAGE_EDITION
 from compiler.validate.ir_canonical import CanonicalIRValidationError, validate_canonical_ir
 
-ARTIFACT_FORMAT_VERSION = "core-artifact-0.6-candidate-1"
+ARTIFACT_FORMAT_VERSION = "core-artifact-0.7-candidate-1"
 
 _IR_CLASSES = (
     irm.IRProgram, irm.IRSymbol, irm.IRInitialFact, irm.IRActDefinition,
@@ -26,7 +26,7 @@ _IR_CLASSES = (
     irm.IRReadProgramInputNumber, irm.IRReadProgramInputValue,
     irm.IRReadCurrentFact, irm.IRReadCurrentValue, irm.IRReadRoleNumber, irm.IRReadRoleValue,
     irm.IRRecentResult, irm.IRRecentTypedResult, irm.IRAddNatural, irm.IRCheckedSubtractNatural,
-    irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRSymbolEqualProposition,
+    irm.IREqualProposition, irm.IRNaturalGTProposition, irm.IRIndexLTProposition, irm.IRSymbolEqualProposition,
     irm.IRCollectionMembershipProposition,
     irm.IRRoleAssociation, irm.IRReplaceCurrentFact,
     irm.IRPerformAct, irm.IRProduceResult, irm.IRThen, irm.IRConditional,
@@ -66,10 +66,51 @@ def _encode(x):
 
 
 def _decode_span(obj):
-    def p(d):
-        return OriginalPoint(d["file"], d["char_offset"], d["byte_offset"], d["line"], d["column"])
+    if not isinstance(obj, dict) or set(obj) != {"$span"}:
+        raise ArtifactVerificationError("malformed source span wrapper")
     d = obj["$span"]
-    return OriginalSpan(p(d["start"]), p(d["end"]))
+    if not isinstance(d, dict) or set(d) != {"start", "end"}:
+        raise ArtifactVerificationError("malformed source span fields")
+
+    point_fields = {"file", "char_offset", "byte_offset", "line", "column"}
+
+    def p(value):
+        if not isinstance(value, dict) or set(value) != point_fields:
+            raise ArtifactVerificationError("malformed source point fields")
+        if type(value["file"]) is not str:
+            raise ArtifactVerificationError("malformed source point file")
+        for name in ("char_offset", "byte_offset", "line", "column"):
+            if type(value[name]) is not int:
+                raise ArtifactVerificationError(f"malformed source point {name}")
+        if value["char_offset"] < 0 or value["byte_offset"] < 0:
+            raise ArtifactVerificationError("malformed source point offset")
+        if value["line"] < 1 or value["column"] < 1:
+            raise ArtifactVerificationError("malformed source point line/column")
+        if value["byte_offset"] < value["char_offset"]:
+            raise ArtifactVerificationError("malformed source point byte offset")
+        return OriginalPoint(
+            value["file"],
+            value["char_offset"],
+            value["byte_offset"],
+            value["line"],
+            value["column"],
+        )
+
+    start = p(d["start"])
+    end = p(d["end"])
+    if start.file != end.file:
+        raise ArtifactVerificationError("malformed source span crosses files")
+    if start.char_offset > end.char_offset or start.byte_offset > end.byte_offset:
+        raise ArtifactVerificationError("malformed source span is reversed")
+    if start.line > end.line or (start.line == end.line and start.column > end.column):
+        raise ArtifactVerificationError("malformed source span line/column order")
+    if start.char_offset == end.char_offset and (
+        start.byte_offset != end.byte_offset
+        or start.line != end.line
+        or start.column != end.column
+    ):
+        raise ArtifactVerificationError("malformed zero-width source span")
+    return OriginalSpan(start, end)
 
 
 def _decode(x):
@@ -207,6 +248,9 @@ def verify_ir(program: irm.IRProgram) -> None:
         if isinstance(n,irm.IRCollectionMembershipProposition):
             if not isinstance(n.item,irm.IRValue) or not isinstance(n.collection,irm.IRValue):
                 raise ArtifactVerificationError("invalid Collection membership operands")
+        if isinstance(n,irm.IRIndexLTProposition):
+            if not isinstance(n.left,irm.IRValue) or not isinstance(n.right,irm.IRValue):
+                raise ArtifactVerificationError("invalid BidirectionalIndex strict-order operands")
         if isinstance(n, irm.IRRoleAssociation) and not isinstance(n.value, irm.IRValue):
             raise ArtifactVerificationError("invalid role value kind")
         if isinstance(n, irm.IRReplaceCurrentFact) and not isinstance(n.value, irm.IRValue):

@@ -6,12 +6,12 @@ from compiler.models import ir as i
 from compiler.models.domains import NATURAL, Domain
 from compiler.models.values import (
     BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue,
-    SymbolValue, index_successor, index_predecessor, symbol_identity_equal,
+    SymbolValue, index_successor, index_predecessor, index_lt, symbol_identity_equal,
     semantic_value_equal, value_domain,
 )
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 
-BACKEND_VERSION = "portable-ir-vm-0.6-candidate-1"
+BACKEND_VERSION = "portable-ir-vm-0.7-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
 DEFAULT_MAX_ACTIVE_PERFORMANCES = None
@@ -295,6 +295,12 @@ class PortableVM:
             return _natural(self.value(p.left, state, occ, prov)) == _natural(self.value(p.right, state, occ, prov))
         if isinstance(p,i.IRNaturalGTProposition):
             return _natural(self.value(p.left,state,occ,prov)) > _natural(self.value(p.right,state,occ,prov))
+        if isinstance(p,i.IRIndexLTProposition):
+            left=self.value(p.left,state,occ,prov)
+            right=self.value(p.right,state,occ,prov)
+            if not isinstance(left,BidirectionalIndexValue) or not isinstance(right,BidirectionalIndexValue):
+                raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_lt(left,right)
         if isinstance(p,i.IRSymbolEqualProposition):
             left=self.value(p.left,state,occ,prov); right=self.value(p.right,state,occ,prov)
             if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _Fault("INTERNAL_DOMAIN_GUARD")

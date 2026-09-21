@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "validated_implementation_head": "0dd3e270bf769a9028df3fbf7d64cafd6a09f677",
+  "pr": 19,
+  "validation_run": {
+    "run_number": 402,
+    "run_id": 35590226318,
+    "event": "push",
+    "conclusion": "success",
+    "jobs": {
+      "total": 17,
+      "success": 17
+    }
+  },
+  "dedicated_c5_6": {
+    "ubuntu-latest": {
+      "targeted_pytest": {
+        "passed": 65
+      },
+      "full_pytest": {
+        "passed": 543,
+        "subtests_passed": 126
+      },
+      "b16_semantic_regressions": {
+        "passed": 28,
+        "frozen_identity_receipts_excluded": 2
+      },
+      "b16_required_regressions": {
+        "passed": 4
+      },
+      "d3_d4": {
+        "passed": 29
+      },
+      "canonical_regeneration": "PASS"
+    },
+    "windows-latest": {
+      "targeted_pytest": {
+        "passed": 65
+      },
+      "full_pytest": {
+        "passed": 543,
+        "subtests_passed": 126
+      },
+      "b16_semantic_regressions": {
+        "passed": 28,
+        "frozen_identity_receipts_excluded": 2
+      },
+      "b16_required_regressions": {
+        "passed": 4
+      },
+      "d3_d4": {
+        "passed": 29
+      },
+      "canonical_regeneration": "PASS"
+    }
+  },
+  "positive": [
+    "literal identity",
+    "cross-profile Program Input",
+    "cross-profile place",
+    "cross-profile role",
+    "all output/immediate-result profile combinations",
+    "generic successor/predecessor",
+    "strict-order grid",
+    "far magnitude",
+    "same-position proof",
+    "constructive distance composition",
+    "existing Collection<BidirectionalIndex> operation",
+    "before-token ambiguity",
+    "post-action recurrence proposition"
+  ],
+  "adversarial": [
+    "negative grammar",
+    "expected-type rescue",
+    "HAST wrong-domain IndexLT",
+    "IR wrong-domain IndexLT",
+    "artifact stale/unknown/wrong fields/node substitution/span"
+  ],
+  "runtimes": [
+    "HAST reference",
+    "IR reference",
+    "portable backend"
+  ],
+  "registry_sha256": "ea1174516e0f3955b697fe15db3f2436ea0fcc0795e083899df8fe7c8e5ac1d8",
+  "canonical_bytes": "PASS",
+  "final_documentation_head_ci": "PENDING_AFTER_HANDOFF_COMMIT"
+}

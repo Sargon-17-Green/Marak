@@ -7,7 +7,7 @@ from compiler.models import ir as i
 from compiler.models.domains import NATURAL, Domain
 from compiler.models.values import (
     BidirectionalIndexValue, CollectionValue, NaturalValue, SemanticValue, SymbolValue,
-    index_successor, index_predecessor, symbol_identity_equal,
+    index_successor, index_predecessor, index_lt, symbol_identity_equal,
     semantic_value_equal, value_domain,
 )
 from compiler.version import IR_REFERENCE_VERSION
@@ -297,6 +297,12 @@ class IRReferenceEvaluator:
             return _natural(self.value(proposition.left, state, occ, prov)) == _natural(self.value(proposition.right, state, occ, prov))
         if isinstance(proposition,i.IRNaturalGTProposition):
             return _natural(self.value(proposition.left,state,occ,prov)) > _natural(self.value(proposition.right,state,occ,prov))
+        if isinstance(proposition,i.IRIndexLTProposition):
+            left=self.value(proposition.left,state,occ,prov)
+            right=self.value(proposition.right,state,occ,prov)
+            if not isinstance(left,BidirectionalIndexValue) or not isinstance(right,BidirectionalIndexValue):
+                raise _Fault("INTERNAL_DOMAIN_GUARD")
+            return index_lt(left,right)
         if isinstance(proposition,i.IRSymbolEqualProposition):
             left=self.value(proposition.left,state,occ,prov); right=self.value(proposition.right,state,occ,prov)
             if not isinstance(left,SymbolValue) or not isinstance(right,SymbolValue): raise _Fault("INTERNAL_DOMAIN_GUARD")

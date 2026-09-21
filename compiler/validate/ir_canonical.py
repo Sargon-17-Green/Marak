@@ -315,6 +315,12 @@ def validate_canonical_ir(program: i.IRProgram) -> None:
             if value(node.left,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL or value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")!=NATURAL:
                 _fail("IR_NATURAL_GT_DOMAIN","Natural strict ordering requires Natural operands")
             return
+        if isinstance(node,i.IRIndexLTProposition):
+            left=value(node.left,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            right=value(node.right,visible_places=visible_places,current_act=current_act,recent_act=recent_act,context="execution")
+            if left!=BIDIRECTIONAL_INDEX or right!=BIDIRECTIONAL_INDEX:
+                _fail("IR_INDEX_LT_DOMAIN","BidirectionalIndex strict ordering requires BidirectionalIndex operands")
+            return
         if isinstance(node,i.IRSymbolEqualProposition):
             expected=SymbolDomain(node.domain_id)
             ensure_declared_domain(expected,"IR_SYMBOL_EQUALITY_DOMAIN")
