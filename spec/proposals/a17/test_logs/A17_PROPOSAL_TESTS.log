@@ -1,0 +1,13 @@
+{
+  "schema": "marak-a17-proposal-test-results-v1",
+  "baseline": "e8f766889676b219f0abf5c9e4f08fad3034fa5b",
+  "status": "PASS",
+  "checks": {"total":4415,"positive":4388,"negative":27},
+  "selected_profile": "מעלה / מעלת היתד",
+  "current_registry_word_terminals": 115,
+  "new_exact_construction_local_word_terminals": 8,
+  "new_semantic_domains": [],
+  "production_files_changed": [],
+  "megillah_changed": false,
+  "failures": []
+}
