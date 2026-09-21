@@ -1,0 +1,36 @@
+{
+  "schema": "marak-workstream-d4-patch-ledger-v1",
+  "baseline_main_sha": "183410bc0300e496fd6fd7ba9ba73b4c6cb7b831",
+  "starting_candidate_sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+  "inherited_repairs": [
+    {
+      "id": "D-PATCH-0001",
+      "state": "PRESERVED_FROM_D3",
+      "preservation": "ALGORITHM_CHANGE",
+      "approval": "MASTER_APPROVED"
+    },
+    {
+      "id": "D-PATCH-0002",
+      "state": "PRESERVED_FROM_D3",
+      "preservation": "DISAMBIGUATION_ONLY"
+    },
+    {
+      "id": "D-PATCH-0003",
+      "state": "PRESERVED_FROM_D3",
+      "preservation": "DISAMBIGUATION_ONLY"
+    },
+    {
+      "id": "D-PATCH-0004",
+      "state": "PRESERVED_FROM_D3",
+      "preservation": "SEMANTIC_EQUIVALENT"
+    },
+    {
+      "id": "D3-STRUCT-0001",
+      "state": "PRESERVED_FROM_D3",
+      "preservation": "STRUCTURAL_EXPLICITNESS"
+    }
+  ],
+  "d4_patches": [],
+  "candidate_source_changed_in_d4": false,
+  "reason_no_new_patch": "The first production-source frontier remains blocked by D4-LANG-001. Independent later sections were re-audited, but D4 does not apply downstream structural rewrites that cannot yet be reached and verified in whole-candidate compilation."
+}
