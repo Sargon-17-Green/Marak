@@ -248,7 +248,7 @@ jobs:
       - run: python -m pip install pytest
       - run: python -m pip install -e .
       - name: Run C5.6 targeted source/semantic/artifact/scope tests
-        run: python -m pytest -q tests/test_c5_6_general_index_surface.py tests/test_c5_6_negative_scope.py tests/test_c5_6_artifact_adversarial.py
+        run: python -m pytest -q tests/test_c5_6_general_index_surface.py tests/test_c5_6_negative_scope.py tests/test_c5_6_artifact_adversarial.py tests/test_c5_6_scope_guard.py
       - name: Run full C5.6 regression suite
         run: python -m pytest -q
       - name: Run C5.6 required proposal regressions
