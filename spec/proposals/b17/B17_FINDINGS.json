@@ -1,0 +1,14 @@
+{
+  "schema": "marak-b17-findings-v1",
+  "baseline": "9abd731ba7c80fd714900219e1af4c8d9c41797b",
+  "a18_reviewed_head": "37e7591dcc42eeeb757a4b79b0dc752162e77079",
+  "findings": [],
+  "blocking_findings": [],
+  "a18_remediation_required": false,
+  "user_decision_required": false,
+  "notes": [
+    "D read-only evidence includes names up to 10 words and keyword-bearing payloads; this strengthens, rather than changes, the accepted counted SourceName model.",
+    "The D forward use of אות החסר does not alter B17 introduction-before-use semantics.",
+    "The T17 synthetic PARSE0002 remains separate from D4-LANG-002."
+  ]
+}

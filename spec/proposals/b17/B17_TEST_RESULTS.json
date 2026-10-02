@@ -1,0 +1,33 @@
+{
+  "schema": "marak-b17-test-results-v1",
+  "status": "PASS_LOCAL",
+  "baseline": "9abd731ba7c80fd714900219e1af4c8d9c41797b",
+  "a18_reviewed_head": "37e7591dcc42eeeb757a4b79b0dc752162e77079",
+  "semantic_candidate_head": "3f3edf445b8e3f9d29436ae86005bc3becf5a25f",
+  "pr": 22,
+  "tests": {
+    "b17_semantic_reference": {"status": "PASS", "tests": 25},
+    "b17_production_compatibility": {"status": "PASS", "tests": 15},
+    "b13_reference": {"status": "PASS", "tests": 28},
+    "b15_reference": {"status": "PASS", "tests": 29},
+    "b16_semantic": {"status": "PASS", "tests": 28},
+    "b16_required_regressions": {"status": "PASS", "tests": 4},
+    "a17_proposal": {"status": "PASS", "checks": 4415, "positive": 4388, "negative": 27},
+    "program_input_regressions": {"status": "PASS", "tests": 26},
+    "symbol_regressions": {"status": "PASS", "tests": 35},
+    "d3_d4_frozen_regressions": {"status": "PASS", "tests": 29},
+    "full_pytest": {"status": "PASS", "tests": 543, "subtests": 126, "seconds": 40.53}
+  },
+  "ci": {
+    "status": "USE_LIVE_EXACT_HEAD_PR_STATUS",
+    "note": "The handoff commit is documentation/test-metadata and must itself remain green; use Draft PR #22 live exact-head status at Master review."
+  },
+  "findings": [],
+  "blocking_findings": [],
+  "a18_remediation_required": false,
+  "user_decision_required": false,
+  "c5_7_requirements_produced": true,
+  "production_files_changed": [],
+  "megillah_changed": false,
+  "final": "B17 MULTI-WORD SOURCE-NAME SEMANTICS COMPLETE — READY FOR MASTER REVIEW"
+}
