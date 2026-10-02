@@ -217,16 +217,16 @@ class Parser:
                     payload_end = marker_end + count
                     if payload_end > len(tokens):
                         continue
-                    first = tokens[marker_end]
-                    last = tokens[payload_end - 1]
+                    frame_first = tokens[pos]
+                    payload_last = tokens[payload_end - 1]
                     out.append((
                         payload_end,
                         ParseLeaf(
-                            first.index,
+                            frame_first.index,
                             " ".join(token_words[marker_end:payload_end]),
-                            first.normalized_start,
-                            last.normalized_end,
-                            OriginalSpan(first.original.start, last.original.end),
+                            frame_first.normalized_start,
+                            payload_last.normalized_end,
+                            OriginalSpan(frame_first.original.start, payload_last.original.end),
                             terminal_role=symbol.role,
                         ),
                     ))

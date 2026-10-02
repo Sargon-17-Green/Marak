@@ -34,7 +34,7 @@ Rules:
 - exactly N following normalized words form the payload;
 - frame and count are boundary syntax only;
 - the parser emits one source-name leaf whose text is the payload joined by U+0020;
-- the emitted source span covers the payload, not the frame/count;
+- the emitted semantic text is the canonical payload only, while token/normalized/original provenance covers the complete counted SourceName construction from the opening `שם` through the final payload word;
 - construction words remain legal payload words;
 - the legacy and counted branches are both retained when structurally possible.
 
