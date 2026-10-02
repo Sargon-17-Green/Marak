@@ -254,16 +254,17 @@
     },
     {
       "tranche_id": "D4-C56-T17-LUACH13-BOWL-MIX",
-      "candidate_sha256": null,
-      "normalized_token_frontier": null,
-      "candidate_line": null,
-      "original_line": null,
-      "diagnostic": null,
-      "diagnostic_phase": null,
-      "classification": "PENDING_MEASUREMENT",
+      "candidate_sha256": "4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383",
+      "normalized_token_frontier": 24481,
+      "candidate_line": 447,
+      "original_line": 831,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_FOURTEEN",
       "repair_that_unlocked_previous_frontier": "D4-PATCH-018",
-      "next_blocker": null,
-      "evidence": "Snapshot-safe six-bowl update after each of 46 drops; circular arrangement neighbors; pours only positions 1..3; identity-keyed simultaneous commit; preserve final drop arrangement."
+      "next_blocker": "# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
+      "evidence": "Post-C5.7 reconciliation: Luach 13 targeted three-runtime + structural tests PASS after correcting a malformed synthetic six-element Collection fixture (five append wrappers for six values); real candidate frontier 24481 at candidate line 447 / original line 831.",
+      "normalized_token_count": 29824
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -283,5 +284,5 @@
   "t14_ci_trigger": "GitHub Actions run 35616748974",
   "t15_ci_trigger": "GitHub Actions run 35619093303",
   "t16_ci_trigger": "GitHub Actions run 35620151386",
-  "t17_ci_trigger": "pending after Luach Thirteen verification"
+  "t17_ci_trigger": "pending post-reconciliation CI"
 }

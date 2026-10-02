@@ -99,9 +99,18 @@
       "semantic_compiler_defect": false,
       "language_surface_defect": true,
       "routing": "MASTER -> new language-surface workstream, semantic review, production integration; do not reopen A17/B16/C5.6 except by explicit Master disposition.",
-      "status": "ROUTE_TO_MASTER",
-      "d4_continuation": "Algorithmic/source repair may continue using temporary glued identifiers as implementation scaffolding. Final D4 surface conformance/acceptance is blocked until this finding is resolved or explicitly dispositioned by Master.",
-      "user_reported_example": "יהי מקום ושמו מספרטיפהגלויה should instead be able to express a proper multi-word Judean name."
+      "status": "CLOSED_BY_A18_B17_C57",
+      "d4_continuation": "Resolved in production. D4 may use the accepted counted SourceName form where exact source provenance requires a multi-word declared identity; this does not authorize global unwelding of implementation scaffolding.",
+      "user_reported_example": "יהי מקום ושמו מספרטיפהגלויה should instead be able to express a proper multi-word Judean name.",
+      "closure": {
+        "A18": "counted multi-word SourceName surface accepted",
+        "B17": "static identity/resolution semantics accepted",
+        "C57": "production integration complete",
+        "canonical_main": "800a75914c2e3510fb51dacf2d193a283c11d467",
+        "compiler": "0.5.7-alpha.1",
+        "registry": "c5.7-a18-b17.1",
+        "verification": "tests/test_c5_7_multiword_source_names.py plus frozen D3/D4 compatibility tests PASS after D reconciliation"
+      }
     }
   ],
   "new_source_findings": [

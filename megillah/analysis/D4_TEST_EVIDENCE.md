@@ -333,3 +333,32 @@ GitHub Actions run `35619093303`: dedicated D4 Ubuntu+Windows PASS, **74 targete
 ## Post-C5.6 continuation — T16 / Luach Twelve pours
 
 GitHub Actions run `35620151386`: dedicated D4 Ubuntu+Windows PASS, **76 targeted tests**. Candidate SHA `6c6eb53613f9fc21c4428bb5f7883aabb1c968de88c7b170e4731359ed21a7c3`; normalized tokens 25,826; frontier token 20,196; candidate line 414.
+
+## Post-C5.7 reconciliation — T17 / Luach Thirteen
+
+Canonical main: `800a75914c2e3510fb51dacf2d193a283c11d467`.
+The existing D history was preserved by merging canonical main into the existing D branch; no D commit was rebased, squashed, dropped, or rewritten. The reconciliation merge commit has parents historical T17 HEAD `3edae43158a8e15d03d293fcb38cc3e225b80fa0` and canonical main.
+
+C5.7 production/compatibility verification:
+- `tests/test_c5_7_multiword_source_names.py` + frozen D3/D4 compatibility tests: **47 passed in 1.22s**.
+- compiler baseline: `0.5.7-alpha.1`; registry: `c5.7-a18-b17.1`.
+- `D4-LANG-002` is closed by A18 -> B17 -> C5.7.
+
+Historical T17 synthetic `PARSE0002` classification: **TEST_FIXTURE_DEFECT**.
+The synthetic arrangement literal supplied six Natural values but contained only five append wrappers. A minimal isolation reproduced `PARSE0002` with expected `word:תחת`; the equivalent six-wrapper Collection parses through the Collection expression. The fixture was corrected by adding the missing append wrapper. No compiler, specification, or language finding is opened.
+
+T17 targeted verification after the fixture correction:
+- Luach 13 three-runtime snapshot-mix test + structural snapshot/commit/exact-46-driver test: **2 passed, 47 deselected in 73.52s**.
+- no T17 multi-word source identity required conversion; no global unwelding was performed.
+
+Real canonical-candidate measurement:
+- candidate SHA-256: `4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383`
+- original SHA-256: `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`
+- normalized tokens: **29,824**
+- frontier token: **24,481**
+- candidate line: **447**
+- mapped original line: **831**
+- next blocker: Luach Fourteen.
+- `23,221` remains synthetic-fixture history only and is not a candidate frontier.
+
+Full local acceptance gates and Ubuntu/Windows D4 CI are recorded separately before Master handoff.
