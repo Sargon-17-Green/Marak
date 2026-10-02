@@ -17,7 +17,7 @@ EXPECTED={
     "symbol":"e0cda7fc10d49186261002834cd418942e0ee1a76baca983625a90b61281874a",
     "index":"12faf39bcb597b69ebe4d88a29d3f2367f07d01d46f670ae07894a61db23be5e",
     "large":"9e109fa49b6f4cbf9f93d51252ed6fe9897880fc6b648c7c6dc6dac999bfefe9",
-    "registry":"ea1174516e0f3955b697fe15db3f2436ea0fcc0795e083899df8fe7c8e5ac1d8",
+    "registry":"3c8e6f179d9259c2f84be34f80b215925d72d6d07fc9bcb7d8e5d4279dd1da17",
 }
 
 

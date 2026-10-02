@@ -25,7 +25,7 @@ from compiler.models.domains import NATURAL, BIDIRECTIONAL_INDEX, CollectionDoma
 from compiler.validate.domains import hast_value_domain
 from compiler.models.symbols import ActId, PlaceId, RoleId
 from compiler.parse.forest import ParseElement, ParseLeaf, ParseNode
-from compiler.parse.c5_6_registry import COUNT_AS_NUMBER_ORIGINS
+from compiler.parse.c5_7_registry import COUNT_AS_NUMBER_ORIGINS
 from compiler.source.source_map import OriginalSpan
 
 
