@@ -1,0 +1,17 @@
+B17 LOCAL VALIDATION RECEIPT
+baseline: 9abd731ba7c80fd714900219e1af4c8d9c41797b
+semantic candidate: 3f3edf445b8e3f9d29436ae86005bc3becf5a25f
+
+B17 semantic reference: PASS — 25/25
+B17 production compatibility: PASS — 15/15
+B13 reference: PASS — 28/28
+B15 reference: PASS — 29/29
+B16 semantic downstream suite: PASS — 28/28
+B16 required regression gate: PASS — 4/4
+A17 proposal suite: PASS — 4,415/4,415 checks
+Program Input targeted regressions: PASS — 26/26
+Symbol targeted regressions: PASS — 35/35
+D3/D4 frozen regressions: PASS — 29/29
+Full pytest: PASS — 543 tests + 126 subtests in 40.53s
+
+No production compiler/parser/runtime/registry/Megillah file was changed by B17.

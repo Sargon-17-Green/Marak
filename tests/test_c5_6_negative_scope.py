@@ -146,7 +146,7 @@ def test_canonical_ir_rejects_non_index_strict_order_operand():
 
 
 def test_scope_has_no_profile_semantic_field_or_generic_index_collection_kind():
-    assert "c5.6-" in CURRENT_REGISTRY.registry_version
+    assert "c5.7-" in CURRENT_REGISTRY.registry_version
     forbidden_ids = (
         "DISTANCE", "INDEX_EQUAL", "GENERIC_INDEX_COLLECTION",
         "DAY", "DATE", "TIME", "TIMESTAMP",

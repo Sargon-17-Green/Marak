@@ -53,6 +53,20 @@ class NameTerminal:
 
 
 @dataclass(frozen=True, slots=True)
+class SourceNameTerminal:
+    """C5.7 two-form source name for an explicit grammatical name slot."""
+
+    role: str
+    count_lexicon_id: str
+
+    def __post_init__(self) -> None:
+        if not self.role:
+            raise ValueError("SourceNameTerminal role must be non-empty")
+        if not self.count_lexicon_id:
+            raise ValueError("SourceNameTerminal count_lexicon_id must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
 class MorphTerminal:
     """A terminal licensed by an admitted morphology analysis."""
 
@@ -112,7 +126,7 @@ class Nonterminal:
             raise ValueError("nonterminal name must be non-empty")
 
 
-GrammarSymbol: TypeAlias = WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal | Nonterminal
+GrammarSymbol: TypeAlias = WordTerminal | NameTerminal | SourceNameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal | Nonterminal
 
 
 @dataclass(frozen=True, slots=True)
@@ -231,6 +245,8 @@ class ConstructionRegistry:
                 return {"kind": "word", "text": s.text}
             if isinstance(s, NameTerminal):
                 return {"kind": "name", "role": s.role}
+            if isinstance(s, SourceNameTerminal):
+                return {"kind": "source_name", "role": s.role, "count_lexicon_id": s.count_lexicon_id}
             if isinstance(s, MorphTerminal):
                 return {
                     "kind": "morph",
@@ -309,6 +325,7 @@ __all__ = [
     "ConstructionKind",
     "WordTerminal",
     "NameTerminal",
+    "SourceNameTerminal",
     "MorphTerminal",
     "NumeralTerminal",
     "CountedLabelTerminal",
