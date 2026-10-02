@@ -12,6 +12,7 @@ from compiler.parse.grammar import (
     CountedLabelTerminal,
     MorphTerminal,
     NameTerminal,
+    SourceNameTerminal,
     NumeralTerminal,
     Nonterminal,
     Production,
@@ -170,7 +171,7 @@ class Parser:
 
     def _match_terminal(
         self,
-        symbol: WordTerminal | NameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal,
+        symbol: WordTerminal | NameTerminal | SourceNameTerminal | MorphTerminal | NumeralTerminal | CountedLabelTerminal,
         pos: int,
         tokens: Sequence[WordToken],
         token_words: tuple[str, ...],
@@ -186,11 +187,50 @@ class Parser:
             )),)
 
         if isinstance(symbol, NameTerminal):
-            # Namehood comes solely from this explicit grammatical slot.
+            # Historical one-word name terminal used by frozen registries.
             return ((pos + 1, ParseLeaf(
                 token.index, token.text, token.normalized_start, token.normalized_end, token.original,
                 terminal_role=symbol.role,
             )),)
+
+        if isinstance(symbol, SourceNameTerminal):
+            # A18 keeps the legacy one-word branch and adds an explicit-count
+            # multi-word branch. Preserve both; never rank an ambiguity.
+            out: list[tuple[int, ParseLeaf]] = [(
+                pos + 1,
+                ParseLeaf(
+                    token.index, token.text, token.normalized_start, token.normalized_end, token.original,
+                    terminal_role=symbol.role,
+                ),
+            )]
+            frame = ("שם", "אשר", "מספר", "המלים", "אשר", "בו", "הוא")
+            frame_end = pos + len(frame)
+            if token_words[pos:frame_end] == frame:
+                for numeral_end, count, _ in match_numeral_lexicon(
+                    symbol.count_lexicon_id, token_words, frame_end
+                ):
+                    if count < 2:
+                        continue
+                    marker_end = numeral_end + 2
+                    if token_words[numeral_end:marker_end] != ("והמלים", "הן"):
+                        continue
+                    payload_end = marker_end + count
+                    if payload_end > len(tokens):
+                        continue
+                    frame_first = tokens[pos]
+                    payload_last = tokens[payload_end - 1]
+                    out.append((
+                        payload_end,
+                        ParseLeaf(
+                            frame_first.index,
+                            " ".join(token_words[marker_end:payload_end]),
+                            frame_first.normalized_start,
+                            payload_last.normalized_end,
+                            OriginalSpan(frame_first.original.start, payload_last.original.end),
+                            terminal_role=symbol.role,
+                        ),
+                    ))
+            return tuple(out)
 
         if isinstance(symbol, NumeralTerminal):
             out: list[tuple[int, ParseLeaf]] = []
@@ -293,6 +333,8 @@ class Parser:
                 expected.add(f"word:{symbol.text}")
             elif isinstance(symbol, NameTerminal):
                 expected.add(f"name:{symbol.role}")
+            elif isinstance(symbol, SourceNameTerminal):
+                expected.add(f"source-name:{symbol.role}")
             elif isinstance(symbol, MorphTerminal):
                 bits = []
                 if symbol.lemma is not None:
