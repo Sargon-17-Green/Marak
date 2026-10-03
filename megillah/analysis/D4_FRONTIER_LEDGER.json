@@ -1,3 +1,5 @@
+[Reading 320 lines from start (total: 320 lines, 0 remaining)]
+
 {
   "schema": "marak-workstream-d4-frontier-ledger-v1",
   "baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
@@ -279,6 +281,22 @@
       "next_blocker": "# לוח חמשה עשר: לשאול את הקערות",
       "evidence": "GitHub Actions run 37133055384: D4 Ubuntu/Windows 84 targeted tests PASS; canonical Git candidate SHA f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec; normalized tokens 33492; frontier 28438 at candidate line 466 / original line 895. Six focused Luach Fourteen tests, exact twelve-blend three-runtime receipt, independent oracle, C5.7 SourceName, snapshot/commit structure, and source-authorized fast mod-720 all PASS.",
       "normalized_token_count": 33492
+    },
+    {
+      "tranche_id": "D4-CANONICAL-SOURCE-NAME-CLEANUP",
+      "candidate_sha256": "9a048d98a03b5df02359bfcb21a0c28677621c7b67be16d72159c19b17dba755",
+      "normalized_token_frontier": 57767,
+      "candidate_line": 466,
+      "original_line": 895,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_NAME_CANONICALIZATION_ONLY",
+      "repair_that_unlocked_previous_frontier": "D4-CANONICAL-NAME-CLEANUP-001",
+      "next_blocker": "# לוח חמשה עשר: לשאול את הקערות",
+      "evidence": "Canonical source-name cleanup only: 158 verified welded spellings removed across 173 identity instances; 0 uncertain identities; no source advancement. T18 semantic boundary remains original line 895. Old frontier 28438 shifted mechanically to 57767 because counted SourceName spellings add tokens.",
+      "normalized_token_count": 62821,
+      "semantic_source_advancement": false,
+      "previous_semantic_frontier_token": 28438
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -299,5 +317,8 @@
   "t15_ci_trigger": "GitHub Actions run 35619093303",
   "t16_ci_trigger": "GitHub Actions run 35620151386",
   "t17_ci_trigger": "GitHub Actions run 37107450941",
-  "t18_ci_trigger": "GitHub Actions run 37133055384"
+  "t18_ci_trigger": "GitHub Actions run 37133055384",
+  "canonical_name_cleanup_ci_trigger": "pending"
 }
+
+[executed on device: אליעזר_גרין2024 (8fa5ac8d-c3b2-4ba7-829f-e01373eca048)]

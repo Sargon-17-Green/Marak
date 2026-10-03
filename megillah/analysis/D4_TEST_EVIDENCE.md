@@ -1,3 +1,5 @@
+[Reading 450 lines from start (total: 450 lines, 0 remaining)]
+
 # D4 Test Evidence
 
 Workstream: **D4 — Post-C5.5 Megillah Conformance**
@@ -413,3 +415,40 @@ Real candidate measurement after the final fast-720 source repair:
 Final local regression on the cleaned final tree: **84 D3+D4 targeted tests passed in 404.03s**. C5.7 multi-word source-name suite: **18 passed in 0.85s**. GitHub Actions run `37133055384` then verified the final branch head on both dedicated D4 jobs: Ubuntu **84 passed in 230.35s** and Windows **84 passed in 281.47s**. Both jobs measured canonical Git candidate SHA `f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec`, original SHA `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`, normalized tokens **33,492**, and frontier **28,438** at candidate line **466** / mapped original line **895**. The earlier local Windows worktree SHA `b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124` was the same candidate after CRLF checkout conversion; converting CRLF back to LF yields the canonical Git/CI SHA.
 
 Full local pytest after reconciliation onto canonical main `35e954d8c08da68a205cfea654b2597a4a77a714`: **618 passed, 126 subtests passed in 504.89s**. The prior frozen-receipt failure no longer occurs; C5.6 now verifies its own historical fixture independently of the live D candidate.
+
+## Canonical source-name cleanup after accepted T18
+
+Starting accepted checkpoint: T18 HEAD 5f35e8cb9b8d4c16db1797c4832c6300791dc2c1, candidate SHA f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec, frontier 28,438 at candidate line 466 / original line 895.
+
+Inventory and migration:
+- total source-declared identity instances: 261;
+- Acts 72, Places 87, Roles 100, Program Inputs 2, Symbol Domains 0, Symbol Members 0;
+- artificially welded identity instances: 173, representing 158 distinct spellings;
+- genuine single-word identities: 87;
+- already-canonical multi-word identities: 1;
+- uncertain identities: 0;
+- welded aliases retained: NONE;
+- semantic identity families added: NONE;
+- compiler / grammar / algorithm changes: NONE.
+
+Live anti-weld regression: 4 passed. It checks only the verified inventory of removed spellings and does not implement a Hebrew-word or compound detector.
+
+Local verification on the cleanup candidate:
+- tests/test_d4_post_c56_megillah.py: 55 passed in 665.54s;
+- T17+T18 focused: 8 passed, 47 deselected in 242.58s;
+- D3 + D4 conformance + canonical-name regression: 33 passed in 3.56s;
+- C5.7 multi-word SourceName + Program Input/Symbol regressions: 34 passed in 1.07s.
+
+Candidate measurement after source-name canonicalization only:
+- candidate SHA-256: 9a048d98a03b5df02359bfcb21a0c28677621c7b67be16d72159c19b17dba755;
+- original SHA-256 remains 7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b;
+- normalized tokens: 62,821;
+- syntactic frontier: 57,767;
+- candidate line: 466;
+- mapped original line: 895;
+- semantic/source boundary remains Luach Fifteen;
+- source advancement beyond T18: NO.
+
+Full local pytest after cleanup: **622 passed, 126 subtests passed in 727.84s**. Across the non-overlapping D3/D4 targeted file groups, **88 tests pass**. Ubuntu/Windows/full-workflow receipts are recorded after the cleanup push.
+
+[executed on device: אליעזר_גרין2024 (8fa5ac8d-c3b2-4ba7-829f-e01373eca048)]

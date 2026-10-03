@@ -1,3 +1,5 @@
+[Reading 178 lines from start (total: 178 lines, 0 remaining)]
+
 # D4 Patch Ledger
 
 D4 post-C5.6 preserves every accepted D3 repair and now resumes candidate repair.
@@ -166,3 +168,15 @@ The arrangement number is the source-prescribed kept value of 149 × round + bow
 Post-drop blend arrangements update מערכהנוכחית only. They never overwrite מערכתטיפהאחרונה, which remains the arrangement chosen by visible drop 46 and is explicitly required by Luach Fifteen.
 
 Acceptance includes both one complete blend and the complete twelve-blend driver on HAST reference, IR reference and portable backend, an independent twelve-round Python oracle, structural snapshot/commit/RepeatExactly checks, C5.7 counted-SourceName coverage, and an explicit guard that T18 uses נותרמהר with divisor 720 rather than the linear בחרמערכה path.
+
+## D4-CANONICAL-NAME-CLEANUP-001 — canonical source-declared names
+
+This cleanup starts from accepted T18 without admitting any Luach Fifteen executable source. The live T18 candidate contained historical source-repair identities whose multi-word concepts had been welded into one Hebrew token while the older parser accepted only one-word names.
+
+The live candidate was inventoried from its normative Act, Place, Role, Program Input, Symbol Domain and Symbol Member declarations. The inventory contains 261 declared identity instances: 72 Acts, 87 Places, 100 Roles, 2 Program Inputs, and no Symbol Domain/Member declarations in the admitted T18 prefix. Manual source/provenance review classifies 173 identity instances, representing 158 distinct spellings, as artificially welded multi-word names; 87 identities are genuine single-word names; one identity was already canonical multi-word; zero are uncertain.
+
+Every verified welded identity was migrated to the accepted C5.7 counted SourceName surface. Source wording is preferred where the immutable original names the concept directly; otherwise a controlled Hebrew composition preserves the existing helper identity and owner/scope. No welded alias remains. No compiler, grammar, HAST/IR/artifact, operation, value, scope, owner, or algorithm change is introduced.
+
+The syntactic frontier moves from 28,438 to 57,767 solely because counted names add source tokens. Candidate line 466 still maps to original line 895 and Luach Fifteen remains the next blocker. The machine-readable decisions are in D4_CANONICAL_SOURCE_NAME_INVENTORY.json; the human audit is in D4_CANONICAL_SOURCE_NAME_CLEANUP.md. Historical frozen evidence is not rewritten to erase spellings that were live at those historical checkpoints.
+
+[executed on device: אליעזר_גרין2024 (8fa5ac8d-c3b2-4ba7-829f-e01373eca048)]
