@@ -362,3 +362,9 @@ Real canonical-candidate measurement:
 - `23,221` remains synthetic-fixture history only and is not a candidate frontier.
 
 Full local acceptance gates and Ubuntu/Windows D4 CI are recorded separately before Master handoff.
+
+Full local pytest after the T17 fixture repair:
+- `python -m pytest -q`: **609 passed, 126 subtests passed, 1 failed** in 539.84s.
+- sole failure: `tests/test_c5_6_negative_scope.py::test_c56_preserves_frozen_d4_candidate_hash_and_frontier`.
+- classification: existing `D4-CONF-001` stale C5.6 conformance receipt. It hard-codes pre-D4 candidate SHA `afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643` and therefore rejects current authorized D candidate SHA `4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383`.
+- D4 did not edit the frozen C5.6 test. No second full-suite failure occurred.
