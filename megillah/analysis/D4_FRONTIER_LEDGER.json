@@ -268,7 +268,7 @@
     },
     {
       "tranche_id": "D4-C56-T18-LUACH14-POSTDROP-MIXES",
-      "candidate_sha256": "b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124",
+      "candidate_sha256": "f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec",
       "normalized_token_frontier": 28438,
       "candidate_line": 466,
       "original_line": 895,
@@ -277,7 +277,7 @@
       "classification": "SOURCE_REPAIR_LUACH_FIFTEEN",
       "repair_that_unlocked_previous_frontier": "D4-PATCH-019",
       "next_blocker": "# לוח חמשה עשר: לשאול את הקערות",
-      "evidence": "Final local T18: 6 focused Luach Fourteen tests PASS; exact twelve-blend three-runtime receipt and independent oracle agree; D3+D4 targeted 84 PASS; C5.7 multi-word source names 18 PASS; real candidate frontier 28438 at candidate line 466 / original line 895. Dedicated D4 CI pending.",
+      "evidence": "GitHub Actions run 37133055384: D4 Ubuntu/Windows 84 targeted tests PASS; canonical Git candidate SHA f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec; normalized tokens 33492; frontier 28438 at candidate line 466 / original line 895. Six focused Luach Fourteen tests, exact twelve-blend three-runtime receipt, independent oracle, C5.7 SourceName, snapshot/commit structure, and source-authorized fast mod-720 all PASS.",
       "normalized_token_count": 33492
     }
   ],
@@ -299,5 +299,5 @@
   "t15_ci_trigger": "GitHub Actions run 35619093303",
   "t16_ci_trigger": "GitHub Actions run 35620151386",
   "t17_ci_trigger": "GitHub Actions run 37107450941",
-  "t18_ci_trigger": "pending post-T18 CI"
+  "t18_ci_trigger": "GitHub Actions run 37133055384"
 }
