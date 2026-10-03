@@ -448,3 +448,46 @@ Candidate measurement after source-name canonicalization only:
 - source advancement beyond T18: NO.
 
 Full local pytest after cleanup: **622 passed, 126 subtests passed in 727.84s**. Across the non-overlapping D3/D4 targeted file groups, **88 tests pass**. Ubuntu/Windows/full-workflow receipts are recorded after the cleanup push.
+
+
+## Post-C5.7 continuation — T19 / Luach Fifteen
+
+Starting accepted checkpoint: canonical main `35e954d8c08da68a205cfea654b2597a4a77a714`; D branch cleanup head `b53602e672bdf574fa38b6d7dfd0b8f9c100294d`; cleanup candidate SHA `9a048d98a03b5df02359bfcb21a0c28677621c7b67be16d72159c19b17dba755`; semantic boundary original line 895.
+
+Authorized span: original lines **895–995**. Luach Sixteen begins at original line **999** and is outside T19.
+
+T19 source repair:
+- seals are ordinary Natural constants **1, 10, 11, 12, 20, 21, 22, 30, 31, 32, 33**; seal 40 is not declared;
+- successor-bowl lookup uses the separately retained visible-drop-46 arrangement `מערכת הטיפה האחרונה`, not the twelfth post-drop blend arrangement;
+- the first-answer and direction formulas are implemented exactly from the source with already admitted arithmetic acts;
+- parity uses the source-authorized short remainder route with divisor 2;
+- later answer numbers advance or retreat by one in the fixed direction, wrapping `M→1` or `1→M`, so the sequence traverses all 1..`M` values before returning;
+- asking does not mutate `מלא הקערות`, `מערכת הטיפה האחרונה`, or `המערכה הנוכחית`;
+- all newly declared multi-word source names use the accepted C5.7 counted SourceName surface;
+- compiler / grammar / registry / HAST / IR / artifact / semantic types / identity families: **UNCHANGED**.
+
+During acceptance, the first T19 source head already measured through to Luach Sixteen, but two multi-call tests failed because the test helper emitted `בהיות` for every role association instead of `בהיות` followed by `ובהיות`. Commit `c6adce2bcc4c59dc7b35e0406935962b5dd10e84` fixes that **test fixture only**; the live candidate source and candidate SHA are unchanged.
+
+GitHub Actions run `37150104605` (#562), accepted executable/evidence head `c6adce2bcc4c59dc7b35e0406935962b5dd10e84`:
+- Ubuntu focused T19: **4 passed** in 156.53s;
+- Windows focused T19: **4 passed** in 109.31s;
+- Ubuntu combined D3+D4: **92 passed** in 471.42s;
+- Windows combined D3+D4: **92 passed** in 319.81s;
+- post-M2 proposal regressions: **PASS** on both D4 jobs;
+- core full pytest: **626 passed, 126 subtests passed**;
+- A13 selftest: **289 checks PASS**;
+- semantics integrated suite: **PASS**;
+- immutable original SHA-256 remains `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+
+Final T19 candidate measurement:
+- candidate SHA-256: `8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90`;
+- normalized tokens: **66,769**;
+- frontier token: **62,110**;
+- candidate line: **507**;
+- mapped original line: **999**;
+- diagnostic: `PARSE0002`;
+- next blocker: **Luach Sixteen — לבחור אחת מדרכים רבות**.
+
+T19 status: **COMPLETE / VERIFIED_BY_DEDICATED_D4_CI**.
+
+T20 / Luach Sixteen was **not started** in this tranche.

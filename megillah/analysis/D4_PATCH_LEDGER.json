@@ -529,6 +529,60 @@
         "tests/test_d4_post_c56_megillah.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-019",
+      "original_span": {
+        "start_line": 833,
+        "end_line": 891
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Fourteen prose"
+      },
+      "replacement": "twelve exact post-drop bowl blends using snapshot fills, source-authorized fast modulo-720 arrangement selection, counted SourceName מספר שש הקערות, simultaneous identity-keyed commit, and preserved visible-drop-46 arrangement",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Twelve post-drop blends snapshot all six fills; each arrangement derives from the kept value of 149 times the round plus the bowl-fill sum; all six sister values read the same snapshot; the visible-drop-46 arrangement remains separately retained for Luach Fifteen.",
+      "semantic_after": "חשב, בלול and גמר implement the exact twelve blends. Large arrangement ordinals reuse the source-authorized Luach Six נותרמהר route modulo 720 before מצאמערכה. The accepted counted SourceName retains מספר שש הקערות without welding, and מערכת הטיפה האחרונה is never overwritten by the post-drop arrangements.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 833-891",
+        "GitHub Actions run 37133055384: dedicated D4 Ubuntu/Windows PASS",
+        "independent twelve-round oracle",
+        "full local pytest after canonical-main reconciliation: 618 passed, 126 subtests passed"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_post_c56_megillah.py"
+      ],
+      "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-020",
+      "original_span": {
+        "start_line": 895,
+        "end_line": 995
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Fifteen prose"
+      },
+      "replacement": "eleven Natural seal constants plus a shared bowl-query kernel: visible-drop-46 successor lookup, first-answer computation, one-time direction computation, and cyclic forward/backward answer stepping",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Each question has its source seal; seal 40 is forbidden. The successor bowl is taken from the arrangement chosen by visible drop 46, not the twelfth post-drop arrangement. The first answer is keep((fill[q]+seal+181)^2 + 179*fill[successor] + seal). Direction is determined once from keep((first+seal+1+193)^2 + 193*first + 197*fill[6]) modulo 2. Later answers step by one cyclically through 1..2^127-1 in that fixed direction.",
+      "semantic_after": "Counted multi-word source names expose all eleven seals as Naturals. מצא קערה שאחריה reads מערכת הטיפה האחרונה; חשב מענה ראשון and חשב כיוון המענה implement the exact formulas with existing arithmetic acts; חשב מענה קדימה/אחורה keep each conditional branch atomic; חשב מענה הבא selects the fixed direction and wraps M→1 or 1→M. Query execution does not alter bowl fills or either retained arrangement.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 895-995",
+        "tests/test_d4_t19_luach15.py independent oracle and state-preservation tests",
+        "GitHub Actions run 37150104605: Ubuntu and Windows focused T19 4/4 PASS and D3+D4 92/92 PASS",
+        "candidate SHA-256 8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90; frontier 62110 at candidate line 507 / original line 999"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_t19_luach15.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

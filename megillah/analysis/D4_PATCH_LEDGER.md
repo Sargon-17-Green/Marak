@@ -176,3 +176,14 @@ The live candidate was inventoried from its normative Act, Place, Role, Program 
 Every verified welded identity was migrated to the accepted C5.7 counted SourceName surface. Source wording is preferred where the immutable original names the concept directly; otherwise a controlled Hebrew composition preserves the existing helper identity and owner/scope. No welded alias remains. No compiler, grammar, HAST/IR/artifact, operation, value, scope, owner, or algorithm change is introduced.
 
 The syntactic frontier moves from 28,438 to 57,767 solely because counted names add source tokens. Candidate line 466 still maps to original line 895 and Luach Fifteen remains the next blocker. The machine-readable decisions are in D4_CANONICAL_SOURCE_NAME_INVENTORY.json; the human audit is in D4_CANONICAL_SOURCE_NAME_CLEANUP.md. Historical frozen evidence is not rewritten to erase spellings that were live at those historical checkpoints.
+
+
+## D4-PATCH-020 — Luach Fifteen / ask the bowls
+
+Original lines 895–995 assign eleven question seals, explicitly forbid seal 40, define the successor bowl from the arrangement chosen by visible drop 46, compute one first answer number, derive one fixed direction, and then walk cyclically through every Natural in 1..`המספר הגדול`.
+
+The repair keeps seals as ordinary Naturals; no seal type or new identity family is introduced. `מצא קערה שאחריה` consults the separately retained `מערכת הטיפה האחרונה`, never the arrangement from the twelfth post-drop blend. `חשב מענה ראשון` and `חשב כיוון המענה` implement the exact source formulas with the existing arithmetic acts and source-authorized short remainder route. `חשב מענה קדימה` and `חשב מענה אחורה` keep the two conditional branches atomic under the existing grammar, while `חשב מענה הבא` selects between them.
+
+The query kernel is state-preserving with respect to `מלא הקערות`, `מערכת הטיפה האחרונה`, and `המערכה הנוכחית`. Forward stepping maps `המספר הגדול -> 1`; backward stepping maps `1 -> המספר הגדול`. No compiler, grammar, registry, HAST, IR, artifact, semantic-type, or language change is involved.
+
+Acceptance: GitHub Actions run `37150104605` (#562) — focused T19 **4/4 PASS** and combined D3+D4 **92/92 PASS** on both Ubuntu and Windows; core **626 passed, 126 subtests passed**. Candidate SHA-256 is `8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90`; normalized tokens 66,769; frontier 62,110 at candidate line 507 / original line 999, the Luach Sixteen heading.
