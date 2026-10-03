@@ -137,6 +137,8 @@ def test_d4_t19_authorized_span_and_canonical_source_names():
         "חשב מענה ראשון",
         "חשב כיוון המענה",
         "חשב מענה הבא",
+        "חשב מענה קדימה",
+        "חשב מענה אחורה",
     ]
     for payload in payloads:
         assert _counted(payload) in block
