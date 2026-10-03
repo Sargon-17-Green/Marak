@@ -953,7 +953,7 @@ def _d4_luach14_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו שם אשר מספר המלים אשר בו הוא שנים והמלים הן מספר המעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו שם אשר מספר המלים אשר בו הוא שנים והמלים הן סמן המרחק"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח חמשה עשר: לשאול את הקערות"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו שם אשר מספר המלים אשר בו הוא חמשה והמלים הן חותם דרך בין שערי קציצה"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
     return " ".join(
         line for line in selected

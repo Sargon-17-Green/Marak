@@ -22,7 +22,7 @@ def _counted(payload: str) -> str:
 
 def _accepted_t18_prefix() -> str:
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
-    boundary = next(i for i, line in enumerate(lines) if line.startswith("# לוח חמשה עשר:"))
+    boundary = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו שם אשר מספר המלים אשר בו הוא חמשה והמלים הן חותם דרך בין שערי קציצה"))
     return "\n".join(lines[:boundary])
 
 
@@ -51,8 +51,9 @@ def test_d4_all_verified_multiword_replacements_use_counted_source_name_surface(
         assert _counted(payload) in source, payload
 
 
-def test_d4_cleanup_keeps_luach_fifteen_as_next_unadmitted_source_boundary():
+def test_d4_cleanup_checkpoint_is_preserved_before_t19():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
-    boundary = next(i for i, line in enumerate(lines) if line.startswith("# לוח חמשה עשר:"))
+    marker = "יהי מקום ושמו שם אשר מספר המלים אשר בו הוא חמשה והמלים הן חותם דרך בין שערי קציצה"
+    boundary = next(i for i, line in enumerate(lines) if line.startswith(marker))
     assert boundary + 1 == 466
-    assert lines[boundary] == "# לוח חמשה עשר: לשאול את הקערות"
+    assert lines[boundary].startswith(marker)
