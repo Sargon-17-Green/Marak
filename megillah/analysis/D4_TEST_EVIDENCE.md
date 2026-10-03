@@ -368,3 +368,12 @@ Full local pytest after the T17 fixture repair:
 - sole failure: `tests/test_c5_6_negative_scope.py::test_c56_preserves_frozen_d4_candidate_hash_and_frontier`.
 - classification: existing `D4-CONF-001` stale C5.6 conformance receipt. It hard-codes pre-D4 candidate SHA `afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643` and therefore rejects current authorized D candidate SHA `4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383`.
 - D4 did not edit the frozen C5.6 test. No second full-suite failure occurred.
+
+## Post-C5.7 T17 CI receipt
+
+GitHub Actions run `37107450941` on branch head `fd851745090839e1ea68f71edd5a29a809c94cf0`:
+- D4 Megillah conformance Windows: **78 passed in 195.14s**.
+- D4 Megillah conformance Ubuntu: **78 passed in 222.25s**.
+- both jobs verified original SHA-256 `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
+- both jobs measured candidate SHA-256 `4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383`, normalized tokens **29,824**, and real candidate frontier **24,481**.
+- T17 therefore reaches the Luach Fourteen boundary consistently on Ubuntu and Windows.

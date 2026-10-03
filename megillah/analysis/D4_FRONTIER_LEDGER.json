@@ -263,7 +263,7 @@
       "classification": "SOURCE_REPAIR_LUACH_FOURTEEN",
       "repair_that_unlocked_previous_frontier": "D4-PATCH-018",
       "next_blocker": "# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
-      "evidence": "Post-C5.7 reconciliation: Luach 13 targeted three-runtime + structural tests PASS after correcting a malformed synthetic six-element Collection fixture (five append wrappers for six values); real candidate frontier 24481 at candidate line 447 / original line 831.",
+      "evidence": "GitHub Actions run 37107450941: D4 Ubuntu/Windows 78 targeted tests PASS; real candidate frontier 24481 at candidate line 447 / original line 831 after correcting the malformed synthetic six-element Collection fixture.",
       "normalized_token_count": 29824
     }
   ],
@@ -284,5 +284,5 @@
   "t14_ci_trigger": "GitHub Actions run 35616748974",
   "t15_ci_trigger": "GitHub Actions run 35619093303",
   "t16_ci_trigger": "GitHub Actions run 35620151386",
-  "t17_ci_trigger": "pending post-reconciliation CI"
+  "t17_ci_trigger": "GitHub Actions run 37107450941"
 }
