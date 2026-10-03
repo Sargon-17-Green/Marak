@@ -1,5 +1,3 @@
-[Reading 178 lines from start (total: 178 lines, 0 remaining)]
-
 # D4 Patch Ledger
 
 D4 post-C5.6 preserves every accepted D3 repair and now resumes candidate repair.
@@ -178,5 +176,3 @@ The live candidate was inventoried from its normative Act, Place, Role, Program 
 Every verified welded identity was migrated to the accepted C5.7 counted SourceName surface. Source wording is preferred where the immutable original names the concept directly; otherwise a controlled Hebrew composition preserves the existing helper identity and owner/scope. No welded alias remains. No compiler, grammar, HAST/IR/artifact, operation, value, scope, owner, or algorithm change is introduced.
 
 The syntactic frontier moves from 28,438 to 57,767 solely because counted names add source tokens. Candidate line 466 still maps to original line 895 and Luach Fifteen remains the next blocker. The machine-readable decisions are in D4_CANONICAL_SOURCE_NAME_INVENTORY.json; the human audit is in D4_CANONICAL_SOURCE_NAME_CLEANUP.md. Historical frozen evidence is not rewritten to erase spellings that were live at those historical checkpoints.
-
-[executed on device: אליעזר_גרין2024 (8fa5ac8d-c3b2-4ba7-829f-e01373eca048)]
