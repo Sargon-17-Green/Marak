@@ -1088,5 +1088,29 @@
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "None."
     }
-  ]
+  ],
+  "canonical_source_name_cleanup": {
+    "id": "D4-CANONICAL-NAME-CLEANUP-001",
+    "classification": "SOURCE_NAME_CANONICALIZATION",
+    "starting_checkpoint": "T18",
+    "starting_head": "5f35e8cb9b8d4c16db1797c4832c6300791dc2c1",
+    "starting_candidate_sha256": "f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec",
+    "result_candidate_sha256": "9a048d98a03b5df02359bfcb21a0c28677621c7b67be16d72159c19b17dba755",
+    "inventory": "megillah/analysis/D4_CANONICAL_SOURCE_NAME_INVENTORY.json",
+    "cleanup_record": "megillah/analysis/D4_CANONICAL_SOURCE_NAME_CLEANUP.md",
+    "verified_removed_unique_welded_spellings": 158,
+    "renamed_identity_instances": 173,
+    "uncertain_identities": 0,
+    "welded_aliases_retained": false,
+    "semantic_identity_families_added": [],
+    "compiler_changes": false,
+    "grammar_changes": false,
+    "algorithm_changes": false,
+    "starting_frontier_token": 28438,
+    "post_cleanup_frontier_token": 57767,
+    "semantic_boundary_before": "Luach Fifteen / original line 895",
+    "semantic_boundary_after": "Luach Fifteen / original line 895",
+    "source_advancement": false,
+    "note": "Earlier D4-PATCH replacement descriptions may retain the welded spellings that were live at those historical checkpoints. Those spellings are historical evidence only and are superseded for the live candidate by the canonical mapping in D4_CANONICAL_SOURCE_NAME_INVENTORY.json."
+  }
 }
