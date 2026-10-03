@@ -1,5 +1,3 @@
-[Reading 450 lines from start (total: 450 lines, 0 remaining)]
-
 # D4 Test Evidence
 
 Workstream: **D4 — Post-C5.5 Megillah Conformance**
@@ -450,5 +448,3 @@ Candidate measurement after source-name canonicalization only:
 - source advancement beyond T18: NO.
 
 Full local pytest after cleanup: **622 passed, 126 subtests passed in 727.84s**. Across the non-overlapping D3/D4 targeted file groups, **88 tests pass**. Ubuntu/Windows/full-workflow receipts are recorded after the cleanup push.
-
-[executed on device: אליעזר_גרין2024 (8fa5ac8d-c3b2-4ba7-829f-e01373eca048)]
