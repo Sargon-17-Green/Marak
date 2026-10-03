@@ -402,7 +402,7 @@ T18 local acceptance on the final candidate:
 The source basis for the fast modulo is original Luach Six lines 243–263: for a very large number, use the doubling/decomposition short route instead of repeated subtraction; the source explicitly states that the short route yields the same number as the long route. This resolves the earlier >20-minute exploratory runtime without changing the T18 algorithm or any result.
 
 Real candidate measurement after the final fast-720 source repair:
-- candidate SHA-256: `b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124`
+- candidate SHA-256: `f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec`
 - original SHA-256: `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`
 - normalized tokens: **33,492**
 - frontier token: **28,438**
@@ -410,6 +410,6 @@ Real candidate measurement after the final fast-720 source repair:
 - mapped original line: **895**
 - next blocker: Luach Fifteen.
 
-Final local regression on the cleaned final tree: **84 D3+D4 targeted tests passed in 404.03s**. C5.7 multi-word source-name suite: **18 passed in 0.85s**. Dedicated Ubuntu/Windows D4 CI remains pending.
+Final local regression on the cleaned final tree: **84 D3+D4 targeted tests passed in 404.03s**. C5.7 multi-word source-name suite: **18 passed in 0.85s**. GitHub Actions run `37133055384` then verified the final branch head on both dedicated D4 jobs: Ubuntu **84 passed in 230.35s** and Windows **84 passed in 281.47s**. Both jobs measured canonical Git candidate SHA `f55785a16a659c2c4423a255da051bb1f16481280519596011c1537b7d6e46ec`, original SHA `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`, normalized tokens **33,492**, and frontier **28,438** at candidate line **466** / mapped original line **895**. The earlier local Windows worktree SHA `b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124` was the same candidate after CRLF checkout conversion; converting CRLF back to LF yields the canonical Git/CI SHA.
 
 Full local pytest after reconciliation onto canonical main `35e954d8c08da68a205cfea654b2597a4a77a714`: **618 passed, 126 subtests passed in 504.89s**. The prior frozen-receipt failure no longer occurs; C5.6 now verifies its own historical fixture independently of the live D candidate.
