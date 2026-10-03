@@ -77,9 +77,10 @@ def _place_number(payload: str) -> str:
 def _perform(act: str, roles: list[tuple[str, str]]) -> str:
     a = _counted(act)
     out = "עשה את המעשה אשר שמו " + a
-    for role, value in roles:
+    for index, (role, value) in enumerate(roles):
+        association = "בהיות" if index == 0 else "ובהיות"
         out += (
-            f" בהיות {value} תחת הדבר אשר במעשה אשר שמו {a} "
+            f" {association} {value} תחת הדבר אשר במעשה אשר שמו {a} "
             f"שמו {role}"
         )
     return out
