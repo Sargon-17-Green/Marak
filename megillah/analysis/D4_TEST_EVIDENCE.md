@@ -383,7 +383,7 @@ GitHub Actions run `37107450941` on branch head `fd851745090839e1ea68f71edd5a29a
 
 Starting checkpoint: T17 head `339d0daa62951c3a934f2a21f5046da4d06c04b0`; reconstructed T17 D3+D4 targeted suite: 78 passed and frontier 24,481 before T18 edits.
 
-Before final T18 acceptance, canonical main advanced to `35e954d8c08da68a205cfea654b2597a4a77a714` by merging C5.6 conformance-receipt maintenance. T18 was reconciled by merge commit `29db3eecb784e78f962fe9376dc8c4d2f0248dcf` (parents T18 `9b3a8ab189454b02053c9c7503e01e043b7ec818` and canonical main). The maintenance freezes the historical C5.6 D4 candidate in its own fixture and removes dependence on live downstream D candidate bytes; this closes the previously known nonsemantic `D4-CONF-001` stale-receipt failure without changing D4 candidate semantics.
+Before final T18 acceptance, canonical main advanced to `35e954d8c08da68a205cfea654b2597a4a77a714` by merging C5.6 conformance-receipt maintenance. T18 was reconciled by merge commit `145fdbd8d584ddeef9424e65d480986ae39af593` (parents T18 `109f85f3418b6a49776eb32a253f070602318fd3` and canonical main). The maintenance freezes the historical C5.6 D4 candidate in its own fixture and removes dependence on live downstream D candidate bytes; this closes the previously known nonsemantic `D4-CONF-001` stale-receipt failure without changing D4 candidate semantics.
 
 Authorized source span: original lines 831–891, with line 831 classified documentary and executable semantics drawn from lines 833–891 only. Luach Fifteen begins at original line 895 and is outside T18.
 
