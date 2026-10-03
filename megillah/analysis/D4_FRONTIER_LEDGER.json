@@ -265,6 +265,20 @@
       "next_blocker": "# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
       "evidence": "GitHub Actions run 37107450941: D4 Ubuntu/Windows 78 targeted tests PASS; real candidate frontier 24481 at candidate line 447 / original line 831 after correcting the malformed synthetic six-element Collection fixture.",
       "normalized_token_count": 29824
+    },
+    {
+      "tranche_id": "D4-C56-T18-LUACH14-POSTDROP-MIXES",
+      "candidate_sha256": "b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124",
+      "normalized_token_frontier": 28438,
+      "candidate_line": 466,
+      "original_line": 895,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_FIFTEEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-019",
+      "next_blocker": "# לוח חמשה עשר: לשאול את הקערות",
+      "evidence": "Final local T18: 6 focused Luach Fourteen tests PASS; exact twelve-blend three-runtime receipt and independent oracle agree; D3+D4 targeted 84 PASS; C5.7 multi-word source names 18 PASS; real candidate frontier 28438 at candidate line 466 / original line 895. Dedicated D4 CI pending.",
+      "normalized_token_count": 33492
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -284,5 +298,6 @@
   "t14_ci_trigger": "GitHub Actions run 35616748974",
   "t15_ci_trigger": "GitHub Actions run 35619093303",
   "t16_ci_trigger": "GitHub Actions run 35620151386",
-  "t17_ci_trigger": "GitHub Actions run 37107450941"
+  "t17_ci_trigger": "GitHub Actions run 37107450941",
+  "t18_ci_trigger": "pending post-T18 CI"
 }

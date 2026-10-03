@@ -885,7 +885,7 @@ def _d4_luach13_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו פעם ובמקום אשר שמו פעם"))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
     return " ".join(
         line for line in selected
@@ -933,3 +933,165 @@ def test_d4_post_c56_luach13_snapshot_then_commit_and_exact_46_driver():
     step = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו קערותטיפההבאה "))
     assert "שמו מערכתטיפהאחרונה את הספר אשר במקום אשר שמו מערכהנוכחית" in step
 
+
+
+def _d4_nat_book(values: list[int]) -> str:
+    from compiler.parse.a15_numerals import format_natural
+    book = "ספר מספרים אשר אין בו מספר"
+    for value in values:
+        book = (
+            "ספר מספרים אשר בו כל אשר ב "
+            + book
+            + " כסדרו ואחר כלם המספר אשר הוא "
+            + format_natural(value)
+        )
+    return book
+
+
+def _d4_luach14_preparation() -> str:
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מספרמעשה"))
+    counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מרחקסמן"))
+    core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח חמשה עשר: לשאול את הקערות"))
+    selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
+    return " ".join(
+        line for line in selected
+        if line.strip() and line.strip() != "---" and not line.lstrip().startswith("#")
+    )
+
+
+def _d4_set_bowl_fills(values: list[int]) -> str:
+    book = _d4_nat_book(values)
+    return (
+        "שים במקום אשר שמו מלאקערות את "
+        + book
+        + " תחת הספר אשר במקום אשר שמו מלאקערות"
+    )
+
+
+def test_d4_post_c56_luach14_one_postfinal_mix_three_runtimes():
+    source = (
+        _d4_luach14_preparation()
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן " + _d4_set_bowl_fills([1, 2, 3, 4, 5, 6])
+        + " ואחרי כן עשה את המעשה אשר שמו בלול"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    assert obs["products"][-1] == ["בלול", [3565, 3740, 5518, 1695, 8365, 7674]]
+    assert facts["פעם"] == 1
+    assert facts["מספר שש הקערות"] == 21
+    assert facts["מערכהנוכחית"] == [2, 4, 1, 3, 6, 5]
+    assert facts["מלאקערות"] == [3565, 3740, 5518, 1695, 8365, 7674]
+
+
+def _d4_luach14_oracle_mix(fills: list[int], round_number: int) -> list[int]:
+    from itertools import permutations
+
+    modulus = (1 << 127) - 1
+
+    def keep(value: int) -> int:
+        residue = value % modulus
+        return residue if residue else modulus
+
+    snapshot = list(fills)
+    bowl_sum = sum(snapshot)
+    arrangement_number = keep(149 * round_number + bowl_sum)
+    arrangement = list(permutations((1, 2, 3, 4, 5, 6)))[
+        (arrangement_number - 1) % 720
+    ]
+    next_by_identity: dict[int, int] = {}
+    for position, bowl_identity in enumerate(arrangement, start=1):
+        predecessor = arrangement[(position - 2) % 6]
+        successor = arrangement[position % 6]
+        before = snapshot[bowl_identity - 1]
+        before_predecessor = snapshot[predecessor - 1]
+        before_successor = snapshot[successor - 1]
+        mixed = (
+            before
+            + 3 * before_predecessor
+            + 5 * before_successor
+            + bowl_sum
+            + round_number
+            + position * position
+        )
+        next_by_identity[bowl_identity] = keep(
+            mixed * mixed + 7 * before_predecessor * before_successor
+        )
+    return [next_by_identity[i] for i in range(1, 7)]
+
+
+def test_d4_post_c56_luach14_exact_twelve_oracle_receipt():
+    fills = [1, 2, 3, 4, 5, 6]
+    for round_number in range(1, 13):
+        fills = _d4_luach14_oracle_mix(fills, round_number)
+
+    assert fills == [
+        36108001607085984155684996137766958104,
+        148814309144118602128584347831122254145,
+        146577346212655508303902655220312506515,
+        113571227321377053045622633394311758065,
+        156703568566579726750728213438464676042,
+        87934172320087745809620382672045550969,
+    ]
+
+
+def test_d4_post_c56_luach14_snapshot_commit_identity_and_exact_twelve_structure():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    mix = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו בלול "))
+    assert mix.index("שמו מלאישן את הספר אשר במקום אשר שמו מלאקערות") < mix.index(
+        "עשה את המעשה אשר שמו חשב בהיות"
+    )
+    assert mix.count("עשה את המעשה אשר שמו חשב בהיות") == 6
+    assert mix.rindex("שמו מלאקערות") > mix.rindex("עשה את המעשה אשר שמו חשב בהיות")
+    assert "שמו זוגותמסודרים את הספר הערוך" in mix
+    assert "שמו פעם את המספר הנחשב בהוסיף את המספר אשר הוא אחד על המספר אשר במקום אשר שמו פעם" in mix
+    driver = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו גמר "))
+    assert driver.index("שמו פעם את המספר הנחשב בגרע") < driver.index(
+        "שתים עשרה פעמים עשה את המעשה אשר שמו בלול"
+    )
+    assert "שתים עשרה פעמים עשה את המעשה אשר שמו בלול" in driver
+    assert "מערכתטיפהאחרונה" not in mix
+    assert "מערכתטיפהאחרונה" not in driver
+
+
+def test_d4_post_c56_luach14_uses_counted_source_name_without_welded_alias():
+    text = CANDIDATE.read_text(encoding="utf-8")
+    counted = "שם אשר מספר המלים אשר בו הוא שלשה והמלים הן מספר שש הקערות"
+    assert f"יהי מקום ושמו {counted}" in text
+    assert f"המספר אשר במקום אשר שמו {counted}" in text
+    assert "מספרששהקערות" not in text
+
+
+def test_d4_post_c56_luach14_exact_twelve_successive_mixes_three_runtimes():
+    source = (
+        _d4_luach14_preparation()
+        + " ועתה עשה את המעשה אשר שמו חשבגדול"
+        + " ואחרי כן " + _d4_set_bowl_fills([1, 2, 3, 4, 5, 6])
+        + " ואחרי כן עשה את המעשה אשר שמו גמר"
+    )
+    _, obs = three(source)
+    facts = dict(obs["facts"])
+    expected = [
+        36108001607085984155684996137766958104,
+        148814309144118602128584347831122254145,
+        146577346212655508303902655220312506515,
+        113571227321377053045622633394311758065,
+        156703568566579726750728213438464676042,
+        87934172320087745809620382672045550969,
+    ]
+    assert obs["products"][-1] == ["גמר", expected]
+    assert facts["פעם"] == 12
+    assert facts["מלאקערות"] == expected
+
+
+def test_d4_post_c56_luach14_uses_source_authorized_fast_mod_720():
+    lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
+    mix = next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו בלול "))
+    assert "עשה את המעשה אשר שמו נותרמהר" in mix
+    assert (
+        "בהיות המספר אשר הוא שבע מאות ועשרים "
+        "תחת הדבר אשר במעשה אשר שמו נותרמהר שמו מחלק"
+    ) in mix
+    assert "עשה את המעשה אשר שמו בחרמערכה" not in mix

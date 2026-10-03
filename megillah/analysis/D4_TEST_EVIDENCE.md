@@ -377,3 +377,39 @@ GitHub Actions run `37107450941` on branch head `fd851745090839e1ea68f71edd5a29a
 - both jobs verified original SHA-256 `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`.
 - both jobs measured candidate SHA-256 `4c003673d46f25547465062d1e6c538981a913d28d37f98a27d9cd2f28b80383`, normalized tokens **29,824**, and real candidate frontier **24,481**.
 - T17 therefore reaches the Luach Fourteen boundary consistently on Ubuntu and Windows.
+
+
+## Post-C5.7 continuation - T18 / Luach Fourteen
+
+Starting checkpoint: T17 head `339d0daa62951c3a934f2a21f5046da4d06c04b0`; reconstructed T17 D3+D4 targeted suite: 78 passed and frontier 24,481 before T18 edits.
+
+Before final T18 acceptance, canonical main advanced to `35e954d8c08da68a205cfea654b2597a4a77a714` by merging C5.6 conformance-receipt maintenance. T18 was reconciled by merge commit `29db3eecb784e78f962fe9376dc8c4d2f0248dcf` (parents T18 `9b3a8ab189454b02053c9c7503e01e043b7ec818` and canonical main). The maintenance freezes the historical C5.6 D4 candidate in its own fixture and removes dependence on live downstream D candidate bytes; this closes the previously known nonsemantic `D4-CONF-001` stale-receipt failure without changing D4 candidate semantics.
+
+Authorized source span: original lines 831–891, with line 831 classified documentary and executable semantics drawn from lines 833–891 only. Luach Fifteen begins at original line 895 and is outside T18.
+
+T18 local acceptance on the final candidate:
+- Luach Fourteen focused suite: **6 passed, 49 deselected in 115.50s**.
+- one complete post-drop blend: HAST reference = IR reference = portable backend, with fixed receipt `[3565, 3740, 5518, 1695, 8365, 7674]` from initial fills `[1,2,3,4,5,6]`;
+- first arrangement receipt: `[2,4,1,3,6,5]`;
+- the complete 12-blend driver passes on all three runtimes and returned the same fixed final receipt as the independent oracle;
+- exact source-declared multi-word identity `מספר שש הקערות` resolves through C5.7 counted SourceName; no welded alias is introduced;
+- snapshot-before-compute and simultaneous identity-keyed commit are structurally enforced;
+- `גמר` resets the round counter and contains exact feminine-count `שתים עשרה פעמים` recurrence;
+- large arrangement selectors are reduced with the source-authorized Luach Six short route `נותרמהר` modulo 720 before direct `מצאמערכה`; a structural regression forbids T18 from returning to the linear `בחרמערכה` path;
+- an independent oracle over the source formula fixes the round-12 final bowl receipt as `[36108001607085984155684996137766958104, 148814309144118602128584347831122254145, 146577346212655508303902655220312506515, 113571227321377053045622633394311758065, 156703568566579726750728213438464676042, 87934172320087745809620382672045550969]`;
+- T18 does not write `מערכתטיפהאחרונה`; the visible-drop-46 arrangement remains retained for Luach Fifteen.
+
+The source basis for the fast modulo is original Luach Six lines 243–263: for a very large number, use the doubling/decomposition short route instead of repeated subtraction; the source explicitly states that the short route yields the same number as the long route. This resolves the earlier >20-minute exploratory runtime without changing the T18 algorithm or any result.
+
+Real candidate measurement after the final fast-720 source repair:
+- candidate SHA-256: `b8df350336aafb21c15b749349b60d97276b8dc6e4b8c940b30451220c445124`
+- original SHA-256: `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`
+- normalized tokens: **33,492**
+- frontier token: **28,438**
+- candidate line: **466**
+- mapped original line: **895**
+- next blocker: Luach Fifteen.
+
+Final local regression on the cleaned final tree: **84 D3+D4 targeted tests passed in 404.03s**. C5.7 multi-word source-name suite: **18 passed in 0.85s**. Dedicated Ubuntu/Windows D4 CI remains pending.
+
+Full local pytest after reconciliation onto canonical main `35e954d8c08da68a205cfea654b2597a4a77a714`: **618 passed, 126 subtests passed in 504.89s**. The prior frozen-receipt failure no longer occurs; C5.6 now verifies its own historical fixture independently of the live D candidate.

@@ -723,14 +723,68 @@
         "original 769-817",
         "snapshot regression"
       ]
+    },
+    {
+      "id": "D4-PATCH-019",
+      "candidate_start_line": 449,
+      "candidate_end_line": 463,
+      "original_lines": [
+        833,
+        835,
+        837,
+        839,
+        841,
+        843,
+        845,
+        847,
+        849,
+        851,
+        853,
+        855,
+        857,
+        859,
+        861,
+        863,
+        865,
+        867,
+        869,
+        871,
+        873,
+        875,
+        877,
+        879,
+        881,
+        883,
+        885,
+        887,
+        889,
+        891
+      ],
+      "original_text": "Luach Fourteen: twelve post-drop bowl blends. Each round snapshots all six fills, sums them as מספר שש הקערות, selects the Luach Eleven arrangement from the kept value of 149 times the round number plus that sum, computes all six new fills from the snapshot with circular arrangement neighbors, and commits them simultaneously.",
+      "replacement": "Named actions חשב, בלול and גמר implement one snapshot-safe blend and an exact twelve-blend driver; the source-declared identity מספר שש הקערות uses the accepted C5.7 counted SourceName form. T18 reduces the large arrangement selector with the already source-grounded נותרמהר modulo 720 and then invokes מצאמערכה on the resulting 1..720 ordinal.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "All six sister fills in one blend read only the start-of-round snapshot; permanent bowl identity remains separate from arrangement position; the retained visible-drop-46 arrangement מערכתטיפהאחרונה is not overwritten by post-drop blend arrangements. The fast modulo-720 reduction reuses Luach Six's explicit large-number short route, which the source states yields the same result as repeated subtraction; it changes no Luach Fourteen value.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original 833-891",
+        "original 243-263 fast repeated-subtraction equivalence reused for large mod 720",
+        "one-blend three-runtime fixed-value regression",
+        "full twelve-blend three-runtime fixed final receipt",
+        "independent twelve-round oracle receipt",
+        "exact RepeatExactly=12 structural regression",
+        "C5.7 counted SourceName regression",
+        "source-authorized fast mod-720 structural regression"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-018, each visible drop can be poured and mixed into six bowls with source-mandated snapshot semantics.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-019, the complete twelve post-drop Luach Fourteen blends are executable with source-mandated snapshot and simultaneous-commit semantics; the visible-drop-46 arrangement remains separately retained for Luach Fifteen.",
   "blocked_future_derivation": {
-    "source_span": "original line 821 onward",
-    "requirement": "Luach Fourteen / twelve post-drop bowl blends",
+    "source_span": "original line 895 onward",
+    "requirement": "Luach Fifteen / ask the bowls",
     "blocker": null,
-    "note": "Measure T17 frontier before Luach Fourteen."
+    "note": "T18 measured to the Luach Fifteen heading; do not repair Luach Fifteen within T18."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -1021,6 +1075,16 @@
       "original_text": "# לוח שלשה עשר: לבלול את שש הקערות אחר הטיפה",
       "classification": "DOCUMENTARY_EXTERNALIZATION",
       "reason": "Organizational heading only.",
+      "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-030",
+      "original_start_line": 831,
+      "original_end_line": 831,
+      "original_text": "# לוח ארבעה עשר: לבלול שתים עשרה פעמים אחר הטיפה האחרונה",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading only; its Hebrew words would otherwise form a parser frontier because layout/Markdown is transparent.",
       "destination": "megillah/analysis/D4_POST_C56_RECLASSIFICATION.md",
       "retained_requirement": "None."
     }

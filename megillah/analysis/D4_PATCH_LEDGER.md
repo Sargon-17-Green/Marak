@@ -153,3 +153,16 @@ Only arrangement positions 1–3 receive the three pour values. Bowl fill is loo
 `מלאישן` freezes all six identity-keyed fills before any new value is calculated. Six calculations walk the selected arrangement circularly; every one reads only that snapshot. Temporary `[bowl identity, new fill]` books are sorted by permanent identity and only then committed to `מלאקערות` together.
 
 The 46-drop driver also retains `מערכתטיפהאחרונה` separately. This is required by Luach Fifteen: the successor bowl for later questions comes from the arrangement chosen by visible drop 46, not from an arrangement used by the twelve post-drop blends.
+
+
+## D4-PATCH-019 - Luach Fourteen / twelve post-drop bowl blends
+
+Original lines 833–891 define twelve additional blends after visible drop 46. פעם is reset before the driver and advances 1..12. At the start of each blend מלאישן freezes all six identity-keyed fills and their sum is retained under the exact source identity מספר שש הקערות, represented with the accepted C5.7 counted SourceName surface rather than a welded alias.
+
+The arrangement number is the source-prescribed kept value of 149 × round + bowl-sum. T18 reduces its zero-based form modulo 720 with the already source-grounded נותרמהר short route, adds one, and invokes מצאמערכה directly. This is the Luach Six large-number shortcut: the original explicitly says the short route yields the same number as the long repeated-subtraction route. It avoids re-entering the linear מספרמערכה implementation without changing the Luach Eleven arrangement rule.
+
+חשב computes the exact per-position formula from the frozen snapshot; בלול stages all six [permanent bowl identity, new fill] pairs, sorts by permanent identity, and commits only after all six results exist. גמר performs שתים עשרה פעמים exactly.
+
+Post-drop blend arrangements update מערכהנוכחית only. They never overwrite מערכתטיפהאחרונה, which remains the arrangement chosen by visible drop 46 and is explicitly required by Luach Fifteen.
+
+Acceptance includes both one complete blend and the complete twelve-blend driver on HAST reference, IR reference and portable backend, an independent twelve-round Python oracle, structural snapshot/commit/RepeatExactly checks, C5.7 counted-SourceName coverage, and an explicit guard that T18 uses נותרמהר with divisor 720 rather than the linear בחרמערכה path.
