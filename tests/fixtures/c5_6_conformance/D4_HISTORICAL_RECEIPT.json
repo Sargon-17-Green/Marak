@@ -1,0 +1,29 @@
+{
+  "schema": "marak-c5-6-d4-historical-receipt-v1",
+  "purpose": "Frozen evidence that C5.6 did not mutate the then-current D4 candidate/Megillah state. This is historical C5.6 evidence, not a constraint on later authorized D work.",
+  "c5_6": {
+    "baseline_sha": "f7c1be2e913d73c4722f92d8c27c8c7e6dd26a91",
+    "validated_implementation_head": "0dd3e270bf769a9028df3fbf7d64cafd6a09f677",
+    "accepted_merge_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
+    "registry_version": "c5.6-a17-b16.1"
+  },
+  "historical_d4_candidate": {
+    "fixture": "tests/fixtures/c5_6_conformance/D4_CANDIDATE_AT_C5_6.md",
+    "sha256": "afc6eda11a8d7f4b6499cf643d2ef5b36581bcad61b5fce761a7709274d2d643",
+    "frontier": {
+      "diagnostic": "PARSE0002",
+      "furthest_token": 105,
+      "candidate_line": 11,
+      "original_line": 35
+    }
+  },
+  "scope_claim": {
+    "megillah_paths_changed_by_c5_6": [],
+    "historically_unchanged_prefixes": [
+      "megillah/original/",
+      "megillah/candidates/",
+      "megillah/analysis/"
+    ]
+  },
+  "live_d_state_is_out_of_scope": true
+}
