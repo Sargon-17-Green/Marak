@@ -45,7 +45,7 @@ def _d4_t19_preparation() -> str:
     counters_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("מספר המעשה")))
     counters_end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("סמן המרחק")))
     core_start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו מכפלה"))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח ששה עשר: לבחור אחת מדרכים רבות"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("מספר הדרכים")))
     selected = lines[0:6] + lines[counters_start:counters_end] + lines[core_start:end]
     return " ".join(
         line for line in selected
@@ -117,7 +117,7 @@ def _oracle_direction(first: int, seal: int) -> int:
 def test_d4_t19_authorized_span_and_canonical_source_names():
     lines = CANDIDATE.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith(_t19_marker()))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח ששה עשר: לבחור אחת מדרכים רבות"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("מספר הדרכים")))
     block = "\n".join(lines[start:end])
 
     assert start + 1 == 466

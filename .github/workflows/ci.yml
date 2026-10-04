@@ -361,12 +361,14 @@ jobs:
           expected="7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b"
           print(got)
           assert got == expected
-      - name: Measure T19 candidate frontier before focused execution
+      - name: Measure T20 candidate frontier before focused execution
         run: python tools/d4_frontier_probe.py
       - name: Run focused T19 Luach Fifteen tests
         run: python -m pytest -q tests/test_d4_t19_luach15.py
+      - name: Run focused T20 Luach Sixteen tests
+        run: python -m pytest -q tests/test_d4_t20_luach16.py
       - name: Run D3 and D4 Megillah tests
-        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py tests/test_d4_post_c56_megillah.py tests/test_d4_canonical_source_names.py tests/test_d4_t19_luach15.py
+        run: python -m pytest -q tests/test_d3_megillah_repairs.py tests/test_d4_megillah_conformance.py tests/test_d4_post_c56_megillah.py tests/test_d4_canonical_source_names.py tests/test_d4_t19_luach15.py tests/test_d4_t20_luach16.py
       - name: Measure current Megillah compiler frontier
         run: python tools/d4_frontier_probe.py
       - name: Run post-M2 proposal regressions
