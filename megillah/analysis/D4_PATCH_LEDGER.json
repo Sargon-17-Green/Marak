@@ -583,6 +583,36 @@
         "tests/test_d4_t19_luach15.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-021",
+      "original_span": {
+        "start_line": 999,
+        "end_line": 1161
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Sixteen prose"
+      },
+      "replacement": "general unbiased selector with two exact Natural cardinality regimes: small-space rejection sampling over Luach Fifteen answer numbers, and large-space minimal-position base-M wide-number construction with rejection sampling",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Choose exactly one דרך without bias. For N<=M, reject answer numbers above the greatest multiple of N not exceeding M, then map accepted values one-based. For N>M, construct the smallest k with M^k>=N, encode k successive Luach Fifteen answers as a one-based base-M wide number, follow the same fixed direction cyclically over 1..M^k, reject values above the greatest acceptable multiple of N, then map one-based. The generic selector must not replace the six-bowl arrangement mechanism.",
+      "semantic_after": "בחירה dispatches exactly on מספר הדרכים versus המספר הגדול. צר computes האחרון אשר ילקח with הנותר בדרך הקצרה, skips rejected Luach Fifteen answers through חשב מענה הבא, and maps only accepted answers. רוחב builds minimal מספר המקומות and exact מספר כל היוצאים=M^k, הרכבה forms המספר הרחב האחד from successive answers and powers 1,M,..., צעידה preserves the fixed direction with cyclic wrap, תחום/פסיחה implement wide rejection, and מיפוי returns 1..N. T20 contains no bowl-arrangement substitution.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 999-1161; organizational headings and separator recorded separately",
+        "tests/test_d4_t20_luach16.py independent finite-model oracle, Branch A and Branch B fairness, wide wrap, state preservation, exact Natural > M",
+        "GitHub Actions push run 37171652776 (#568): focused T20 4/4 PASS and D3+D4 96/96 PASS on Ubuntu and Windows",
+        "GitHub Actions PR run 37171656172 (#569): full workflow SUCCESS",
+        "core: 630 passed, 126 subtests passed; A13 selftest 289 checks PASS",
+        "candidate SHA-256 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; frontier 65148 at candidate line 559 / original line 1165"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_t20_luach16.py",
+        "tests/test_d4_t19_luach15.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

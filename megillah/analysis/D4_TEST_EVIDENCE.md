@@ -491,3 +491,45 @@ Final T19 candidate measurement:
 T19 status: **COMPLETE / VERIFIED_BY_DEDICATED_D4_CI**.
 
 T20 / Luach Sixteen was **not started** in this tranche.
+
+## Post-C5.7 continuation — T20 / Luach Sixteen
+
+Starting accepted documentation HEAD: 67fef199c4e7ee4f97962e41187ac4d0f792e52b. T19 was Master-accepted and was not reopened. T20 is limited to original Luach Sixteen; Luach Seventeen at original line 1165 is the hard stop.
+
+Executable/evidence head: 86ebc611a56cd96d85a27ff0078bde27bddaed5e.
+
+T20 implements both source-mandated cardinality regimes of the unbiased general selector:
+- Branch A (N <= M): greatest acceptable multiple, rejection of the unequal tail, fixed-direction T19 stepping, one-based mapping;
+- Branch B (N > M): minimal exact k, exact M^k capacity, base-M wide-number construction from successive T19 answers, cyclic wide direction, wide rejection, one-based mapping.
+
+Focused T20 evidence:
+- Ubuntu: 4 passed in 237.10s;
+- Windows: 4 passed in 196.50s;
+- finite-model independent oracles cover Branch A fairness/boundaries and Branch B k=2 and k=3 cases, forward/backward wide traversal, rejection tails, and wrap;
+- a real-M case with N=M+1 verifies exact Natural arithmetic beyond M on all three runtimes;
+- state-preservation checks cover bowl fills and retained arrangements;
+- structural checks enforce counted multi-word source names, the source-authorized fast remainder route, and six-bowl-arrangement exclusion.
+
+Regression/CI evidence on push run 37171652776 (#568):
+- focused T19: 4 passed on Ubuntu, 4 passed on Windows;
+- combined D3+D4: 96 passed on Ubuntu, 96 passed on Windows;
+- core: 630 passed, 126 subtests passed;
+- A13 selftest: 289 checks PASS;
+- C5.7 multi-word SourceName jobs: PASS on Ubuntu and Windows;
+- post-M2 proposal/semantics regressions: PASS;
+- overall push workflow: SUCCESS.
+PR run 37171656172 (#569) is also SUCCESS.
+
+Final executable candidate measurement:
+- candidate SHA-256: 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a;
+- original SHA-256: 7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b;
+- normalized tokens: 68,973;
+- frontier token: 65,148;
+- candidate line: 559;
+- mapped original line: 1165;
+- diagnostic: PARSE0002;
+- next blocker: # לוח שבעה עשר: שערי הקציצה.
+
+T20 status: COMPLETE / VERIFIED_BY_DEDICATED_D4_CI — READY FOR MASTER REVIEW.
+
+T21 / Luach Seventeen was not started.

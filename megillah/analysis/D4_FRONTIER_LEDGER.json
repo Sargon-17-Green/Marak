@@ -310,6 +310,21 @@
       "evidence": "GitHub Actions run 37150104605 (#562): D4 Ubuntu/Windows focused T19 4 PASS and D3+D4 92 PASS; core 626 passed + 126 subtests; candidate SHA 8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90; normalized tokens 66769; frontier 62110 at candidate line 507 / original line 999.",
       "normalized_token_count": 66769,
       "semantic_source_advancement": true
+    },
+    {
+      "tranche_id": "D4-C56-T20-LUACH16-UNBIASED-SELECTOR",
+      "candidate_sha256": "4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a",
+      "normalized_token_frontier": 65148,
+      "candidate_line": 559,
+      "original_line": 1165,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_SEVENTEEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-021",
+      "next_blocker": "# לוח שבעה עשר: שערי הקציצה",
+      "evidence": "GitHub Actions push run 37171652776 (#568) and PR run 37171656172 (#569): full workflow SUCCESS. Focused T20 4/4 PASS on Ubuntu and Windows; D3+D4 96/96 PASS on both; core 630 passed + 126 subtests; candidate SHA 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; normalized tokens 68973; frontier 65148 at candidate line 559 / original line 1165.",
+      "normalized_token_count": 68973,
+      "semantic_source_advancement": true
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -332,5 +347,6 @@
   "t17_ci_trigger": "GitHub Actions run 37107450941",
   "t18_ci_trigger": "GitHub Actions run 37133055384",
   "canonical_name_cleanup_ci_trigger": "GitHub Actions run 37144651867 (#555): PASS on cleanup head b53602e672bdf574fa38b6d7dfd0b8f9c100294d",
-  "t19_ci_trigger": "GitHub Actions run 37150104605 (#562)"
+  "t19_ci_trigger": "GitHub Actions run 37150104605 (#562)",
+  "t20_ci_trigger": "GitHub Actions push run 37171652776 (#568) and PR run 37171656172 (#569): SUCCESS on executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e"
 }

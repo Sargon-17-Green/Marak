@@ -187,3 +187,15 @@ The repair keeps seals as ordinary Naturals; no seal type or new identity family
 The query kernel is state-preserving with respect to `מלא הקערות`, `מערכת הטיפה האחרונה`, and `המערכה הנוכחית`. Forward stepping maps `המספר הגדול -> 1`; backward stepping maps `1 -> המספר הגדול`. No compiler, grammar, registry, HAST, IR, artifact, semantic-type, or language change is involved.
 
 Acceptance: GitHub Actions run `37150104605` (#562) — focused T19 **4/4 PASS** and combined D3+D4 **92/92 PASS** on both Ubuntu and Windows; core **626 passed, 126 subtests passed**. Candidate SHA-256 is `8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90`; normalized tokens 66,769; frontier 62,110 at candidate line 507 / original line 999, the Luach Sixteen heading.
+
+## D4-PATCH-021 — Luach Sixteen / unbiased choice among many ways
+
+Original lines 999–1161 define a general reusable selector for choosing exactly one דרך without bias. The source has two cardinality regimes and explicitly forbids collapsing the procedure to a direct remainder when the tail of the answer space would give unequal weight.
+
+For מספר הדרכים <= המספר הגדול, the repair computes האחרון אשר ילקח = M - (M mod N) through the already source-authorized הנותר בדרך הקצרה, skips answer numbers above that threshold by reusing Luach Fifteen חשב מענה הבא, and only then maps the accepted number to ((a-1) mod N)+1.
+
+For מספר הדרכים > המספר הגדול, the repair constructs the smallest positive מספר המקומות = k with מספר כל היוצאים = M^k >= N using exact Natural multiplication. הרכבה consumes exactly k successive T19 answers, subtracts one from each to obtain base-M digits, combines them with powers 1,M,M^2,..., and adds one to form המספר הרחב האחד. צעידה then advances or retreats cyclically in 1..M^k according to the already-fixed T19 direction. האחרון הרחב אשר ילקח is the greatest multiple of N not exceeding M^k; rejected wide values are skipped before the same one-based mapping.
+
+The six source-declared multi-word identities use counted SourceName: מספר הדרכים, האחרון אשר ילקח, מספר המקומות, מספר כל היוצאים, המספר הרחב האחד, האחרון הרחב אשר ילקח. No welded aliases are introduced. Internal helper identities are single words. The generic selector contains no bowl-fill or bowl-arrangement substitution; Luach Eleven/Fourteen arrangement rules remain separate.
+
+Acceptance: executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e; GitHub Actions push #568 (37171652776) and PR #569 (37171656172) are SUCCESS. Focused T20 is 4/4 PASS on Ubuntu and Windows; T19 regression 4/4 PASS on both; combined D3+D4 96/96 PASS on both; core 630 passed, 126 subtests passed; A13 289 checks PASS. Candidate SHA-256 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; normalized tokens 68,973; frontier 65,148 at candidate line 559 / original line 1165.
