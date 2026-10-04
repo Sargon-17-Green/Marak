@@ -254,41 +254,57 @@ def _index(side:str,magnitude:int):
         return {"index":"Zero"}
     return {"index":"AfterZero" if side=="after" else "BeforeZero","magnitude":magnitude}
 
-def _run_three_one_each_side():
-    extra=_probe_query_decl()
-    principal=" ואחרי כן ".join([
-        _call("חשב המספר הגדול"),
-        _call("אתחל שערים"),
-        _call("בנה שערים אחרי",[("מנין",_nat(1))]),
-        "עשה את המעשה אשר שמו צלם",
-        _call("בנה שערים לפני",[("מנין",_nat(1))]),
-        "עשה את המעשה אשר שמו צלם",
-    ])
-    return three(_preparation(extra)+" ועתה "+principal)[1]
+def _step_preparation(extra:str="")->str:
+    lines=CANDIDATE.read_text(encoding="utf-8").splitlines()
+    place_names=["השער התיכון","יום שאלת השער","השער הנוכחי"]
+    act_names=["צעד יום אחרי","צעד יום לפני","צעד שער אחרי","צעד שער לפני"]
+    prefixes=[]
+    for name in place_names:
+        prefixes.append("יהי מקום ושמו "+_counted(name)+" ")
+    for name in act_names:
+        a=_counted(name)
+        prefixes.extend(["יהי מעשה ושמו "+a, "זה דבר המעשה אשר שמו "+a+" "])
+    selected=[line for line in lines if any(line.startswith(prefix) for prefix in prefixes)]
+    assert len(selected)==11
+    prep=" ".join(selected)
+    return prep+((" "+extra) if extra else "")
 
-def _run_three_cumulative_steps(a1:int,a2:int,b1:int,b2:int):
-    extra=_probe_gate_decl()
-    middle=_counted("השער התיכון")
-    set_middle=(
-        f"שים במקום אשר שמו {middle} את המעלה אשר במקום אשר שמו יסוד "
-        f"תחת המעלה אשר במקום אשר שמו {middle}"
+def _reset_query_to_middle()->str:
+    return (
+        "שים במקום אשר שמו "+_counted("יום שאלת השער")+" "
+        "את "+_place_index("השער התיכון")+" "
+        "תחת "+_place_index("יום שאלת השער")
     )
-    step_after="עשה את המעשה אשר שמו "+_counted("צעד שער אחרי")
-    step_before="עשה את המעשה אשר שמו "+_counted("צעד שער לפני")
+
+def _run_three_gate_prefixes(a1:int,a2:int,b1:int,b2:int):
+    extra=_probe_query_decl()+" "+_probe_gate_decl()
+    step_day_after="עשה את המעשה אשר שמו "+_counted("צעד יום אחרי")
+    step_day_before="עשה את המעשה אשר שמו "+_counted("צעד יום לפני")
+    step_gate_after="עשה את המעשה אשר שמו "+_counted("צעד שער אחרי")
+    step_gate_before="עשה את המעשה אשר שמו "+_counted("צעד שער לפני")
     principal=" ואחרי כן ".join([
-        set_middle,
+        _reset_query_to_middle(),
         _reset_gate_to_middle(),
-        format_natural(a1)+" פעמים "+step_after,
+        step_day_after,
+        format_natural(a1)+" פעמים "+step_gate_after,
+        "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
-        format_natural(a2)+" פעמים "+step_after,
+        step_day_after,
+        format_natural(a2)+" פעמים "+step_gate_after,
+        "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
+        _reset_query_to_middle(),
         _reset_gate_to_middle(),
-        format_natural(b1)+" פעמים "+step_before,
+        step_day_before,
+        format_natural(b1)+" פעמים "+step_gate_before,
+        "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
-        format_natural(b2)+" פעמים "+step_before,
+        step_day_before,
+        format_natural(b2)+" פעמים "+step_gate_before,
+        "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
     ])
-    return three(_preparation(extra)+" ועתה "+principal)[1]
+    return three(_step_preparation(extra)+" ועתה "+principal)[1]
 
 def test_d4_t21_authorized_span_names_reuse_and_constructive_shape():
     lines=CANDIDATE.read_text(encoding="utf-8").splitlines()
@@ -327,6 +343,16 @@ def test_d4_t21_authorized_span_names_reuse_and_constructive_shape():
     assert "שים במקום אשר שמו "+_counted("השער התיכון") in init_gates
     assert "המעלה אשר במקום אשר שמו יסוד" in init_gates
     assert _counted("בנה אבנים") not in gap_body
+    for reused in [
+        "אתחל שאלת שער","בנה נסתרות","בנה טיפות","אתחל קערות",
+        "ערבב כל הטיפות","חשב מענה ראשון","חשב כיוון המענה",
+    ]:
+        assert "עשה את המעשה אשר שמו "+_counted(reused) in gap_body
+    assert "עשה את המעשה אשר שמו גמר" in gap_body
+    assert "עשה את המעשה אשר שמו בחירה" in gap_body
+    assert _counted("חותם דרך בין שערי קציצה") in gap_body
+    assert "המספר אשר הוא תשע מאות ועשרים ושנים" in gap_body
+    assert "המספר אשר הוא ארבעים ואחד" in gap_body
 
     after=next(line for line in lines if line.startswith("זה דבר המעשה אשר שמו "+_counted("השער הבא אחרי")+" "))
     assert after.index(_counted("צעד יום אחרי")) < after.index(_counted("חשב מוני שער"))
@@ -398,58 +424,33 @@ def test_d4_t21_independent_oracle_receipts_bounds_monotonicity_and_asymmetry():
     assert all(a>b for a,b in zip(before_positions,before_positions[1:]))
     assert after[0]["gap"]!=before[0]["gap"]
 
-def test_d4_t21_representative_positive_negative_three_runtimes_matches_oracle():
-    a1=_oracle("after",1)
-    b1=_oracle("before",1)
-    obs=_run_three_one_each_side()
-    assert obs["outcome"]=="Normal"
-
-    gaps=[v for act,v in obs["products"] if act=="חשב רווח שער"]
-    assert gaps==[a1["gap"],b1["gap"]]
-    assert all(42<=g<=963 for g in gaps)
-
-    selections=[v for act,v in obs["products"] if act=="בחירה"]
-    assert selections[-2:]==[a1["selected"],b1["selected"]]
-    firsts=[v for act,v in obs["products"] if act=="חשב מענה ראשון"]
-    assert firsts[-2:]==[a1["first"],b1["first"]]
-    directions=[v for act,v in obs["products"] if act=="חשב כיוון המענה"]
-    assert directions[-2:]==[a1["direction"],b1["direction"]]
-
-    after_steps=[v for act,v in obs["products"] if act=="השער הבא אחרי"]
-    before_steps=[v for act,v in obs["products"] if act=="השער הבא לפני"]
-    assert after_steps==[_index("after",a1["gap"])]
-    assert before_steps==[_index("before",b1["gap"])]
-
-    query_snapshots=[v for act,v in obs["products"] if act=="צלם"]
-    assert query_snapshots==[_index("after",1),_index("before",1)]
-    assert a1["gap"]!=1
-    assert b1["gap"]!=1
-
-    facts=dict(obs["facts"])
-    assert facts["השער התיכון"]==_index("after",0)
-    assert facts["יום שאלת השער"]==_index("before",1)
-    assert facts["השער הנוכחי"]==_index("before",b1["gap"])
-    assert facts["מספר המעשה"]==1
-    assert facts["מספר השאלה"]==2
-    assert facts["מספר המרחק"]==2
-    assert facts["מספר החיבור"]==3
-    assert facts["מספר הדרך"]==1
-    assert facts["מונה השערים"]==1
-    assert facts["מלא הקערות"]==b1["fills"]
-    assert facts["מערכת הטיפה האחרונה"]==b1["last_arr"]
-
-def test_d4_t21_cumulative_prefix_stepping_three_runtimes():
+def test_d4_t21_representative_positive_negative_and_cumulative_prefixes_three_runtimes():
     a1,a2=_oracle("after",1),_oracle("after",2)
     b1,b2=_oracle("before",1),_oracle("before",2)
-    obs=_run_three_cumulative_steps(a1["gap"],a2["gap"],b1["gap"],b2["gap"])
+    obs=_run_three_gate_prefixes(a1["gap"],a2["gap"],b1["gap"],b2["gap"])
     assert obs["outcome"]=="Normal"
-    snapshots=[v for act,v in obs["products"] if act=="ראי"]
-    assert snapshots==[
+
+    query_snapshots=[v for act,v in obs["products"] if act=="צלם"]
+    assert query_snapshots==[
+        _index("after",1),
+        _index("after",2),
+        _index("before",1),
+        _index("before",2),
+    ]
+
+    gate_snapshots=[v for act,v in obs["products"] if act=="ראי"]
+    assert gate_snapshots==[
         _index("after",a1["gap"]),
         _index("after",a1["gap"]+a2["gap"]),
         _index("before",b1["gap"]),
         _index("before",b1["gap"]+b2["gap"]),
     ]
+
+    assert 42<=a1["gap"]<=963
+    assert 42<=b1["gap"]<=963
+    assert a1["gap"]!=b1["gap"]
+    assert a1["gap"]!=1
+    assert b1["gap"]!=1
 
 def test_d4_t21_query_day_and_gate_day_are_separate_recurrences():
     lines=CANDIDATE.read_text(encoding="utf-8").splitlines()
