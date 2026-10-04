@@ -6,7 +6,7 @@ from pathlib import Path
 
 from compiler.api import compile_source
 from compiler.backend.portable import execute_ir
-from compiler.parse.a15_numerals import format_natural
+from compiler.parse.a15_numerals import format_feminine_count, format_natural
 from compiler.runtime.observables import backend_observable
 from tests.test_c5_6_general_index_surface import three
 
@@ -286,21 +286,21 @@ def _run_three_gate_prefixes(a1:int,a2:int,b1:int,b2:int):
         _reset_query_to_middle(),
         _reset_gate_to_middle(),
         step_day_after,
-        format_natural(a1)+" פעמים "+step_gate_after,
+        format_feminine_count(a1)+" פעמים "+step_gate_after,
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
         step_day_after,
-        format_natural(a2)+" פעמים "+step_gate_after,
+        format_feminine_count(a2)+" פעמים "+step_gate_after,
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
         _reset_query_to_middle(),
         _reset_gate_to_middle(),
         step_day_before,
-        format_natural(b1)+" פעמים "+step_gate_before,
+        format_feminine_count(b1)+" פעמים "+step_gate_before,
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
         step_day_before,
-        format_natural(b2)+" פעמים "+step_gate_before,
+        format_feminine_count(b2)+" פעמים "+step_gate_before,
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
     ])
