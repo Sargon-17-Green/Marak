@@ -71,7 +71,7 @@ def _call_choice_expr(n_expr: str, answer_expr: str, direction_expr: str) -> str
 
 def _t20_bounds(lines: list[str]) -> tuple[int, int]:
     start = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("מספר הדרכים")))
-    end = next(i for i, line in enumerate(lines) if line.startswith("# לוח שבעה עשר: שערי הקציצה"))
+    end = next(i for i, line in enumerate(lines) if line.startswith("יהי מקום ושמו " + _counted("השער התיכון")))
     return start, end
 
 
