@@ -199,3 +199,16 @@ For מספר הדרכים > המספר הגדול, the repair constructs the sma
 The six source-declared multi-word identities use counted SourceName: מספר הדרכים, האחרון אשר ילקח, מספר המקומות, מספר כל היוצאים, המספר הרחב האחד, האחרון הרחב אשר ילקח. No welded aliases are introduced. Internal helper identities are single words. The generic selector contains no bowl-fill or bowl-arrangement substitution; Luach Eleven/Fourteen arrangement rules remain separate.
 
 Acceptance: executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e; GitHub Actions push #568 (37171652776) and PR #569 (37171656172) are SUCCESS. Focused T20 is 4/4 PASS on Ubuntu and Windows; T19 regression 4/4 PASS on both; combined D3+D4 96/96 PASS on both; core 630 passed, 126 subtests passed; A13 289 checks PASS. Candidate SHA-256 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; normalized tokens 68,973; frontier 65,148 at candidate line 559 / original line 1165.
+
+## D4-PATCH-022 — Luach Seventeen / cutlet gates
+
+Original lines 1165–1247 define the cutlet-gate recurrence around Foundation. Foundation itself is the source-declared middle gate. For the nth gate after Foundation, the action day remains Foundation, while the query day is exactly the nth day after Foundation. The complete already-authorized drops, bowls, Luach Fifteen query and Luach Sixteen selector machinery is recomputed for that query. One of 922 values is chosen without bias and 41 is added, so every inter-gate gap is in 42..963. The resulting gap advances from the preceding gate, not from the query day.
+
+The before-Foundation stream is independent and symmetric in recurrence shape but not in values: its nth query day is the nth day before Foundation and its gate position advances cumulatively backward. The source explicitly forbids identifying the query day with the gate day or reusing one side's query for the other.
+
+The repair introduces a counted-SourceName workspace for the middle gate, query day, current gate, result, selected answer/direction/choice/gap and gate counter. It reuses existing day-number/counter logic, hidden and visible drops, bowl initialization and mixing, T19 bowl-1/seal-1 answer semantics, and T20 unbiased selection over 922 ways. No finite gate table is embedded; בנה שערים אחרי and בנה שערים לפני produce arbitrary finite prefixes of the unbounded source recurrence.
+
+Independent oracle receipts for the first four intervals are after Foundation [377, 740, 885, 200] and before Foundation [762, 513, 584, 808], yielding cumulative gate positions [377, 1117, 2002, 2202] and [-762, -1275, -1859, -2667]. All gaps satisfy the source bound 42..963.
+
+Acceptance executable/evidence head: 76b895877b81614980c7edf5e4a4885b836d929e. GitHub Actions push #578 (37238924835) and PR #579 (37238927963) are 19/19 SUCCESS. Focused T21 is 5/5 PASS on Ubuntu and Windows; T19 and T20 focused regressions remain 4/4 PASS each; D3+D4 is 101/101 PASS on both; core is 635 passed + 126 subtests; A13 is 289 checks PASS. Candidate SHA-256 6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881; normalized tokens 75,245; frontier 71,871 at candidate line 598 / original line 1251.
+

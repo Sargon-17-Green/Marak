@@ -533,3 +533,56 @@ Final executable candidate measurement:
 T20 status: COMPLETE / VERIFIED_BY_DEDICATED_D4_CI — READY FOR MASTER REVIEW.
 
 T21 / Luach Seventeen was not started.
+
+## Post-C5.7 continuation — T21 / Luach Seventeen
+
+Starting accepted documentation HEAD: `ccaaa9e75c3f2664c9f379674c335e746de3ecd4`. T20 was Master-accepted and was not reopened. T21 is limited to original Luach Seventeen lines 1165–1249; Luach Eighteen begins at original line 1251 and is the hard stop.
+
+Final executable/evidence HEAD: `76b895877b81614980c7edf5e4a4885b836d929e`.
+
+T21 source repair:
+- Foundation is `השער התיכון` and remains the action-day anchor for every gate query;
+- the nth after/before query uses the nth day after/before Foundation, independently of the current gate position;
+- each query rebuilds counters and reuses the existing hidden/visible drops, bowl initialization/mixing, T19 bowl-1 seal-1 answer/direction, and T20 unbiased selector;
+- the selector cardinality is exactly 922; the historical source wording `שנים ועשרים ותשע מאות` is normalized to the admitted numeral spelling `תשע מאות ועשרים ושנים` without changing its value;
+- 41 is added to the selected 1..922 value, yielding an exact 42..963 inter-gate gap;
+- gate positions accumulate from the previous gate, while query days advance only by ordinal ±1;
+- after-Foundation and before-Foundation streams are independent;
+- no finite gate table is introduced.
+
+Independent full oracle receipts:
+- first four after-Foundation gaps: **377, 740, 885, 200**;
+- first four before-Foundation gaps: **762, 513, 584, 808**;
+- cumulative after positions: **377, 1117, 2002, 2202**;
+- cumulative before positions: **-762, -1275, -1859, -2667**;
+- all tested gaps satisfy **42..963** and the two sides are asymmetric.
+
+Final focused T21 suite is **5/5 PASS** on Ubuntu and **5/5 PASS** on Windows. It combines a full independent arithmetic oracle and production-bridge structural checks with three-runtime execution of representative positive/negative recurrence and cumulative prefixes.
+
+Acceptance on push run `37238924835` (#578) and PR run `37238927963` (#579):
+- both workflows: **19/19 SUCCESS**;
+- focused T19: **4/4 PASS** on Ubuntu and Windows;
+- focused T20: **4/4 PASS** on Ubuntu and Windows;
+- focused T21: **5/5 PASS** on Ubuntu and Windows;
+- combined D3+D4: **101/101 PASS** on Ubuntu and Windows;
+- core: **635 passed, 126 subtests passed**;
+- A13 selftest: **289 checks PASS**;
+- semantics suite: **PASS**;
+- post-M2 proposal regressions: **PASS** on both D4 jobs.
+
+Final executable candidate measurement:
+- candidate SHA-256: `6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881`;
+- original SHA-256: `7b834f4a444e021bb65164282b851af960a6dbc0be3d458c2412181773b9db7b`;
+- normalized tokens: **75,245**;
+- frontier token: **71,871**;
+- candidate line: **598**;
+- mapped original line: **1251**;
+- diagnostic: `PARSE0002`;
+- next blocker: `# לוח שמונה עשר: שנת חמשת אלפים`.
+
+Intermediate T21 CI attempts #572–#577 were superseded/cancelled during test-fixture performance/syntax remediation and are not acceptance evidence. Those descendants did not change the final T21 candidate after the accepted implementation; final acceptance is #578/#579 on `76b89587...`.
+
+T21 status: **COMPLETE / VERIFIED_BY_DEDICATED_D4_CI — READY FOR MASTER REVIEW**.
+
+T22 / Luach Eighteen was **not started**.
+

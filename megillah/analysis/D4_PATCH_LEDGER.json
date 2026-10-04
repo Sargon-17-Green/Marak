@@ -613,6 +613,39 @@
         "tests/test_d4_t19_luach15.py"
       ],
       "algorithm_change": false
+    },
+    {
+      "id": "D4-PATCH-022",
+      "original_span": {
+        "start_line": 1165,
+        "end_line": 1247
+      },
+      "previous_candidate_span": {
+        "description": "historical Luach Seventeen prose"
+      },
+      "replacement": "constructive cutlet-gate recurrence around Foundation: independent ordinal query-day streams before/after Foundation, exact per-query T7–T16 recomputation, unbiased 1..922 selection, +41 day gap, and cumulative bidirectional gate stepping",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_before": "Foundation is the middle cutlet gate. For the nth gate after Foundation, keep action day fixed at Foundation, use the nth day after Foundation as that gate's query day, run the established drops/bowls/query/selection machinery, choose uniformly from 1..922, add 41 to obtain a 42..963 day gap, and advance from the preceding gate by that gap. Before Foundation uses a separate nth-day-before query stream and cumulative backward gate recurrence. Query day is not gate day; the two sides are independent and gates continue without end.",
+      "semantic_after": "השער התיכון is initialized from יסוד. יום שאלת השער advances one ordinal day per requested gate, while השער הנוכחי advances cumulatively by the selected gap. חשב מוני שער rebuilds the action/question/distance/connection/way counters with action day fixed at the middle gate; חשב רווח שער resets query-dependent state, reuses the existing hidden/visible-drop, bowl, T19 answer/direction and T20 בחירה machinery for 922 choices, then adds 41. השער הבא אחרי/לפני advance the query stream separately from the gate position. בנה שערים אחרי/לפני construct arbitrary finite prefixes, establishing the source's unbounded recurrence.",
+      "preservation_class": "SEMANTIC_EQUIVALENT",
+      "evidence": [
+        "original 1165-1247; organizational headings/separator recorded separately",
+        "tests/test_d4_t21_luach17.py independent full arithmetic oracle for four positive and four negative ordinal queries",
+        "independent gap receipts after Foundation [377,740,885,200] and before Foundation [762,513,584,808], all within 42..963",
+        "three-runtime recurrence evidence for representative positive/negative intervals plus cumulative two-gate prefixes on both sides",
+        "structural bridge verifies production חשב רווח שער reuses T7-T16 kernels, bowl 1, seal 1, 922-way T20 selection, and +41",
+        "GitHub Actions push #578 and PR #579: 19/19 SUCCESS; focused T21 5/5 and D3+D4 101/101 on Ubuntu and Windows",
+        "core 635 passed + 126 subtests; A13 289 checks PASS",
+        "candidate SHA-256 6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881; frontier 71871 at candidate line 598 / original line 1251"
+      ],
+      "confidence": "HIGH",
+      "approval_state": "VERIFIED_BY_DEDICATED_D4_CI",
+      "tests": [
+        "tests/test_d4_t21_luach17.py",
+        "tests/test_d4_t20_luach16.py",
+        "tests/test_d4_t19_luach15.py"
+      ],
+      "algorithm_change": false
     }
   ],
   "candidate_source_changed_in_d4": true,

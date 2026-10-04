@@ -325,6 +325,21 @@
       "evidence": "GitHub Actions push run 37171652776 (#568) and PR run 37171656172 (#569): full workflow SUCCESS. Focused T20 4/4 PASS on Ubuntu and Windows; D3+D4 96/96 PASS on both; core 630 passed + 126 subtests; candidate SHA 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; normalized tokens 68973; frontier 65148 at candidate line 559 / original line 1165.",
       "normalized_token_count": 68973,
       "semantic_source_advancement": true
+    },
+    {
+      "tranche_id": "D4-C56-T21-LUACH17-CUTLET-GATES",
+      "candidate_sha256": "6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881",
+      "normalized_token_frontier": 71871,
+      "candidate_line": 598,
+      "original_line": 1251,
+      "diagnostic": "PARSE0002",
+      "diagnostic_phase": "parse",
+      "classification": "SOURCE_REPAIR_LUACH_EIGHTEEN",
+      "repair_that_unlocked_previous_frontier": "D4-PATCH-022",
+      "next_blocker": "# לוח שמונה עשר: שנת חמשת אלפים",
+      "evidence": "GitHub Actions push run 37238924835 (#578) and PR run 37238927963 (#579): full workflow 19/19 SUCCESS. Focused T21 5/5 PASS on Ubuntu and Windows; D3+D4 101/101 PASS on both; core 635 passed + 126 subtests; A13 289 checks PASS; candidate SHA 6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881; normalized tokens 75245; frontier 71871 at candidate line 598 / original line 1251.",
+      "normalized_token_count": 75245,
+      "semantic_source_advancement": true
     }
   ],
   "ci_trigger_receipt": "contents-api update after post-C5.6 frozen-guard adaptation",
@@ -348,5 +363,6 @@
   "t18_ci_trigger": "GitHub Actions run 37133055384",
   "canonical_name_cleanup_ci_trigger": "GitHub Actions run 37144651867 (#555): PASS on cleanup head b53602e672bdf574fa38b6d7dfd0b8f9c100294d",
   "t19_ci_trigger": "GitHub Actions run 37150104605 (#562)",
-  "t20_ci_trigger": "GitHub Actions push run 37171652776 (#568) and PR run 37171656172 (#569): SUCCESS on executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e"
+  "t20_ci_trigger": "GitHub Actions push run 37171652776 (#568) and PR run 37171656172 (#569): SUCCESS on executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e",
+  "t21_ci_trigger": "GitHub Actions push run 37238924835 (#578) and PR run 37238927963 (#579): 19/19 SUCCESS on executable/evidence head 76b895877b81614980c7edf5e4a4885b836d929e"
 }

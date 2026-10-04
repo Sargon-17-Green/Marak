@@ -939,14 +939,72 @@
         "tests/test_d4_t20_luach16.py real M with N=M+1 exact-Natural three-runtime case",
         "GitHub Actions runs 37171652776 (#568) and 37171656172 (#569): SUCCESS"
       ]
+    },
+    {
+      "id": "D4-PATCH-022",
+      "candidate_start_line": 559,
+      "candidate_end_line": 594,
+      "original_lines": [
+        1167,
+        1169,
+        1173,
+        1175,
+        1177,
+        1179,
+        1181,
+        1183,
+        1185,
+        1187,
+        1189,
+        1191,
+        1193,
+        1195,
+        1197,
+        1199,
+        1203,
+        1205,
+        1207,
+        1209,
+        1211,
+        1213,
+        1215,
+        1217,
+        1219,
+        1221,
+        1223,
+        1225,
+        1227,
+        1229,
+        1231,
+        1233,
+        1235,
+        1239,
+        1241,
+        1243,
+        1245,
+        1247
+      ],
+      "original_text": "Luach Seventeen makes Foundation the middle cutlet gate and defines two independent infinite gate recurrences. For ordinal n after/before Foundation, the query day is the nth day on that side while action day remains Foundation; the established drops/bowls/T19/T20 machinery chooses 1..922 and +41 yields a 42..963 gap, which is accumulated from the previous gate. Query day and gate day are distinct.",
+      "replacement": "Counted SourceName places and acts maintain a fixed middle gate, separate ordinal query-day and cumulative gate-position workspaces, rebuild the five counters for each query, reuse the existing T7–T20 kernels, and construct arbitrary positive/negative gate prefixes.",
+      "classification": "STRUCTURAL_EXPLICITNESS",
+      "semantic_justification": "The repair preserves Foundation as the action-day anchor for every query, preserves the separate positive and negative query streams, uses exact ordinal query days rather than previous gate positions, selects through the already verified unbiased 922-way T20 mechanism, adds exactly 41, and advances gates cumulatively. It introduces no finite-table shortcut and leaves earlier algorithms unchanged.",
+      "algorithm_preserved": true,
+      "wording_changed": true,
+      "structure_changed": true,
+      "evidence": [
+        "original semantic lines 1167-1247 excluding organizational headings",
+        "tests/test_d4_t21_luach17.py independent full oracle, bounds, asymmetry, query/gate separation, and unbounded constructive shape",
+        "three-runtime representative positive/negative plus cumulative-prefix recurrence evidence",
+        "GitHub Actions runs 37238924835 (#578) and 37238927963 (#579): 19/19 SUCCESS"
+      ]
     }
   ],
-  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-021, Luach Sixteen is executable as a general unbiased selector in both N<=M and N>M regimes, including exact minimal M^k capacity, rejection before mapping, T19 direction reuse, and explicit six-bowl-arrangement exclusion. The next unrepaired source begins at Luach Seventeen.",
+  "provenance_coverage": "D3 mapping inherited except explicit D4 overrides. Through D4-PATCH-022, Luach Seventeen is executable as the constructive cutlet-gate recurrence on both sides of Foundation: fixed action-day anchor, independent ordinal query streams, exact reuse of T7–T20 computation, 922-way unbiased selection, +41 bounded gaps, and cumulative gate positions. The next unrepaired source begins at Luach Eighteen.",
   "blocked_future_derivation": {
-    "source_span": "original line 1165 onward",
-    "requirement": "Luach Seventeen / cutlet gates",
+    "source_span": "original line 1251 onward",
+    "requirement": "Luach Eighteen / Year Five Thousand",
     "blocker": null,
-    "note": "T20 is verified complete. The measured frontier is the Luach Seventeen heading at candidate line 559 / original line 1165. Do not repair Luach Seventeen within T20."
+    "note": "T21 is verified complete. The measured frontier is the Luach Eighteen heading at candidate line 598 / original line 1251. Do not repair Luach Eighteen within T21."
   },
   "post_c56_baseline_main_sha": "5a5f8dae0dd8c3526de5f21f84a3a7b2aba984e3",
   "externalized_spans": [
@@ -1378,6 +1436,56 @@
       "classification": "DOCUMENTARY_EXTERNALIZATION",
       "reason": "Organizational heading/separator only; executable Luach Sixteen requirements are retained by D4-PATCH-021.",
       "destination": "megillah/analysis/D4_T20_LUACH16_ANALYSIS.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-044",
+      "original_start_line": 1165,
+      "original_end_line": 1165,
+      "original_text": "# לוח שבעה עשר: שערי הקציצה",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading/separator only; executable Luach Seventeen requirements are retained by D4-PATCH-022.",
+      "destination": "megillah/analysis/D4_T21_LUACH17_ANALYSIS.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-045",
+      "original_start_line": 1171,
+      "original_end_line": 1171,
+      "original_text": "## השערים אשר אחר יום היסוד",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading/separator only; executable Luach Seventeen requirements are retained by D4-PATCH-022.",
+      "destination": "megillah/analysis/D4_T21_LUACH17_ANALYSIS.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-046",
+      "original_start_line": 1201,
+      "original_end_line": 1201,
+      "original_text": "## השערים אשר טרם יום היסוד",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading/separator only; executable Luach Seventeen requirements are retained by D4-PATCH-022.",
+      "destination": "megillah/analysis/D4_T21_LUACH17_ANALYSIS.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-047",
+      "original_start_line": 1237,
+      "original_end_line": 1237,
+      "original_text": "## השערים לא יחדלו",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading/separator only; executable Luach Seventeen requirements are retained by D4-PATCH-022.",
+      "destination": "megillah/analysis/D4_T21_LUACH17_ANALYSIS.md",
+      "retained_requirement": "None."
+    },
+    {
+      "id": "D4-DOC-048",
+      "original_start_line": 1249,
+      "original_end_line": 1249,
+      "original_text": "---",
+      "classification": "DOCUMENTARY_EXTERNALIZATION",
+      "reason": "Organizational heading/separator only; executable Luach Seventeen requirements are retained by D4-PATCH-022.",
+      "destination": "megillah/analysis/D4_T21_LUACH17_ANALYSIS.md",
       "retained_requirement": "None."
     }
   ],
