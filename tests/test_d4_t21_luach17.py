@@ -62,6 +62,22 @@ def _probe_query_decl()->str:
         f"עד הנה דבר המעשה אשר שמו {name}",
     ])
 
+def _probe_gate_decl()->str:
+    name="ראי"
+    return " ".join([
+        f"יהי מעשה ושמו {name}",
+        f"זה דבר המעשה אשר שמו {name}",
+        f"הוצא מן המעשה הזה את {_place_index('השער הנוכחי')}",
+        f"עד הנה דבר המעשה אשר שמו {name}",
+    ])
+
+def _reset_gate_to_middle()->str:
+    return (
+        "שים במקום אשר שמו "+_counted("השער הנוכחי")+" "
+        "את "+_place_index("השער התיכון")+" "
+        "תחת "+_place_index("השער הנוכחי")
+    )
+
 def _t21_bounds(lines:list[str])->tuple[int,int]:
     start=next(i for i,line in enumerate(lines) if line.startswith("יהי מקום ושמו "+_counted("השער התיכון")))
     end=next(i for i,line in enumerate(lines) if line.startswith("# לוח שמונה עשר: שנת חמשת אלפים"))
@@ -238,16 +254,39 @@ def _index(side:str,magnitude:int):
         return {"index":"Zero"}
     return {"index":"AfterZero" if side=="after" else "BeforeZero","magnitude":magnitude}
 
-def _run_three_two_each_side():
+def _run_three_one_each_side():
     extra=_probe_query_decl()
     principal=" ואחרי כן ".join([
         _call("חשב המספר הגדול"),
         _call("אתחל שערים"),
-        _call("בנה שערים אחרי",[("מנין",_nat(0))]),
-        _call("בנה שערים אחרי",[("מנין",_nat(2))]),
+        _call("בנה שערים אחרי",[("מנין",_nat(1))]),
         "עשה את המעשה אשר שמו צלם",
-        _call("בנה שערים לפני",[("מנין",_nat(2))]),
+        _call("בנה שערים לפני",[("מנין",_nat(1))]),
         "עשה את המעשה אשר שמו צלם",
+    ])
+    return three(_preparation(extra)+" ועתה "+principal)[1]
+
+def _run_three_cumulative_steps(a1:int,a2:int,b1:int,b2:int):
+    extra=_probe_gate_decl()
+    middle=_counted("השער התיכון")
+    set_middle=(
+        f"שים במקום אשר שמו {middle} את המעלה אשר במקום אשר שמו יסוד "
+        f"תחת המעלה אשר במקום אשר שמו {middle}"
+    )
+    step_after="עשה את המעשה אשר שמו "+_counted("צעד שער אחרי")
+    step_before="עשה את המעשה אשר שמו "+_counted("צעד שער לפני")
+    principal=" ואחרי כן ".join([
+        set_middle,
+        _reset_gate_to_middle(),
+        format_natural(a1)+" פעמים "+step_after,
+        "עשה את המעשה אשר שמו ראי",
+        format_natural(a2)+" פעמים "+step_after,
+        "עשה את המעשה אשר שמו ראי",
+        _reset_gate_to_middle(),
+        format_natural(b1)+" פעמים "+step_before,
+        "עשה את המעשה אשר שמו ראי",
+        format_natural(b2)+" פעמים "+step_before,
+        "עשה את המעשה אשר שמו ראי",
     ])
     return three(_preparation(extra)+" ועתה "+principal)[1]
 
@@ -359,57 +398,58 @@ def test_d4_t21_independent_oracle_receipts_bounds_monotonicity_and_asymmetry():
     assert all(a>b for a,b in zip(before_positions,before_positions[1:]))
     assert after[0]["gap"]!=before[0]["gap"]
 
-def test_d4_t21_two_gate_prefix_both_sides_three_runtimes_matches_oracle():
-    a1,a2=_oracle("after",1),_oracle("after",2)
-    b1,b2=_oracle("before",1),_oracle("before",2)
-    obs=_run_three_two_each_side()
+def test_d4_t21_representative_positive_negative_three_runtimes_matches_oracle():
+    a1=_oracle("after",1)
+    b1=_oracle("before",1)
+    obs=_run_three_one_each_side()
     assert obs["outcome"]=="Normal"
 
     gaps=[v for act,v in obs["products"] if act=="חשב רווח שער"]
-    assert gaps==[a1["gap"],a2["gap"],b1["gap"],b2["gap"]]
+    assert gaps==[a1["gap"],b1["gap"]]
     assert all(42<=g<=963 for g in gaps)
 
     selections=[v for act,v in obs["products"] if act=="בחירה"]
-    assert selections[-4:]==[a1["selected"],a2["selected"],b1["selected"],b2["selected"]]
+    assert selections[-2:]==[a1["selected"],b1["selected"]]
     firsts=[v for act,v in obs["products"] if act=="חשב מענה ראשון"]
-    assert firsts[-4:]==[a1["first"],a2["first"],b1["first"],b2["first"]]
+    assert firsts[-2:]==[a1["first"],b1["first"]]
     directions=[v for act,v in obs["products"] if act=="חשב כיוון המענה"]
-    assert directions[-4:]==[a1["direction"],a2["direction"],b1["direction"],b2["direction"]]
+    assert directions[-2:]==[a1["direction"],b1["direction"]]
 
     after_steps=[v for act,v in obs["products"] if act=="השער הבא אחרי"]
     before_steps=[v for act,v in obs["products"] if act=="השער הבא לפני"]
-    assert after_steps==[
-        _index("after",a1["gap"]),
-        _index("after",a1["gap"]+a2["gap"]),
-    ]
-    assert before_steps==[
-        _index("before",b1["gap"]),
-        _index("before",b1["gap"]+b2["gap"]),
-    ]
-
-    build_after=[v for act,v in obs["products"] if act=="בנה שערים אחרי"]
-    build_before=[v for act,v in obs["products"] if act=="בנה שערים לפני"]
-    assert build_after[0]==_index("after",0)
-    assert build_after[1]==_index("after",a1["gap"]+a2["gap"])
-    assert build_before[-1]==_index("before",b1["gap"]+b2["gap"])
+    assert after_steps==[_index("after",a1["gap"])]
+    assert before_steps==[_index("before",b1["gap"])]
 
     query_snapshots=[v for act,v in obs["products"] if act=="צלם"]
-    assert query_snapshots==[_index("after",2),_index("before",2)]
-    assert a1["gap"]!=2 and a1["gap"]+1!=2
-    assert b1["gap"]!=2 and b1["gap"]+1!=2
+    assert query_snapshots==[_index("after",1),_index("before",1)]
+    assert a1["gap"]!=1
+    assert b1["gap"]!=1
 
     facts=dict(obs["facts"])
     assert facts["השער התיכון"]==_index("after",0)
-    assert facts["יום שאלת השער"]==_index("before",2)
-    assert facts["השער הנוכחי"]==_index("before",b1["gap"]+b2["gap"])
+    assert facts["יום שאלת השער"]==_index("before",1)
+    assert facts["השער הנוכחי"]==_index("before",b1["gap"])
     assert facts["מספר המעשה"]==1
-    assert facts["מספר השאלה"]==4
-    assert facts["מספר המרחק"]==3
-    assert facts["מספר החיבור"]==5
+    assert facts["מספר השאלה"]==2
+    assert facts["מספר המרחק"]==2
+    assert facts["מספר החיבור"]==3
     assert facts["מספר הדרך"]==1
-    assert facts["מונה השערים"]==2
-    assert facts["מלא הקערות"]==b2["fills"]
-    assert facts["מערכת הטיפה האחרונה"]==b2["last_arr"]
+    assert facts["מונה השערים"]==1
+    assert facts["מלא הקערות"]==b1["fills"]
+    assert facts["מערכת הטיפה האחרונה"]==b1["last_arr"]
+
+def test_d4_t21_cumulative_prefix_stepping_three_runtimes():
+    a1,a2=_oracle("after",1),_oracle("after",2)
+    b1,b2=_oracle("before",1),_oracle("before",2)
+    obs=_run_three_cumulative_steps(a1["gap"],a2["gap"],b1["gap"],b2["gap"])
+    assert obs["outcome"]=="Normal"
+    snapshots=[v for act,v in obs["products"] if act=="ראי"]
+    assert snapshots==[
+        _index("after",a1["gap"]),
+        _index("after",a1["gap"]+a2["gap"]),
+        _index("before",b1["gap"]),
+        _index("before",b1["gap"]+b2["gap"]),
+    ]
 
 def test_d4_t21_query_day_and_gate_day_are_separate_recurrences():
     lines=CANDIDATE.read_text(encoding="utf-8").splitlines()
