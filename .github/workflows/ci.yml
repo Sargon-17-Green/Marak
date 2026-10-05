@@ -339,20 +339,20 @@ jobs:
 
 
   d4-t21-end-to-end-evidence:
-    name: D4 T21 retained end-to-end evidence (${{ matrix.side }})
+    name: D4 T21 E2E (${{ matrix.side }}, ${{ matrix.runtime }})
     if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
         side: [after, before]
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
+        runtime: [hast, ir, portable]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
-      - run: python -m pip install pytest
       - run: python -m pip install -e .
       - name: Verify immutable T21 candidate
         shell: python
@@ -364,9 +364,32 @@ jobs:
           expected="6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881"
           print(got)
           assert got == expected
-      - name: Run retained T21 full production three-runtime evidence
-        run: python -m pytest -q tests/d4_t21_end_to_end_evidence.py::test_d4_t21_end_to_end_first_gate_${{ matrix.side }}_three_runtimes
+      - name: Run one full production runtime
+        run: >-
+          python tests/d4_t21_end_to_end_evidence.py
+          --side ${{ matrix.side }}
+          --runtime ${{ matrix.runtime }}
+          --output evidence-${{ matrix.side }}-${{ matrix.runtime }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: d4-t21-e2e-${{ matrix.side }}-${{ matrix.runtime }}
+          path: evidence-${{ matrix.side }}-${{ matrix.runtime }}.json
+          if-no-files-found: error
 
+  d4-t21-end-to-end-compare:
+    name: D4 T21 E2E exact three-runtime agreement
+    if: github.event_name == 'push' && ${{ needs.d4-t21-end-to-end-evidence.result }} == 'success'
+    needs: d4-t21-end-to-end-evidence
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: d4-t21-e2e-*
+          path: evidence
+          merge-multiple: true
+      - name: Require exact HAST/IR/portable agreement
+        run: python tests/d4_t21_end_to_end_compare.py
   d4-megillah:
     name: D4 Megillah conformance (${{ matrix.os }})
     strategy:

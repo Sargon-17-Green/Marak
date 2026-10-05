@@ -1,6 +1,18 @@
 from __future__ import annotations
 
-from tests.test_c5_6_general_index_surface import three
+import argparse
+import json
+from pathlib import Path
+
+from compiler.api import compile_source
+from compiler.backend.portable import execute_ir
+from compiler.runtime.ir_reference import execute_reference_ir
+from compiler.runtime.observables import (
+    backend_observable,
+    ir_reference_observable,
+    reference_observable,
+)
+from compiler.runtime.reference import execute_reference
 from tests.test_d4_t21_luach17 import (
     _call,
     _index,
@@ -12,14 +24,10 @@ from tests.test_d4_t21_luach17 import (
 )
 
 
-def _run_full_production_first_gate(side: str):
+def _production_source(side: str) -> str:
     assert side in {"after", "before"}
-
-    # No oracle gap or selected value enters the production source. The real
-    # T21 builder advances the ordinal query day, executes חשב רווח שער
-    # end-to-end (drops/bowls -> T19 -> T20 -> +41), and advances the gate.
-    extra = _probe_query_decl() + " " + _probe_gate_decl()
     builder = "בנה שערים אחרי" if side == "after" else "בנה שערים לפני"
+    extra = _probe_query_decl() + " " + _probe_gate_decl()
     principal = " ואחרי כן ".join([
         _call("חשב המספר הגדול"),
         _call("אתחל שערים"),
@@ -27,17 +35,29 @@ def _run_full_production_first_gate(side: str):
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
     ])
-
-    # three(...) executes the same compiled source through HAST/reference,
-    # IR/reference, and the portable backend and requires exact equality.
-    return three(_preparation(extra) + " ועתה " + principal)[1]
+    return _preparation(extra) + " ועתה " + principal
 
 
-def _assert_full_production_side(side: str, expected_gap: int):
+def _execute_one(source: str, runtime: str):
+    compiled = compile_source(source)
+    assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+
+    if runtime == "hast":
+        return reference_observable(execute_reference(compiled.hast))
+    if runtime == "ir":
+        return ir_reference_observable(execute_reference_ir(compiled.ir))
+    if runtime == "portable":
+        return backend_observable(execute_ir(compiled.ir))
+    raise AssertionError(runtime)
+
+
+def _assert_production_observable(obs, side: str) -> None:
     want = _oracle(side, 1)
-    assert want["gap"] == expected_gap
+    expected_gap = 377 if side == "after" else 762
 
-    obs = _run_full_production_first_gate(side)
+    # Oracle values are comparison targets only.  Neither expected gap nor
+    # selected value is supplied to the production source.
+    assert want["gap"] == expected_gap
     assert obs["outcome"] == "Normal"
 
     gaps = [v for act, v in obs["products"] if act == "חשב רווח שער"]
@@ -71,9 +91,24 @@ def _assert_full_production_side(side: str, expected_gap: int):
     assert facts["מערכת הטיפה האחרונה"] == want["last_arr"]
 
 
-def test_d4_t21_end_to_end_first_gate_after_three_runtimes():
-    _assert_full_production_side("after", 377)
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--side", choices=("after", "before"), required=True)
+    ap.add_argument("--runtime", choices=("hast", "ir", "portable"), required=True)
+    ap.add_argument("--output", type=Path, required=True)
+    ns = ap.parse_args()
+
+    source = _production_source(ns.side)
+    obs = _execute_one(source, ns.runtime)
+    _assert_production_observable(obs, ns.side)
+
+    ns.output.parent.mkdir(parents=True, exist_ok=True)
+    ns.output.write_text(
+        json.dumps(obs, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    print(f"PASS side={ns.side} runtime={ns.runtime} output={ns.output}")
 
 
-def test_d4_t21_end_to_end_first_gate_before_three_runtimes():
-    _assert_full_production_side("before", 762)
+if __name__ == "__main__":
+    main()
