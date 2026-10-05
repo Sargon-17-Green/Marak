@@ -339,8 +339,12 @@ jobs:
 
 
   d4-t21-end-to-end-evidence:
-    name: D4 T21 retained end-to-end evidence
+    name: D4 T21 retained end-to-end evidence (${{ matrix.side }})
     if: github.event_name == 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        side: [after, before]
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -361,7 +365,7 @@ jobs:
           print(got)
           assert got == expected
       - name: Run retained T21 full production three-runtime evidence
-        run: python -m pytest -q tests/d4_t21_end_to_end_evidence.py
+        run: python -m pytest -q tests/d4_t21_end_to_end_evidence.py::test_d4_t21_end_to_end_first_gate_${{ matrix.side }}_three_runtimes
 
   d4-megillah:
     name: D4 Megillah conformance (${{ matrix.os }})

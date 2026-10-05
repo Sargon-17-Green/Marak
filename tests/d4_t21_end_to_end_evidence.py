@@ -12,77 +12,68 @@ from tests.test_d4_t21_luach17 import (
 )
 
 
-def _run_full_production_first_gate_each_side():
-    # This intentionally uses the real T21 gate builders.  No oracle gap is
-    # injected into the production computation.  three(...) compiles once and
-    # executes the identical source through HAST/reference, IR/reference, and
-    # the portable backend, asserting exact observable agreement.
+def _run_full_production_first_gate(side: str):
+    assert side in {"after", "before"}
+
+    # No oracle gap or selected value enters the production source. The real
+    # T21 builder advances the ordinal query day, executes חשב רווח שער
+    # end-to-end (drops/bowls -> T19 -> T20 -> +41), and advances the gate.
     extra = _probe_query_decl() + " " + _probe_gate_decl()
+    builder = "בנה שערים אחרי" if side == "after" else "בנה שערים לפני"
     principal = " ואחרי כן ".join([
         _call("חשב המספר הגדול"),
         _call("אתחל שערים"),
-        _call("בנה שערים אחרי", [("מנין", _nat(1))]),
-        "עשה את המעשה אשר שמו צלם",
-        "עשה את המעשה אשר שמו ראי",
-        _call("בנה שערים לפני", [("מנין", _nat(1))]),
+        _call(builder, [("מנין", _nat(1))]),
         "עשה את המעשה אשר שמו צלם",
         "עשה את המעשה אשר שמו ראי",
     ])
+
+    # three(...) executes the same compiled source through HAST/reference,
+    # IR/reference, and the portable backend and requires exact equality.
     return three(_preparation(extra) + " ועתה " + principal)[1]
 
 
-def test_d4_t21_end_to_end_first_gate_after_and_before_three_runtimes():
-    after = _oracle("after", 1)
-    before = _oracle("before", 1)
+def _assert_full_production_side(side: str, expected_gap: int):
+    want = _oracle(side, 1)
+    assert want["gap"] == expected_gap
 
-    # Oracle values are comparison targets only.  The production source below
-    # receives neither 377 nor 762 (nor either selected 1..922 value).
-    assert after["gap"] == 377
-    assert before["gap"] == 762
-
-    obs = _run_full_production_first_gate_each_side()
+    obs = _run_full_production_first_gate(side)
     assert obs["outcome"] == "Normal"
 
-    # Actual T21 production gap: query-day setup -> drops/bowls -> T19 -> T20
-    # -> +41.  Both representative sides must match the independent oracle.
     gaps = [v for act, v in obs["products"] if act == "חשב רווח שער"]
-    assert gaps == [377, 762]
+    assert gaps == [expected_gap]
 
-    # Prove that the actual T20 selector, fed by the actual T19 computation,
-    # is what produced the gap inputs (gap = selected + 41).
     selections = [v for act, v in obs["products"] if act == "בחירה"]
-    assert selections[-2:] == [after["selected"], before["selected"]]
-    assert selections[-2:] == [336, 721]
+    assert selections[-1:] == [want["selected"]]
+    assert want["selected"] + 41 == expected_gap
 
     firsts = [v for act, v in obs["products"] if act == "חשב מענה ראשון"]
-    assert firsts[-2:] == [after["first"], before["first"]]
+    assert firsts[-1:] == [want["first"]]
     directions = [v for act, v in obs["products"] if act == "חשב כיוון המענה"]
-    assert directions[-2:] == [after["direction"], before["direction"]]
+    assert directions[-1:] == [want["direction"]]
 
-    # Query day is the ordinal +/-1 day; resulting gate is independently
-    # accumulated by the real T21 gate recurrence.
     query_snapshots = [v for act, v in obs["products"] if act == "צלם"]
-    assert query_snapshots == [_index("after", 1), _index("before", 1)]
+    assert query_snapshots == [_index(side, 1)]
 
     gate_snapshots = [v for act, v in obs["products"] if act == "ראי"]
-    assert gate_snapshots == [_index("after", 377), _index("before", 762)]
+    assert gate_snapshots == [_index(side, expected_gap)]
 
-    after_steps = [v for act, v in obs["products"] if act == "השער הבא אחרי"]
-    before_steps = [v for act, v in obs["products"] if act == "השער הבא לפני"]
-    assert after_steps == [_index("after", 377)]
-    assert before_steps == [_index("before", 762)]
+    gate_act = "השער הבא אחרי" if side == "after" else "השער הבא לפני"
+    gate_steps = [v for act, v in obs["products"] if act == gate_act]
+    assert gate_steps == [_index(side, expected_gap)]
 
-    # Final state belongs to the negative representative query and proves that
-    # the full bowl pipeline actually ran, not merely the lightweight gate
-    # stepping fixture retained in test_d4_t21_luach17.py.
     facts = dict(obs["facts"])
     assert facts["השער התיכון"] == _index("after", 0)
-    assert facts["יום שאלת השער"] == _index("before", 1)
-    assert facts["השער הנוכחי"] == _index("before", 762)
-    assert facts["מספר המעשה"] == 1
-    assert facts["מספר השאלה"] == 2
-    assert facts["מספר המרחק"] == 2
-    assert facts["מספר החיבור"] == 3
-    assert facts["מספר הדרך"] == 1
-    assert facts["מלא הקערות"] == before["fills"]
-    assert facts["מערכת הטיפה האחרונה"] == before["last_arr"]
+    assert facts["יום שאלת השער"] == _index(side, 1)
+    assert facts["השער הנוכחי"] == _index(side, expected_gap)
+    assert facts["מונה השערים"] == 1
+    assert facts["מלא הקערות"] == want["fills"]
+    assert facts["מערכת הטיפה האחרונה"] == want["last_arr"]
+
+
+def test_d4_t21_end_to_end_first_gate_after_three_runtimes():
+    _assert_full_production_side("after", 377)
+
+
+def test_d4_t21_end_to_end_first_gate_before_three_runtimes():
+    _assert_full_production_side("before", 762)
