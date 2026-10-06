@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 import sys
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -44,16 +45,34 @@ def _production_source(side: str) -> str:
 
 
 def _execute_one(source: str, runtime: str):
+    started = time.monotonic()
+    print(
+        f"PHASE compile-start runtime={runtime} source_chars={len(source)}",
+        flush=True,
+    )
     compiled = compile_source(source)
+    compiled_at = time.monotonic()
+    print(
+        f"PHASE compile-done runtime={runtime} seconds={compiled_at - started:.3f}",
+        flush=True,
+    )
     assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
 
+    print(f"PHASE execute-start runtime={runtime}", flush=True)
     if runtime == "hast":
-        return reference_observable(execute_reference(compiled.hast))
-    if runtime == "ir":
-        return ir_reference_observable(execute_reference_ir(compiled.ir))
-    if runtime == "portable":
-        return backend_observable(execute_ir(compiled.ir))
-    raise AssertionError(runtime)
+        outcome = reference_observable(execute_reference(compiled.hast))
+    elif runtime == "ir":
+        outcome = ir_reference_observable(execute_reference_ir(compiled.ir))
+    elif runtime == "portable":
+        outcome = backend_observable(execute_ir(compiled.ir))
+    else:
+        raise AssertionError(runtime)
+    finished = time.monotonic()
+    print(
+        f"PHASE execute-done runtime={runtime} seconds={finished - compiled_at:.3f}",
+        flush=True,
+    )
+    return outcome
 
 
 def _assert_production_observable(obs, side: str) -> None:
