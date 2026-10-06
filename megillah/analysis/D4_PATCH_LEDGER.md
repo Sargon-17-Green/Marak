@@ -1,17 +1,214 @@
 # D4 Patch Ledger
 
-D4 preserves all accepted D3 repairs and applies **no new source patch** in this tranche.
+D4 post-C5.6 preserves every accepted D3 repair and now resumes candidate repair.
 
-| ID | D4 state | Preservation |
-|---|---|---|
-| D-PATCH-0001 | PRESERVED_FROM_D3 / Master-approved | ALGORITHM_CHANGE |
-| D-PATCH-0002 | PRESERVED_FROM_D3 | DISAMBIGUATION_ONLY |
-| D-PATCH-0003 | PRESERVED_FROM_D3 | DISAMBIGUATION_ONLY |
-| D-PATCH-0004 | PRESERVED_FROM_D3 | SEMANTIC_EQUIVALENT |
-| D3-STRUCT-0001 | PRESERVED_FROM_D3 | STRUCTURAL_EXPLICITNESS |
+| ID | State | Classification | Preservation |
+|---|---|---|---|
+| D-PATCH-0001 | PRESERVED_FROM_D3 / Master-approved | SOURCE_PROGRAMMING_BUG | ALGORITHM_CHANGE |
+| D-PATCH-0002 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | DISAMBIGUATION_ONLY |
+| D-PATCH-0003 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | DISAMBIGUATION_ONLY |
+| D-PATCH-0004 | PRESERVED_FROM_D3 | SOURCE_AMBIGUITY | SEMANTIC_EQUIVALENT |
+| D3-STRUCT-0001 | PRESERVED_FROM_D3 | STRUCTURAL_EXPLICITNESS | SEMANTIC_EQUIVALENT |
+| D4-PATCH-001 | APPLIED_TO_CANDIDATE_POST_C56 | STRUCTURAL_EXPLICITNESS | SEMANTIC_EQUIVALENT |
 
-## New D4 patches
+## D4-PATCH-001 — Foundation referent
 
-None.
+Original lines 35–37 introduce and explain `יום היסוד` as the distinguished day coordinate from which days on both sides are measured.
 
-The absence of a D4 source patch is deliberate. The unchanged first frontier has a genuine language-surface blocker (`D4-LANG-001`). D4 does not insert a Natural-only day encoding, misuse year-typed Index syntax, or perform downstream wholesale rewrites merely to move the parser.
+Candidate replacement:
+
+`יהי מקום ושמו יסוד ובמקום אשר שמו יסוד יהי מעלת היתד לבדו`
+
+This uses the A17/B16/C5.6 general profile of the existing `BidirectionalIndex` domain. It does not create a Day domain, profile tag, Natural conversion, direct distance, or equality primitive.
+
+The explanatory remainder of original line 37 is externalized as `D4-DOC-001` with provenance; the semantic origin requirement remains executable.
+
+
+## D4-PATCH-002 — Tablets historical proof externalization
+
+Original lines 39–45 contain the one-off Tablets/Foundation relation, a worked derivation of the large offset, and the next section heading.
+
+Occurrence audit finds no later computational reference to `יום הינתן הלוחות` or `מספר כל הימים`. D4 therefore classifies the relation and arithmetic as `EXAMPLE_OR_PROOF`, and the heading as documentary organization. They are removed from executable candidate text but retained in the provenance map. No Tablets primitive or precomputed runtime constant is introduced.
+
+
+## D4-PATCH-003 — day-coordinate to Natural day-number algorithm
+
+Original lines 47–59 define the executable mapping; lines 61–69 are worked examples; lines 71–73 state invariants.
+
+The candidate now defines `מספריום` over a general BidirectionalIndex role. It:
+- copies the input coordinate to an Index cursor;
+- resets a retained Natural counter;
+- classifies BEFORE/SAME/AFTER with two strict Index-order tests;
+- walks with successor/predecessor one position at a time;
+- increments the Natural counter for each step;
+- invokes the existing D3 `חיבור` act to double the count and, on the after side, add one;
+- returns one for the Foundation coordinate.
+
+No direct Index distance, equality, Natural↔Index conversion, signed arithmetic, or Day domain is introduced.
+
+
+## D4-PATCH-004 — Luach Two / Program Input and derived numbers
+
+Original lines 77–117 are converted to two named immutable general-BidirectionalIndex Program Inputs plus retained Natural places for `מספרמעשה`, `מספרשאלה`, `מספרמרחק`, `מספרחיבור`, and `מספרדרך`.
+
+`שמותמספרים` invokes the repaired `מספריום` twice, counts inclusive distance by one-step Index traversal starting from one, invokes the existing `חיבור` act for the connection number, and classifies way using two strict Index-order tests. No direct distance, equality, Date/Day, positional input, or transport syntax is introduced.
+
+
+## D4-PATCH-005 — Luach Three exact repeated addition
+
+Original lines 121–141 define the reusable operation “take a number N times,” with examples and a historical doubling/decomposition acceleration.
+
+The candidate now defines `לקחתפעמים` with Natural roles `מספר` and `מנין`. It clears a Natural accumulator and uses C5.4 dynamic `RepeatExactly` to perform one atomic helper act exactly `מנין` times, adding `מספר` on each iteration, then returns the accumulator.
+
+The 3×7 example and 13-count decomposition are retained as evidence. The historical doubling workaround is not kept as production emulation because general exact counted recurrence now exists.
+
+
+## D4-PATCH-006 — Luach Four square
+
+Original lines 145–163 define `רבוע`: take the supplied number exactly that many times and add the copies. A later square consumes the prior square result rather than returning to the first input.
+
+The repaired candidate defines one Natural role and invokes `לקחתפעמים` with the same Natural as both value and count. No hidden accumulator or remembered “original” number is added to `רבוע`; repeated squaring is ordinary explicit composition.
+
+
+## D4-PATCH-007 — Luach Five / המספר הגדול
+
+Original lines 167–193 construct a retained constant by starting at one, doubling exactly 127 times, and subtracting one.
+
+The candidate now has persistent Naturals `גדולעבודה` and `מספרגדול`, an atomic doubling act `כפלגדול`, and initializer `חשבגדול`. The initializer resets the work value to one, performs `כפלגדול` exactly `מאה ועשרים ושבע פעמים`, stores `2^127-1`, and returns it.
+
+The source's “write once / do not remake every time” rule is represented without hidden setup: final principal assembly must invoke `חשבגדול` once before any dependent operation.
+
+## D4-PATCH-008 — Luach Six / remainder and kept remainder
+
+Original lines 197–227 define two deliberately distinct reductions. `נותר` is ordinary Natural remainder: repeated subtraction of the divisor, with “אין” meaning zero remainder. `שמור` reduces by `מספרגדול` but represents the zero residue by `מספרגדול`, so its result lies in 1..`מספרגדול`.
+
+The repaired candidate defines Natural work places and named acts `נותר`, `נותרגרע`, `נותרלולאה`, and `שמור`. Before entering the post-action subtraction recurrence, `נותר` checks whether the divisor is already greater than the dividend; therefore B12 Natural underflow is never used as loop control. Exact multiples safely subtract to zero and terminate on the next proposition check.
+
+`שמור` calls `נותר` with `מספרגדול` as divisor, then maps only zero to `מספרגדול`. The two operations remain semantically distinct exactly as required by the source.
+
+## D4-PATCH-009 — Luach Six / wrapped sibling subtraction
+
+Original lines 229–241 define subtraction in the cyclic `מספרגדול` space: subtract directly when possible; otherwise add `מספרגדול` to the sibling as many times as needed, then subtract and apply `שמור`.
+
+The repair introduces `לקחתמאחיו` with Natural roles `מחסר` and `אחמספר`, plus explicit work state and two helper acts. `אחבדוק` asks exactly whether the subtrahend is still greater than the current work value; only then does `אחהוסף` add `מספרגדול` and recurse. Therefore the eventual B12 subtraction is always in-domain.
+
+Equality needs no invented third arithmetic case: subtraction is already defined when the values are equal, yields Natural zero, and the source-mandated final `שמור` maps that residue to `מספרגדול`.
+
+## D4-PATCH-010 — Luach Six / fast repeated subtraction
+
+Original lines 243–263 prescribe the short route for large repeated subtraction: double the divisor until passing the dividend, then traverse those doublings from largest to smallest and subtract each value that still fits. The source explicitly states that the short route yields the same number as the long route.
+
+The repaired candidate defines `נותרמהר` and `מהיררד`. Recursive performance occurrences retain the successive doubled divisors as explicit role values; unwind is therefore the source's descending greedy pass. Every subtraction is guarded by strict Natural order and remains within the B12 domain.
+
+No numeric threshold is invented for the documentary word “מאד”. Because the source itself declares exact result equivalence, `שמור` uses the short act directly for its modulo-`מספרגדול` reduction. The separate linear `נותר` operation remains available and unchanged.
+
+## D4-PATCH-011 — Luach Three fast multiplication remediation
+
+Luach Seven supplies new concrete evidence against the earlier D4-PATCH-005 implementation strategy. The original Luach Three explicitly instructs powers-of-two doubling/decomposition when the repetition count is large and states that the shorter route gives the same number.
+
+The previous repair used C5.4 RepeatExactly for every count. Production RepeatExactly executes one occurrence per count. By visible drop 5, a Luach Seven stone reaches `147018724953112136513405003837173`; squaring through the previous route would therefore require on the order of 10^32 performances.
+
+The repaired `לקחתפעמים` restores the source algorithm. `כפלרד` builds doubled value/count pairs recursively and unwind visits them largest-to-smallest; `כפלבחר`/`כפלהוסף` greedily consume the remaining count. The public act contract and Luach Four `רבוע` remain unchanged. This is a D4 source-repair correction, not a compiler/language change.
+
+## D4-PATCH-012 — Luach Seven / five stones
+
+Original lines 269–319 define a deterministic table of 46 visible drops, each with five Natural stones. Drop 1 is `[17,29,43,71,101]`. Every later row is computed from a complete snapshot of the preceding five stones; no newly computed stone may feed another stone in the same row.
+
+The candidate retains five old-state places, five new-state places, the current drop number, and `אבניטיפות` as a nested Natural Collection. Generic `חשבאבן` implements the common formula `שמור(square(base) + count*weighted + extra)`. `טיפההבאה` computes all five new places before any old place is replaced, appends one five-element book, then commits the new snapshot. `בנהאבנים` performs exactly 45 transitions after the initial row, reaching visible drop 46.
+
+The source's permission to precompute the table once is retained as a lifecycle/documentation invariant; no day-dependent input is used in this table.
+
+## D4-PATCH-013 — Luach Eight / seven hidden drops
+
+Original lines 323–461 define seven hidden drops before visible drop 1. Each hidden drop has its own four coefficients over the question/distance/connection/way counters, also receives the action counter and all five stones from the visible drop with the same ordinal, then passes through `שמור`.
+
+Each hidden drop is then ground exactly seven times. Every round uses the pre-square value, its square, three copies of the pre-square value, one stone, the round number, and `שמור`. The stone sequence is explicitly retained as wheat, barley, salt, bitter, red, wheat, barley.
+
+The repair stores the seven final values both in named places and in `טיפותנסתרות`, ordered hidden7 through hidden1 so later predecessor selection can append visible drops and count backward without an inverted convention.
+
+## D4-PATCH-014 — Luach Nine / 46 visible drops
+
+The source defines one chronological predecessor chain containing hidden7..hidden1 followed by visible drops 1..46. For each visible drop, the first, third and seventh predecessors are taken without skipping, exactly as illustrated for drops 1–4.
+
+`ראשיתטיפה` retains the five stone×counter contributions, predecessor weights 1/3/5, visible-drop number and final `שמור`. `טחןטיפה` spells all eleven coefficient tuples and their stone sequence explicitly. `עשהטיפהגלויה` selects predecessor positions from the retained history, and `בנהטיפות` performs exactly 46 complete drops, appending a drop only after all eleven rounds finish.
+
+## D4-PATCH-015 — Luach Ten / six bowls and initial fills
+
+The six bowl identities are retained by their source-assigned Natural numbers 1..6. Their current fills are stored in `מלאקערות` in bowl-identity order; later arrangements can reorder identities without changing the fills attached to those identities.
+
+`חשבמלאקערה` implements the shared initial-fill formula. `אתחלקערות` supplies the exact six bowl-number/prime pairs 1/17, 2/19, 3/23, 4/29, 5/31 and 6/37 and builds the six-element fill book.
+
+## D4-PATCH-016 — Luach Eleven / 720 bowl arrangements
+
+The source's lexicographic order over the six permanent bowl numbers is exactly the block decomposition 120, 24, 6, 2, 1. The candidate implements this directly rather than materializing 720 books.
+
+`חלק` supplies safe Natural quotient/remainder, `בחרקערה` selects the ordinal unused bowl, and `מצאמערכה` applies the five source block sizes then appends the remaining bowl. `מספרמערכה` implements `((n-1) mod 720)+1`. `מקוםקערה` returns arrangement position separately from permanent bowl identity.
+
+## D4-PATCH-017 — Luach Twelve / pour the drop
+
+Only arrangement positions 1–3 receive the three pour values. Bowl fill is looked up by the permanent bowl identity currently occupying that position, not by position index itself. The candidate returns the pours as a three-Natural book ordered by arrangement position.
+
+## D4-PATCH-018 — Luach Thirteen / mix six bowls after each drop
+
+`מלאישן` freezes all six identity-keyed fills before any new value is calculated. Six calculations walk the selected arrangement circularly; every one reads only that snapshot. Temporary `[bowl identity, new fill]` books are sorted by permanent identity and only then committed to `מלאקערות` together.
+
+The 46-drop driver also retains `מערכתטיפהאחרונה` separately. This is required by Luach Fifteen: the successor bowl for later questions comes from the arrangement chosen by visible drop 46, not from an arrangement used by the twelve post-drop blends.
+
+
+## D4-PATCH-019 - Luach Fourteen / twelve post-drop bowl blends
+
+Original lines 833–891 define twelve additional blends after visible drop 46. פעם is reset before the driver and advances 1..12. At the start of each blend מלאישן freezes all six identity-keyed fills and their sum is retained under the exact source identity מספר שש הקערות, represented with the accepted C5.7 counted SourceName surface rather than a welded alias.
+
+The arrangement number is the source-prescribed kept value of 149 × round + bowl-sum. T18 reduces its zero-based form modulo 720 with the already source-grounded נותרמהר short route, adds one, and invokes מצאמערכה directly. This is the Luach Six large-number shortcut: the original explicitly says the short route yields the same number as the long repeated-subtraction route. It avoids re-entering the linear מספרמערכה implementation without changing the Luach Eleven arrangement rule.
+
+חשב computes the exact per-position formula from the frozen snapshot; בלול stages all six [permanent bowl identity, new fill] pairs, sorts by permanent identity, and commits only after all six results exist. גמר performs שתים עשרה פעמים exactly.
+
+Post-drop blend arrangements update מערכהנוכחית only. They never overwrite מערכתטיפהאחרונה, which remains the arrangement chosen by visible drop 46 and is explicitly required by Luach Fifteen.
+
+Acceptance includes both one complete blend and the complete twelve-blend driver on HAST reference, IR reference and portable backend, an independent twelve-round Python oracle, structural snapshot/commit/RepeatExactly checks, C5.7 counted-SourceName coverage, and an explicit guard that T18 uses נותרמהר with divisor 720 rather than the linear בחרמערכה path.
+
+## D4-CANONICAL-NAME-CLEANUP-001 — canonical source-declared names
+
+This cleanup starts from accepted T18 without admitting any Luach Fifteen executable source. The live T18 candidate contained historical source-repair identities whose multi-word concepts had been welded into one Hebrew token while the older parser accepted only one-word names.
+
+The live candidate was inventoried from its normative Act, Place, Role, Program Input, Symbol Domain and Symbol Member declarations. The inventory contains 261 declared identity instances: 72 Acts, 87 Places, 100 Roles, 2 Program Inputs, and no Symbol Domain/Member declarations in the admitted T18 prefix. Manual source/provenance review classifies 173 identity instances, representing 158 distinct spellings, as artificially welded multi-word names; 87 identities are genuine single-word names; one identity was already canonical multi-word; zero are uncertain.
+
+Every verified welded identity was migrated to the accepted C5.7 counted SourceName surface. Source wording is preferred where the immutable original names the concept directly; otherwise a controlled Hebrew composition preserves the existing helper identity and owner/scope. No welded alias remains. No compiler, grammar, HAST/IR/artifact, operation, value, scope, owner, or algorithm change is introduced.
+
+The syntactic frontier moves from 28,438 to 57,767 solely because counted names add source tokens. Candidate line 466 still maps to original line 895 and Luach Fifteen remains the next blocker. The machine-readable decisions are in D4_CANONICAL_SOURCE_NAME_INVENTORY.json; the human audit is in D4_CANONICAL_SOURCE_NAME_CLEANUP.md. Historical frozen evidence is not rewritten to erase spellings that were live at those historical checkpoints.
+
+
+## D4-PATCH-020 — Luach Fifteen / ask the bowls
+
+Original lines 895–995 assign eleven question seals, explicitly forbid seal 40, define the successor bowl from the arrangement chosen by visible drop 46, compute one first answer number, derive one fixed direction, and then walk cyclically through every Natural in 1..`המספר הגדול`.
+
+The repair keeps seals as ordinary Naturals; no seal type or new identity family is introduced. `מצא קערה שאחריה` consults the separately retained `מערכת הטיפה האחרונה`, never the arrangement from the twelfth post-drop blend. `חשב מענה ראשון` and `חשב כיוון המענה` implement the exact source formulas with the existing arithmetic acts and source-authorized short remainder route. `חשב מענה קדימה` and `חשב מענה אחורה` keep the two conditional branches atomic under the existing grammar, while `חשב מענה הבא` selects between them.
+
+The query kernel is state-preserving with respect to `מלא הקערות`, `מערכת הטיפה האחרונה`, and `המערכה הנוכחית`. Forward stepping maps `המספר הגדול -> 1`; backward stepping maps `1 -> המספר הגדול`. No compiler, grammar, registry, HAST, IR, artifact, semantic-type, or language change is involved.
+
+Acceptance: GitHub Actions run `37150104605` (#562) — focused T19 **4/4 PASS** and combined D3+D4 **92/92 PASS** on both Ubuntu and Windows; core **626 passed, 126 subtests passed**. Candidate SHA-256 is `8e57e223d7cdcd4cba299a828e1d409f0ed2061b0e7b25362bfedaec2d645f90`; normalized tokens 66,769; frontier 62,110 at candidate line 507 / original line 999, the Luach Sixteen heading.
+
+## D4-PATCH-021 — Luach Sixteen / unbiased choice among many ways
+
+Original lines 999–1161 define a general reusable selector for choosing exactly one דרך without bias. The source has two cardinality regimes and explicitly forbids collapsing the procedure to a direct remainder when the tail of the answer space would give unequal weight.
+
+For מספר הדרכים <= המספר הגדול, the repair computes האחרון אשר ילקח = M - (M mod N) through the already source-authorized הנותר בדרך הקצרה, skips answer numbers above that threshold by reusing Luach Fifteen חשב מענה הבא, and only then maps the accepted number to ((a-1) mod N)+1.
+
+For מספר הדרכים > המספר הגדול, the repair constructs the smallest positive מספר המקומות = k with מספר כל היוצאים = M^k >= N using exact Natural multiplication. הרכבה consumes exactly k successive T19 answers, subtracts one from each to obtain base-M digits, combines them with powers 1,M,M^2,..., and adds one to form המספר הרחב האחד. צעידה then advances or retreats cyclically in 1..M^k according to the already-fixed T19 direction. האחרון הרחב אשר ילקח is the greatest multiple of N not exceeding M^k; rejected wide values are skipped before the same one-based mapping.
+
+The six source-declared multi-word identities use counted SourceName: מספר הדרכים, האחרון אשר ילקח, מספר המקומות, מספר כל היוצאים, המספר הרחב האחד, האחרון הרחב אשר ילקח. No welded aliases are introduced. Internal helper identities are single words. The generic selector contains no bowl-fill or bowl-arrangement substitution; Luach Eleven/Fourteen arrangement rules remain separate.
+
+Acceptance: executable/evidence head 86ebc611a56cd96d85a27ff0078bde27bddaed5e; GitHub Actions push #568 (37171652776) and PR #569 (37171656172) are SUCCESS. Focused T20 is 4/4 PASS on Ubuntu and Windows; T19 regression 4/4 PASS on both; combined D3+D4 96/96 PASS on both; core 630 passed, 126 subtests passed; A13 289 checks PASS. Candidate SHA-256 4aebd9cdac116fa1c1c931d51bf4fe56ae15ac5a998e09a752dcbb06049e340a; normalized tokens 68,973; frontier 65,148 at candidate line 559 / original line 1165.
+
+## D4-PATCH-022 — Luach Seventeen / cutlet gates
+
+Original lines 1165–1247 define the cutlet-gate recurrence around Foundation. Foundation itself is the source-declared middle gate. For the nth gate after Foundation, the action day remains Foundation, while the query day is exactly the nth day after Foundation. The complete already-authorized drops, bowls, Luach Fifteen query and Luach Sixteen selector machinery is recomputed for that query. One of 922 values is chosen without bias and 41 is added, so every inter-gate gap is in 42..963. The resulting gap advances from the preceding gate, not from the query day.
+
+The before-Foundation stream is independent and symmetric in recurrence shape but not in values: its nth query day is the nth day before Foundation and its gate position advances cumulatively backward. The source explicitly forbids identifying the query day with the gate day or reusing one side's query for the other.
+
+The repair introduces a counted-SourceName workspace for the middle gate, query day, current gate, result, selected answer/direction/choice/gap and gate counter. It reuses existing day-number/counter logic, hidden and visible drops, bowl initialization and mixing, T19 bowl-1/seal-1 answer semantics, and T20 unbiased selection over 922 ways. No finite gate table is embedded; בנה שערים אחרי and בנה שערים לפני produce arbitrary finite prefixes of the unbounded source recurrence.
+
+Independent oracle receipts for the first four intervals are after Foundation [377, 740, 885, 200] and before Foundation [762, 513, 584, 808], yielding cumulative gate positions [377, 1117, 2002, 2202] and [-762, -1275, -1859, -2667]. All gaps satisfy the source bound 42..963.
+
+Acceptance executable/evidence head: 76b895877b81614980c7edf5e4a4885b836d929e. GitHub Actions push #578 (37238924835) and PR #579 (37238927963) are 19/19 SUCCESS. Focused T21 is 5/5 PASS on Ubuntu and Windows; T19 and T20 focused regressions remain 4/4 PASS each; D3+D4 is 101/101 PASS on both; core is 635 passed + 126 subtests; A13 is 289 checks PASS. Candidate SHA-256 6fda03c4ca953898b471da666c048d81020f9bea4fcd240b94aab7bb3f091881; normalized tokens 75,245; frontier 71,871 at candidate line 598 / original line 1251.
+
