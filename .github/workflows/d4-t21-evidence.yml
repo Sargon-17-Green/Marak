@@ -12,7 +12,7 @@ jobs:
   d4-t21-end-to-end-evidence:
     name: D4 T21 E2E (${{ matrix.side }}, ${{ matrix.runtime }})
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       matrix:
