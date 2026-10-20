@@ -331,7 +331,14 @@ class IRReferenceEvaluator:
                         v = self.value(node.value, current_state, current_occ, current_prov)
                     except _Fault as e:
                         step = ("err", current_state, IRReferenceError(e.code, "EXECUTION", e.detail)); current = None; continue
-                    ns = dict(current_state); ns[node.place] = v; step = ("ok", ns, None); current = None; continue
+                    # No continuation retains an earlier state snapshot.  Mutating
+                    # the evaluator-local dict is therefore observationally identical
+                    # to copying it on every fact replacement, while avoiding an O(P)
+                    # copy for every constructive arithmetic step.
+                    current_state[node.place] = v
+                    step = ("ok", current_state, None)
+                    current = None
+                    continue
                 if isinstance(node, i.IRThen):
                     frames.append(_Then(tuple(node.actions[1:]), current_occ)); current = node.actions[0]; continue
                 if isinstance(node, i.IRConditional):
@@ -376,7 +383,7 @@ class IRReferenceEvaluator:
                     else:
                         current_occ.output = v
                         self.products.append(IRReferenceProduct(current_occ.identity, current_occ.act, _public(v)))
-                        step = ("ok", dict(current_state), None)
+                        step = ("ok", current_state, None)
                     current = None; continue
                 step = ("err", current_state, IRReferenceError("INTERNAL_UNKNOWN_ACTION", "EXECUTION")); current = None; continue
 

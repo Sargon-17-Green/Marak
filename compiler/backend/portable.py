@@ -331,7 +331,13 @@ class PortableVM:
                         v = self.value(x.value, cur, current_occ, current_prov)
                     except _Fault as e:
                         step = ("err", cur, VMError(e.code, "EXECUTION", e.detail)); current = None; continue
-                    ns = dict(cur); ns[x.place] = v; step = ("ok", ns, None); current = None; continue
+                    # The VM owns this state dict and continuation frames do not
+                    # retain historical snapshots.  In-place replacement preserves
+                    # language observation while removing a whole-state copy per step.
+                    cur[x.place] = v
+                    step = ("ok", cur, None)
+                    current = None
+                    continue
                 if isinstance(x, i.IRThen):
                     frames.append(_Then(tuple(x.actions[1:]), current_occ)); current = x.actions[0]; continue
                 if isinstance(x, i.IRConditional):
@@ -376,7 +382,7 @@ class PortableVM:
                     else:
                         current_occ.output = v
                         self.products.append(VMProduct(current_occ.token, current_occ.act, _public(v)))
-                        step = ("ok", dict(cur), None)
+                        step = ("ok", cur, None)
                     current = None; continue
                 step = ("err", cur, VMError("INTERNAL_UNKNOWN_ACTION", "EXECUTION")); current = None; continue
 

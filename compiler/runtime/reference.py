@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from compiler.models.hast import (
     HastActBody, HastAddNatural, HastConditional, HastCoreProgram, HastCurrentFact,
@@ -39,22 +39,31 @@ class RuntimeErrorRecord:
 @dataclass(frozen=True, slots=True)
 class SemanticState:
     facts: tuple[tuple[PlaceId, object], ...] = ()
+    _lookup: dict[PlaceId, object] = field(init=False, repr=False, compare=False)
+
+    def __post_init__(self) -> None:
+        # Runtime reads dominate large constructive computations.  Keep the
+        # canonical immutable tuple as the public/state identity, but cache its
+        # lookup map once instead of rebuilding a dict for every fact read.
+        object.__setattr__(self, "_lookup", dict(self.facts))
 
     def as_dict(self) -> dict[PlaceId, object]:
-        return dict(self.facts)
+        # Preserve the historical copy-out contract: callers never receive the
+        # internal cache itself.
+        return dict(self._lookup)
 
     def read(self, place: PlaceId) -> object:
-        return self.as_dict()[place]
+        return self._lookup[place]
 
     def establish(self, place: PlaceId, value: object) -> "SemanticState":
-        d = self.as_dict()
+        d = dict(self._lookup)
         if place in d:
             raise RuntimeError("internal duplicate initial establishment")
         d[place] = value
         return SemanticState(tuple(sorted(d.items(), key=lambda kv: kv[0].serial)))
 
     def replace(self, place: PlaceId, value: object) -> "SemanticState":
-        d = self.as_dict()
+        d = dict(self._lookup)
         if place not in d:
             raise RuntimeError("internal unresolved place reached runtime")
         d[place] = value
