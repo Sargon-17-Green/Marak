@@ -60,11 +60,11 @@ def _execute_one(source: str, runtime: str):
 
     print(f"PHASE execute-start runtime={runtime}", flush=True)
     if runtime == "hast":
-        outcome = reference_observable(execute_reference(compiled.hast))
+        outcome = reference_observable(execute_reference(compiled.hast, constructive_intrinsics=True))
     elif runtime == "ir":
-        outcome = ir_reference_observable(execute_reference_ir(compiled.ir))
+        outcome = ir_reference_observable(execute_reference_ir(compiled.ir, constructive_intrinsics=True))
     elif runtime == "portable":
-        outcome = backend_observable(execute_ir(compiled.ir))
+        outcome = backend_observable(execute_ir(compiled.ir, constructive_intrinsics=True))
     else:
         raise AssertionError(runtime)
     finished = time.monotonic()

@@ -10,6 +10,7 @@ from compiler.models.values import (
     semantic_value_equal, value_domain,
 )
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
+from compiler.runtime.constructive_intrinsics import constructive_intrinsic_trace
 
 BACKEND_VERSION = "portable-ir-vm-0.7-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
@@ -134,7 +135,7 @@ def _public(value: object):
 
 
 class PortableVM:
-    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, invocation: ValidatedInvocation | None = None):
+    def __init__(self, program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, invocation: ValidatedInvocation | None = None, constructive_intrinsics: bool = False):
         if program.ir_version != i.IR_VERSION:
             raise ValueError("unsupported IR version")
         self.p = program
@@ -144,9 +145,15 @@ class PortableVM:
         self.products: list[VMProduct] = []
         self.max_active_performances = max_active_performances
         self.active_performances = 0
+        self.constructive_intrinsics = constructive_intrinsics
         self.acts = {a.act: a for a in program.acts}
         self.place_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "place"))
         self.act_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "act"))
+        self.role_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "role"))
+        self.place_id_by_name = {name: serial for serial, name in self.place_names}
+        self.act_name_by_id = dict(self.act_names)
+        self.act_id_by_name = {name: serial for serial, name in self.act_names}
+        self.role_name_by_id = dict(self.role_names)
         self.symbol_order_rank = {}
         members_by_domain = {}
         outgoing_by_domain = {}
@@ -166,6 +173,41 @@ class PortableVM:
                     cur=outgoing[cur]
                 if set(rank)==members:
                     self.symbol_order_rank[domain_id]=rank
+
+    def _constructive_intrinsic(self, act: int, vals: dict[int, object], state: dict[int, object]):
+        if not self.constructive_intrinsics or self.fuel is not None:
+            return None
+        act_name = self.act_name_by_id.get(act)
+        if act_name is None:
+            return None
+        try:
+            roles = {self.role_name_by_id[k]: v for k, v in vals.items()}
+        except KeyError:
+            return None
+        trace = constructive_intrinsic_trace(act_name, roles)
+        if trace is None:
+            return None
+        if any(name not in self.place_id_by_name for name, _ in trace.fact_updates):
+            return None
+        if any(name not in self.act_id_by_name for name, _ in trace.products):
+            return None
+
+        top_occurrence = self.next_occ
+        self.next_occ += 1
+        for place_name, value in trace.fact_updates:
+            state[self.place_id_by_name[place_name]] = value
+
+        last = len(trace.products) - 1
+        for index, (product_act_name, value) in enumerate(trace.products):
+            product_act = self.act_id_by_name[product_act_name]
+            if index == last and product_act == act:
+                occurrence = top_occurrence
+            else:
+                occurrence = self.next_occ
+                self.next_occ += 1
+            self.products.append(VMProduct(occurrence, product_act, _public(value)))
+
+        return ("ok", state, _Prov(top_occurrence, act, trace.result))
 
     def consume(self):
         if self.fuel is None:
@@ -367,6 +409,9 @@ class PortableVM:
                         step = ("err", cur, VMError(e.code, "EXECUTION", e.detail)); current = None; continue
                     if self.max_active_performances is not None and self.active_performances >= self.max_active_performances:
                         step = ("resource", cur, f"caller-imposed active performance budget {self.max_active_performances} exhausted"); current = None; continue
+                    intrinsic = self._constructive_intrinsic(x.act, vals, cur)
+                    if intrinsic is not None:
+                        step = intrinsic; current = None; continue
                     child = _Occ(self.next_occ, x.act, vals)
                     self.next_occ += 1; self.active_performances += 1
                     frames.append(_Perf(child)); current = self.acts[x.act].body; current_occ = child; current_prov = None; continue
@@ -449,8 +494,8 @@ class PortableVM:
             return VMResourceExhaustion(self._facts(state), tuple(self.products), detail=type(exc).__name__, place_names=self.place_names, act_names=self.act_names)
 
 
-def execute_ir(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, bindings: tuple[InputBinding, ...] | ValidatedInvocation = ()):
+def execute_ir(program: i.IRProgram, *, fuel: int | None = None, max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES, bindings: tuple[InputBinding, ...] | ValidatedInvocation = (), constructive_intrinsics: bool = False):
     invocation = prepare_invocation(program, bindings)
     if isinstance(invocation, InvalidInvocation):
         return invocation
-    return PortableVM(program, fuel=fuel, max_active_performances=max_active_performances, invocation=invocation).run()
+    return PortableVM(program, fuel=fuel, max_active_performances=max_active_performances, invocation=invocation, constructive_intrinsics=constructive_intrinsics).run()

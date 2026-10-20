@@ -17,6 +17,7 @@ from compiler.models.symbols import ActId, OccurrenceId, PlaceId, RoleId
 from compiler.models.domains import NATURAL, CollectionDomain, Domain
 from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, index_lt, symbol_identity_equal, semantic_value_equal, value_domain
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
+from compiler.runtime.constructive_intrinsics import constructive_intrinsic_trace
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
@@ -205,6 +206,7 @@ class ReferenceEvaluator:
         max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
         invocation: ValidatedInvocation | None = None,
         profile_actions: bool = False,
+        constructive_intrinsics: bool = False,
     ):
         self.program = program
         self.input_values = runtime_input_values(invocation or ValidatedInvocation(()))
@@ -216,6 +218,7 @@ class ReferenceEvaluator:
         self.max_active_performances = max_active_performances
         self.active_performances = 0
         self.profile_actions = profile_actions
+        self.constructive_intrinsics = constructive_intrinsics
         self.profile_action_counts: dict[tuple[str, str], int] = {}
         self.profile_call_counts: dict[str, int] = {}
         self.body_by_act = {p.act: p.body for p in program.preparation if isinstance(p, HastActBody)}
@@ -224,6 +227,12 @@ class ReferenceEvaluator:
             self.roles_by_act.setdefault(role.owner, tuple())
         for act in program.acts:
             self.roles_by_act[act] = tuple(sorted((r for r in program.roles if r.owner == act), key=lambda r: r.serial))
+        self.act_by_spelling = {act.spelling: act for act in program.acts}
+        self.place_by_spelling = {
+            unit.place.spelling: unit.place
+            for unit in program.preparation
+            if isinstance(unit, HastPlaceIntroduction)
+        }
         self.symbol_order_rank = {}
         members_by_domain = {}
         edges_by_domain = {}
@@ -247,6 +256,45 @@ class ReferenceEvaluator:
                     cur=outgoing[cur]
                 if set(rank)==members:
                     self.symbol_order_rank[domain_id]=rank
+
+    def _constructive_intrinsic(
+        self,
+        act: ActId,
+        values: dict[RoleId, object],
+        state: SemanticState,
+    ) -> _StepNormal | None:
+        if not self.constructive_intrinsics or self.fuel is not None:
+            return None
+        roles = {role.spelling: value for role, value in values.items()}
+        trace = constructive_intrinsic_trace(act.spelling, roles)
+        if trace is None:
+            return None
+        if any(name not in self.place_by_spelling for name, _ in trace.fact_updates):
+            return None
+        if any(name not in self.act_by_spelling for name, _ in trace.products):
+            return None
+
+        top_occurrence = OccurrenceId(self.next_occurrence)
+        self.next_occurrence += 1
+
+        new_state = state
+        for place_name, value in trace.fact_updates:
+            new_state = new_state.replace(self.place_by_spelling[place_name], value)
+
+        last = len(trace.products) - 1
+        for index, (product_act_name, value) in enumerate(trace.products):
+            product_act = self.act_by_spelling[product_act_name]
+            if index == last and product_act == act:
+                occurrence = top_occurrence
+            else:
+                occurrence = OccurrenceId(self.next_occurrence)
+                self.next_occurrence += 1
+            self.products.append(Product(occurrence, product_act, value))
+
+        return _StepNormal(
+            new_state,
+            _Provenance(top_occurrence, act, trace.result),
+        )
 
     def _event(self, *parts) -> None:
         if self.debug_trace_enabled:
@@ -539,6 +587,11 @@ class ReferenceEvaluator:
                         step = _StepResource(current_state, f"caller-imposed active performance budget {self.max_active_performances} exhausted")
                         current_action = None
                         continue
+                    intrinsic = self._constructive_intrinsic(a.act, values, current_state)
+                    if intrinsic is not None:
+                        step = intrinsic
+                        current_action = None
+                        continue
                     child = _Occurrence(OccurrenceId(self.next_occurrence), a.act, values)
                     self.next_occurrence += 1
                     self.active_performances += 1
@@ -680,6 +733,7 @@ def execute_reference(
     debug_trace: bool = False,
     max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
     bindings: tuple[InputBinding, ...] | ValidatedInvocation = (),
+    constructive_intrinsics: bool = False,
 ):
     invocation = prepare_invocation(program, bindings)
     if isinstance(invocation, InvalidInvocation):
@@ -690,6 +744,7 @@ def execute_reference(
         debug_trace=debug_trace,
         max_active_performances=max_active_performances,
         invocation=invocation,
+        constructive_intrinsics=constructive_intrinsics,
     ).run()
 
 
