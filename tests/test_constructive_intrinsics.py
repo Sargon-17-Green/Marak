@@ -17,6 +17,8 @@ def _source() -> str:
     principal = " ואחרי כן ".join([
         _call("לקחת מספר פעמים", [("מספר", _nat(13)), ("מנין", _nat(11))]),
         _call("הנותר בדרך הקצרה", [("מספר", _nat(137)), ("מחלק", _nat(17))]),
+        _call("נותר", [("מספר", _nat(137)), ("מחלק", _nat(17))]),
+        _call("חלק", [("מספר", _nat(137)), ("מחלק", _nat(17))]),
         _call("לקחת מספר פעמים", [("מספר", _nat(0)), ("מנין", _nat(0))]),
         _call("הנותר בדרך הקצרה", [("מספר", _nat(7)), ("מחלק", _nat(11))]),
     ])
@@ -46,10 +48,37 @@ def test_constructive_intrinsic_pure_traces_cover_edges():
     assert rem.result == 1
     assert rem.products[-1] == ("הנותר בדרך הקצרה", 1)
 
-    assert constructive_intrinsic_trace(
-        "הנותר בדרך הקצרה",
-        {"מספר": 9, "מחלק": 0},
-    ) is None
+    simple = constructive_intrinsic_trace(
+        "נותר",
+        {"מספר": 137, "מחלק": 17},
+    )
+    assert simple is not None
+    assert simple.result == 1
+    assert simple.fact_updates == (
+        ("עבודת הנותר", 1),
+        ("מחלק הנותר", 17),
+    )
+    assert simple.products == (("נותר", 1),)
+
+    divide = constructive_intrinsic_trace(
+        "חלק",
+        {"מספר": 137, "מחלק": 17},
+    )
+    assert divide is not None
+    assert divide.result == 8
+    assert divide.fact_updates == (
+        ("עבודת החלוקה", 1),
+        ("מחלק החלוקה", 17),
+        ("מנת החלוקה", 8),
+        ("שארית החלוקה", 1),
+    )
+    assert divide.products == (("חלק", 8),)
+
+    for act in ("הנותר בדרך הקצרה", "נותר", "חלק"):
+        assert constructive_intrinsic_trace(
+            act,
+            {"מספר": 9, "מחלק": 0},
+        ) is None
 
 
 def test_constructive_intrinsics_are_exactly_observable_equivalent_in_all_runtimes():
@@ -78,6 +107,8 @@ def test_constructive_intrinsics_are_exactly_observable_equivalent_in_all_runtim
     products = fast_h["products"]
     assert [v for act, v in products if act == "לקחת מספר פעמים"] == [143, 0]
     assert [v for act, v in products if act == "הנותר בדרך הקצרה"][-1:] == [7]
+    assert [v for act, v in products if act == "נותר"] == [1]
+    assert [v for act, v in products if act == "חלק"] == [8]
 
 
 def test_intrinsics_do_not_change_fuel_step_semantics():

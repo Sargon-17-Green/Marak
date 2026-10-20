@@ -14,6 +14,8 @@ from typing import Mapping
 
 MULTIPLY_ACT = "לקחת מספר פעמים"
 REMAINDER_ACT = "הנותר בדרך הקצרה"
+SIMPLE_REMAINDER_ACT = "נותר"
+DIVIDE_ACT = "חלק"
 ADD_ACT = "חיבור"
 
 
@@ -95,6 +97,46 @@ def _remainder_trace(roles: Mapping[str, object]) -> ConstructiveIntrinsicTrace 
     )
 
 
+def _simple_remainder_trace(
+    roles: Mapping[str, object],
+) -> ConstructiveIntrinsicTrace | None:
+    number = _natural(roles, "מספר")
+    divisor = _natural(roles, "מחלק")
+    if number is None or divisor is None or divisor == 0:
+        return None
+
+    result = number % divisor
+    return ConstructiveIntrinsicTrace(
+        result=result,
+        fact_updates=(
+            ("עבודת הנותר", result),
+            ("מחלק הנותר", divisor),
+        ),
+        products=((SIMPLE_REMAINDER_ACT, result),),
+    )
+
+
+def _divide_trace(
+    roles: Mapping[str, object],
+) -> ConstructiveIntrinsicTrace | None:
+    number = _natural(roles, "מספר")
+    divisor = _natural(roles, "מחלק")
+    if number is None or divisor is None or divisor == 0:
+        return None
+
+    quotient, remainder = divmod(number, divisor)
+    return ConstructiveIntrinsicTrace(
+        result=quotient,
+        fact_updates=(
+            ("עבודת החלוקה", remainder),
+            ("מחלק החלוקה", divisor),
+            ("מנת החלוקה", quotient),
+            ("שארית החלוקה", remainder),
+        ),
+        products=((DIVIDE_ACT, quotient),),
+    )
+
+
 def constructive_intrinsic_trace(
     act_name: str,
     roles: Mapping[str, object],
@@ -103,6 +145,10 @@ def constructive_intrinsic_trace(
         return _multiply_trace(roles)
     if act_name == REMAINDER_ACT:
         return _remainder_trace(roles)
+    if act_name == SIMPLE_REMAINDER_ACT:
+        return _simple_remainder_trace(roles)
+    if act_name == DIVIDE_ACT:
+        return _divide_trace(roles)
     return None
 
 
@@ -110,6 +156,8 @@ __all__ = [
     "ADD_ACT",
     "MULTIPLY_ACT",
     "REMAINDER_ACT",
+    "SIMPLE_REMAINDER_ACT",
+    "DIVIDE_ACT",
     "ConstructiveIntrinsicTrace",
     "constructive_intrinsic_trace",
 ]
