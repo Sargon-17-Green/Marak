@@ -54,18 +54,18 @@ All six production executions completed successfully:
 
 ### Exact retained observables
 
-For the positive side, all three decompressed canonical JSON observables are byte-equivalent after canonical JSON serialization:
+For the positive side, all three decompressed canonical JSON observable files are byte-identical (SHA-256 of the decompressed file bytes):
 
-- SHA-256: `f801adea999b3ae74d9fe26fa9e0be1504439f3ba169260861f104a7af204962`
+- SHA-256: `ceae6a783f4cd00c01fbf9d63ea8899cf0250f015de5837be312549d3bccb1ea`
 - products: `456191`
 - `חשב רווח שער`: `377`
 - `בחירה`: `336`
 - query snapshot: `AfterZero / 1`
 - resulting gate snapshot: `AfterZero / 377`
 
-For the negative side, all three decompressed canonical JSON observables are byte-equivalent after canonical JSON serialization:
+For the negative side, all three decompressed canonical JSON observable files are byte-identical (SHA-256 of the decompressed file bytes):
 
-- SHA-256: `386e49467917ae6ac3c0f942417d137e48a5489595e2ec981d56d19594c0fa3b`
+- SHA-256: `6761637960ced70cbd884eedc4b877a6d860852c88b4cb55363ed98898b6db6d`
 - products: `455969`
 - `חשב רווח שער`: `762`
 - `בחירה`: `721`
@@ -89,12 +89,22 @@ Negative:
 same full production chain
 => **PASS**, resulting gate **-762**.
 
+## Independent recheck and exact-head comparator
+
+- The six Evidence #12 artifact ZIPs were inspected independently.
+- All three decompressed `after` JSON files had byte-identical SHA-256 `ceae6a783f4cd00c01fbf9d63ea8899cf0250f015de5837be312549d3bccb1ea`.
+- All three decompressed `before` JSON files had byte-identical SHA-256 `6761637960ced70cbd884eedc4b877a6d860852c88b4cb55363ed98898b6db6d`.
+- The Evidence #12 comparator job was cancelled when the receipt documentation commit superseded that run. It must NOT be cited as a successful comparator.
+- The comparator was subsequently verified **PASS** in exact-head **D4 T21 Evidence #13**, run `39434003695`, on documentation HEAD `80e4f2d3f109074feb87d372f3e9d694775d8ec3`. In that run, six execution jobs and the comparator succeeded; the optional profiler job was intentionally skipped.
+- The same documentation HEAD also passed **19/19** jobs in CI #614 (push; run `39434003730`) and **19/19** in CI #615 (PR; run `39434012823`).
+- This documentation-only hash correction produces a new HEAD and therefore requires the normal exact-HEAD CI and E2E checks again before final Master handoff.
+
 ## Acceptance boundary
 
 This document does **not** claim Master acceptance.
 
 Before handoff, verify:
 - exact-head CI push and PR workflows are green;
-- D4 T21 Evidence #12 comparator job is green;
+- the comparator job for the latest exact HEAD is green;
 - PR #20 remains Draft/open/unmerged;
 - T22 remains unstarted.
