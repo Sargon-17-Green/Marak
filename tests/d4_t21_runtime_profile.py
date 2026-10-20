@@ -13,7 +13,7 @@ from compiler.runtime.reference import ReferenceEvaluator
 from tests.d4_t21_end_to_end_evidence import _production_source
 
 
-FUEL = 500_000
+FUEL = 2_000_000
 
 
 def main() -> None:
