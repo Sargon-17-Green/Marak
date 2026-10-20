@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: d4-t21-evidence-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   d4-t21-runtime-profile:
     if: ${{ contains(github.event.head_commit.message, '[profile-only]') }}
