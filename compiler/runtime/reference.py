@@ -204,6 +204,7 @@ class ReferenceEvaluator:
         debug_trace: bool = False,
         max_active_performances: int | None = DEFAULT_MAX_ACTIVE_PERFORMANCES,
         invocation: ValidatedInvocation | None = None,
+        profile_actions: bool = False,
     ):
         self.program = program
         self.input_values = runtime_input_values(invocation or ValidatedInvocation(()))
@@ -214,6 +215,9 @@ class ReferenceEvaluator:
         self.next_occurrence = 1
         self.max_active_performances = max_active_performances
         self.active_performances = 0
+        self.profile_actions = profile_actions
+        self.profile_action_counts: dict[tuple[str, str], int] = {}
+        self.profile_call_counts: dict[str, int] = {}
         self.body_by_act = {p.act: p.body for p in program.preparation if isinstance(p, HastActBody)}
         self.roles_by_act: dict[ActId, tuple[RoleId, ...]] = {}
         for role in program.roles:
@@ -459,6 +463,10 @@ class ReferenceEvaluator:
                     continue
                 self._event("execute", type(current_action).__name__)
                 a = current_action
+                if self.profile_actions:
+                    owner = current_occ.act.spelling if current_occ is not None else "<principal>"
+                    key = (owner, type(a).__name__)
+                    self.profile_action_counts[key] = self.profile_action_counts.get(key, 0) + 1
 
                 if isinstance(a, HastReplaceCurrentFact):
                     try:
@@ -516,6 +524,9 @@ class ReferenceEvaluator:
                     continue
 
                 if isinstance(a, HastPerformAct):
+                    if self.profile_actions:
+                        name = a.act.spelling
+                        self.profile_call_counts[name] = self.profile_call_counts.get(name, 0) + 1
                     try:
                         values: dict[RoleId, object] = {}
                         for assoc in a.associations:
