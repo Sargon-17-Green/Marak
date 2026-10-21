@@ -19,6 +19,8 @@ from compiler.runtime.observables import (
     reference_observable,
 )
 from compiler.runtime.reference import execute_reference
+from compiler.runtime.constructive_fingerprint_guard import approved_canonical_program
+from dataclasses import replace
 from tests.test_d4_t21_luach17 import (
     _call,
     _index,
@@ -57,6 +59,13 @@ def _execute_one(source: str, runtime: str):
         flush=True,
     )
     assert compiled.valid, [d.to_dict() for d in compiled.diagnostics]
+
+    # Prove the full production source is authorized by its entire compiled
+    # program (bodies, helpers, roles, principal), not by matching Act names.
+    assert approved_canonical_program(compiled.hast, "hast"), "untrusted production HAST: intrinsics would silently fall back"
+    assert approved_canonical_program(compiled.ir, "ir"), "untrusted production IR: intrinsics would silently fall back"
+    assert not approved_canonical_program(replace(compiled.hast, acts=()), "hast"), "altered HAST helpers were accepted"
+    assert not approved_canonical_program(replace(compiled.ir, acts=()), "ir"), "altered IR helpers were accepted"
 
     print(f"PHASE execute-start runtime={runtime}", flush=True)
     if runtime == "hast":

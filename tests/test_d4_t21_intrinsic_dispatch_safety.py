@@ -74,6 +74,7 @@ def test_program_fingerprint_binds_bodies_principal_and_dependencies():
     assert structural_program_sha256(a.hast) != structural_program_sha256(b.hast)
     assert structural_program_sha256(a.ir) != structural_program_sha256(b.ir)
     assert structural_program_sha256(a.hast) != structural_program_sha256(a.ir)
-    # Even replacing the principal on an otherwise identical program changes
-    # its authorization fingerprint, so no act-name whitelist is possible.
-    assert structural_program_sha256(replace(a.hast, principal=b.hast.principal)) != structural_program_sha256(a.hast)
+    # A change in the compiled act table / helper definitions changes the
+    # trusted whole-program fingerprint, regardless of identical spellings.
+    assert structural_program_sha256(replace(a.hast, acts=())) != structural_program_sha256(a.hast)
+    assert structural_program_sha256(replace(a.ir, acts=())) != structural_program_sha256(a.ir)

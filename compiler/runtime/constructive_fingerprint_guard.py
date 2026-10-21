@@ -15,12 +15,18 @@ from enum import Enum
 from hashlib import sha256
 
 
-# SHA-256 fingerprints are produced by tools/d4_t21_intrinsic_fingerprints.py
-# from the immutable SHA-pinned T21 source and reviewed in a follow-up commit.
-# Until the exact fingerprints are pinned, all intrinsics fail closed.
+# SHA-256 fingerprints from immutable SHA-pinned T21 production sources,
+# independently generated in Evidence #15 / job 119020287720; after and before
+# each have distinct whole-program HAST and IR fingerprints.
 APPROVED_WHOLE_PROGRAM_SHA256: dict[str, frozenset[str]] = {
-    "hast": frozenset(),
-    "ir": frozenset(),
+    "hast": frozenset({
+        "56bbf6c05e6fa7682b9677294904222f65042fbea9bc39a975e57fdbc8f02f17",  # after
+        "42c40d1432d731e3cc8db1169d7c39f3fb29e3beb17e0d975cbd5d0da3287e89",  # before
+    }),
+    "ir": frozenset({
+        "690f24c5ae8f9fc69ff95f5106ed54af9498c4b56ade7bb0737dd75e46601a3e",  # after
+        "92592062530a6aac7b64a141f6cfdfed76258bf6bc6fa91b0f71326bda3abd49",  # before
+    }),
 }
 
 
