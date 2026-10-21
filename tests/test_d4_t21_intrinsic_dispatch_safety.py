@@ -21,7 +21,7 @@ def _adversarial_source(result: int = 7) -> str:
         for role in ("מספר", "מחלק")
     ]
     return " ".join([
-        place_nat(_counted("עבודת הנותר"), 0),
+        place_nat(_counted("עבודת הנותר"), 1),
         place_nat(_counted("מחלק הנותר"), 1),
         act(name), *roles,
         body(name, output(num(result))),
