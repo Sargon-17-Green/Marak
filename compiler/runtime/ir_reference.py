@@ -13,6 +13,7 @@ from compiler.models.values import (
 from compiler.version import IR_REFERENCE_VERSION
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 from compiler.runtime.constructive_intrinsics import constructive_intrinsic_trace
+from compiler.runtime.constructive_fingerprint_guard import approved_canonical_program
 
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
 RECURRENCE_COUNT_DOMAIN_ERROR = "RECURRENCE_COUNT_DOMAIN_ERROR"
@@ -145,7 +146,7 @@ class IRReferenceEvaluator:
         self.fuel = fuel
         self.max_active_performances = max_active_performances
         self.active_performances = 0
-        self.constructive_intrinsics = constructive_intrinsics
+        self.constructive_intrinsics = bool(constructive_intrinsics and fuel is None and approved_canonical_program(program, "ir"))
         self.next_occurrence = 1
         self.products: list[IRReferenceProduct] = []
         self.acts = {x.act: x for x in program.acts}

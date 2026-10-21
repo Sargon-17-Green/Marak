@@ -11,6 +11,7 @@ from compiler.models.values import (
 )
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 from compiler.runtime.constructive_intrinsics import constructive_intrinsic_trace
+from compiler.runtime.constructive_fingerprint_guard import approved_canonical_program
 
 BACKEND_VERSION = "portable-ir-vm-0.7-candidate-1"
 IMPLEMENTATION_RESOURCE_EXHAUSTION = "IMPLEMENTATION_RESOURCE_EXHAUSTION"
@@ -145,7 +146,7 @@ class PortableVM:
         self.products: list[VMProduct] = []
         self.max_active_performances = max_active_performances
         self.active_performances = 0
-        self.constructive_intrinsics = constructive_intrinsics
+        self.constructive_intrinsics = bool(constructive_intrinsics and fuel is None and approved_canonical_program(program, "ir"))
         self.acts = {a.act: a for a in program.acts}
         self.place_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "place"))
         self.act_names = tuple(sorted((x.serial, x.spelling) for x in program.symbols if x.kind == "act"))

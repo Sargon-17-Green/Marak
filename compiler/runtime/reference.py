@@ -18,6 +18,7 @@ from compiler.models.domains import NATURAL, CollectionDomain, Domain
 from compiler.models.values import SymbolValue, BidirectionalIndexValue, CollectionValue, NaturalValue, index_successor, index_predecessor, index_lt, symbol_identity_equal, semantic_value_equal, value_domain
 from compiler.runtime.invocation import InputBinding, InvalidInvocation, ValidatedInvocation, prepare_invocation, runtime_input_values
 from compiler.runtime.constructive_intrinsics import constructive_intrinsic_trace
+from compiler.runtime.constructive_fingerprint_guard import approved_canonical_program
 
 ARITHMETIC_DOMAIN_ERROR = "ARITHMETIC_DOMAIN_ERROR"
 RESULT_PROVENANCE_ERROR = "RESULT_PROVENANCE_ERROR"
@@ -218,7 +219,7 @@ class ReferenceEvaluator:
         self.max_active_performances = max_active_performances
         self.active_performances = 0
         self.profile_actions = profile_actions
-        self.constructive_intrinsics = constructive_intrinsics
+        self.constructive_intrinsics = bool(constructive_intrinsics and fuel is None and approved_canonical_program(program, "hast"))
         self.profile_action_counts: dict[tuple[str, str], int] = {}
         self.profile_call_counts: dict[str, int] = {}
         self.body_by_act = {p.act: p.body for p in program.preparation if isinstance(p, HastActBody)}

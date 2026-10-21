@@ -24,7 +24,11 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m pip install -e .
+      - name: Generate trusted full-program fingerprints for independent review
+        if: ${{ contains(github.event.head_commit.message, '[fingerprint-only]') }}
+        run: python tools/d4_t21_intrinsic_fingerprints.py
       - name: Bounded HAST profile
+        if: ${{ !contains(github.event.head_commit.message, '[fingerprint-only]') }}
         run: python tests/d4_t21_runtime_profile.py
 
   d4-t21-end-to-end-evidence:
