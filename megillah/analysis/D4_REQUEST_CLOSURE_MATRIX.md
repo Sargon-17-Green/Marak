@@ -34,3 +34,22 @@ Therefore a Natural Program Input preserves only the computational number, not t
 B13 BidirectionalIndex semantics fit the required unbounded ordered line around a distinguished origin, but A15/A16/C5.5 intentionally expose that semantic domain only through year-typed source heads such as `מספר שנה`. D4 does not relabel a day as a year and does not invent a `Day` semantic domain.
 
 The production negative/positive control is `test_day_domain_audit_current_surface_has_year_index_but_no_day_index_head`.
+
+
+## Post-C5.6 continuation update
+
+### D4-LANG-001
+
+**CLOSED_BY_A17_B16_C56.**
+
+The previously missing non-year/general source profile for the existing `BidirectionalIndex` domain is now production-integrated. D4-PATCH-001 uses the admitted origin `מעלת היתד` in a named Foundation referent and advances the candidate frontier from token 105 to 117.
+
+### D-LANGUAGE-REQUEST-007
+
+Language capability blocker: **CLOSED**.
+
+C5.6 now permits the two eventual Program Input roles to be typed directly through the general `מעלה` profile. Source integration remains pending until the candidate reaches the historical input-contract section; it is no longer a language-design blocker.
+
+### Conformance note
+
+`D4-CONF-001` records that one C5.6 frozen receipt hard-codes the pre-repair candidate SHA/frontier. D4 does not edit that C5.6 test. It is a downstream conformance-maintenance issue, not a semantic/compiler defect.
